@@ -4,7 +4,7 @@
 # Team member and Roles
 | Firstname    | Lastname | Role         |
 | ------------ | -------- |--------------|
-| Rath   | SAMRIH    |Scrum master|
+| Rath   | SAMRITH    |Scrum master|
 | Radit  | THY     |Devops Manager|
 | Leysreng    | OL    |Code Quality|
 |Phal   |HIM| UX Manager|
