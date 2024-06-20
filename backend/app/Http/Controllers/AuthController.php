@@ -39,15 +39,17 @@ class AuthController extends Controller
             'token_type'    => 'Bearer'
         ]);
     }
-    
+
     public function index(Request $request)
     {
         $user = $request->user();
-        // $permissions = $user->getAllPermissions();
-        // $roles = $user->getRoleNames();
+         $permissions = $user->getAllPermissions();
+         $roles = $user->getRoleNames();
         return response()->json([
             'message' => 'Login success',
             'data' =>$user,
+            'permissions' => $permissions,
+            'roles' => $roles
         ]);
     }
 }
