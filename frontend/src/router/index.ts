@@ -2,8 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import axiosInstance from '@/plugins/axios'
 import { useAuthStore } from '@/stores/auth-store'
 import { createAcl, defineAclRules } from 'vue-simple-acl'
-
-const simpleAcl = createAcl({})
+const simpleAcl=createAcl()
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -45,21 +44,18 @@ router.beforeEach(async (to, from, next) => {
     store.isAuthenticated = true
     store.user = data.data
 
-    store.permissions = data.data.permissions.map((item: any) => item.name)
-    store.roles = data.data.roles.map((item: any) => item.name)
-
-    const rules = () =>
-      defineAclRules((setRule) => {
-        store.permissions.forEach((permission: string) => {
-          setRule(permission, () => true)
-        })
+    store.permissions = data.permissions.map((item: any) => item.front_name)
+    store.roles = data.roles.map((item: any) => item)
+    const rules = () => defineAclRules((setRule) => {
+      store.permissions.forEach((permission: string) => {
+        setRule(permission, () => true)
       })
-
+    });
     simpleAcl.rules = rules()
+    console.log(simpleAcl.rules)
   } catch (error) {
     /* empty */
   }
-
   if (authRequired && !store.isAuthenticated) {
     next('/login')
   } else {
@@ -67,4 +63,4 @@ router.beforeEach(async (to, from, next) => {
   }
 })
 
-export default { router, simpleAcl }
+export default { router,simpleAcl }

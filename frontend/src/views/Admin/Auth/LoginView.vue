@@ -19,8 +19,8 @@
             :disabled="isSubmitting"
             type="primary"
             native-type="submit"
-            >Submit</el-button
-          >
+            >Submit
+          </el-button>
         </div>
       </el-form>
     </el-card>
@@ -32,9 +32,11 @@ import axiosInstance from '@/plugins/axios'
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 import { useRouter } from 'vue-router'
+import {useAuthStore} from '@/stores/auth-store'
 
 const router = useRouter()
-
+const store = useAuthStore()
+console.log(store.roles)
 const formSchema = yup.object({
   password: yup.string().required().label('Password'),
   email: yup.string().required().email().label('Email address')
@@ -52,7 +54,11 @@ const onSubmit = handleSubmit(async (values) => {
   try {
     const { data } = await axiosInstance.post('/login', values)
     localStorage.setItem('access_token', data.access_token)
-    router.push('/')
+    if(store.roles[0]=='admin') {
+      await router.push('/admin/dashboard')
+    }else {
+      await router.push('/')
+    }
   } catch (error) {
     console.warn('Error')
   }
