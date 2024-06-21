@@ -1,5 +1,6 @@
 <!-- src/components/Login.vue -->
 <template>
+  <WebHeaderMenu/>
   <div class="flex items-center justify-center min-h-screen bg-gray-100">
     <el-card class="w-full max-w-md shadow-lg">
       <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
@@ -33,6 +34,7 @@ import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 import { useRouter } from 'vue-router'
 import {useAuthStore} from '@/stores/auth-store'
+import WebHeaderMenu from '@/Components/WebHeaderMenu.vue'
 
 const router = useRouter()
 const store = useAuthStore()
