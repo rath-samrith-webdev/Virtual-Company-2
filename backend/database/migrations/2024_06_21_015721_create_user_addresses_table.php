@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('commune')->nullable();
             $table->string('district')->nullable();
             $table->string('province')->nullable();
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
             $table->timestamps();
         });
     }
