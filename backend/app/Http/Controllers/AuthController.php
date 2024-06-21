@@ -56,10 +56,16 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'user_type' => 'required|string'
         ]);
         try {
-            $user=User::create($data);
-            $user->assignRole('user');
+            if($data['user_type']=='hospital'){
+                $user=User::create($data);
+                $user->assignRole('hospital');
+            }else{
+                $user=User::create($data);
+                $user->assignRole('user');
+            }
             return response()->json(['success' => true,'message'=>'You have been registered'],201);
         }catch (\Exception $exception){
             return response()->json(['success' => false,'message'=>$exception->getMessage()],400);

@@ -128,7 +128,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Role $role)
+    public function destroy(User $role)
     {
         $role->delete();
         return redirect()->back()->withSuccess('Role deleted !!!');
