@@ -2,7 +2,16 @@
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import { ref } from 'vue'
 import { useTransition } from '@vueuse/core'
-import { ChatLineRound } from '@element-plus/icons-vue'
+import {
+  ChatLineRound,
+  DataAnalysis,
+  FirstAidKit,
+  Location,
+  Memo,
+  Position,
+  Search,
+  User
+} from '@element-plus/icons-vue'
 
 const source = ref(0)
 const feedbacks = ref(0)
@@ -71,7 +80,7 @@ feedbacks.value = 512
                  class="img-fluid w-75 card-img">
           </div>
           <el-row class="d-flex justify-content-center">
-            <h1 class="text-center">PHAL HIM</h1>
+            <h2 class="text-center">PHAL HIM</h2>
           </el-row>
           <el-row class="d-flex justify-content-center gap-1 mt-3">
             <el-tooltip class="box-item" effect="dark" content="UX Manager" placement="top-start">
@@ -131,7 +140,7 @@ feedbacks.value = 512
                  class="img-fluid w-75 card-img">
           </div>
           <el-row class="d-flex justify-content-center">
-            <h1 class="text-center">PHAL HIM</h1>
+            <h2 class="text-center">RATH SAMRITH</h2>
           </el-row>
           <el-row class="d-flex justify-content-center gap-4 mt-3">
             <el-tooltip class="box-item" effect="dark" content="UX Manager" placement="top-start">
@@ -191,7 +200,67 @@ feedbacks.value = 512
                  class="img-fluid w-75 card-img">
           </div>
           <el-row class="d-flex justify-content-center">
-            <h1 class="text-center">PHAL HIM</h1>
+            <h2 class="text-center">RADIT THY</h2>
+          </el-row>
+          <el-row class="d-flex justify-content-center gap-1 mt-3">
+            <el-tooltip class="box-item" effect="dark" content="UX Manager" placement="top-start">
+              <el-avatar shape="circle" :src="'https://static.thenounproject.com/png/2070195-200.png'"></el-avatar>
+            </el-tooltip>
+            <el-divider direction="vertical"></el-divider>
+            <el-tooltip class="box-item" effect="dark" content="LinkedIn" placement="top-start">
+              <el-avatar shape="circle"
+                         :src="'https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png'"></el-avatar>
+            </el-tooltip>
+          </el-row>
+          <el-row class="d-flex justify-content-center gap-3 mt-3">
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="LinkedIn"
+              placement="top-start"
+            >
+              <el-avatar shape="circle"
+                         :src="'https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png'"></el-avatar>
+            </el-tooltip>
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="Gmail"
+              placement="top-start"
+            >
+              <el-avatar shape="circle"
+                         :src="'https://img.freepik.com/premium-vector/email-symbol-white-icon_1076610-15454.jpg'"></el-avatar>
+            </el-tooltip>
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="Instagram"
+              placement="top-start"
+            >
+              <el-avatar shape="circle"
+                         :src="'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/1200px-Instagram_icon.png'"></el-avatar>
+            </el-tooltip>
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="Github"
+              placement="top-start"
+            >
+              <el-avatar shape="circle"
+                         :src="'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/GitHub_Invertocat_Logo.svg/1200px-GitHub_Invertocat_Logo.svg.png'"
+                         class="bg-white"></el-avatar>
+            </el-tooltip>
+          </el-row>
+        </el-card>
+      </el-col>
+      <el-col :span="5">
+        <el-card style="width: 290px" shadow="hover" class="d-flex flex-column align-items-center">
+          <div class="rounded-50% d-flex justify-content-center">
+            <img src="@/assets/image/profile-photo-attractive-family-doc-600nw-1724693776.png" alt=""
+                 class="img-fluid w-75 card-img">
+          </div>
+          <el-row class="d-flex justify-content-center">
+            <h2 class="text-center">SREYNANG RITH</h2>
           </el-row>
           <el-row class="d-flex justify-content-center gap-1 mt-3">
             <el-tooltip class="box-item" effect="dark" content="UX Manager" placement="top-start">
@@ -251,7 +320,7 @@ feedbacks.value = 512
                  class="img-fluid w-75 card-img">
           </div>
           <el-row class="d-flex justify-content-center">
-            <h1 class="text-center">PHAL HIM</h1>
+            <h2 class="text-center">LEYSRENG OL</h2>
           </el-row>
           <el-row class="d-flex justify-content-center gap-1 mt-3">
             <el-tooltip class="box-item" effect="dark" content="UX Manager" placement="top-start">
@@ -311,67 +380,7 @@ feedbacks.value = 512
                  class="img-fluid w-75 card-img">
           </div>
           <el-row class="d-flex justify-content-center">
-            <h1 class="text-center">PHAL HIM</h1>
-          </el-row>
-          <el-row class="d-flex justify-content-center gap-1 mt-3">
-            <el-tooltip class="box-item" effect="dark" content="UX Manager" placement="top-start">
-              <el-avatar shape="circle" :src="'https://static.thenounproject.com/png/2070195-200.png'"></el-avatar>
-            </el-tooltip>
-            <el-divider direction="vertical"></el-divider>
-            <el-tooltip class="box-item" effect="dark" content="LinkedIn" placement="top-start">
-              <el-avatar shape="circle"
-                         :src="'https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png'"></el-avatar>
-            </el-tooltip>
-          </el-row>
-          <el-row class="d-flex justify-content-center gap-3 mt-3">
-            <el-tooltip
-              class="box-item"
-              effect="dark"
-              content="LinkedIn"
-              placement="top-start"
-            >
-              <el-avatar shape="circle"
-                         :src="'https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png'"></el-avatar>
-            </el-tooltip>
-            <el-tooltip
-              class="box-item"
-              effect="dark"
-              content="Gmail"
-              placement="top-start"
-            >
-              <el-avatar shape="circle"
-                         :src="'https://img.freepik.com/premium-vector/email-symbol-white-icon_1076610-15454.jpg'"></el-avatar>
-            </el-tooltip>
-            <el-tooltip
-              class="box-item"
-              effect="dark"
-              content="Instagram"
-              placement="top-start"
-            >
-              <el-avatar shape="circle"
-                         :src="'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/1200px-Instagram_icon.png'"></el-avatar>
-            </el-tooltip>
-            <el-tooltip
-              class="box-item"
-              effect="dark"
-              content="Github"
-              placement="top-start"
-            >
-              <el-avatar shape="circle"
-                         :src="'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/GitHub_Invertocat_Logo.svg/1200px-GitHub_Invertocat_Logo.svg.png'"
-                         class="bg-white"></el-avatar>
-            </el-tooltip>
-          </el-row>
-        </el-card>
-      </el-col>
-      <el-col :span="5">
-        <el-card style="width: 280px" shadow="hover" class="d-flex flex-column align-items-center">
-          <div class="rounded-50% d-flex justify-content-center">
-            <img src="@/assets/image/profile-photo-attractive-family-doc-600nw-1724693776.png" alt=""
-                 class="img-fluid w-75 card-img">
-          </div>
-          <el-row class="d-flex justify-content-center">
-            <h1 class="text-center">PHAL HIM</h1>
+            <h2 class="text-center">BOUR KLAN</h2>
           </el-row>
           <el-row class="d-flex justify-content-center gap-4 mt-3">
             <el-tooltip class="box-item" effect="dark" content="UX Manager" placement="top-start">
@@ -426,6 +435,97 @@ feedbacks.value = 512
       </el-col>
     </el-row>
   </el-container>
+  <el-container class="px2 d-flex flex-column mt-20">
+    <el-row class="d-flex justify-content-around mt-3 gap-3 p-5">
+      <el-col :span="5" class="d-flex flex-column justify-content-between align-items-center mb-3">
+        <div class="d-flex justify-content-between" style="width: 100%">
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            content="Gmail"
+            placement="top-start"
+          >
+            <el-avatar fit="cover" class="bg-white">
+              <Search style="width: 2em; height: 2em; color: #32B4E3" />
+            </el-avatar>
+          </el-tooltip>
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            content="Gmail"
+            placement="top-start"
+          >
+            <el-avatar style="position: relative; bottom: 30px" class="bg-white">
+              <Memo style="width: 2em; height: 2em; color: #32B4E3" />
+            </el-avatar>
+          </el-tooltip>
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            content="Location"
+            placement="top-start"
+          >
+            <el-avatar class="bg-white">
+              <Location style="width: 2em; height: 2em; color: #32B4E3" />
+            </el-avatar>
+          </el-tooltip>
+        </div>
+        <h1 class="text-center" style="font-size: 90px;font-weight: bold"><span class="text-#32B4E3 font-bold">H</span>ospital
+        </h1>
+        <div class="d-flex justify-content-between" style="width: 100%">
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            content="Gmail"
+            placement="top-start"
+          >
+            <el-avatar class="bg-white">
+              <User style="width: 2em; height: 2em; color: #32B4E3" />
+            </el-avatar>
+          </el-tooltip>
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            content="Gmail"
+            placement="top-start"
+          >
+            <el-avatar class="bg-white" style="position: relative; top: 30px">
+              <FirstAidKit style="width: 2em; height: 2em; color: #32B4E3" />
+            </el-avatar>
+          </el-tooltip>
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            content="Gmail"
+            placement="top-start"
+          >
+            <el-avatar class="bg-white">
+              <DataAnalysis style="width: 2em; height: 2em; color: #32B4E3" />
+            </el-avatar>
+          </el-tooltip>
+        </div>
+      </el-col>
+      <el-col :span="5" class="d-flex flex-column justify-start align-items-start mt-3">
+        <div>
+          <h1 class="text-center" style="font-size: 90px;font-weight: bold"><span
+            class="text-#32B4E3 font-bold">H</span>ospital</h1>
+          <el-timeline>
+            <el-timeline-item class="text-start">Browse through our professionally designed selection of free template
+              and customize a design for any occasion.
+            </el-timeline-item>
+            <el-timeline-item class="text-start">Browse through our professionally designed selection.
+            </el-timeline-item>
+          </el-timeline>
+        </div>
+      </el-col>
+    </el-row>
+  </el-container>
+  <el-container class="container-fluid bg-primary px-20">
+    <h3 class="text-center">Hello</h3>
+  </el-container>
+  <el-footer>
+    <h3>Footer</h3>
+  </el-footer>
 </template>
 <style scoped>
 .bg-card {
