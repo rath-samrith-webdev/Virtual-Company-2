@@ -13,7 +13,7 @@ class HospitalController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(['success'=>true,'data'=>Hospital::all()],200);
     }
 
     /**
