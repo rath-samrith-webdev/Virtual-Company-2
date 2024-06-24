@@ -12,7 +12,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(['success' => true, 'data' => Category::all()]);
     }
 
     /**
@@ -28,7 +28,11 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        try {
+            return response()->json(['success' => true, 'data' => $category],200);
+        }catch (\Exception $exception){
+            return response()->json(['success' => false, 'message' => $exception->getMessage()],500);
+        }
     }
 
     /**

@@ -55,9 +55,10 @@ class AuthController extends Controller
         $data=$request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|confirmed',
             'user_type' => 'required|string'
         ]);
+        $data['password'] = bcrypt($data['password']);
         try {
             if($data['user_type']=='hospital'){
                 $user=User::create($data);

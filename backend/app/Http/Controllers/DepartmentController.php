@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DepartmentController extends Controller
 {
@@ -12,7 +13,11 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            return response()->json(['success' => true, 'data' => Department::all()],200);
+        }catch (\Exception $e){
+            return response()->json(['success' => false, 'message' => $e->getMessage()],500);
+        }
     }
 
     /**
@@ -20,7 +25,16 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data=$request->validate([
+            'name'=>'required',
+            'hospital_id'=>'required|exists:hospitals,id',
+        ]);
+        try {
+            $department=Department::create($data);
+            return response()->json(['success' => true,'data'=>$department],200);
+        }catch (\Exception $e){
+            return response()->json(['success' => false, 'message' => $e->getMessage()],500);
+        }
     }
 
     /**
@@ -28,7 +42,11 @@ class DepartmentController extends Controller
      */
     public function show(Department $department)
     {
-        //
+        try {
+            return response()->json(['success' => true, 'data' => $department],200);
+        }catch (\Exception $e){
+            return response()->json(['success' => false, 'message' => $e->getMessage()],500);
+        }
     }
 
     /**
@@ -36,7 +54,21 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, Department $department)
     {
-        //
+        $data=$request->validate([
+            'name'=>'required',
+            'hospital_id'=>'required|exists:hospitals,id',
+        ]);
+        try {
+            if($department->hospital_id==$data['hospital_id']){
+                $department->update($data);
+                return response()->json(['success' => true,'data'=>$department],200);
+            }else{
+                return response()->json(['success' => false,'message'=>'Hospital not found'],500);
+            }
+        }catch (\Exception $e){
+            return response()->json(['success' => false, 'message' => $e->getMessage()],500);
+        }
+
     }
 
     /**
@@ -44,6 +76,18 @@ class DepartmentController extends Controller
      */
     public function destroy(Department $department)
     {
-        //
+        $user=Auth::user();
+        $hospital=$user->hospital;
+        try {
+            if($department->hospital_id==$hospital->id){
+                $department->delete();
+                return response()->json(['success' => true,'data'=>$department],200);
+            }else{
+                return response()->json(['success' => false,'message'=>'Hospital not found'],500);
+            }
+        }catch (\Exception $e){
+            return response()->json(['success' => false, 'message' => $e->getMessage()],500);
+        }
+
     }
 }
