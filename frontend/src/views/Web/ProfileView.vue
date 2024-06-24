@@ -13,7 +13,9 @@ import {
   Service,
   SuitcaseLine,
   User,
-  View
+  View,
+  Edit,
+  Upload
 } from '@element-plus/icons-vue'
 
 const source = ref(0)
@@ -179,12 +181,10 @@ feedbacks.value = 512
                   src="https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA"
                 />
               </el-avatar>
-            </div>
-            <!-- <==== image for upload picture ====> -->
-            <div class="demo-type">
-              <el-icon :style="iconStyle" :size="20">
-                <user />
-              </el-icon>
+              <!-- <==== image for upload picture ====> -->
+              <el-button type="warning">
+                Upload<el-icon class="el-icon--right"><Upload /></el-icon>
+              </el-button>
             </div>
             <el-descriptions
               class="margin-top"
@@ -260,13 +260,7 @@ feedbacks.value = 512
                 +885 123456789
               </el-descriptions-item>
             </el-descriptions>
-            <el-descriptions
-              class="margin-top"
-              title="Address "
-              :column="3"
-              :size="size"
-              border
-            >
+            <el-descriptions class="margin-top" title="Address " :column="3" :size="size" border>
               <el-descriptions-item>
                 <template #label>
                   <div class="cell-item">
@@ -287,7 +281,7 @@ feedbacks.value = 512
                     Street
                   </div>
                 </template>
-                #371 
+                #371
               </el-descriptions-item>
               <el-descriptions-item>
                 <template #label>
@@ -334,13 +328,7 @@ feedbacks.value = 512
                 Phom Penh
               </el-descriptions-item>
             </el-descriptions>
-            <el-descriptions
-              class="margin-top"
-              title="Others"
-              :column="3"
-              :size="size"
-              border
-            >
+            <el-descriptions class="margin-top" title="Others" :column="3" :size="size" border>
               <el-descriptions-item>
                 <template #label>
                   <div class="cell-item">
@@ -401,8 +389,6 @@ feedbacks.value = 512
   justify-content: center;
   align-items: center;
   margin-top: 50px;
-  /* min-height: 100vh; */
-  /* text-align: center; */
 }
 .main-card-border {
   border: 2px solid rgba(0, 0, 0, 0.15);
@@ -422,8 +408,6 @@ feedbacks.value = 512
   font-size: 50px;
   margin-top: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
-
-  
 }
 </style>
 
