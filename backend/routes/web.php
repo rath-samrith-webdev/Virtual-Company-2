@@ -50,6 +50,7 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         Route::resource('users', 'UserController');
         Route::resource('posts', 'PostController');
         Route::resource('hospitals', 'HospitalController');
+        Route::resource('appointments', 'AppointmentController');
 
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
         Route::put('/profile-update', [ProfileController::class, 'update'])->name('profile.update');
