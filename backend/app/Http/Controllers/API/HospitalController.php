@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
+use App\Http\Resources\HospitalResource;
 use App\Models\Hospital;
+use App\Models\PreviewImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,7 +16,7 @@ class HospitalController extends Controller
      */
     public function index()
     {
-        return response()->json(['success'=>true,'data'=>Hospital::all()],200);
+        return response()->json(['success'=>true,'data'=>HospitalResource::collection(Hospital::all())],200);
     }
 
     /**
@@ -35,7 +38,7 @@ class HospitalController extends Controller
         $data['user_id']=$uid;
         try {
             $hospital=Hospital::create($data);
-            return response()->json(['success'=>true,'data'=>$hospital],201);
+            return response()->json(['success'=>true,'data'=>HospitalResource::make($hospital)],201);
         }catch (\Exception $e){
             return response()->json(['success'=>false,'message'=>$e->getMessage()],500);
         }
@@ -94,5 +97,26 @@ class HospitalController extends Controller
         }catch (\Exception $e){
             return response()->json(['success'=>false,'message'=>$e->getMessage()],500);
         }
+    }
+    public function uploadPreviewImage(Request $request){
+        $user=Auth::user();
+        $data=$request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+        ]);
+        $image=$request->file('image');
+        $hospital=$user->hospital;
+        $extension=$image->getClientOriginalExtension();
+        $filename=time().'.'.$extension;
+        if ($hospital) {
+            $image->move(public_path('/').'/images/hospital/hospital-'.$hospital->id.'/', $filename);
+            PreviewImage::create([
+                'hospital_id'=>$hospital->id,
+                'image_name'=>$filename,
+            ]);
+            return response()->json(['success'=>true,'message'=>'Preview image has been created','data'=>$hospital],201);
+        }else{
+            return $filename;
+        }
+
     }
 }

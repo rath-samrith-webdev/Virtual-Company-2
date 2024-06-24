@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use App\Models\PreviewImage;
+use App\Http\Controllers\Controller;
+use App\Models\RateReply;
 use Illuminate\Http\Request;
 
-class PreviewImageController extends Controller
+class RateReplyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +27,7 @@ class PreviewImageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(PreviewImage $previewImage)
+    public function show(RateReply $rateReply)
     {
         //
     }
@@ -34,7 +35,7 @@ class PreviewImageController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, PreviewImage $previewImage)
+    public function update(Request $request, RateReply $rateReply)
     {
         //
     }
@@ -42,7 +43,7 @@ class PreviewImageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(PreviewImage $previewImage)
+    public function destroy(RateReply $rateReply)
     {
         //
     }

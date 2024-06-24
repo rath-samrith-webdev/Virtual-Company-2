@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use App\Models\RateReply;
+use App\Http\Controllers\Controller;
+use App\Models\PreviewVideo;
 use Illuminate\Http\Request;
 
-class RateReplyController extends Controller
+class PreviewVideoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +27,7 @@ class RateReplyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(RateReply $rateReply)
+    public function show(PreviewVideo $previewVideo)
     {
         //
     }
@@ -34,7 +35,7 @@ class RateReplyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, RateReply $rateReply)
+    public function update(Request $request, PreviewVideo $previewVideo)
     {
         //
     }
@@ -42,7 +43,7 @@ class RateReplyController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(RateReply $rateReply)
+    public function destroy(PreviewVideo $previewVideo)
     {
         //
     }

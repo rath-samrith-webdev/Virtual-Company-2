@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Hospital;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class HospitalController extends Controller
@@ -22,7 +24,7 @@ class HospitalController extends Controller
     public function index()
     {
         $hospitals = Hospital::latest()->get();
-        return view('setting.hospital.index', compact('hospitals'));
+        return view('hospital.index', compact('hospitals'));
     }
 
     /**
@@ -30,7 +32,10 @@ class HospitalController extends Controller
      */
     public function create()
     {
-        //
+        $users=User::all();
+        $category=Category::all();
+        $data=['users'=>$users,'category'=>$category];
+        return view('hospital.new',compact('data'));
     }
 
     /**
@@ -38,7 +43,22 @@ class HospitalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data=$request->validate([
+            'name'=>'required',
+            'user_id'=>'integer|required',
+            'category_id'=>'integer|required',
+            'street_address'=>'required',
+            'village'=>'required',
+            'commune'=>'required',
+            'district'=>'required',
+            'province'=>'required',
+        ]);
+        try {
+            Hospital::create($data);
+            return redirect()->back()->withSuccess('Hospital created !!!');
+        }catch (\Exception $exception){
+            return redirect()->back()->withErrors(['error'=>$exception->getMessage()]);
+        }
     }
 
     /**
@@ -54,7 +74,10 @@ class HospitalController extends Controller
      */
     public function edit(Hospital $hospital)
     {
-        //
+        $users=User::all();
+        $category=Category::all();
+        $data=['hospital'=>$hospital,'users'=>$users,'category'=>$category];
+        return view('hospital.edit', compact('data'));
     }
 
     /**
@@ -62,7 +85,21 @@ class HospitalController extends Controller
      */
     public function update(Request $request, Hospital $hospital)
     {
-        //
+        $data=$request->validate([
+            'name'=>'required',
+            'street_address'=>'required',
+            'village'=>'required',
+            'commune'=>'required',
+            'district'=>'required',
+            'province'=>'required',
+        ]);
+        try {
+            $hospital->update($data);
+            return redirect()->back()->withSuccess('Hospital updated !!!');
+        }catch (\Exception $exception){
+            return redirect()->back()->withErrors('Something went wrong !!!');
+        }
+
     }
 
     /**
@@ -70,6 +107,11 @@ class HospitalController extends Controller
      */
     public function destroy(Hospital $hospital)
     {
-        //
+        try {
+            $hospital->delete();
+            return redirect()->back()->withSuccess('Hospital deleted !!!');
+        }catch (\Exception $exception){
+            return redirect()->back()->withErrors(['error'=>$exception->getMessage()]);
+        }
     }
 }

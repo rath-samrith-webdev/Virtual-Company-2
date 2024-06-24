@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use App\Models\UserAddress;
+use App\Http\Controllers\Controller;
+use App\Models\Rate;
 use Illuminate\Http\Request;
 
-class UserAddressController extends Controller
+class RateController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +27,7 @@ class UserAddressController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(UserAddress $userAddress)
+    public function show(Rate $rate)
     {
         //
     }
@@ -34,7 +35,7 @@ class UserAddressController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, UserAddress $userAddress)
+    public function update(Request $request, Rate $rate)
     {
         //
     }
@@ -42,7 +43,7 @@ class UserAddressController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(UserAddress $userAddress)
+    public function destroy(Rate $rate)
     {
         //
     }

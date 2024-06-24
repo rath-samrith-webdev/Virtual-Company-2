@@ -84,7 +84,6 @@
 </svg>
 
                 </span>
-
                 <span class="mx-3">Hospital</span>
             </a>
         @endcanany

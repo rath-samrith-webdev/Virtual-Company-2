@@ -1,12 +1,12 @@
 <?php
 
+use App\Http\Controllers\API\AppointmentController;
+use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\DepartmentController;
+use App\Http\Controllers\API\DoctorController;
+use App\Http\Controllers\API\HospitalController;
 use App\Http\Controllers\API\PostController;
-use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\DoctorController;
-use App\Http\Controllers\HospitalController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,8 +26,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
+Route::post('/profileUpload',[AuthController::class, 'profileUpload'])->middleware('auth:sanctum');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::get('/me', [AuthController::class, 'index'])->middleware('auth:sanctum');
+Route::get('/profile', [AuthController::class, 'profile'])->middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')->prefix('hospitals')->group(function () {
     Route::get('/list', [HospitalController::class, 'index']);
@@ -35,6 +37,7 @@ Route::middleware('auth:sanctum')->prefix('hospitals')->group(function () {
     Route::get('/show/{hospital}', [HospitalController::class, 'show']);
     Route::put('/update/{hospital}', [HospitalController::class, 'update']);
     Route::delete('/delete/{hospital}', [HospitalController::class, 'destroy']);
+    Route::post('/upload', [HospitalController::class, 'uploadPreviewImage']);
 });
 Route::middleware('auth:sanctum')->prefix('appointments')->group(function () {
     Route::get('/list', [AppointmentController::class, 'index']);

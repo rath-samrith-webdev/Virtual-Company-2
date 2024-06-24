@@ -64,7 +64,7 @@
 <script>
     function imageData() {
         var files = document.getElementById("thumbnailprev").files;
-        if(files.length == 0){
+        if(files.length === 0){
             var url = '/images/'+{!! json_encode($user->profile) !!};
         }else{
             url = '';

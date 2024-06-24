@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use App\Models\PreviewVideo;
+use App\Http\Controllers\Controller;
+use App\Models\PreviewImage;
 use Illuminate\Http\Request;
 
-class PreviewVideoController extends Controller
+class PreviewImageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +27,7 @@ class PreviewVideoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(PreviewVideo $previewVideo)
+    public function show(PreviewImage $previewImage)
     {
         //
     }
@@ -34,7 +35,7 @@ class PreviewVideoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, PreviewVideo $previewVideo)
+    public function update(Request $request, PreviewImage $previewImage)
     {
         //
     }
@@ -42,7 +43,7 @@ class PreviewVideoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(PreviewVideo $previewVideo)
+    public function destroy(PreviewImage $previewImage)
     {
         //
     }

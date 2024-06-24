@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class AppointmentMaker extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,13 +16,9 @@ class UserResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'first_name'=>$this->first_name,
-            'last_name'=>$this->last_name,
             'name'=>$this->name,
-            'gender'=> $this->gender?$this->gender!=null:'No gender',
             'profile'=>$this->profile?asset('images/profiles/user-'.$this->first_name.'/'.$this->profile):'No profile',
-            'email'=>$this->email,
-            'appointments'=>AppointmentResource::collection($this->appointments()->latest()->get()),
+            'gender'=>$this->gender?$this->gender!=null:'No gender',
         ];
     }
 }
