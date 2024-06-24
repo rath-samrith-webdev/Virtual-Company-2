@@ -32,3 +32,5 @@ Route::prefix('hospitals')->group(function () {
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::get('/me', [AuthController::class, 'index'])->middleware('auth:sanctum');
 Route::get('/post/list', [PostController::class, 'index'])->middleware('auth:sanctum');
+
+// 
