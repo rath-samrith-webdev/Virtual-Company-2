@@ -412,11 +412,10 @@ feedbacks.value = 512
   width: 1200px;
   margin-top: 20px;
   margin-bottom: 20px;
-  /* max-width: 1200px; */
   border-radius: 8px;
 }
 .margin-top {
-   background: linear-gradient(to right, rgba(252, 178, 45, 0.8), rgba(249, 125, 0, 0.2));
+  background: linear-gradient(to right, rgba(252, 178, 45, 0.8), rgba(249, 125, 0, 0.2));
   margin: 10px;
   border-radius: 8px;
   margin-bottom: 20px;
