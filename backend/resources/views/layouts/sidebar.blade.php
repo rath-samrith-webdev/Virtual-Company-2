@@ -119,6 +119,22 @@
                     <span class="mx-3">Appointments</span>
                 </a>
             @endcanany
+            @canany('Department access','Department add','Department edit','Department delete')
+                <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.appointments.index') ? 'active' : '' }}"
+                   href="{{ route('admin.departments.index')}}">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M16 4H8a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V6a2 2 0 00-2-2z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M10 14H14"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M12 6v8"/>
+                    </svg>
+
+                    <span class="mx-3">Departments</span>
+                </a>
+            @endcanany
         </div>
 
         @canany('Post access','Post add','Post edit','Post delete')
@@ -136,7 +152,8 @@
         @canany('Mail access','Mail edit')
             <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.mail.index') ? 'active' : '' }}"
                href="{{ route('admin.mail.index')}}">
-                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M12 21c-4.97 0-9-4.03-9-9s4.03-9 9-9s9 4.03 9 9s-4.03 9-9 9zM15.5 13.5l1.25-1.25c.44-.44.44-1.15 0-1.59l-1.77-1.77c-.44-.44-1.15-.44-1.59 0l-1.25 1.25M8.5 13.5l-1.25-1.25c-.44-.44-.44-1.15 0-1.59l1.77-1.77c.44-.44 1.15-.44 1.59 0l1.25 1.25">
                     </path>
@@ -165,7 +182,7 @@
                 System Report
             </h1>
             <h1 class="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1">
-                Personal
+                User Requests
             </h1>
             <h1 class="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1">
                 Friends

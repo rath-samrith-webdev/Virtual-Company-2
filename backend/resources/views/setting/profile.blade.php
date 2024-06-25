@@ -7,21 +7,19 @@
                     <form method="POST" action="{{ route('admin.profile.update')}}" enctype="multipart/form-data">
                         @csrf
                         @method('put')
-                        <div class="flex justify-between item-center space-y-2">
-                            <div class="flex flex-col space-y-2">
-                                <label for="name" class="text-gray-700 select-none font-medium">User Name</label>
-                                <input id="name" type="text" name="first_name" value="{{ old('name',$user->first_name) }}"
-                                       placeholder="First Name"
-                                       class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200"
-                                />
-                            </div>
-                            <div class="flex flex-col space-y-2">
-                                <label for="name" class="text-gray-700 select-none font-medium">User Name</label>
-                                <input id="name" type="text" name="first_name" value="{{ old('name',$user->last_name) }}"
-                                       placeholder="First Name"
-                                       class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200"
-                                />
-                            </div>
+                        <div class="flex flex-col space-y-2">
+                            <label for="name" class="text-gray-700 select-none font-medium">First Name</label>
+                            <input id="name" type="text" name="first_name" value="{{ old('name',$user->first_name) }}"
+                                   placeholder="First Name"
+                                   class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200"
+                            />
+                        </div>
+                        <div class="flex flex-col space-y-2">
+                            <label for="name" class="text-gray-700 select-none font-medium">Last Name</label>
+                            <input id="name" type="text" name="first_name" value="{{ old('name',$user->last_name) }}"
+                                   placeholder="First Name"
+                                   class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200"
+                            />
                         </div>
                         <div class="flex flex-col space-y-2">
                             <label for="name" class="text-gray-700 select-none font-medium">User Name</label>

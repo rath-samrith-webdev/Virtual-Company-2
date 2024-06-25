@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -30,7 +31,7 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         try {
-            return response()->json(['success' => true, 'data' => $category],200);
+            return response()->json(['success' => true, 'data' => CategoryResource::make($category)],200);
         }catch (\Exception $exception){
             return response()->json(['success' => false, 'message' => $exception->getMessage()],500);
         }
