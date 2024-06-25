@@ -28,8 +28,10 @@ class DepartmentController extends Controller
     {
         $data=$request->validate([
             'name'=>'required',
-            'hospital_id'=>'required|exists:hospitals,id',
         ]);
+        $user=Auth::user();
+        $hospital_id=$user->hospital->id;
+        $data['hospital_id']=$hospital_id;
         try {
             $department=Department::create($data);
             return response()->json(['success' => true,'data'=>$department],200);
@@ -57,10 +59,11 @@ class DepartmentController extends Controller
     {
         $data=$request->validate([
             'name'=>'required',
-            'hospital_id'=>'required|exists:hospitals,id',
         ]);
+        $user=Auth::user();
+        $hospital=$user->hospital;
         try {
-            if($department->hospital_id==$data['hospital_id']){
+            if($department->hospital_id==$hospital->id){
                 $department->update($data);
                 return response()->json(['success' => true,'data'=>$department],200);
             }else{

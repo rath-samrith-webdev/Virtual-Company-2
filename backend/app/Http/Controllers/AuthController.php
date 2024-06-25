@@ -117,4 +117,21 @@ class AuthController extends Controller
         $user=Auth::user();
         return response()->json(['success' => true,'data'=>UserResource::make($user)],200);
     }
+    public function updateProfile(Request $request): JsonResponse
+    {
+        $data=$request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'gender' => 'required|string|max:255',
+            'phone' => 'required|string|max:255',
+        ]);
+        $user=Auth::user();
+        try {
+            $user->update($data);
+            return response()->json(['success' => true,'message'=>'You have been updated'],201);
+        }catch (\Exception $exception){
+            return response()->json(['success' => false,'message'=>$exception->getMessage()],400);
+        }
+
+    }
 }

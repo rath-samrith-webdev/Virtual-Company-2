@@ -28,10 +28,8 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
             </svg>
-
             <span class="mx-3">Dashboard</span>
         </a>
-
         @canany('Role access','Role add','Role edit','Role delete')
             <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.roles.index') ? 'active' : '' }}"
                href="{{ route('admin.roles.index') }}">

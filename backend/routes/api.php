@@ -30,6 +30,7 @@ Route::post('/profileUpload',[AuthController::class, 'profileUpload'])->middlewa
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::get('/me', [AuthController::class, 'index'])->middleware('auth:sanctum');
 Route::get('/profile', [AuthController::class, 'profile'])->middleware('auth:sanctum');
+Route::put('/update/profile',[AuthController::class, 'updateProfile'])->middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')->prefix('hospitals')->group(function () {
     Route::get('/list', [HospitalController::class, 'index']);

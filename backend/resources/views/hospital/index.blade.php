@@ -11,8 +11,10 @@
         <table class="text-left w-full border-collapse">
           <thead>
             <tr>
-              <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light">Title</th>
-              <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light w-2/12">Status</th>
+              <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light">ID</th>
+                <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light">Hospital Name</th>
+              <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light w-2/12">Address</th>
+              <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light w-2/12">Belong to</th>
               <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light text-right w-2/12">Actions</th>
             </tr>
           </thead>
@@ -20,14 +22,16 @@
             @can('Hospital access')
             @foreach($hospitals as $hospital)
             <tr class="hover:bg-grey-lighter">
-              <td class="py-4 px-6 border-b border-grey-light">{{ $hospital->name }}</td>
+              <td class="py-4 px-6 border-b border-grey-light">{{ $hospital->id }}</td>
               <td class="py-4 px-6 border-b border-grey-light">
-                @if($hospital->publish)
-                <span class="text-white inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-white bg-green-500 rounded-full">Publish</span>
-                @else
-                <span class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-white bg-gray-500 rounded-full">Draft</span>
-                @endif
+                {{$hospital->name}}
               </td>
+                <td class="py-4 px-6 border-b border-grey-light">
+                    {{$hospital->province?$hospital->province:'No address'}}
+                </td>
+                <td class="py-4 px-6 border-b border-grey-light">
+                    {{$hospital->user?$hospital->user->first_name .' '.$hospital->user->last_name:'No address'}}
+                </td>
               <td class="py-4 px-6 border-b border-grey-light text-right">
 
                 @can('Hospital edit')
