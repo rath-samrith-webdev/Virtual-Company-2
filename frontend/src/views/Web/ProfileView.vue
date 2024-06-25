@@ -17,6 +17,7 @@ import {
   Edit,
   Upload
 } from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
 
 const source = ref(0)
 const feedbacks = ref(0)
@@ -28,351 +29,129 @@ const outputFeedBack = useTransition(feedbacks, {
 })
 source.value = 172000
 feedbacks.value = 512
+
+// =========upload image================
+
+// Reactive properties for avatar and upload
+const avatarUrl = ref('https://newprofilepicapp.com/wp-content/uploads/2024/02/New-Profile-Pic-App.webp')
+const fileList = ref([])
+const uploadRef = ref(null)
+
+// Methods for handling upload events
+const handlePreview = (file) => {
+  console.log('Preview:', file)
+}
+const handleRemove = (file, fileList) => {
+  console.log('Remove:', file, fileList)
+}
+const beforeUpload = (file) => {
+  const isJPG = file.type === 'image/jpeg'
+  const isPNG = file.type === 'image/png'
+  const isLt2M = file.size / 1024 / 1024 < 2
+
+  if (!isJPG && !isPNG) {
+    ElMessage.error('Upload image only in JPG or PNG format!')
+    return false
+  }
+  if (!isLt2M) {
+    ElMessage.error('Upload image size should be less than 2MB!')
+    return false
+  }
+  return true
+}
+
+const handleSuccess = (response, file, fileList) => {
+  // Assuming response contains the URL of the uploaded image
+  // In a real scenario, you might need to adjust this based on the response structure
+  avatarUrl.value = URL.createObjectURL(file.raw)
+  ElMessage.success('Upload success!')
+}
+
+const clickUploadButton = () => {
+  uploadRef.value.submit()
+}
 </script>
 
 <template>
   <WebLayout>
     <div class="container">
-      <!-- ====================================== -->
-      <!-- tabs to show Informatin   -->
-      <!-- ====================================== -->
+      <!-- Tabs for different sections -->
       <el-tabs type="border-card" class="main-card-border">
-        <!-- <==== History tab ====> -->
+        <!-- History tab -->
         <el-tab-pane label="History" class="tabs">
-          <!-- <==== card 1 ====> -->
+          <!-- Card 1 -->
           <el-card class="card">
-            <el-descriptions
-              class="margin-top"
-              title="My name is Rath go to hospital first time"
-              :column="3"
-              :size="size"
-              border
-            >
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <user />
-                    </el-icon>
-                    Username
-                  </div>
-                </template>
-                Rath
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <iphone />
-                    </el-icon>
-                    Telephone
-                  </div>
-                </template>
-                123456789
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <location />
-                    </el-icon>
-                    Place
-                  </div>
-                </template>
-                Cambodia
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <tickets />
-                    </el-icon>
-                    Remarks
-                  </div>
-                </template>
-                <el-tag size="small">PNC</el-tag>
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <office-building />
-                    </el-icon>
-                    Address
-                  </div>
-                </template>
-                No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
-              </el-descriptions-item>
+            <!-- Descriptions for personal information -->
+            <el-descriptions title="Personal Information" :column="3" :size="size" border class="margin-top">
+              <el-descriptions-item label="Username">Rath</el-descriptions-item>
+              <el-descriptions-item label="Telephone">123456789</el-descriptions-item>
+              <el-descriptions-item label="Place">Cambodia</el-descriptions-item>
+              <el-descriptions-item label="Remarks"><el-tag size="small">PNC</el-tag></el-descriptions-item>
+              <el-descriptions-item label="Address">No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province</el-descriptions-item>
             </el-descriptions>
           </el-card>
-          <!-- <==== card 2 ====> -->
+          <!-- Card 2 -->
           <el-card class="card">
-            <el-descriptions
-              class="margin-top"
-              title="My name is Radit go to hospital first second time"
-              :column="3"
-              :size="size"
-              border
-            >
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <user />
-                    </el-icon>
-                    Username
-                  </div>
-                </template>
-                Rath
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <iphone />
-                    </el-icon>
-                    Telephone
-                  </div>
-                </template>
-                123456789
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <location />
-                    </el-icon>
-                    Place
-                  </div>
-                </template>
-                Cambodia
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <tickets />
-                    </el-icon>
-                    Remarks
-                  </div>
-                </template>
-                <el-tag size="small">PNC</el-tag>
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <office-building />
-                    </el-icon>
-                    Address
-                  </div>
-                </template>
-                No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
-              </el-descriptions-item>
+            <!-- Descriptions for another set of personal information -->
+            <el-descriptions title="Personal Information" :column="3" :size="size" border class="margin-top">
+              <el-descriptions-item label="Username">Rath</el-descriptions-item>
+              <el-descriptions-item label="Telephone">123456789</el-descriptions-item>
+              <el-descriptions-item label="Place">Cambodia</el-descriptions-item>
+              <el-descriptions-item label="Remarks"><el-tag size="small">PNC</el-tag></el-descriptions-item>
+              <el-descriptions-item label="Address">No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province</el-descriptions-item>
             </el-descriptions>
           </el-card>
         </el-tab-pane>
-        <!-- <==== personal Information tab ====> -->
-        <el-tab-pane label="Persional Informatin">
+        <!-- Personal Information tab -->
+        <el-tab-pane label="Personal Information">
           <el-card class="card">
             <div class="demo-type">
-              <el-avatar :size="150" src="https://empty" @error="errorHandler">
-                <img
-                  src="https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA"
-                />
+              <!-- Avatar with dynamic source -->
+              <el-avatar :size="150" :src="avatarUrl">
+                <img :src="avatarUrl" />
               </el-avatar>
-              <!-- <==== image for upload picture ====> -->
-              <el-button type="warning">
-                Upload<el-icon class="el-icon--right"><Upload /></el-icon>
-              </el-button>
+              <!-- Upload profile picture -->
+              <el-upload
+                class="upload-image"
+                ref="uploadRef"
+                action="https://jsonplaceholder.typicode.com/posts/"
+                list-type="picture"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :file-list="fileList"
+                :before-upload="beforeUpload"
+                :on-success="handleSuccess"
+              >
+                <el-button type="warning" class="upload-button" @click="clickUploadButton">
+                  Upload Profile
+                  <el-icon class="el-icon--right"><Upload /></el-icon>
+                </el-button>
+              </el-upload>
             </div>
-            <el-descriptions
-              class="margin-top"
-              title="General Information"
-              :column="3"
-              :size="size"
-              border
-            >
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <user />
-                    </el-icon>
-                    First Name
-                  </div>
-                </template>
-                Rath
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <user />
-                    </el-icon>
-                    Last Name
-                  </div>
-                </template>
-                Samrath
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <iphone />
-                    </el-icon>
-                    Gender
-                  </div>
-                </template>
-                Men
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <day />
-                    </el-icon>
-                    Date of Birth
-                  </div>
-                </template>
-                2024-24-02
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <email />
-                    </el-icon>
-                    Email
-                  </div>
-                </template>
-                rathsamrath@gmail.com
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <phone />
-                    </el-icon>
-                    Phone Number
-                  </div>
-                </template>
-                +885 123456789
-              </el-descriptions-item>
+            <!-- Descriptions for general information -->
+            <el-descriptions title="General Information" :column="3" :size="size" border class="margin-top">
+              <el-descriptions-item label="First Name">Rath</el-descriptions-item>
+              <el-descriptions-item label="Last Name">Samrath</el-descriptions-item>
+              <el-descriptions-item label="Gender">Men</el-descriptions-item>
+              <el-descriptions-item label="Date of Birth">2024-24-02</el-descriptions-item>
+              <el-descriptions-item label="Email">rathsamrath@gmail.com</el-descriptions-item>
+              <el-descriptions-item label="Phone Number">+885 123456789</el-descriptions-item>
             </el-descriptions>
-            <el-descriptions class="margin-top" title="Address " :column="3" :size="size" border>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <vilage />
-                    </el-icon>
-                    Vilage
-                  </div>
-                </template>
-                Phom Penh
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <iphone />
-                    </el-icon>
-                    Street
-                  </div>
-                </template>
-                #371
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <communce />
-                    </el-icon>
-                    Communce
-                  </div>
-                </template>
-                O bek kaom
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <district />
-                    </el-icon>
-                    District
-                  </div>
-                </template>
-                Sen Sok
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <province />
-                    </el-icon>
-                    Province
-                  </div>
-                </template>
-                Phom Phenh
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <location />
-                    </el-icon>
-                    City
-                  </div>
-                </template>
-                Phom Penh
-              </el-descriptions-item>
+            <!-- Descriptions for address -->
+            <el-descriptions title="Address" :column="3" :size="size" border class="margin-top">
+              <el-descriptions-item label="Village">Phom Penh</el-descriptions-item>
+              <el-descriptions-item label="Street">#371</el-descriptions-item>
+              <el-descriptions-item label="Commune">O bek kaom</el-descriptions-item>
+              <el-descriptions-item label="District">Sen Sok</el-descriptions-item>
+              <el-descriptions-item label="Province">Phom Phenh</el-descriptions-item>
+              <el-descriptions-item label="City">Phom Penh</el-descriptions-item>
             </el-descriptions>
-            <el-descriptions class="margin-top" title="Others" :column="3" :size="size" border>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <user />
-                    </el-icon>
-                    Bloode Type
-                  </div>
-                </template>
-                O+
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <iphone />
-                    </el-icon>
-                    Age
-                  </div>
-                </template>
-                30
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <father />
-                    </el-icon>
-                    Father Name
-                  </div>
-                </template>
-                Yaya
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <tickets />
-                    </el-icon>
-                    Mother Name
-                  </div>
-                </template>
-                Papa
-              </el-descriptions-item>
+            <!-- Other details -->
+            <el-descriptions title="Others" :column="3" :size="size" border class="margin-top">
+              <el-descriptions-item label="Blood Type"><el-tag size="small">O+</el-tag></el-descriptions-item>
+              <el-descriptions-item label="Age">30</el-descriptions-item>
+              <el-descriptions-item label="Father's Name">Yaya</el-descriptions-item>
+              <el-descriptions-item label="Mother's Name">Papa</el-descriptions-item>
             </el-descriptions>
           </el-card>
         </el-tab-pane>
@@ -380,7 +159,6 @@ feedbacks.value = 512
     </div>
   </WebLayout>
 </template>
-
 
 <style scoped>
 .container {
@@ -409,5 +187,17 @@ feedbacks.value = 512
   margin-top: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
 }
+.upload-button,
+.upload-image {
+  padding-left: 10px;
+}
+span {
+  font-size: 15px;
+  font-weight: bold;
+}
+.tabs {
+ padding: 20px;
+}
+         
 </style>
 
