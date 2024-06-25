@@ -2,13 +2,13 @@
    <div>
         <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
             @if(auth()->id()===1)
-            <div class="container mx-auto px-6 py-8" >
+            <div class="container mx-auto  px-6 py-8" >
                 <div class="flex flex-wrap mt-6">
                     <div class="w-full lg:w-1/2 pr-0 lg:pr-2">
                         <p class="text-xl pb-3 flex items-center">
                             <i class="fas fa-plus mr-3"></i> Data Reports
                         </p>
-                        <div class="p-6 bg-white">
+                        <div class="p-6 rounded bg-white">
                             <canvas id="chartOne" width="400" height="200"></canvas>
                         </div>
                     </div>
@@ -16,7 +16,7 @@
                         <p class="text-xl pb-3 flex items-center">
                             <i class="fas fa-account mr-3"></i>New Users Chart
                         </p>
-                        <div class="p-6 bg-white">
+                        <div class="p-6 rounded bg-white">
                             <canvas id="chartTwo" width="400" height="200"></canvas>
                         </div>
                     </div>

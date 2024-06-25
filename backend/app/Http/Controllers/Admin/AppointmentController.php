@@ -26,9 +26,9 @@ class AppointmentController extends Controller
     public function index()
     {
         $user=Auth::user();
-        if($user->hasRole('Admin')){
+        if($user->hasRole('admin')){
             $appointments = Appointment::all();
-        }elseif ($user->hasRole('Hospital')) {
+        }elseif ($user->hasRole('hospital')) {
             $appointments=$user->hospital->appointments;
         }else{
             $appointments=$user->appointments()->get();
@@ -54,7 +54,24 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $uid=Auth::id();
+        $data=$request->validate([
+            'title'=>'required|string',
+            'hospital_id'=>'required|integer',
+            'doctor_id'=>'required|integer',
+            'appointment_date'=>'required|date',
+            'user_id'=>'integer',
+        ]);
+        try {
+            if($uid!==1){
+                $data['user_id']=$uid;
+            }
+            Appointment::create($data);
+            return redirect()->back()->withSuccess('Hospital updated !!!');
+        }catch (\Exception $exception){
+            return redirect()->back()->with('error',$exception->getMessage());
+        }
+
     }
 
     /**
@@ -91,6 +108,12 @@ class AppointmentController extends Controller
      */
     public function destroy(Appointment $appointment)
     {
-        //
+        $uid=Auth::id();
+        try {
+            $appointment->delete();
+            return redirect()->back()->withSuccess('Appointment deleted !!!');
+        }catch (\Exception $exception){
+            return redirect()->back()->with('error',$exception->getMessage());
+        }
     }
 }

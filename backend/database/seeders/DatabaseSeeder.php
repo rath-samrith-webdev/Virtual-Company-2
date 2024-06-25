@@ -44,6 +44,7 @@ class DatabaseSeeder extends Seeder
             'phone'=>'0123456789',
         ]);
         Appointment::create([
+            'title'=>'Appointment',
             'hospital_id'=>1,
             'doctor_id'=>1,
             'user_id'=>2,

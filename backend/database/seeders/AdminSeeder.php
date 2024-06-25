@@ -24,7 +24,6 @@ class AdminSeeder extends Seeder
             'email'=>'admin@gmail.com',
             'password'=>bcrypt('password'),
             'user_type'=>'admin',
-            'profile' => 'user.avif'
         ]);
 
         $user = User::create([

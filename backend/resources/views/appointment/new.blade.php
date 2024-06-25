@@ -6,7 +6,6 @@
                 <div class="bg-white shadow-md rounded my-6 p-5">
                     <form method="POST" action="{{ route('admin.appointments.store')}}">
                         @csrf
-                        @method('put')
                         <div class="flex flex-col space-y-2">
                             <label for="title" class="text-gray-700 select-none font-medium">Title</label>
                             <input id="title" type="text" name="title" value="{{ old('title') }}" placeholder="Appointment Title" class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200" />
@@ -43,7 +42,7 @@
                                 <select class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none" name="user_id" @if(auth()->id()!==1)disabled @endif>
                                     <option value="" disabled>Select Category</option>
                                     @foreach($data['users'] as $user)
-                                        <option value="{{$user->id}}" @if($data['uid']==$user->id) selected  @endif>{{$user->name}}</option>
+                                        <option value="{{$user->id}}" @if($data['uid']==$user->id && $data['uid']!==1) selected @endif>{{$user->first_name}} {{$user->last_name}}</option>
                                     @endforeach
                                 </select>
                             </div>
