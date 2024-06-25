@@ -8,7 +8,9 @@
                         Appointment</a>
                 @endcan
             </div>
-
+            <div class="bg-white rounded my-6 p-5" style="background-color: #FCB22D">
+                <h1 class="text-center font-bold">Appointment List</h1>
+            </div>
             <div class="bg-white shadow-md rounded my-6">
                 <table class="text-left w-full border-collapse">
                     <thead>
@@ -21,6 +23,9 @@
                         </th>
                         <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light w-2/12">
                            Appointment Maker
+                        </th>
+                        <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light w-2/12">
+                           Doctor Name
                         </th>
                         <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light w-2/12">
                             Appointment Date
@@ -40,6 +45,9 @@
                                 </td>
                                 <td class="py-4 px-6 border-b border-grey-light">
                                     {{$appointment->user->first_name .' '.$appointment->user->last_name}}
+                                </td>
+                                <td class="py-4 px-6 border-b border-grey-light">
+                                    {{$appointment->doctor->name}}
                                 </td>
                                 <td class="py-4 px-6 border-b border-grey-light">
                                     {{$appointment->appointment_date}}

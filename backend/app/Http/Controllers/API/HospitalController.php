@@ -136,7 +136,7 @@ class HospitalController extends Controller
             if ($user->hasRole('admin')) {
                 $hospital = Hospital::where('id', $request['hospital_id'])->first();
             } elseif ($user->hasRole('hospital')) {
-                $hospital = $user->hospital();
+                $hospital = $user->hospital;
             } else {
                 return false;
             }
@@ -149,9 +149,8 @@ class HospitalController extends Controller
             $image->move(public_path('/') . '/images/hospital/hospital-cover/hospital-' . $hospital->id . '/', $filename);
             return response()->json(['success' => true, 'message' => 'Cover image has been uploaded', 'data' => $hospital], 201);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            return response()->json(['success' => false, 'message' => 'Upload Error','error'=>$e->getMessage()], 500);
         }
-
 
     }
 }

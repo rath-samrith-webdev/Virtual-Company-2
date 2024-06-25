@@ -92,6 +92,7 @@ class HospitalController extends Controller
             'commune'=>'required',
             'district'=>'required',
             'province'=>'required',
+            'user_id'=>'integer|required',
         ]);
         try {
             $hospital->update($data);

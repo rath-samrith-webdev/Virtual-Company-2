@@ -4,16 +4,31 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Doctor;
+use App\Models\Hospital;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DoctorController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('role_or_permission:Doctor access|Doctor create|Doctor edit|Doctor delete', ['only' => ['index','show']]);
+        $this->middleware('role_or_permission:Doctor create', ['only' => ['create','store']]);
+        $this->middleware('role_or_permission:Doctor edit', ['only' => ['edit','update']]);
+        $this->middleware('role_or_permission:Doctor delete', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $user=Auth::user();
+        if($user->hasRole('admin')){
+            $doctors=Doctor::all();
+        }elseif ($user->hasRole('hospital')) {
+            $doctors=$user->hospital->doctors()->get();
+        }
+        return view('doctor.index',compact('doctors'));
     }
 
     /**
@@ -21,7 +36,8 @@ class DoctorController extends Controller
      */
     public function create()
     {
-        //
+        $hospitals=Hospital::all();
+        return view('doctor.new',compact('hospitals'));
     }
 
     /**
@@ -45,7 +61,9 @@ class DoctorController extends Controller
      */
     public function edit(Doctor $doctor)
     {
-        //
+        $hospitals=Hospital::all();
+        $data=['doctor'=>$doctor,'hospitals'=>$hospitals];
+        return view('doctor.edit',compact('data'));
     }
 
     /**
@@ -53,7 +71,24 @@ class DoctorController extends Controller
      */
     public function update(Request $request, Doctor $doctor)
     {
-        //
+        $data=$request->validate([
+            'name'=>'required',
+            'email'=>'required',
+            'phone'=>'required',
+            'hospital_id'=>'required',
+        ]);
+        $user=Auth::user();
+        try {
+            if($user->hasRole('admin')){
+                $doctor->update($data);
+            }elseif ($user->hasRole('hospital')) {
+                $data['hospital_id']=$data->hospital->id;
+                $doctor->update($data);
+            }
+            return redirect()->back()->with('success','Doctor updated successfully');
+        }catch (\Exception $exception){
+            return redirect()->back()->with('error',$exception->getMessage());
+        }
     }
 
     /**

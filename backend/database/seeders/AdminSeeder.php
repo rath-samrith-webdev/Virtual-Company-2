@@ -46,10 +46,6 @@ class AdminSeeder extends Seeder
         $user_role = Role::create(['name' => 'user']);
         $hospital_role = Role::create(['name' => 'hospital']);
 
-        $permission = Permission::create(['name' => 'Post access','front_name'=>'post_access']);
-        $permission = Permission::create(['name' => 'Post edit' ,'front_name'=>'post_edit']);
-        $permission = Permission::create(['name' => 'Post create' ,'front_name'=>'post_create']);
-        $permission = Permission::create(['name' => 'Post delete' ,'front_name'=>'post_delete']);
 
         $permission = Permission::create(['name' => 'Role access' ,'front_name'=>'role_access']);
         $permission = Permission::create(['name' => 'Role edit' ,'front_name'=>'role_edit']);
@@ -88,6 +84,11 @@ class AdminSeeder extends Seeder
         $permission = Permission::create(['name' => 'Department edit' ,'front_name'=>'department_edit']);
         $permission = Permission::create(['name' => 'Department create' ,'front_name'=>'department_create']);
         $permission = Permission::create(['name' => 'Department delete' ,'front_name'=>'department_delete']);
+
+        $permission = Permission::create(['name' => 'Doctor access','front_name'=>'doctor_access']);
+        $permission = Permission::create(['name' => 'Doctor edit','front_name'=>'doctor_edit']);
+        $permission = Permission::create(['name' => 'Doctor create','front_name'=>'doctor_create']);
+        $permission = Permission::create(['name' => 'Doctor delete','front_name'=>'doctor_delete']);
 
         $permission = Permission::create(['name' => 'Rate access','front_name'=>'rate_access']);
         $permission = Permission::create(['name' => 'Rate edit' ,'front_name'=>'rate_edit']);
