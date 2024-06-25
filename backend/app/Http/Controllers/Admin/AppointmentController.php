@@ -29,7 +29,8 @@ class AppointmentController extends Controller
         if($user->hasRole('admin')){
             $appointments = Appointment::all();
         }elseif ($user->hasRole('hospital')) {
-            $appointments=$user->hospital->appointments;
+            $hospital=$user->hospital;
+            $appointments=$hospital->appointments()->get();
         }else{
             $appointments=$user->appointments()->get();
         }

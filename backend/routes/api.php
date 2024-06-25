@@ -39,6 +39,7 @@ Route::middleware('auth:sanctum')->prefix('hospitals')->group(function () {
     Route::put('/update/{hospital}', [HospitalController::class, 'update']);
     Route::delete('/delete/{hospital}', [HospitalController::class, 'destroy']);
     Route::post('/upload', [HospitalController::class, 'uploadPreviewImage']);
+    Route::post('/uploadCover', [HospitalController::class, 'uploadCover']);
 });
 Route::middleware('auth:sanctum')->prefix('appointments')->group(function () {
     Route::get('/list', [AppointmentController::class, 'index']);

@@ -6,6 +6,10 @@
           <form method="POST" action="{{ route('admin.hospitals.update',$data['hospital']->id)}}">
             @csrf
             @method('put')
+              <div class="flex flex-col space-y-2">
+                  <label for="title" class="text-gray-700 select-none font-medium">Title</label>
+                  <img class="h-96 w-full object-cover object-center" src="/images/hospital/hospital-cover/hospital-{{$data['hospital']->id}}/{{ $data['hospital']->cover_image }}" alt="">
+              </div>
             <div class="flex flex-col space-y-2">
               <label for="title" class="text-gray-700 select-none font-medium">Title</label>
               <input id="title" type="text" name="name" value="{{ old('title',$data['hospital']->name) }}" placeholder="Enter title" class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200" />

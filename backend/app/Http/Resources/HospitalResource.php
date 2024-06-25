@@ -17,7 +17,10 @@ class HospitalResource extends JsonResource
         return [
             'id'=>$this->id,
             'name'=>$this->name,
-            'preview_images'=>PreviewImagesResource::collection($this->previewImage()->get())
+            'cover_image'=>asset('/images/hospital/hospital-cover/hospital-'.$this->id.'/'.$this->cover_image),
+            'preview_images'=>PreviewImagesResource::collection($this->previewImage()->get()),
+            'department'=>$this->departments()->get(),
+            'appointment'=>AppointmentResource::collection($this->appointments()->get()),
         ];
     }
 }

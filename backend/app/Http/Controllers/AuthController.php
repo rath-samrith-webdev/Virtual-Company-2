@@ -92,7 +92,7 @@ class AuthController extends Controller
             }
             if($user->update(['profile' => $filename])){
                 $image->move(public_path('/').'images/profiles/user-'.$user->first_name, $filename);
-                return response()->json(['success' => true,'message'=>'Your profile has been uploaded','data'=>asset('/images/profiles/'.$user->first_name.'/'.$filename)],201);
+                return response()->json(['success' => true,'message'=>'Your profile has been uploaded','data'=>asset('/images/profiles/user-'.$user->first_name.'/'.$filename)],201);
             }else{
                 return response()->json(['success' => false,'message'=>'Something went wrong'],400);
             }

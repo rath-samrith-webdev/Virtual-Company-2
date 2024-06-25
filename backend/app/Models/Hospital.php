@@ -12,6 +12,7 @@ class Hospital extends Model
 {
     use HasFactory;
     protected $fillable=[
+        'cover_image',
         'name',
         'category_id',
         'user_id',

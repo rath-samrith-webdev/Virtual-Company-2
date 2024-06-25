@@ -23,7 +23,6 @@ class AdminSeeder extends Seeder
             'name'=>'Admin',
             'email'=>'admin@gmail.com',
             'password'=>bcrypt('password'),
-            'user_type'=>'admin',
         ]);
 
         $user = User::create([
@@ -38,7 +37,7 @@ class AdminSeeder extends Seeder
             'last_name'=>"User",
             'name'=>'Hospital',
             'email'=>'hospital@gmail.com',
-            'password'=>bcrypt('password')
+            'password'=>bcrypt('password'),
         ]);
 
 
