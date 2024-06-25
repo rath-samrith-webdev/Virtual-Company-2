@@ -69,10 +69,30 @@
                 <span class="mx-3">User</span>
             </a>
         @endcanany
-
-        @canany('Hospital access','Hospital add','Hospital edit','Hospital delete')
-            <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.hospitals.index') ? 'active' : '' }}"
-               href="{{ route('admin.hospitals.index')}}">
+        <div
+            class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 "
+            onclick="dropdown()"
+        >
+            <div class="flex justify-start w-full items-center">
+                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M16 4H8a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V6a2 2 0 00-2-2z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M10 14H14"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M12 6v8"/>
+                </svg>
+                <span class="text-[15px] ml-4 text-gray-200 ">Hospital Menu</span>
+            </div>
+        </div>
+        <div
+            class="text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold"
+            id="submenu"
+        >
+            @canany('Hospital access','Hospital add','Hospital edit','Hospital delete')
+                <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.hospitals.index') ? 'active' : '' }}"
+                   href="{{ route('admin.hospitals.index')}}">
                     <span class="inline-flex justify-center items-center">
                         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                              stroke="currentColor">
@@ -81,9 +101,53 @@
 </svg>
 
                 </span>
-                <span class="mx-3">Hospital</span>
-            </a>
-        @endcanany
+                    <span class="mx-3">Hospital</span>
+                </a>
+            @endcanany
+            @canany('Appointment access','Appointment add','Appointment edit','Appointment delete')
+                <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.appointments.index') ? 'active' : '' }}"
+                   href="{{ route('admin.appointments.index')}}">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M16 4H8a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V6a2 2 0 00-2-2z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M10 14H14"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M12 6v8"/>
+                    </svg>
+
+                    <span class="mx-3">Appointments</span>
+                </a>
+            @endcanany
+        </div>
+
+        <div
+            class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 "
+            onclick="otherDropdown()"
+        >
+            <i class="bi bi-chat-left-text-fill"></i>
+            <div class="flex justify-between w-full items-center">
+                <span class="text-[15px] ml-4 text-gray-200 ">Other</span>
+                <span class="text-sm rotate-180" id="arrow">
+            <i class="bi bi-chevron-down"></i>
+          </span>
+            </div>
+        </div>
+        <div
+            class="text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold"
+            id="otherSubmenu"
+        >
+            <h1 class="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1">
+                System Report
+            </h1>
+            <h1 class="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1">
+                Personal
+            </h1>
+            <h1 class="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1">
+                Friends
+            </h1>
+        </div>
 
         @canany('Post access','Post add','Post edit','Post delete')
             <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.posts.index') ? 'active' : '' }}"
@@ -97,24 +161,6 @@
                 <span class="mx-3">Post</span>
             </a>
         @endcanany
-        @canany('Appointment access','Appointment add','Appointment edit','Appointment delete')
-            <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.appointments.index') ? 'active' : '' }}"
-               href="{{ route('admin.appointments.index')}}">
-                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                     stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M16 4H8a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V6a2 2 0 00-2-2z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M10 14H14"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M12 6v8"/>
-                </svg>
-
-                <span class="mx-3">Appointments</span>
-            </a>
-        @endcanany
-
-
         @canany('Mail access','Mail edit')
             <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.mail.index') ? 'active' : '' }}"
                href="{{ route('admin.mail.index')}}">
@@ -127,7 +173,30 @@
                 <span class="mx-3">Setting</span>
             </a>
         @endcanany
-
-
     </nav>
 </div>
+<script type="text/javascript">
+    //Hospital----
+    function dropdown() {
+        document.querySelector("#submenu").classList.toggle("hidden");
+        document.querySelector("#arrow").classList.toggle("rotate-0");
+    }
+
+    dropdown();
+
+    function openSidebar() {
+        document.querySelector(".sidebar").classList.toggle("hidden");
+    }
+    //Others-------
+    function otherDropdown() {
+        document.querySelector("#otherSubmenu").classList.toggle("hidden");
+        document.querySelector("#otherArrow").classList.toggle("rotate-0");
+    }
+
+    otherDropdown();
+
+    function otherOpenSidebar() {
+        document.querySelector(".otherSidebar").classList.toggle("hidden");
+    }
+
+</script>

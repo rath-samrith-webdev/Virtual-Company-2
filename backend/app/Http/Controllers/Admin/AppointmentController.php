@@ -3,14 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AppointmentResource;
 use App\Models\Appointment;
+use App\Models\Doctor;
+use App\Models\Hospital;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AppointmentController extends Controller
 {
     function __construct()
     {
-        $this->middleware('role_or_permission:Hospital access|Hospital create|Appointment edit|Appointment delete', ['only' => ['index','show']]);
+        $this->middleware('role_or_permission:Appointment access|Appointment create|Appointment edit|Appointment delete', ['only' => ['index','show']]);
         $this->middleware('role_or_permission:Appointment create', ['only' => ['create','store']]);
         $this->middleware('role_or_permission:Appointment edit', ['only' => ['edit','update']]);
         $this->middleware('role_or_permission:Appointment delete', ['only' => ['destroy']]);
@@ -20,7 +25,14 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        $appointments = Appointment::all();
+        $user=Auth::user();
+        if($user->hasRole('Admin')){
+            $appointments = Appointment::all();
+        }elseif ($user->hasRole('Hospital')) {
+            $appointments=$user->hospital->appointments;
+        }else{
+            $appointments=$user->appointments()->get();
+        }
         return view('appointment.index', compact('appointments'));
     }
 
@@ -29,7 +41,12 @@ class AppointmentController extends Controller
      */
     public function create()
     {
-        //
+        $uid=Auth::id();
+        $users=User::all();
+        $hospitals=Hospital::all();
+        $doctors=Doctor::all();
+        $data=['users'=>$users,'hospitals'=>$hospitals,'doctors'=>$doctors,'uid'=>$uid];
+        return view('appointment.new',compact('data'));
     }
 
     /**
@@ -53,7 +70,12 @@ class AppointmentController extends Controller
      */
     public function edit(Appointment $appointment)
     {
-        //
+        $info=AppointmentResource::make($appointment);
+        $users=User::all();
+        $hospitals=Hospital::all();
+        $doctors=Doctor::all();
+        $data=['appointment'=>$info,'users'=>$users,'hospitals'=>$hospitals,'doctors'=>$doctors];    ;
+        return view('appointment.edit', compact('data'));
     }
 
     /**

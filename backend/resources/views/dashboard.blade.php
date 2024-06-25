@@ -14,7 +14,7 @@
                     </div>
                     <div class="w-full lg:w-1/2 pl-0 lg:pl-2 mt-12 lg:mt-0">
                         <p class="text-xl pb-3 flex items-center">
-                            <i class="fas fa-account mr-3"></i>Users Reports
+                            <i class="fas fa-account mr-3"></i>New Users Chart
                         </p>
                         <div class="p-6 bg-white">
                             <canvas id="chartTwo" width="400" height="200"></canvas>
@@ -38,12 +38,12 @@
     let label= {!! json_encode($data['label'],JSON_HEX_TAG) !!};
     let data = {!! json_encode($data['data'], JSON_HEX_TAG) !!};
     let monthlyUser={!! json_encode($data['monthly_user'],JSON_HEX_TAG) !!};
-    console.log(monthlyUser)
     var myChart = new Chart(chartOne, {
         type: 'bar',
         data: {
             labels: label,
             datasets: [{
+                label:'Total',
                 data: data,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
@@ -80,6 +80,7 @@
         data: {
             labels:  ['Jan', 'Feb', 'Mar', 'April', 'May', 'Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
             datasets: [{
+                label:'New User',
                 data: monthlyUser,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
