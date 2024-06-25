@@ -31,6 +31,11 @@ const router = createRouter({
       component: () => import('../views/Web/ProfileView.vue')
     },
     {
+      path: '/hospital-detail',
+      name: 'hospital-detail',
+      component: () => import('../views/Web/HospitalDetailView.vue')
+    },
+    {
       path: '/post',
       name: 'post',
       component: () => import('../views/Web/Post/ListView.vue')
