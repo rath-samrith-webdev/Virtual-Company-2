@@ -82,7 +82,7 @@ const clickUploadButton = () => {
           <!-- Card 1 -->
           <el-card class="card">
             <!-- Descriptions for personal information -->
-            <el-descriptions title="Personal Information" :column="3" :size="size" border class="margin-top">
+            <el-descriptions title="Go to hospital Angkor Tom" :column="3" :size="size" border class="margin-top">
               <el-descriptions-item label="Username">Rath</el-descriptions-item>
               <el-descriptions-item label="Telephone">123456789</el-descriptions-item>
               <el-descriptions-item label="Place">Cambodia</el-descriptions-item>
@@ -93,7 +93,7 @@ const clickUploadButton = () => {
           <!-- Card 2 -->
           <el-card class="card">
             <!-- Descriptions for another set of personal information -->
-            <el-descriptions title="Personal Information" :column="3" :size="size" border class="margin-top">
+            <el-descriptions title="Go to hospital PNC" :column="3" :size="size" border class="margin-top">
               <el-descriptions-item label="Username">Rath</el-descriptions-item>
               <el-descriptions-item label="Telephone">123456789</el-descriptions-item>
               <el-descriptions-item label="Place">Cambodia</el-descriptions-item>
