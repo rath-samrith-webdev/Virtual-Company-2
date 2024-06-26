@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API\V1;
 
-use App\Models\UserAddress;
+use App\Http\Controllers\Controller;
+use App\Models\PreviewVideo;
 use Illuminate\Http\Request;
 
-class UserAddressController extends Controller
+class PreviewVideoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +27,7 @@ class UserAddressController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(UserAddress $userAddress)
+    public function show(PreviewVideo $previewVideo)
     {
         //
     }
@@ -34,7 +35,7 @@ class UserAddressController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, UserAddress $userAddress)
+    public function update(Request $request, PreviewVideo $previewVideo)
     {
         //
     }
@@ -42,7 +43,7 @@ class UserAddressController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(UserAddress $userAddress)
+    public function destroy(PreviewVideo $previewVideo)
     {
         //
     }

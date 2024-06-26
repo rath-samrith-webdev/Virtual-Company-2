@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API\V1;
 
+use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -12,7 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(['success' => true, 'data' => Category::all()]);
     }
 
     /**
@@ -28,7 +30,11 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        try {
+            return response()->json(['success' => true, 'data' => CategoryResource::make($category)],200);
+        }catch (\Exception $exception){
+            return response()->json(['success' => false, 'message' => $exception->getMessage()],500);
+        }
     }
 
     /**
