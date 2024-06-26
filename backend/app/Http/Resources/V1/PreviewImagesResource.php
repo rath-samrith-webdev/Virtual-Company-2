@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\V1;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CategoryResource extends JsonResource
+class PreviewImagesResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +16,7 @@ class CategoryResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'name'=>$this->name,
-            'hospitals'=>CategoryHospital::collection($this->hospitals()->get()),
+            'path'=>asset('images/hospital/hospital-'.$this->hospital->id.'/'.$this->image_name)
         ];
     }
 }

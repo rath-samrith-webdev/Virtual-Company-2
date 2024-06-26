@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\API\AppointmentController;
-use App\Http\Controllers\API\CategoryController;
-use App\Http\Controllers\API\DepartmentController;
-use App\Http\Controllers\API\DoctorController;
-use App\Http\Controllers\API\HospitalController;
-use App\Http\Controllers\API\PostController;
+use App\Http\Controllers\API\V1\AppointmentController;
+use App\Http\Controllers\API\V1\CategoryController;
+use App\Http\Controllers\API\V1\DepartmentController;
+use App\Http\Controllers\API\V1\DoctorController;
+use App\Http\Controllers\API\V1\HospitalController;
+use App\Http\Controllers\API\V1\PostController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,53 +21,53 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/profileUpload',[AuthController::class, 'profileUpload'])->middleware('auth:sanctum');
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
-Route::get('/me', [AuthController::class, 'index'])->middleware('auth:sanctum');
-Route::get('/profile', [AuthController::class, 'profile'])->middleware('auth:sanctum');
-Route::put('/update/profile',[AuthController::class, 'updateProfile'])->middleware('auth:sanctum');
+Route::prefix('v1')->group(function () {
 
-Route::middleware('auth:sanctum')->prefix('hospitals')->group(function () {
-    Route::get('/list', [HospitalController::class, 'index']);
-    Route::post('/create', [HospitalController::class, 'store']);
-    Route::get('/show/{hospital}', [HospitalController::class, 'show']);
-    Route::put('/update/{hospital}', [HospitalController::class, 'update']);
-    Route::delete('/delete/{hospital}', [HospitalController::class, 'destroy']);
-    Route::post('/upload', [HospitalController::class, 'uploadPreviewImage']);
-    Route::post('/uploadCover', [HospitalController::class, 'uploadCover']);
-});
-Route::middleware('auth:sanctum')->prefix('appointments')->group(function () {
-    Route::get('/list', [AppointmentController::class, 'index']);
-    Route::post('/create', [AppointmentController::class, 'store']);
-    Route::get('/show/{appointment}', [AppointmentController::class, 'show']);
-    Route::put('/update/{appointment}', [AppointmentController::class, 'update']);
-    Route::delete('/delete/{appointment}', [AppointmentController::class, 'destroy']);
-});
-Route::middleware('auth:sanctum')->prefix('categories')->group(function () {
-    Route::get('/list', [CategoryController::class, 'index']);
-    Route::post('/create', [CategoryController::class, 'store']);
-    Route::get('/show/{category}', [CategoryController::class, 'show']);
-    Route::put('/update/{category}', [CategoryController::class, 'update']);
-    Route::delete('/delete/{category}', [CategoryController::class, 'destroy']);
-});
-Route::middleware('auth:sanctum')->prefix('departments')->group(function () {
-    Route::get('/list', [DepartmentController::class, 'index']);
-    Route::post('/create', [DepartmentController::class, 'store']);
-    Route::get('/show/{department}', [DepartmentController::class, 'show']);
-    Route::put('/update/{department}', [DepartmentController::class, 'update']);
-    Route::delete('/delete/{department}', [DepartmentController::class, 'destroy']);
-});
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/profileUpload',[AuthController::class, 'profileUpload'])->middleware('auth:sanctum');
+    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+    Route::get('/me', [AuthController::class, 'index'])->middleware('auth:sanctum');
+    Route::get('/profile', [AuthController::class, 'profile'])->middleware('auth:sanctum');
+    Route::put('/update/profile',[AuthController::class, 'updateProfile'])->middleware('auth:sanctum');
 
-Route::middleware('auth:sanctum')->prefix('doctors')->group(function () {
-    Route::get('/list', [DoctorController::class, 'index']);
-    Route::post('/create', [DoctorController::class, 'store']);
-    Route::get('/show/{doctor}', [DoctorController::class, 'show']);
-    Route::put('/update/{doctor}', [DoctorController::class, 'update']);
-    Route::delete('/delete/{doctor}', [DoctorController::class, 'destroy']);
+    Route::middleware('auth:sanctum')->prefix('hospitals')->group(function () {
+        Route::get('/list', [HospitalController::class, 'index']);
+        Route::post('/create', [HospitalController::class, 'store']);
+        Route::get('/show/{hospital}', [HospitalController::class, 'show']);
+        Route::put('/update/{hospital}', [HospitalController::class, 'update']);
+        Route::delete('/delete/{hospital}', [HospitalController::class, 'destroy']);
+        Route::post('/upload', [HospitalController::class, 'uploadPreviewImage']);
+        Route::post('/uploadCover', [HospitalController::class, 'uploadCover']);
+    });
+    Route::middleware('auth:sanctum')->prefix('appointments')->group(function () {
+        Route::get('/list', [AppointmentController::class, 'index']);
+        Route::post('/create', [AppointmentController::class, 'store']);
+        Route::get('/show/{appointment}', [AppointmentController::class, 'show']);
+        Route::put('/update/{appointment}', [AppointmentController::class, 'update']);
+        Route::delete('/delete/{appointment}', [AppointmentController::class, 'destroy']);
+    });
+    Route::middleware('auth:sanctum')->prefix('categories')->group(function () {
+        Route::get('/list', [CategoryController::class, 'index']);
+        Route::post('/create', [CategoryController::class, 'store']);
+        Route::get('/show/{category}', [CategoryController::class, 'show']);
+        Route::put('/update/{category}', [CategoryController::class, 'update']);
+        Route::delete('/delete/{category}', [CategoryController::class, 'destroy']);
+    });
+    Route::middleware('auth:sanctum')->prefix('departments')->group(function () {
+        Route::get('/list', [DepartmentController::class, 'index']);
+        Route::post('/create', [DepartmentController::class, 'store']);
+        Route::get('/show/{department}', [DepartmentController::class, 'show']);
+        Route::put('/update/{department}', [DepartmentController::class, 'update']);
+        Route::delete('/delete/{department}', [DepartmentController::class, 'destroy']);
+    });
+
+    Route::middleware('auth:sanctum')->prefix('doctors')->group(function () {
+        Route::get('/list', [DoctorController::class, 'index']);
+        Route::post('/create', [DoctorController::class, 'store']);
+        Route::get('/show/{doctor}', [DoctorController::class, 'show']);
+        Route::put('/update/{doctor}', [DoctorController::class, 'update']);
+        Route::delete('/delete/{doctor}', [DoctorController::class, 'destroy']);
+    });
+    Route::get('/post/list', [PostController::class, 'index'])->middleware('auth:sanctum');
 });
-Route::get('/post/list', [PostController::class, 'index'])->middleware('auth:sanctum');

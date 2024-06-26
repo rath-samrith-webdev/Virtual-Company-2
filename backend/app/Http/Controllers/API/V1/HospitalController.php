@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\HospitalResource;
+use App\Http\Resources\V1\HospitalResource;
 use App\Models\Hospital;
 use App\Models\PreviewImage;
 use Illuminate\Http\Request;

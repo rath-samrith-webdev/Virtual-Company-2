@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\V1;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AppointmentMaker extends JsonResource
+class CategoryHospital extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,10 @@ class AppointmentMaker extends JsonResource
     {
         return [
             'id'=>$this->id,
+            'cover_image'=>asset('/images/hospital/hospital-cover/hospital-'.$this->id.'/'.$this->cover_image),
             'name'=>$this->name,
-            'profile'=>$this->profile?asset('images/profiles/user-'.$this->first_name.'/'.$this->profile):'No profile',
-            'gender'=>$this->gender?$this->gender!=null:'No gender',
+            'latitude'=>$this->latitude,
+            'longitude'=>$this->longitude
         ];
     }
 }

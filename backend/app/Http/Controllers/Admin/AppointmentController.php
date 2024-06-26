@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\AppointmentResource;
+use App\Http\Resources\V1\AppointmentResource;
 use App\Models\Appointment;
 use App\Models\Doctor;
 use App\Models\Hospital;
