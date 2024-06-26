@@ -2,8 +2,7 @@
 
 </script>
 <template>
-  <el-footer class="md:px-20 d-flex bg-white justify-content-between align-items-center footer py-2"
-             style="background-color: #f8f8f8;">
+  <el-footer class="md:px-20 d-flex justify-content-between align-items-center footer py-2">
     <el-col :span="4">
       <div class="d-flex flex-column align-items-start">
         <img src="@/assets/logo/care_finder-02.png" alt="" width="200px">
@@ -67,6 +66,7 @@
 <style scoped>
 
 .footer {
+  background-color: #ffffff;
   height: 40vh;
 }
 
