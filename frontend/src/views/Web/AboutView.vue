@@ -83,12 +83,11 @@
             to use our services, you can contact us.</h3>
           <button type="button" class="btn btn-warning w-25 ml-5  text-light" style="margin-top:-5%">Contact Us</button>
         </div>
-
         <img src="https://i.pinimg.com/564x/c2/87/c8/c287c8abe56b65b73da4685e15c896be.jpg" alt="">
       </div>
     </div>
+    <FooterLayout/>
   </WebLayout>
-  <FooterLayout/>
 </template>
 <style>
 .head {

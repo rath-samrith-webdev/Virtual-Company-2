@@ -36,7 +36,7 @@ const store = useAuthStore()
       <router-link to="/landing" class=" fw-bold text-dark " style="text-decoration: none;">Home</router-link>
       <router-link to="/about" class="fw-bold pl-5 text-dark" style="text-decoration: none;">About Us</router-link>
       <router-link to="" class=" fw-bold pl-5 text-dark" style="text-decoration: none;">Service</router-link>
-      <router-link to="" class=" fw-bold pl-5 text-dark" style="text-decoration: none;">Contact</router-link>
+      <router-link to="/contact" class=" fw-bold pl-5 text-dark" style="text-decoration: none;">Contact</router-link>
     </nav>
 
     <!-- Sign In -->
