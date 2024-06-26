@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="row row-cols-1 row-cols-md-3 g-4">
-      <div class="col" v-for="(card, index) in cardSearch" :key="index">
+      <div class="col" v-for="(card, index) in filteredCards" :key="index">
         <div class="card h-100">
           <img :src="card.img" class="card-img-top" alt="...">
           <div class="card-body">
@@ -40,7 +40,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import { ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
@@ -54,16 +53,15 @@ export default {
     return {
       selectedProvince: '',
       searchQuery: '',
-      cardSearch: [
+      cardaddress: [
         {
           img: 'https://chamberbusinessnews.com/wp-content/uploads/2024/06/New-Tower-Exteriors-6-5-241-scaled.jpg',
           title: 'Orchid Hospital',
           time: '24/7',
-          address: 'PP',
+          address: 'Banteay Meanchey',
           contact: '+123 456 7890',
           description: 'Orchid Hospital provides comprehensive healthcare services with state-of-the-art facilities and experienced staff.',
           rating: 3,
-          website: 'https://www.orchidhospital.com'
         },
         {
           img: 'https://i.ytimg.com/vi/y296UElmNCs/maxresdefault.jpg',
@@ -73,7 +71,6 @@ export default {
           contact: '+987 654 3210',
           description: 'General Hospital offers a wide range of medical services, ensuring the best care for all patients.',
           rating: 4,
-          website: 'https://www.generalhospital.com'
         },
         {
           img: 'https://slhd.health.nsw.gov.au/sites/default/files/2022-11/2022.01.31%20%5B89918%5D%20Concord%20Hospital%20Redevelopment%20RAY%20WS3-096727.jpg',
@@ -83,19 +80,26 @@ export default {
           contact: '+555 555 5555',
           description: 'Concord Hospital is known for its excellent patient care and advanced medical technology.',
           rating: 2,
-          website: 'https://www.concordhospital.com'
         },
       ]
+    }
+  },
+  computed: {
+    filteredCards() {
+      return this.cardaddress.filter(card => 
+        card.title.toLowerCase().includes(this.searchQuery.toLowerCase()),
+      );
     }
   },
   methods: {
     handleCommand(command) {
       this.selectedProvince = command;
     }
-  }
+  
+}
+
 }
 </script>
-
 <style>
 .row {
   width: 90%;
