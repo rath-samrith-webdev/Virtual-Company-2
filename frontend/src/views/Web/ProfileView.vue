@@ -18,16 +18,6 @@ import {
   Upload
 } from '@element-plus/icons-vue'
 
-const source = ref(0)
-const feedbacks = ref(0)
-const outputValue = useTransition(source, {
-  duration: 1500
-})
-const outputFeedBack = useTransition(feedbacks, {
-  duration: 1500
-})
-source.value = 172000
-feedbacks.value = 512
 </script>
 
 <template>

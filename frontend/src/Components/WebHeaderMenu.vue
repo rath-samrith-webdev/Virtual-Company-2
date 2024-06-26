@@ -33,7 +33,7 @@ const store = useAuthStore()
       >
     </nav>
     <nav class="pb-4 pt-3 flex justify-center space-x-4 "  v-if="!store.user">
-      <router-link to="" class=" fw-bold text-dark " style="text-decoration: none;">Home</router-link>
+      <router-link to="/landing" class=" fw-bold text-dark " style="text-decoration: none;">Home</router-link>
       <router-link to="/about" class="fw-bold pl-5 text-dark" style="text-decoration: none;">About Us</router-link>
       <router-link to="" class=" fw-bold pl-5 text-dark" style="text-decoration: none;">Service</router-link>
       <router-link to="" class=" fw-bold pl-5 text-dark" style="text-decoration: none;">Contact</router-link>
