@@ -2,6 +2,9 @@
     <div>
         <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
             <div class="container mx-auto px-6 py-1 pb-16">
+                <div class="bg-white rounded my-6 p-5" style="background-color: #FCB22D">
+                    <h1 class="text-center font-bold">New Doctor</h1>
+                </div>
                 <div class="bg-white shadow-md rounded my-6 p-5">
                     <form method="POST" action="{{ route('admin.doctors.store')}}">
                         @csrf

@@ -5,10 +5,12 @@
                 @can('Department create')
                     <a href="{{route('admin.departments.create')}}"
                        class="bg-blue-500 text-white font-bold px-5 py-1 rounded focus:outline-none shadow hover:bg-blue-500 transition-colors ">New
-                        Appointment</a>
+                        Department</a>
                 @endcan
             </div>
-
+            <div class="bg-white rounded my-6 p-5" style="background-color: #FCB22D">
+                <h1 class="text-center font-bold">Department List</h1>
+            </div>
             <div class="bg-white shadow-md rounded my-6">
                 <table class="text-left w-full border-collapse">
                     <thead>
