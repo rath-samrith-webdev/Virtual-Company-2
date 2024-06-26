@@ -32,18 +32,18 @@ const store = useAuthStore()
       >Reports</a
       >
     </nav>
-    <nav class="flex justify-center space-x-4" v-if="!store.user">
-      <router-link to="" class="btn">Home</router-link>
-      <router-link to="" class="btn">About Us</router-link>
-      <router-link to="" class="btn">Service</router-link>
-      <router-link to="" class="btn">Contact</router-link>
+    <nav class="pb-4 pt-3 flex justify-center space-x-4 "  v-if="!store.user">
+      <router-link to="" class=" fw-bold text-dark " style="text-decoration: none;">Home</router-link>
+      <router-link to="/about" class="fw-bold pl-5 text-dark" style="text-decoration: none;">About Us</router-link>
+      <router-link to="" class=" fw-bold pl-5 text-dark" style="text-decoration: none;">Service</router-link>
+      <router-link to="" class=" fw-bold pl-5 text-dark" style="text-decoration: none;">Contact</router-link>
     </nav>
 
     <!-- Sign In -->
     <div>
-      <router-link v-if="!store.user" to="/landing" class="btn py-1 rounded font-semibold sign-up">Sign up
+      <router-link v-if="!store.user" to="/landing" class="btn mr-3 py-1 rounded font-semibold sign-up">Sign up
       </router-link>
-      <router-link v-if="!store.user" to="/login" class="btn py-1 rounded font-semibold text-white log-in">Log in
+      <router-link v-if="!store.user" to="/login" class="btn py-1 rounded font-semibold text-white log-in ">Log in
       </router-link>
       <button v-if="store.user" class="btn px-4 py-1 rounded font-semibold">Log out</button>
     </div>
