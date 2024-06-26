@@ -9,7 +9,6 @@
                             User</a>
                     @endcan
                 </div>
-
                 <div class="bg-white shadow-md rounded my-6">
                     <table class="text-left w-full border-collapse">
                         <thead>
@@ -29,7 +28,6 @@
                         </tr>
                         </thead>
                         <tbody>
-
                         @can('User access')
                             @foreach($users as $user)
                                 <tr class="hover:bg-grey-lighter">
@@ -78,6 +76,5 @@
 
             </div>
         </main>
-    </div>
     </div>
 </x-app-layout>
