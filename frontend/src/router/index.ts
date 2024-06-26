@@ -71,7 +71,6 @@ router.beforeEach(async (to, from, next) => {
       })
     })
     simpleAcl.rules = rules()
-    console.log(simpleAcl.rules)
   } catch (error) {
     /* empty */
   }

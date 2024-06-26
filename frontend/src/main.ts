@@ -12,7 +12,6 @@ import axios from './plugins/axios'
 import 'uno.css'
 import { configure } from 'vee-validate'
 import 'bootstrap/dist/css/bootstrap.css'
-import bootstrap from 'bootstrap/dist/js/bootstrap.bundle.js' 
 
 const app = createApp(App)
 
@@ -21,7 +20,6 @@ configure({
 })
 
 app.use(createPinia()).use(router.router).use(ElementPlus).use(router.simpleAcl)
-app.use(bootstrap)
 
 app.config.globalProperties.$axios = axios
 app.mount('#app')
