@@ -8,11 +8,9 @@
         <el-form-item :error="emailError">
           <el-input placeholder="Email Address" v-model="email" size="large" />
         </el-form-item>
-
         <el-form-item :error="nameError" class="mt-8">
           <el-input placeholder="Password" v-model="password" size="large" type="password" />
         </el-form-item>
-
         <div>
           <el-button
             size="large"
