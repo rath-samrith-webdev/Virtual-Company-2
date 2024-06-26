@@ -39,7 +39,6 @@ const router = createRouter({
       path: '/',
       name: '/',
       component: () => import('../views/Web/User/UserView.vue')
-    }
     },
     {
       path: '/about',
