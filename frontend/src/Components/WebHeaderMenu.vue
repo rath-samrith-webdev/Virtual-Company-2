@@ -3,7 +3,7 @@ import { useAuthStore } from '@/stores/auth-store'
 const store = useAuthStore()
 </script>
 <template>
-  <header class="nav flex justify-between px-5 bg-white items-center">
+  <header class="nav flex justify-between px-5 bg-white items-center p-4">
     <!-- Logo -->
     <div class="flex items-center space-x-2">
       <img src="@/assets/logo/care_finder-02.png" alt="" srcset="" width="175">
