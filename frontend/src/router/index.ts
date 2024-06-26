@@ -1,7 +1,7 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import axiosInstance from '@/plugins/axios';
-import { useAuthStore } from '@/stores/auth-store';
-import { createAcl, defineAclRules } from 'vue-simple-acl';
+import { createRouter, createWebHistory } from 'vue-router'
+import axiosInstance from '@/plugins/axios'
+import { useAuthStore } from '@/stores/auth-store'
+import { createAcl, defineAclRules } from 'vue-simple-acl'
 const simpleAcl=createAcl()
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +34,12 @@ const router = createRouter({
       path: '/post',
       name: 'post',
       component: () => import('../views/Web/Post/ListView.vue')
+    },
+    {
+      path: '/',
+      name: '/',
+      component: () => import('../views/Web/User/UserView.vue')
+    }
     },
     {
       path: '/about',
