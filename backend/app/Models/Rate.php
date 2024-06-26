@@ -19,6 +19,10 @@ class Rate extends Model
     {
         return $this->belongsTo(Hospital::class);
     }
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
     public function RateReply():HasMany
     {
         return $this->hasMany(RateReply::class);
