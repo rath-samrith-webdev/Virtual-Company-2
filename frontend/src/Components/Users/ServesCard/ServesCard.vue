@@ -6,7 +6,7 @@
         <div class="card">
           <div class="icon"><i :class="service.icon"></i></div>
           <div class="image"><img :src="service.img" alt="Service Image"></div>
-          <div class="descr">{{ service.description }}</div>
+          <div class="description">{{ service.description }}</div>
         </div>
       </li>
     </ol>
@@ -102,7 +102,7 @@ li:hover {
   border-radius: 50%;
 }
 
-.descr {
+.description {
   font-size: 1rem;
   font-weight: 300;
   margin-top: 0.5rem;

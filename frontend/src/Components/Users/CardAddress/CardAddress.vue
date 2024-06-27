@@ -97,7 +97,7 @@ export default {
         { value: 'Tboung Khmum', label: 'Tboung Khmum' },
       ],
       searchQuery: '',
-      cardaddress: [
+      cardAddress: [
         {
           img: 'https://chamberbusinessnews.com/wp-content/uploads/2024/06/New-Tower-Exteriors-6-5-241-scaled.jpg',
           title: 'Orchid Hospital',
@@ -130,7 +130,7 @@ export default {
   },
   computed: {
     filteredCards() {
-      return this.cardaddress.filter(card => {
+      return this.cardAddress.filter(card => {
         const matchesTitle = card.title.toLowerCase().includes(this.searchQuery.toLowerCase());
         const matchesOptions = this.selectedOptions.length === 0 || this.selectedOptions.includes(card.address);
         return matchesTitle && matchesOptions;
