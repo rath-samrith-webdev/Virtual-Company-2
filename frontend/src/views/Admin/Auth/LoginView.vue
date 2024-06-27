@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
-
+import { UserFilled } from '@element-plus/icons-vue/global'
 onMounted(() => {
   {
     const sign_in_btn = document.querySelector('#sign-in-btn')
@@ -31,7 +31,7 @@ onMounted(() => {
         <form action="" class="sign-in-form">
           <h2 class="title">Sign in</h2>
           <div class="input-field">
-            <i class="fas fa-user"></i>
+            <el-icon><UserFilled/></el-icon>
             <input type="text" placeholder="Email" />
           </div>
           <div class="input-field">
@@ -63,7 +63,7 @@ onMounted(() => {
         <form action="" class="sign-up-form">
           <h2 class="title">Sign up</h2>
           <div class="input-field">
-            <i class="fas fa-user"></i>
+            <el-icon><UserFilled/></el-icon>
             <input type="text" placeholder="First Name" />
           </div>
           <div class="input-field">
