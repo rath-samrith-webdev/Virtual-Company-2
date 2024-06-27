@@ -3,25 +3,41 @@
     <h1>Search address</h1>
     <div class="search_form">
       <div>
-        <el-dropdown size="large" split-button type="warning" @command="handleCommand">
-          <span>{{ selectedProvince || 'Province' }}</span>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item command="Banteay Meanchey">Banteay Meanchey</el-dropdown-item>
-              <el-dropdown-item command="Battambang">Battambang</el-dropdown-item>
-              <el-dropdown-item command="Kampong Cham">Kampong Cham</el-dropdown-item>
-              <el-dropdown-item command="Kampong Chhnang">Kampong Chhnang</el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
+        <el-select 
+          v-model="selectedOptions"
+          multiple
+          filterable
+          allow-create
+          default-first-option
+          :reserve-keyword="false"
+          placeholder="Select province"
+          style="width: 240px;"
+          size="large"
+        >
+          <el-option
+          
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
       </div>
-      <div class="input-group flex-nowrap">
-        <span class="input-group-text" id="addon-wrapping"><el-icon><Search /></el-icon></span>
-        <input type="text" class="form-control" placeholder="Search address" aria-label="Search province" aria-describedby="addon-wrapping" v-model="searchQuery">
-      </div>
+      <el-input class=" m-2"
+       :rows="2"
+        prefix-icon="Search"
+        style="width: 1000px"
+         size="large"
+        placeholder="Search province"
+        v-model="searchQuery"
+      >
+        <template #prefix>
+          <el-icon><search /></el-icon>
+        </template>
+      </el-input>
     </div>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-      <div class="col" v-for="(card, index) in cardSearch" :key="index">
+    <div class="row row-cols-1 row-cols-md-3">
+      <div class="col" v-for="(card, index) in filteredCards" :key="index">
         <div class="card h-100">
           <img :src="card.img" class="card-img-top" alt="...">
           <div class="card-body">
@@ -52,45 +68,73 @@ export default {
   },
   data() {
     return {
-      selectedProvince: '',
+      selectedOptions: [],
+      options: [
+        { value: 'Banteay Meanchey', label: 'Banteay Meanchey' },
+        { value: 'Battambang', label: 'Battambang' },
+        { value: 'Kampong Cham', label: 'Kampong Cham' },
+        { value: 'Kampong Chhnang', label: 'Kampong Chhnang' },
+        { value: 'Kampong Thom', label: 'Kampong Thom' },
+        { value: 'Kampong Speu', label: 'Kampong Speu' },
+        { value: 'Kampot', label: 'Kampot' },
+        { value: 'Kandal', label: 'Kandal' },
+        { value: 'Kep', label: 'Kep' },
+        { value: 'Koh Kong', label: 'Koh Kong' },
+        { value: 'Kratié', label: 'Kratié' },
+        { value: 'Mondulkiri', label: 'Mondulkiri' },
+        { value: 'Oddar Meanchey', label: 'Oddar Meanchey' },
+        { value: 'Pailin', label: 'Pailin' },
+        { value: 'Phnom Penh', label: 'Phnom Penh' },
+        { value: 'Preah Sihanouk', label: 'Preah Sihanouk' },
+        { value: 'Preah Vihear', label: 'Preah Vihear' },
+        { value: 'Prey Veng', label: 'Prey Veng' },
+        { value: 'Pursat', label: 'Pursat' },
+        { value: 'Ratanakiri', label: 'Ratanakiri' },
+        { value: 'Siem Reap', label: 'Siem Reap' },
+        { value: 'Stung Treng', label: 'Stung Treng' },
+        { value: 'Svay Rieng', label: 'Svay Rieng' },
+        { value: 'Takéo', label: 'Takéo' },
+        { value: 'Tboung Khmum', label: 'Tboung Khmum' },
+      ],
       searchQuery: '',
-      cardSearch: [
+      cardaddress: [
         {
           img: 'https://chamberbusinessnews.com/wp-content/uploads/2024/06/New-Tower-Exteriors-6-5-241-scaled.jpg',
           title: 'Orchid Hospital',
           time: '24/7',
-          address: 'PP',
+          address: 'Banteay Meanchey',
           contact: '+123 456 7890',
           description: 'Orchid Hospital provides comprehensive healthcare services with state-of-the-art facilities and experienced staff.',
           rating: 3,
-          website: 'https://www.orchidhospital.com'
         },
         {
           img: 'https://i.ytimg.com/vi/y296UElmNCs/maxresdefault.jpg',
           title: 'General Hospital',
           time: '24/7',
-          address: 'RTK',
+          address: 'Battambang',
           contact: '+987 654 3210',
           description: 'General Hospital offers a wide range of medical services, ensuring the best care for all patients.',
           rating: 4,
-          website: 'https://www.generalhospital.com'
         },
         {
           img: 'https://slhd.health.nsw.gov.au/sites/default/files/2022-11/2022.01.31%20%5B89918%5D%20Concord%20Hospital%20Redevelopment%20RAY%20WS3-096727.jpg',
           title: 'Concord Hospital',
           time: '24/7',
-          address: 'RTK',
+          address: 'Kampong Cham',
           contact: '+555 555 5555',
           description: 'Concord Hospital is known for its excellent patient care and advanced medical technology.',
           rating: 2,
-          website: 'https://www.concordhospital.com'
         },
       ]
     }
   },
-  methods: {
-    handleCommand(command) {
-      this.selectedProvince = command;
+  computed: {
+    filteredCards() {
+      return this.cardaddress.filter(card => {
+        const matchesTitle = card.title.toLowerCase().includes(this.searchQuery.toLowerCase());
+        const matchesOptions = this.selectedOptions.length === 0 || this.selectedOptions.includes(card.address);
+        return matchesTitle && matchesOptions;
+      });
     }
   }
 }
@@ -126,16 +170,11 @@ export default {
   margin-left: 10px;
 }
 .search_form {
-  width: 85%;
+  width: 87%;
   display: flex;
-  justify-content: space-evenly;
   align-items: center;
   margin-left: 100px;
-  margin-top: 20px;
-}
-.input-group {
-  width: 80%;
-  height: 7vh;
+  margin-top: 20px;  
 }
 h1 {
   text-align: center;
