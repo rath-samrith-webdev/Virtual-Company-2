@@ -1,6 +1,6 @@
 
 <template>
-  <WebLayout></WebLayout>
+  <WebHeaderMenu></WebHeaderMenu>
     <body>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
       <div class="container">
@@ -107,6 +107,8 @@
   </template>
   
   <script>
+import WebHeaderMenu from '@/Components/WebHeaderMenu.vue';
+
   
   export default {
     name: "FormSencond",
