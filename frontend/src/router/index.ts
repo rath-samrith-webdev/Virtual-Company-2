@@ -2,7 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import axiosInstance from '@/plugins/axios'
 import { useAuthStore } from '@/stores/auth-store'
 import { createAcl, defineAclRules } from 'vue-simple-acl'
-const simpleAcl=createAcl()
+
+const simpleAcl = createAcl()
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -26,9 +27,24 @@ const router = createRouter({
       component: () => import('../views/Web/HomeView.vue')
     },
     {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('../views/Web/ProfileView.vue')
+    },
+    {
       path: '/post',
       name: 'post',
       component: () => import('../views/Web/Post/ListView.vue')
+    },
+    {
+      path: '/',
+      name: '/',
+      component: () => import('../views/Web/User/UserView.vue')
+    },
+    {
+      path: '/about',
+      name: 'about', // Fixed duplicate name
+      component: () => import('../views/Web/AboutView.vue')
     },
     {
       path: '/contact',
@@ -36,33 +52,30 @@ const router = createRouter({
       component: () => import('../views/Web/ContactView.vue')
     },
     {
-      path: '/appointment ',
-      name: 'appointment',
-      component: () => import("../views/Web/Appointment/AppointmentView.vue")
+      path:'/appointment',
+      name:'appointment',
+      component:()=>import('../views/Web/User/AppointmentView.vue')
     }
   ]
 })
 
 router.beforeEach(async (to, from, next) => {
-  const publicPages = ['/landing','/login','/contact','/appointment']
+  const publicPages = ['/landing', '/login', '/about', '/contact','/appointment']
   const authRequired = !publicPages.includes(to.path)
   const store = useAuthStore()
 
   try {
     const { data } = await axiosInstance.get('/me')
-
     store.isAuthenticated = true
     store.user = data.data
-
     store.permissions = data.permissions.map((item: any) => item.front_name)
     store.roles = data.roles.map((item: any) => item)
     const rules = () => defineAclRules((setRule) => {
       store.permissions.forEach((permission: string) => {
         setRule(permission, () => true)
       })
-    });
+    })
     simpleAcl.rules = rules()
-    console.log(simpleAcl.rules)
   } catch (error) {
     /* empty */
   }
@@ -73,4 +86,4 @@ router.beforeEach(async (to, from, next) => {
   }
 })
 
-export default { router,simpleAcl }
+export default { router, simpleAcl }

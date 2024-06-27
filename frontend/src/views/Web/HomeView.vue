@@ -8,10 +8,13 @@ import {
   FirstAidKit,
   Location,
   Memo,
-  Position,
-  Search, Service, SuitcaseLine,
-  User, View
+  Search,
+  Service,
+  SuitcaseLine,
+  User,
+  View
 } from '@element-plus/icons-vue'
+import FooterLayout from '@/Components/FooterLayout.vue'
 
 const source = ref(0)
 const feedbacks = ref(0)
@@ -463,11 +466,11 @@ feedbacks.value = 512
           </h1>
           <el-timeline>
             <el-timeline-item class="text-start"
-              >Browse through our professionally designed selection of free template and customize a
+            >Browse through our professionally designed selection of free template and customize a
               design for any occasion.
             </el-timeline-item>
             <el-timeline-item class="text-start"
-              >Browse through our professionally designed selection.
+            >Browse through our professionally designed selection.
             </el-timeline-item>
           </el-timeline>
         </div>
@@ -484,105 +487,59 @@ feedbacks.value = 512
     <div class="container inner d-flex justify-content-center gap-lg-5 align-items-start">
       <el-card style="width: 120px" class="d-flex card-item flex-column align-items-center">
         <div class="d-flex justify-content-center">
-          <el-avatar class="bg-white" :size="50"><FirstAidKit style="color: #fcb22d;font-size: 10px"/></el-avatar>
+          <el-avatar class="bg-white" :size="50">
+            <FirstAidKit style="color: #fcb22d;font-size: 10px" />
+          </el-avatar>
         </div>
         <h3>Mission</h3>
       </el-card>
       <el-card style="width: 120px" class="d-flex card-item flex-column align-items-center">
         <div class="d-flex justify-content-center">
-          <el-avatar class="bg-white" :size="50"><View style="color: #fcb22d;font-size: 10px"/></el-avatar>
+          <el-avatar class="bg-white" :size="50">
+            <View style="color: #fcb22d;font-size: 10px" />
+          </el-avatar>
         </div>
         <h3>Vision</h3>
       </el-card>
       <el-card style="width: 120px" class="d-flex card-item flex-column align-items-center">
         <div class="d-flex justify-content-center">
-          <el-avatar class="bg-white" :size="50" ><SuitcaseLine style="color: #fcb22d;font-size: 10px"/></el-avatar>
+          <el-avatar class="bg-white" :size="50">
+            <SuitcaseLine style="color: #fcb22d;font-size: 10px" />
+          </el-avatar>
         </div>
         <h3>Value</h3>
       </el-card>
       <el-card style="width: 120px" class="d-flex card-item flex-column align-items-center">
         <div class="d-flex justify-content-center">
-          <el-avatar class="bg-white" :size="50"><Service style="color: #fcb22d;font-size: 10px"/></el-avatar>
+          <el-avatar class="bg-white" :size="50">
+            <Service style="color: #fcb22d;font-size: 10px" />
+          </el-avatar>
         </div>
         <h3>Service</h3>
       </el-card>
     </div>
   </el-container>
-  <el-footer class="md:px-20 d-flex justify-content-between align-items-center footer py-2" style="background-color: #f8f8f8;">
-    <el-col :span="4">
-      <div class="d-flex flex-column align-items-start">
-        <img src="@/assets/logo/care_finder-02.png" alt="" width="200px">
-        <p class="text-start">Browse through our professionally designed selection. Browse through our professionally designed selection.</p>
-      </div>
-    </el-col>
-    <el-col :span="4">
-      <div class="d-flex flex-column align-items-start">
-        <h4>Navigation</h4>
-        <router-link to="/landing" class="nav-link">Home</router-link>
-        <router-link to="/landing" class="nav-link">About</router-link>
-        <router-link to="/landing" class="nav-link">Service</router-link>
-        <router-link to="/landing" class="nav-link">Contact</router-link>
-      </div>
-    </el-col>
-    <el-col :span="4">
-      <div>
-        <h4 class="text-start">Address</h4>
-        <div>
-          <p class="text-justify">
-            BP 511, Phum Tropeang Chhuk (Borey Sorla) Sangtak, Street 371, Phnom Penh
-          </p>
-        </div>
-      </div>
-    </el-col>
-    <el-col :span="4">
-      <div class="d-flex justify-content-between gap-lg-5 flex-column mt-2">
-        <h4>Social Media</h4>
-        <div class="d-flex justify-content-between mt-2">
-          <el-tooltip class="box-item" effect="dark" content="LinkedIn" placement="top-start">
-            <el-avatar
-              shape="circle"
-              :src="'https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png'"
-            ></el-avatar>
-          </el-tooltip>
-          <el-tooltip class="box-item" effect="dark" content="Gmail" placement="top-start">
-            <el-avatar
-              shape="circle"
-              :src="'https://img.freepik.com/premium-vector/email-symbol-white-icon_1076610-15454.jpg'"
-            ></el-avatar>
-          </el-tooltip>
-          <el-tooltip class="box-item" effect="dark" content="Instagram" placement="top-start">
-            <el-avatar
-              shape="circle"
-              :src="'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/1200px-Instagram_icon.png'"
-            ></el-avatar>
-          </el-tooltip>
-          <el-tooltip class="box-item" effect="dark" content="Github" placement="top-start">
-            <el-avatar
-              shape="circle"
-              :src="'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/GitHub_Invertocat_Logo.svg/1200px-GitHub_Invertocat_Logo.svg.png'"
-              class="bg-white"
-            ></el-avatar>
-          </el-tooltip>
-        </div>
-      </div>
-    </el-col>
-  </el-footer>
+  <FooterLayout/>
 </template>
 <style scoped>
 .bg-card {
   width: 80px;
   background-color: #fcb22d;
 }
-.card-item{
+
+.card-item {
   background-color: #fcb22d;
   border: none;
 }
+
 .card-img {
   border-radius: 50%;
 }
-.footer{
+
+.footer {
   height: 40vh;
 }
+
 .state {
   color: white;
 }
@@ -601,15 +558,18 @@ feedbacks.value = 512
 .el-col {
   text-align: center;
 }
+
 .value {
   height: 70vh;
   background-image: url('@/assets/image/PhysPatient_SplitWidthHero_1920x1280.png');
   background-size: cover;
   background-repeat: no-repeat;
 }
+
 .inner {
   height: 100%;
 }
+
 .el-statistic {
   --el-statistic-title-color: white;
   --el-statistic-content-color: #32b4e3;
