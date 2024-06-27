@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
-import { UserFilled } from '@element-plus/icons-vue/global'
+import { Lock, Message, UserFilled } from '@element-plus/icons-vue/global'
+
 onMounted(() => {
   {
     const sign_in_btn = document.querySelector('#sign-in-btn')
@@ -31,30 +32,42 @@ onMounted(() => {
         <form action="" class="sign-in-form">
           <h2 class="title">Sign in</h2>
           <div class="input-field">
-            <el-icon><UserFilled/></el-icon>
+            <el-icon :size="20">
+              <UserFilled />
+            </el-icon>
             <input type="text" placeholder="Email" />
           </div>
           <div class="input-field">
-            <i class="fas fa-lock"></i>
+            <el-icon :size="20">
+              <Lock />
+            </el-icon>
             <input type="password" placeholder="Password" />
           </div>
           <p class="social-text">Or Sign in with social platform</p>
           <div class="social-media">
             <a href="#" class="social-icon">
-              <i class="fab fa-facebook"></i>
+              <el-tooltip content="LinkedIn" placement="top-start" effect="dark">
+                <el-avatar><img src="@/assets/image/linkeding.png"></el-avatar>
+              </el-tooltip>
             </a>
             <a href="" class="social-icon">
-              <i class="fab fa-twitter"></i>
+              <el-tooltip content="Facebook" placement="top-start" effect="dark">
+                <el-avatar><img src="@/assets/image/fb_logo.jpg"></el-avatar>
+              </el-tooltip>
             </a>
             <a href="" class="social-icon">
-              <i class="fab fa-google"></i>
+              <el-tooltip content="X" placement="top-start" effect="dark">
+                <el-avatar><img src="@/assets/image/x-logo.webp"></el-avatar>
+              </el-tooltip>
             </a>
             <a href="" class="social-icon">
-              <i class="fab fa-linkedin-in"></i>
+              <el-tooltip content="Google" placement="top-start" effect="dark">
+                <el-avatar><img src="@/assets/image/google.png"></el-avatar>
+              </el-tooltip>
             </a>
           </div>
           <div class="main-btn">
-            <input type="submit" value="Login" class="btn" />
+            <button type="submit" class="btn">Log in</button>
           </div>
           <p class="account-text">
             Don't have an account? <a href="#" id="sign-up-btn2">Sign up</a>
@@ -63,34 +76,50 @@ onMounted(() => {
         <form action="" class="sign-up-form">
           <h2 class="title">Sign up</h2>
           <div class="input-field">
-            <el-icon><UserFilled/></el-icon>
+            <el-icon :size="20">
+              <UserFilled />
+            </el-icon>
             <input type="text" placeholder="First Name" />
           </div>
           <div class="input-field">
-            <i class="fas fa-user"></i>
+            <el-icon :size="20">
+              <UserFilled />
+            </el-icon>
             <input type="text" placeholder="Last Name" />
           </div>
           <div class="input-field">
-            <i class="fas fa-envelope"></i>
+            <el-icon :size="20">
+              <Message />
+            </el-icon>
             <input type="text" placeholder="Email" />
           </div>
           <div class="input-field">
-            <i class="fas fa-lock"></i>
+            <el-icon :size="20">
+              <Lock />
+            </el-icon>
             <input type="password" placeholder="Password" />
           </div>
           <p class="social-text">Or Sign in with social platform</p>
           <div class="social-media">
             <a href="#" class="social-icon">
-              <i class="fab fa-facebook"></i>
+              <el-tooltip content="LinkedIn" placement="top-start" effect="dark">
+                <el-avatar><img src="@/assets/image/linkeding.png"></el-avatar>
+              </el-tooltip>
             </a>
             <a href="" class="social-icon">
-              <i class="fab fa-twitter"></i>
+              <el-tooltip content="Facebook" placement="top-start" effect="dark">
+                <el-avatar><img src="@/assets/image/fb_logo.jpg"></el-avatar>
+              </el-tooltip>
             </a>
             <a href="" class="social-icon">
-              <i class="fab fa-google"></i>
+              <el-tooltip content="X" placement="top-start" effect="dark">
+                <el-avatar><img src="@/assets/image/x-logo.webp"></el-avatar>
+              </el-tooltip>
             </a>
             <a href="" class="social-icon">
-              <i class="fab fa-linkedin-in"></i>
+              <el-tooltip content="Google" placement="top-start" effect="dark">
+                <el-avatar><img src="@/assets/image/google.png"></el-avatar>
+              </el-tooltip>
             </a>
           </div>
           <div class="main-btn">
