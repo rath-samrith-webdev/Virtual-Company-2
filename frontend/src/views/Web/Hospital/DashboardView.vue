@@ -2,7 +2,7 @@
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import Chart from 'chart.js/auto'
 import { computed, onMounted, ref,h } from 'vue'
-import { CircleCheck, Close } from '@element-plus/icons-vue/global'
+import { CircleCheck, Close,Plus } from '@element-plus/icons-vue/global'
 import { ElNotification } from 'element-plus'
 
 const tableData: User[] = [
@@ -52,7 +52,7 @@ const tableData: User[] = [
 const data = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
   datasets: [{
-    label: 'Total Appointment',
+    label: 'Total Feedback',
     data: [65, 59, 80, 81, 26, 55, 40, 81, 26, 55, 40, 50],
     fill: true,
     borderColor: 'rgb(75, 192, 192)'
@@ -95,7 +95,6 @@ const config = {
         easing: 'linear',
         from: 1,
         to: 0,
-        loop: true
       }
     },
     scales: {
@@ -106,23 +105,29 @@ const config = {
     }
   }
 }
+let delayed;
 const config2 = {
   type: 'bar',
   data: data2,
   options: {
-    animations: {
-      tension: {
-        duration: 1000,
-        easing: 'linear',
-        from: 1,
-        to: 0,
-        loop: true
-      }
+    animation: {
+      onComplete: () => {
+        delayed = true;
+      },
+      delay: (context) => {
+        let delay = 0;
+        if (context.type === 'data' && context.mode === 'default' && !delayed) {
+          delay = context.dataIndex * 300 + context.datasetIndex * 100;
+        }
+        return delay;
+      },
     },
     scales: {
-      y: { // defining min and max so hiding the dataset does not change scale range
-        min: 0,
-        max: 100
+      x: {
+        stacked: true,
+      },
+      y: {
+        stacked: true
       }
     }
   }
@@ -143,7 +148,7 @@ const open4 = () => {
 }
 const open = () => {
   ElNotification({
-    title: 'Appointment Rejection',
+    title: 'Appointment Acceptation',
     type: 'success',
     message: h('i', { style: 'color: green' }, 'Accepted Successfully'),
   })
@@ -167,10 +172,10 @@ const handleDelete = (index: number, row: User) => {
   open4()
 }
 onMounted(() => {
-  const ctx = document.getElementById('chartOne')
-  const ctx2 = document.getElementById('chartTwo')
-  new Chart(ctx, config)
-  new Chart(ctx2, config2)
+  const feedBack = document.getElementById('chartOne')
+  const appointments = document.getElementById('chartTwo')
+  new Chart(feedBack, config)
+  new Chart(appointments, config2)
 })
 </script>
 
@@ -181,16 +186,16 @@ onMounted(() => {
     </div>
     <div class="flex flex-wrap mt-6">
       <div class="w-full lg:w-1/2 pr-0 lg:pr-2">
-        <p class="text-xl pb-3 flex items-center">
-          <i class="fas fa-plus mr-3"></i> Monthly Reports
+        <p class="text-xl text-center">
+          <el-icon><Plus/></el-icon> Monthly Reports
         </p>
         <div class="p-6 bg-white">
           <canvas id="chartOne" width="400" height="200"></canvas>
         </div>
       </div>
       <div class="w-full lg:w-1/2 pl-0 lg:pl-2 mt-12 lg:mt-0">
-        <p class="text-xl pb-3 flex items-center">
-          <i class="fas fa-check mr-3"></i> Resolved Reports
+        <p class="text-xl text-center">
+          <el-icon></el-icon> Total Feedback
         </p>
         <div class="p-6 bg-white">
           <canvas id="chartTwo" width="400" height="200"></canvas>
@@ -198,6 +203,9 @@ onMounted(() => {
       </div>
     </div>
     <div class="px-2">
+      <div class="p2 mt-2" style="background-color: #fcb22d">
+        <h3 class="text-center">Recent Appointment</h3>
+      </div>
       <el-table :data="filterTableData" style="width: 100%">
         <el-table-column label="Date" prop="date" />
         <el-table-column label="Name" prop="name" >
@@ -223,7 +231,7 @@ onMounted(() => {
             <el-input v-model="search" size="small" placeholder="Type to search" />
           </template>
           <template #default="scope">
-            <el-button size="small" @click="handleEdit(scope.$index, scope.row)">
+            <el-button size="small" v-if="scope.row.status !== 'Accepted'" @click="handleEdit(scope.$index, scope.row)">
               <el-tooltip class="box-item" effect="dark" content="Accept" placement="top-start">
                 <el-icon :size="15">
                   <CircleCheck />
@@ -231,6 +239,7 @@ onMounted(() => {
               </el-tooltip>
             </el-button>
             <el-button
+              v-if="scope.row.status !== 'Rejected'"
               size="small"
               type="danger"
               @click="handleDelete(scope.$index, scope.row)"
