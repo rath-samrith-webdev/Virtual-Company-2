@@ -54,7 +54,8 @@ class ProfileController extends Controller
         }
 
         if($request->hasFile('profile')){
-            if($name = $this->saveImage($request->profile)){
+            $path=public_path('/').'images/profiles/user-'.$user->first_name;
+            if($name = $this->saveImage($request->profile,$path)){
                 $validated['profile'] = $name;
             }
         }

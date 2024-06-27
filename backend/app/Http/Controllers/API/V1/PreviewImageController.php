@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API\V1;
 
-use App\Models\Department;
+use App\Http\Controllers\Controller;
+use App\Models\PreviewImage;
 use Illuminate\Http\Request;
 
-class DepartmentController extends Controller
+class PreviewImageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +27,7 @@ class DepartmentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Department $department)
+    public function show(PreviewImage $previewImage)
     {
         //
     }
@@ -34,7 +35,7 @@ class DepartmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Department $department)
+    public function update(Request $request, PreviewImage $previewImage)
     {
         //
     }
@@ -42,7 +43,7 @@ class DepartmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Department $department)
+    public function destroy(PreviewImage $previewImage)
     {
         //
     }
