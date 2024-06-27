@@ -1,13 +1,12 @@
-<script setup lang="ts">
-
-import WebLayout from '@/Components/Layouts/WebLayout.vue'
-</script>
-
 <template>
   <WebLayout>
-    <h4>Hi</h4>
+    <AppointmentTable></AppointmentTable>
   </WebLayout>
 </template>
+<script setup lang="ts">
+import WebLayout from '@/Components/Layouts/WebLayout.vue'
+import AppointmentTable from '@/Components/Appointment/AppointmentTable.vue'
+</script>
 
 <style scoped>
 
