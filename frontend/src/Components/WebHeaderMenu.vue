@@ -78,9 +78,7 @@ function handleLogout() {
 
     <!-- Sign In -->
     <div>
-      <router-link v-if="!store.user" to="/landing" class="btn mr-3 py-1 rounded font-semibold sign-up">Sign up
-      </router-link>
-      <router-link v-if="!store.user" to="/login" class="btn py-1 rounded font-semibold text-white log-in ">Log in
+      <router-link v-if="!store.user" to="/login" class="btn py-1 rounded font-semibold text-white log-in ">Get Started
       </router-link>
       <button v-if="store.user" @click="handleLogout" class="btn px-4 py-1 rounded font-semibold">Log out</button>
     </div>
