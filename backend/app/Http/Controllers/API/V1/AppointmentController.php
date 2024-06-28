@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\AppointmentResource;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,7 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        return response()->json(['success'=>true,"appointments"=>Appointment::all()],200);
+        return response()->json(['success'=>true,"appointments"=>AppointmentResource::collection(Appointment::all())],200);
     }
 
     /**
@@ -23,6 +24,7 @@ class AppointmentController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
+            'title'=>'required|string',
             'hospital_id' => 'required|exists:hospitals,id',
             'doctor_id' => 'required|exists:doctors,id',
             'appointment_date' => 'required|date',
@@ -30,7 +32,7 @@ class AppointmentController extends Controller
         $data['user_id'] = Auth::id();
         try {
             Appointment::create($data);
-            return response()->json(['success'=>true,"appointments"=>Appointment::all()],201);
+            return response()->json(['success'=>true,"appointments"=>AppointmentResource::collection(Appointment::all())],201);
         }catch (\Exception $exception){
             return response()->json(['success'=>false,'message'=>$exception->getMessage()],500);
         }
@@ -42,7 +44,7 @@ class AppointmentController extends Controller
     public function show(Appointment $appointment)
     {
         try {
-            return response()->json(['success'=>true,"appointments"=>Appointment::all()],200);
+            return response()->json(['success'=>true,"appointments"=>AppointmentResource::make($appointment)],200);
         }catch (\Exception $exception){
             return response()->json(['success'=>false,'message'=>$exception->getMessage()],500);
         }
