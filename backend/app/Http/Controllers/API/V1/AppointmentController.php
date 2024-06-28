@@ -32,7 +32,7 @@ class AppointmentController extends Controller
         $data['user_id'] = Auth::id();
         try {
             Appointment::create($data);
-            return response()->json(['success'=>true,"appointments"=>AppointmentResource::collection(Appointment::all())],201);
+            return response()->json(['success'=>true,"data"=>AppointmentResource::collection(Appointment::all())],201);
         }catch (\Exception $exception){
             return response()->json(['success'=>false,'message'=>$exception->getMessage()],500);
         }
@@ -44,7 +44,7 @@ class AppointmentController extends Controller
     public function show(Appointment $appointment)
     {
         try {
-            return response()->json(['success'=>true,"appointments"=>AppointmentResource::make($appointment)],200);
+            return response()->json(['success'=>true,"data"=>AppointmentResource::make($appointment)],200);
         }catch (\Exception $exception){
             return response()->json(['success'=>false,'message'=>$exception->getMessage()],500);
         }
@@ -80,9 +80,9 @@ class AppointmentController extends Controller
         try {
             if($appointment->user_id==Auth::id()){
                 $appointment->delete();
-                return response()->json(['success'=>true,"appointments"=>Appointment::all()],200);
+                return response()->json(['success'=>true,'message'=>'Appointment has been deleted'],200);
             }else{
-                return response()->json(['success'=>false],500);
+                return response()->json(['success'=>false,'message'=>'Unauthorized'],500);
             }
         }catch (\Exception $exception){
             return response()->json(['success'=>false,'message'=>$exception->getMessage()],500);

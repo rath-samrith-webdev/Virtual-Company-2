@@ -24,7 +24,7 @@ class RateController extends Controller
             } else {
                 $feedback = $user->rates()->get();
             }
-            return response()->json(['success' => true, 'rates' => RateResource::collection($feedback)]);
+            return response()->json(['success' => true, 'data' => RateResource::collection($feedback)]);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
         }
@@ -119,5 +119,21 @@ class RateController extends Controller
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
         };
+    }
+    public function recentFeedback()
+    {
+        $user = Auth::user();
+        try {
+            if ($user->hasRole('admin')) {
+                $feedback = Rate::orderByDesc('id')->take(5)->get();
+            } elseif ($user->hasRole('hospital')) {
+                $feedback = $user->hospital->rates()->orderByDesc('id')->take(5)->get();
+            } else {
+                $feedback = $user->rates()->orderByDesc('id')->take(5)->get();
+            }
+            return response()->json(['success' => true, 'data' => RateResource::collection($feedback)]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
+        }
     }
 }

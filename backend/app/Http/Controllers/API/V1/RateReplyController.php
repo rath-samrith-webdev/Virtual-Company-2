@@ -23,7 +23,7 @@ class RateReplyController extends Controller
             } else {
                 $feedback = $user->RateReplies()->get();
             }
-            return response()->json(['success' => true, 'rates' => RateReplyResource::collection($feedback)]);
+            return response()->json(['success' => true, 'data' => RateReplyResource::collection($feedback)]);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
         }
