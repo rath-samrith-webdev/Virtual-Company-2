@@ -1,13 +1,21 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth-store'
 import { useRouter } from 'vue-router'
+
 const router = useRouter()
 const store = useAuthStore()
 
 function handleLogout() {
   localStorage.removeItem('access_token')
-  store.user=null
+  store.user = null
   router.push('/landing')
+}
+function handleCommand(command) {
+  if (command === 'profile') {
+    router.push('/profile')
+  } else if (command === 'logout') {
+    handleLogout()
+  }
 }
 </script>
 <template>
@@ -81,7 +89,19 @@ function handleLogout() {
     <div>
       <router-link v-if="!store.user" to="/login" class="btn py-1 rounded font-semibold text-white log-in ">Get Started
       </router-link>
-      <button v-if="store.user!=null" @click="handleLogout" class="btn px-4 py-1 rounded font-semibold">Log out</button>
+      <el-dropdown trigger="click" v-if="store.user!=null">
+        <span class="el-dropdown-link">
+          <el-avatar></el-avatar>
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item><router-link to="/profile" class="nav-link">Profile</router-link></el-dropdown-item>
+            <el-dropdown-item>
+              <button @click="handleLogout" class="nav-link">Log out</button>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </div>
   </header>
 </template>
