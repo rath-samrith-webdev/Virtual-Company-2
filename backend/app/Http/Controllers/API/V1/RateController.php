@@ -125,11 +125,11 @@ class RateController extends Controller
         $user = Auth::user();
         try {
             if ($user->hasRole('admin')) {
-                $feedback = Rate::orderByDesc('id')->take(5)->get();
+                $feedback = Rate::orderByDesc('id')->take(10)->get();
             } elseif ($user->hasRole('hospital')) {
-                $feedback = $user->hospital->rates()->orderByDesc('id')->take(5)->get();
+                $feedback = $user->hospital->rates()->orderByDesc('id')->take(10)->get();
             } else {
-                $feedback = $user->rates()->orderByDesc('id')->take(5)->get();
+                $feedback = $user->rates()->orderByDesc('id')->take(10)->get();
             }
             return response()->json(['success' => true, 'data' => RateResource::collection($feedback)]);
         } catch (\Exception $e) {
