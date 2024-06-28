@@ -19,7 +19,7 @@ configure({
   validateOnInput: true
 })
 
-app.use(createPinia()).use(router.router).use(ElementPlus).use(router.simpleAcl)
+app.use(createPinia()).use(router.router).use(router.simpleAcl).use(ElementPlus)
 
 app.config.globalProperties.$axios = axios
 app.mount('#app')

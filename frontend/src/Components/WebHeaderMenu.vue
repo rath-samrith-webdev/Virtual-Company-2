@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth-store'
 import { useRouter } from 'vue-router'
-
 const router = useRouter()
 const store = useAuthStore()
 
@@ -25,7 +24,7 @@ function handleCommand(command) {
       <img src="@/assets/logo/care_finder-02.png" alt="" srcset="" width="175">
     </div>
 
-    <!-- Menu Items -->
+    <!-- Hospital Menu -->
     <nav class="flex justify-center space-x-4 ms-lg-4" v-if="store.user && store.roles[0]=='hospital'">
       <router-link
         to="/"
@@ -52,6 +51,7 @@ function handleCommand(command) {
       </router-link
       >
     </nav>
+    <!-- User Menu -->
     <nav class="flex justify-center space-x-4 ms-lg-4" v-if="store.user && store.roles[0]=='user'">
       <router-link
         to="/"

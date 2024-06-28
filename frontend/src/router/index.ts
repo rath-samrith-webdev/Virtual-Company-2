@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import axiosInstance from '@/plugins/axios'
 import { useAuthStore } from '@/stores/auth-store'
 import { createAcl, defineAclRules } from 'vue-simple-acl'
+
 const simpleAcl = createAcl()
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -49,6 +50,11 @@ const router = createRouter({
       path: '/contact',
       name: 'contact',
       component: () => import('../views/Web/ContactView.vue')
+    },
+    {
+      path: '/hospital/dashboard',
+      name: 'dashboard',
+      component: () => import('../views/Web/Hospital/DashboardView.vue')
     },
     {
       path:'/appointment',
