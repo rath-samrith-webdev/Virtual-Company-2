@@ -8,8 +8,12 @@
               <el-descriptions-item label="Username">Rath</el-descriptions-item>
               <el-descriptions-item label="Telephone">123456789</el-descriptions-item>
               <el-descriptions-item label="Place">Cambodia</el-descriptions-item>
-              <el-descriptions-item label="Remarks"><el-tag size="small">PNC</el-tag></el-descriptions-item>
-              <el-descriptions-item label="Address">No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province</el-descriptions-item>
+              <el-descriptions-item label="Remarks">
+                <el-tag size="small">PNC</el-tag>
+              </el-descriptions-item>
+              <el-descriptions-item label="Address">No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu
+                Province
+              </el-descriptions-item>
             </el-descriptions>
           </el-card>
           <el-card class="card">
@@ -17,12 +21,16 @@
               <el-descriptions-item label="Username">Rath</el-descriptions-item>
               <el-descriptions-item label="Telephone">123456789</el-descriptions-item>
               <el-descriptions-item label="Place">Cambodia</el-descriptions-item>
-              <el-descriptions-item label="Remarks"><el-tag size="small">PNC</el-tag></el-descriptions-item>
-              <el-descriptions-item label="Address">No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province</el-descriptions-item>
+              <el-descriptions-item label="Remarks">
+                <el-tag size="small">PNC</el-tag>
+              </el-descriptions-item>
+              <el-descriptions-item label="Address">No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu
+                Province
+              </el-descriptions-item>
             </el-descriptions>
           </el-card>
         </el-tab-pane>
-        
+
         <el-tab-pane label="Personal Information">
           <el-card class="card">
             <div class="demo-type">
@@ -42,7 +50,9 @@
               >
                 <el-button type="warning" class="upload-button" @click="clickUploadButton">
                   Upload Profile
-                  <el-icon class="el-icon--right"><Upload /></el-icon>
+                  <el-icon class="el-icon--right">
+                    <Upload />
+                  </el-icon>
                 </el-button>
               </el-upload>
             </div>
@@ -63,7 +73,10 @@
               <el-descriptions-item label="City">Phom Penh</el-descriptions-item>
             </el-descriptions>
             <el-descriptions title="Others" :column="3" :size="size" border class="margin-top">
-              <el-descriptions-item label="Blood Type"><el-tag size="small">O+</el-tag></el-descriptions-item>
+              <el-descriptions-item label="Blood Type">
+                <el-tag size="small">O+</el-tag>
+              </el-descriptions-item>
+
               <el-descriptions-item label="Age">30</el-descriptions-item>
               <el-descriptions-item label="Father's Name">Yaya</el-descriptions-item>
               <el-descriptions-item label="Mother's Name">Papa</el-descriptions-item>
@@ -80,10 +93,7 @@
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
-import { 
-  ChatLineRound, DataAnalysis, FirstAidKit, Location, Memo, 
-  Position, Search, Service, SuitcaseLine, User, View, Edit, Upload 
-} from '@element-plus/icons-vue'
+import { Upload } from '@element-plus/icons-vue'
 
 // State variables
 const source = ref(172000)
@@ -106,14 +116,14 @@ const handleRemove = (file, fileList) => {
 const beforeUpload = (file) => {
   const isJPG = file.type === 'image/jpeg'
   const isPNG = file.type === 'image/png'
-  const isLt2M = file.size / 1024 / 1024 < 2
+  const isLt10M = file.size / 1024 / 1024 < 10
 
   if (!isJPG && !isPNG) {
     ElMessage.error('Upload image only in JPG or PNG format!')
     return false
   }
-  if (!isLt2M) {
-    ElMessage.error('Upload image size should be less than 2MB!')
+  if (!isLt10M) {
+    ElMessage.error('Upload image size should be less than 10MB!')
     return false
   }
   return true
