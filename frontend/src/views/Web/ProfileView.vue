@@ -19,6 +19,7 @@ import {
 } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 
+<<<<<<< HEAD
 const source = ref(0)
 const feedbacks = ref(0)
 const outputValue = useTransition(source, {
@@ -70,6 +71,8 @@ const handleSuccess = (response, file, fileList) => {
 const clickUploadButton = () => {
   uploadRef.value.submit()
 }
+=======
+>>>>>>> 8eb9201367c713e41da394b599c0968522545fd8
 </script>
 
 <template>
