@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import axiosInstance from '@/plugins/axios'
 import { useAuthStore } from '@/stores/auth-store'
 import { createAcl, defineAclRules } from 'vue-simple-acl'
-
 const simpleAcl = createAcl()
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -60,7 +59,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  const publicPages = ['/landing', '/login', '/about', '/contact']
+  const publicPages = ['/landing', '/login', '/about', '/contact','/appointment']
   const authRequired = !publicPages.includes(to.path)
   const store = useAuthStore()
 
