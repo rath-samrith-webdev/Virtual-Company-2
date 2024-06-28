@@ -129,17 +129,19 @@ async function Register() {
         <!--Sign Up Form-->
         <form action="" @submit.prevent="Register" class="sign-up-form">
           <h2 class="title">Sign up</h2>
-          <div class="input-field">
-            <el-icon :size="20">
-              <UserFilled />
-            </el-icon>
-            <input type="text" v-model="registerCredential.first_name" placeholder="First Name" />
-          </div>
-          <div class="input-field">
-            <el-icon :size="20">
-              <UserFilled />
-            </el-icon>
-            <input type="text" v-model="registerCredential.last_name" placeholder="Last Name" />
+          <div class="d-flex">
+            <div class="input-field d-flex gap-1 align-items-center">
+              <el-icon :size="20">
+                <UserFilled />
+              </el-icon>
+              <input type="text" v-model="registerCredential.first_name" placeholder="First Name" />
+            </div>
+            <div class="input-field d-flex align-items-center">
+              <el-icon :size="20">
+                <UserFilled />
+              </el-icon>
+              <input type="text" v-model="registerCredential.last_name" placeholder="Last Name" />
+            </div>
           </div>
           <div class="input-field">
             <el-icon :size="20">
@@ -166,8 +168,8 @@ async function Register() {
             <input type="password" v-model="registerCredential.password_confirmation" placeholder="Confirm Password" />
           </div>
           <div class="input-field">
-            <select class="select" v-model="registerCredential.user_type">
-              <option selected>Select who you are</option>
+            <select class="select form-control" v-model="registerCredential.user_type">
+              <option selected value="" hidden>Who are you?</option>
               <option value="user">Normal User</option>
               <option value="hospital">Hospital Owner</option>
             </select>
