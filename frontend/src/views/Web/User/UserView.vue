@@ -1,6 +1,6 @@
 <template>
     <div>
-       <web-layout></web-layout>  
+      <web-layout></web-layout>
       <carousel-view></carousel-view>
       <card-top-hospital></card-top-hospital>
       <serves-card></serves-card>
