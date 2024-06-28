@@ -6,7 +6,8 @@ const store = useAuthStore()
 
 function handleLogout() {
   localStorage.removeItem('access_token')
-   router.push('/landing')
+  store.user=null
+  router.push('/landing')
 }
 </script>
 <template>
@@ -80,7 +81,7 @@ function handleLogout() {
     <div>
       <router-link v-if="!store.user" to="/login" class="btn py-1 rounded font-semibold text-white log-in ">Get Started
       </router-link>
-      <button v-if="store.user" @click="handleLogout" class="btn px-4 py-1 rounded font-semibold">Log out</button>
+      <button v-if="store.user!=null" @click="handleLogout" class="btn px-4 py-1 rounded font-semibold">Log out</button>
     </div>
   </header>
 </template>

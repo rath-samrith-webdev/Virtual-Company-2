@@ -2,7 +2,14 @@
 import { onMounted } from 'vue'
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import { Lock, Message, UserFilled } from '@element-plus/icons-vue/global'
+import axiosInstance from '@/plugins/axios'
+import { useRouter } from 'vue-router'
 
+const router=useRouter()
+const loginCredential: { email: string, password: string } = {
+  email: '',
+  password: ''
+}
 onMounted(() => {
   {
     const sign_in_btn = document.querySelector('#sign-in-btn')
@@ -24,24 +31,42 @@ onMounted(() => {
     })
   }
 })
+async function LogIn(){
+  try{
+    const { data } = await axiosInstance.post('/login', loginCredential)
+    localStorage.setItem('access_token', data.access_token)
+    if(data.role=='hospital'){
+      ///
+    }else if(data.role=='admin'){
+      router.push('/admin/dashboard')
+    }else {
+      router.push('/')
+    }
+    console.log(data)
+  }catch(error){
+    console.log(error)
+    router.push('/login')
+  }
+}
 </script>
 <template>
   <WebLayout>
     <div class="container">
       <div class="signin-signup">
-        <form action="" class="sign-in-form">
+        <!--Login Form-->
+        <form action="" @submit.prevent="LogIn" class="sign-in-form">
           <h2 class="title">Sign in</h2>
           <div class="input-field">
             <el-icon :size="20">
               <UserFilled />
             </el-icon>
-            <input type="text" placeholder="Email" />
+            <input type="email" v-model="loginCredential.email" placeholder="Email" />
           </div>
           <div class="input-field">
             <el-icon :size="20">
               <Lock />
             </el-icon>
-            <input type="password" placeholder="Password" />
+            <input type="password" v-model="loginCredential.password" placeholder="Password" />
           </div>
           <p class="social-text">Or Sign in with social platform</p>
           <div class="social-media">
@@ -73,6 +98,7 @@ onMounted(() => {
             Don't have an account? <a href="#" id="sign-up-btn2">Sign up</a>
           </p>
         </form>
+        <!--Sign Up Form-->
         <form action="" class="sign-up-form">
           <h2 class="title">Sign up</h2>
           <div class="input-field">
