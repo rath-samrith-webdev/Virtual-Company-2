@@ -46,7 +46,12 @@
             <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ card.address }}</p>
             <p class="card-text"><i class="fas fa-phone-alt"></i> {{ card.contact }}</p>
             <p class="card-text">{{ card.description }}</p>
-            <el-rate v-model="card.rating" clearable />
+            <el-rate
+              v-model="card.rating"
+              disabled
+              show-score
+              text-color="#ff9900"
+            />
             <div class="mt-2">
               <button type="button" class="btn btn-warning"><i class="fas fa-info-circle"></i> See Details</button>
             </div>

@@ -53,7 +53,7 @@ async function LogIn() {
     const { data } = await axiosInstance.post('/login', loginCredential)
     localStorage.setItem('access_token', data.access_token)
     if (data.role == 'hospital') {
-      ///
+      router.push('/hospital/dashboard')
     } else if (data.role == 'admin') {
       router.push('/admin/dashboard')
     } else {

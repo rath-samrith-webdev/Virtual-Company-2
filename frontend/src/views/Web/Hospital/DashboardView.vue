@@ -221,13 +221,11 @@ onMounted(() => {
         <el-table-column label="Content" prop="status" />
         <el-table-column label="Stars" prop="star">
           <template #default="star">
-            <div v-if="star.row.star===5" class="d-flex align-items-center gap-2">
-              <el-icon v-for="item in star.row.star" :key="item"><StarFilled /></el-icon>
-            </div>
-            <div v-if="star.row.star<5" class="d-flex align-items-center gap-2">
-              <el-icon v-for="item in star.row.star" :key="item"><StarFilled /></el-icon>
-              <el-icon v-for="item in 5-star.row.star" :key="item"><Star /></el-icon>
-            </div>
+            <el-rate
+              v-model="star.row.star"
+              disabled
+              text-color="#ff9900"
+            />
           </template>
         </el-table-column>
         <el-table-column align="right">
