@@ -124,11 +124,13 @@
             label-width="auto"
             style="max-width: 2000px"
           >
-            <el-form-item>
+            <el-form-item class="hello">
               <el-input
                 v-model="form.desc"
-                type="textarea"
+                type="text"
                 placeholder="Write your comment here!"
+                class="custom-input"
+                
               />
             </el-form-item>
             <el-form-item>
@@ -271,6 +273,10 @@ const comments = [
 
 const onSubmit = () => {
   // Logic for form submission can be added here
+  ElMessage.success('Form submitted successfully!')
+  console.log('hello');
+  
+  
 }
 </script>
 
@@ -367,5 +373,13 @@ const onSubmit = () => {
   width: 90%;
   box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
 }
+.custom-input {
+  font-size: 1rem;
+  background: #fcb22d;
+  padding: 1px;
+  height: 8vh;
+  
+}
+
 
 </style>

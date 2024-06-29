@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import Chart from 'chart.js/auto'
-import { computed, onMounted, ref,h } from 'vue'
-import { CircleCheck, Close,Plus } from '@element-plus/icons-vue/global'
+import { computed, h, onMounted, ref } from 'vue'
+import { Message, Plus,StarFilled,Star } from '@element-plus/icons-vue/global'
 import { ElNotification } from 'element-plus'
 
+let dialogOverflowVisible = ref(false)
 const tableData: User[] = [
   {
     id: 1,
     date: '2016-05-02',
     name: 'wangxiaohu',
     status: 'Accepted',
+    star:5,
     address: 'No. 189, Grove St, Los Angeles'
   },
   {
@@ -18,6 +20,7 @@ const tableData: User[] = [
     date: '2016-05-04',
     name: 'wangxiaohu',
     status: 'Accepted',
+    star:5,
     address: 'No. 189, Grove St, Los Angeles'
   },
   {
@@ -25,34 +28,22 @@ const tableData: User[] = [
     date: '2016-05-01',
     name: 'wangxiaohu',
     status: 'Accepted',
-    address: 'No. 189, Grove St, Los Angeles',
-    children: [
-      {
-        id: 31,
-        date: '2016-05-01',
-        name: 'wangxiaohu',
-        address: 'No. 189, Grove St, Los Angeles'
-      },
-      {
-        id: 32,
-        date: '2016-05-01',
-        name: 'wangxiaohu',
-        address: 'No. 189, Grove St, Los Angeles'
-      }
-    ]
+    star:4,
+    address: 'No. 189, Grove St, Los Angeles'
   },
   {
     id: 4,
     date: '2016-05-03',
     name: 'wangxiaohu',
     status: 'Rejected',
+    star:3,
     address: 'No. 189, Grove St, Los Angeles'
   }
 ]
 const data = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
   datasets: [{
-    label: 'Total Feedback',
+    label: 'Total Appointments',
     data: [65, 59, 80, 81, 26, 55, 40, 81, 26, 55, 40, 50],
     fill: true,
     borderColor: 'rgb(75, 192, 192)'
@@ -61,7 +52,7 @@ const data = {
 const data2 = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
   datasets: [{
-    label: 'Total Appointment',
+    label: 'Total Feedback',
     data: [65, 59, 80, 81, 26, 55, 40, 81, 26, 55, 40, 50],
     fill: true,
     backgroundColor: [
@@ -94,7 +85,7 @@ const config = {
         duration: 1000,
         easing: 'linear',
         from: 1,
-        to: 0,
+        to: 0
       }
     },
     scales: {
@@ -105,26 +96,26 @@ const config = {
     }
   }
 }
-let delayed;
+let delayed
 const config2 = {
   type: 'bar',
   data: data2,
   options: {
     animation: {
       onComplete: () => {
-        delayed = true;
+        delayed = true
       },
       delay: (context) => {
-        let delay = 0;
+        let delay = 0
         if (context.type === 'data' && context.mode === 'default' && !delayed) {
-          delay = context.dataIndex * 300 + context.datasetIndex * 100;
+          delay = context.dataIndex * 300 + context.datasetIndex * 100
         }
-        return delay;
-      },
+        return delay
+      }
     },
     scales: {
       x: {
-        stacked: true,
+        stacked: true
       },
       y: {
         stacked: true
@@ -134,23 +125,25 @@ const config2 = {
 }
 
 interface User {
+  id: string
   date: string
   name: string
   address: string
-  status:string
+  status: string
 }
+
 const open4 = () => {
   ElNotification({
     title: 'Appointment Rejection',
     type: 'success',
-    message: h('i', { style: 'color: green' }, 'Rejected Successfully'),
+    message: h('i', { style: 'color: green' }, 'Rejected Successfully')
   })
 }
 const open = () => {
   ElNotification({
-    title: 'Appointment Acceptation',
-    type: 'success',
-    message: h('i', { style: 'color: green' }, 'Accepted Successfully'),
+    title: 'Warning',
+    type: 'error',
+    message: h('i', { style: 'color: red' }, 'Input field is required')
   })
 }
 const search = ref('')
@@ -159,17 +152,22 @@ const filterTableData = computed(() =>
     (data) =>
       !search.value ||
       data.name.toLowerCase().includes(search.value.toLowerCase())
-  ),
+  )
 )
 const handleEdit = (index: number, row: User) => {
-  console.log(index, row)
-  row.status='Accepted'
-  open()
+  console.log(index, row.id)
+  dialogOverflowVisible.value = true
+  replyFeedback.value.rate_id = row.id
 }
-const handleDelete = (index: number, row: User) => {
-  console.log(index, row)
-  row.status='Rejected'
-  open4()
+const replyFeedback = ref({
+  rate_id: '',
+  content: ''
+})
+const sentReply = () => {
+  dialogOverflowVisible.value = false
+  if (replyFeedback.value.content === '') {
+    open()
+  }
 }
 onMounted(() => {
   const feedBack = document.getElementById('chartOne')
@@ -187,7 +185,10 @@ onMounted(() => {
     <div class="flex flex-wrap mt-6">
       <div class="w-full lg:w-1/2 pr-0 lg:pr-2">
         <p class="text-xl text-center">
-          <el-icon><Plus/></el-icon> Monthly Reports
+          <el-icon>
+            <Plus />
+          </el-icon>
+          Total Appointments
         </p>
         <div class="p-6 bg-white">
           <canvas id="chartOne" width="400" height="200"></canvas>
@@ -195,7 +196,8 @@ onMounted(() => {
       </div>
       <div class="w-full lg:w-1/2 pl-0 lg:pl-2 mt-12 lg:mt-0">
         <p class="text-xl text-center">
-          <el-icon></el-icon> Total Feedback
+          <el-icon></el-icon>
+          Total Feedbacks
         </p>
         <div class="p-6 bg-white">
           <canvas id="chartTwo" width="400" height="200"></canvas>
@@ -204,49 +206,37 @@ onMounted(() => {
     </div>
     <div class="px-2">
       <div class="p2 mt-2" style="background-color: #fcb22d">
-        <h3 class="text-center">Recent Appointment</h3>
+        <h3 class="text-center text-white">Recent Feedback</h3>
       </div>
       <el-table :data="filterTableData" style="width: 100%">
-        <el-table-column label="Date" prop="date" />
-        <el-table-column label="Name" prop="name" >
+        <el-table-column label="Sent by" prop="name">
           <template #default="avatar">
             <div class="d-flex align-items-center gap-4">
-              <el-avatar src="https://media.licdn.com/dms/image/C5603AQEy_W2B5osjlQ/profile-displayphoto-shrink_800_800/0/1610784133410?e=1724889600&v=beta&t=CA6qUP_8mLjqs-qd1ZtXt0UEdfIOeCl0MQkuFVWYw2Y"></el-avatar>
-              {{avatar.row.name}}
+              <el-avatar
+                src="https://media.licdn.com/dms/image/C5603AQEy_W2B5osjlQ/profile-displayphoto-shrink_800_800/0/1610784133410?e=1724889600&v=beta&t=CA6qUP_8mLjqs-qd1ZtXt0UEdfIOeCl0MQkuFVWYw2Y"></el-avatar>
+              {{ avatar.row.name }}
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="Status" prop="status">
-          <template #default="scope">
-            <el-tag
-              :type="scope.row.status === 'Accepted' ? 'success' : 'danger'"
-              disable-transitions
-            >{{ scope.row.status }}
-            </el-tag
-            >
+        <el-table-column label="Content" prop="status" />
+        <el-table-column label="Stars" prop="star">
+          <template #default="star">
+            <el-rate
+              v-model="star.row.star"
+              disabled
+              text-color="#ff9900"
+            />
           </template>
         </el-table-column>
         <el-table-column align="right">
           <template #header>
-            <el-input v-model="search" size="small" placeholder="Type to search" />
+            <el-input v-model="search" size="small" placeholder="Type user name to search" />
           </template>
           <template #default="scope">
-            <el-button size="small" v-if="scope.row.status !== 'Accepted'" @click="handleEdit(scope.$index, scope.row)">
-              <el-tooltip class="box-item" effect="dark" content="Accept" placement="top-start">
+            <el-button size="small" @click="handleEdit(scope.$index, scope.row)">
+              <el-tooltip class="box-item" effect="dark" content="Reply Feedback" placement="top-start">
                 <el-icon :size="15">
-                  <CircleCheck />
-                </el-icon>
-              </el-tooltip>
-            </el-button>
-            <el-button
-              v-if="scope.row.status !== 'Rejected'"
-              size="small"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)"
-            >
-              <el-tooltip class="box-item" effect="dark" content="Reject" placement="top-start">
-                <el-icon :size="15">
-                  <Close />
+                  <Message />
                 </el-icon>
               </el-tooltip>
             </el-button>
@@ -254,6 +244,24 @@ onMounted(() => {
         </el-table-column>
       </el-table>
     </div>
+    <el-dialog
+      v-model="dialogOverflowVisible"
+      title="Reply Feedback"
+      width="500"
+      draggable
+      overflow
+    >
+      <el-input v-model="replyFeedback.rate_id" type="hidden" name="rate_id" />
+      <el-input class="el-input clearable" v-model="replyFeedback.content" name="content" />
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="dialogOverflowVisible = false">Cancel</el-button>
+          <el-button type="primary" @click="sentReply">
+            Confirm
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
   </WebLayout>
 </template>
 <style scoped>

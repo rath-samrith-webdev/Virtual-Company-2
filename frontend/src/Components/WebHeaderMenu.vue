@@ -1,14 +1,20 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth-store'
 import { useRouter } from 'vue-router'
-
 const router = useRouter()
 const store = useAuthStore()
 
 function handleLogout() {
   localStorage.removeItem('access_token')
-  store.user=null
+  store.user = null
   router.push('/landing')
+}
+function handleCommand(command) {
+  if (command === 'profile') {
+    router.push('/profile')
+  } else if (command === 'logout') {
+    handleLogout()
+  }
 }
 </script>
 <template>
@@ -21,20 +27,23 @@ function handleLogout() {
     <!-- Hospital Menu -->
     <nav class="flex justify-center space-x-4 ms-lg-4" v-if="store.user && store.roles[0]=='hospital'">
       <router-link
-        to="/hospital"
+        to="/"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
       >Home
       </router-link
       >
       <router-link
-        to="/hospital/Dashboard"
+        to="/hospital"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
-      >Dashboard
-      </router-link>
-      <router-link to="/map"
-                   class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900">
-        Appointments
-      </router-link>
+      >Feedbacks
+      </router-link
+      >
+      <router-link
+        to="/map"
+        class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+      >Appointments
+      </router-link
+      >
       <router-link
         to="/reports"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
@@ -63,9 +72,9 @@ function handleLogout() {
       </router-link
       >
       <router-link
-        to="/reports"
+        to="/appointment"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
-      >Reports
+      >Appointments
       </router-link
       >
     </nav>
@@ -80,7 +89,19 @@ function handleLogout() {
     <div>
       <router-link v-if="!store.user" to="/login" class="btn py-1 rounded font-semibold text-white log-in ">Get Started
       </router-link>
-      <button v-if="store.user!=null" @click="handleLogout" class="btn px-4 py-1 rounded font-semibold">Log out</button>
+      <el-dropdown trigger="click" v-if="store.user!=null">
+        <span class="el-dropdown-link">
+          <el-avatar></el-avatar>
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item><router-link to="/profile" class="nav-link">Profile</router-link></el-dropdown-item>
+            <el-dropdown-item>
+              <button @click="handleLogout" class="nav-link">Log out</button>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </div>
   </header>
 </template>

@@ -50,7 +50,7 @@ class HospitalController extends Controller
      */
     public function show(Hospital $hospital)
     {
-        //
+        return response()->json(['success' => true, 'data' => new HospitalResource($hospital)], 200);
     }
 
     /**
