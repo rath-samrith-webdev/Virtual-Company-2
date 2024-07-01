@@ -2,16 +2,17 @@
   <WebLayout>
     <div>
       <div class="appointment">
-        <h1>Appointment</h1>
+        <h1>Customers' Appointment</h1>
       </div>
       <el-table v-if="showTable" :data="tableData" height="450" style="width: 100%" class="mt-3">
         <!-- Profile Column -->
         <el-table-column label="Profile" width="120">
           <template #default="scope">
-            <img :src="scope.row.profile" alt="Profile Image" style="width: 50px; height: 50px; border-radius: 50%;" @click="showDetails(scope.row)">
+            <img :src="scope.row.profile" alt="Profile Image" style="width: 50px; height: 50px; border-radius: 50%;"
+                 @click="showDetails(scope.row)">
           </template>
         </el-table-column>
-        
+
         <!-- Name Column -->
         <el-table-column prop="name" label="Name" width="180" />
 
@@ -20,9 +21,22 @@
 
         <!-- Age Column -->
         <el-table-column prop="age" label="Age" />
-
+        <!--Status Column-->
+        <el-table-column prop="status" label="Status" :filters="[
+        { text: 'Confirmed', value: 'Confirmed' },
+        { text: 'Pending', value: 'Pending' },
+        { text: 'Denied', value: 'Denied' },
+      ]" :filter-method="filterTag" filter-placement="bottom-end">
+          <template #default="scope">
+            <el-tag
+              :type="scope.row.status === 'Confirmed' ? 'success' : 'Pending' ? 'warning' : 'danger'"
+              disable-transitions
+            >{{ scope.row.status }}
+            </el-tag>
+          </template>
+        </el-table-column>
         <!-- Tag Column -->
-        <el-table-column label="Tag">
+        <el-table-column label="Action">
           <template #default="scope">
             <el-popover placement="right" :width="700" trigger="click">
               <div class="card-header">
@@ -53,10 +67,10 @@
 </template>
 
 <script setup lang="ts">
-import WebLayout from '@/Components/Layouts/WebLayout.vue';
-import { onMounted } from 'vue';
+import WebLayout from '@/Components/Layouts/WebLayout.vue'
+import { onMounted } from 'vue'
 
-const showTable = true;
+const showTable = true
 const tableData = [
   {
     profile: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXJA32WU4rBpx7maglqeEtt3ot1tPIRWptxA&s',
@@ -68,6 +82,7 @@ const tableData = [
     time: '12:08:30',
     age: '29',
     sex: 'Male',
+    status: 'Confirmed'
   },
   {
     profile: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXJA32WU4rBpx7maglqeEtt3ot1tPIRWptxA&s',
@@ -79,6 +94,7 @@ const tableData = [
     time: '12:08:30',
     age: '29',
     sex: 'Male',
+    status: 'Pending'
   },
   {
     profile: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXJA32WU4rBpx7maglqeEtt3ot1tPIRWptxA&s',
@@ -90,21 +106,31 @@ const tableData = [
     time: '12:08:30',
     age: '29',
     sex: 'Male',
-  },
-];
+    status: 'Denied'
+  }
+]
 
 // Function to show details popover
 function showDetails(row: any) {
   // Implement your logic to show details here
-  console.log('Showing details for:', row);
+  console.log('Showing details for:', row)
 }
 
 onMounted(() => {
   // Function to close popover
   function closePopover() {
-    $refs.popover.hide();
+    $refs.popover.hide()
   }
-});
+})
+interface User {
+  date: string
+  name: string
+  address: string
+  status: string
+}
+const filterTag = (value: string, row: User) => {
+  return row.status === value
+}
 </script>
 
 <style scoped>
