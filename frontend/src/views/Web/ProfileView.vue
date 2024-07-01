@@ -116,14 +116,14 @@ const handleRemove = (file, fileList) => {
 const beforeUpload = (file) => {
   const isJPG = file.type === 'image/jpeg'
   const isPNG = file.type === 'image/png'
-  const isLt2M = file.size / 1024 / 1024 < 2
+  const isLt10M = file.size / 1024 / 1024 < 10
 
   if (!isJPG && !isPNG) {
     ElMessage.error('Upload image only in JPG or PNG format!')
     return false
   }
-  if (!isLt2M) {
-    ElMessage.error('Upload image size should be less than 2MB!')
+  if (!isLt10M) {
+    ElMessage.error('Upload image size should be less than 10MB!')
     return false
   }
   return true
