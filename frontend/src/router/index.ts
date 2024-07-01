@@ -70,6 +70,11 @@ const router = createRouter({
       path:'/hospital/feedbacks',
       name:'feedbacks',
       component:()=>import('../views/Web/Hospital/FeedbackView.vue')
+    },
+    {
+      path:'/hospital/appointments',
+      name:'appointments',
+      component: () => import('../views/Web/AppointmentDoctorView.vue')
     }
   ]
 })
