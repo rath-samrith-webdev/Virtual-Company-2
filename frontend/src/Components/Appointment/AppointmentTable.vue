@@ -1,76 +1,103 @@
-<script setup lang="ts">
-const showTable= true
-const tableData = [
-  {
-    name: 'Rith Sreynang',
-    doctor: 'phal him',
-    department: 'Health centre',
-    phone_number: '012023334',
-    date: '2016-05-02',
-    time: '12:08:30',
-    age: '29',
-    sex: 'Male'
-  },
-  {
-    name: 'Radit THY',
-    doctor: 'phal him',
-    department: 'Health centre',
-    phone_number: '012023334',
-    date: '2016-05-02',
-    time: '12:08:30',
-    age: '29',
-    sex: 'Male'
-  },
-  {
-    name: 'Radit THY',
-    doctor: 'phal him',
-    department: 'Health centre',
-    phone_number: '012023334',
-    date: '2016-05-02',
-    time: '12:08:30',
-    age: '29',
-    sex: 'Male'
-  }
-]
-
-function closePopover() {
-  $refs.popover.hide()
-}
-</script>
 <template>
   <div>
     <div class="appointment">
-      <h1>My Appointments</h1>
+      <h1>Appointment</h1>
     </div>
     <el-table v-if="showTable" :data="tableData" height="450" style="width: 100%" class="mt-3">
       <el-table-column prop="name" label="Name" width="180" />
       <el-table-column prop="date" label="Date" />
       <el-table-column prop="age" label="Age" />
-      <el-table-column label="Action">
+
+      <el-table-column label="Tag">
         <template #default="scope">
-          <el-popover placement="right" :width="700" trigger="click">
-            <div class="card-header">
-              <h3>Appointment Details</h3>
-            </div>
-            <div class="card-body">
-              <p><b>Name:</b> {{ scope.row.name }}</p>
-              <p><b>Doctor:</b> {{ scope.row.doctor }}</p>
-              <p><b>Department:</b> {{ scope.row.department }}</p>
-              <p><b>Phone Number:</b> {{ scope.row.phone_number }}</p>
-              <p><b>Date:</b> {{ scope.row.date }}</p>
-              <p><b>Time:</b> {{ scope.row.time }}</p>
-              <p><b>Age:</b> {{ scope.row.age }}</p>
-              <p><b>Gender:</b> {{ scope.row.sex }}</p>
-            </div>
-            <template #reference>
-              <el-button size="small">Details</el-button>
-            </template>
-          </el-popover>
+          <el-button plain @click="openDialog(scope.row)">
+            Details
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
+    <el-dialog v-model="visible" :show-close="false" width="500">
+      <div class="card-body">
+        <p><b>Name:</b> {{ currentAppointment.name }}</p>
+        <p><b>Doctor:</b> {{ currentAppointment.doctor }}</p>
+        <p><b>Department:</b> {{ currentAppointment.department }}</p>
+        <p><b>Phone Number:</b> {{ currentAppointment.phone_number }}</p>
+        <p><b>Date:</b> {{ currentAppointment.date }}</p>
+        <p><b>Time:</b> {{ currentAppointment.time }}</p>
+        <p><b>Age:</b> {{ currentAppointment.age }}</p>
+        <p><b>Gender:</b> {{ currentAppointment.sex }}</p>
+      </div>
+      <template #header="{ close, titleId, titleClass }">
+        <div class="my-header">
+          <h2 :id="titleId" :class="titleClass">
+            Appointment Details
+          </h2>
+        </div>
+      </template>
+      <div class="buttonClose">
+         <el-button type="danger" @click="closeDialog">
+            Close
+        </el-button>
+      </div>
+       
+    </el-dialog>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'AppointmentTable',
+  data() {
+    return {
+      showTable: true,
+      visible: false,
+      currentAppointment: {},
+      tableData: [
+        {
+          name: 'Rith Sreynang',
+          doctor: 'phal him',
+          department: 'Health centre',
+          phone_number: '012023334',
+          date: '2016-05-02',
+          time: '12:08:30',
+          age: '29',
+          sex: 'Male',
+        },
+        {
+          name: 'Radit THY',
+          doctor: 'phal him',
+          department: 'Health centre',
+          phone_number: '012023334',
+          date: '2016-05-02',
+          time: '12:08:30',
+          age: '29',
+          sex: 'Male',
+        },
+        {
+          name: 'Radit THY',
+          doctor: 'phal him',
+          department: 'Health centre',
+          phone_number: '012023334',
+          date: '2016-05-02',
+          time: '12:08:30',
+          age: '29',
+          sex: 'Male',
+        },
+      ],
+    };
+  },
+  methods: {
+    openDialog(row) {
+      this.currentAppointment = row;
+      this.visible = true;
+    },
+    closeDialog() {
+      this.visible = false;
+    },
+  },
+};
+</script>
+
 <style scoped>
 .appointment {
   height: 8vh;
@@ -78,26 +105,25 @@ function closePopover() {
   color: white;
   text-align: center;
 }
-
-.mt-3 {
-  margin-top: 1rem;
-}
-
-.detail-card {
-  width: 400px;
-}
-
-.card-header {
-  font-weight: bold;
+.my-header{
   text-align: center;
-  background-color: #32B4E3;
-  color: white;
-  padding: 10px;
-}
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #32B4E3;
+  height: 5vh;
+  border-radius: 5px;
 
-.card-body {
-  padding: 16px;
-  line-height: 1.6;
+}
+.my-header h2{
+  text-align: center;
+  color: white;
+
+}
+.el-dialog{
+  background: #32B4E3;
+}
+.buttonClose{
+  margin-left: 400px;
 }
 </style>
-  
