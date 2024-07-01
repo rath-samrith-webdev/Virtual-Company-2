@@ -77,7 +77,7 @@ h1{
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 350px; 
+  height: 350px;
   padding: 20px;
   box-sizing: border-box;
   background: #ffffff;
@@ -87,7 +87,7 @@ h1{
 
 .card-img {
   width: 100%;
-  height: 400px; 
+  height: 400px;
   object-fit: cover;
   border-radius: 4px;
 
@@ -95,7 +95,7 @@ h1{
 
 .card-content h1 {
   font-size: 1.5em;
-  
+
 }
 
 .card-content p {
@@ -122,7 +122,7 @@ h1{
 
 .el-carousel__item {
   background-color: #efefef;
- 
+
 }
 .el-carousel__item p{
    text-align: center;
