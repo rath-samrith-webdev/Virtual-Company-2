@@ -27,13 +27,13 @@ function handleCommand(command) {
     <!-- Hospital Menu -->
     <nav class="flex justify-center space-x-4 ms-lg-4" v-if="store.user && store.roles[0]=='hospital'">
       <router-link
-        to="/"
+        to="/hospital/dashboard"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
       >Home
       </router-link
       >
       <router-link
-        to="/hospital"
+        to="/hospital/feedbacks"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
       >Feedbacks
       </router-link
@@ -109,7 +109,7 @@ function handleCommand(command) {
 header {
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 11;
 }
 
 .log-in {
