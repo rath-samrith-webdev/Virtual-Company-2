@@ -3,8 +3,7 @@
     <h1>Best Services for You</h1>
     <ol>
       <li v-for="(service, index) in services" :key="index">
-        <div class="card">
-          <div class="icon"><i :class="service.icon"></i></div>
+        <div class="cards">
           <div class="image"><img :src="service.img" alt="Service Image"></div>
           <div class="description">{{ service.description }}</div>
         </div>
@@ -19,12 +18,12 @@ export default {
   data() {
     return {
       services: [
-        { icon: 'fa-solid fa-bicycle', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2PX42mnQYYC1mslqZI81r-38sqWmBUdwmIw&s', description: 'General Check-up' },
-        { icon: 'fa-solid fa-car', img: 'https://cdn-icons-png.flaticon.com/256/341/341144.png', description: 'Emergency & Trauma' },
-        { icon: 'fa-solid fa-helicopter', img: 'https://www.shareicon.net/data/2016/07/04/790710_heart_512x512.png', description: 'Heart' },
-        { icon: 'fa-solid fa-plane', img: 'https://cdn-icons-png.flaticon.com/512/12106/12106213.png', description: 'GI Center' },
-        { icon: 'fa-solid fa-rocket', img: 'https://t3.ftcdn.net/jpg/00/74/04/96/360_F_74049623_E5SmzacMCYhsmNB3PxGzgtgFzauB93PD.jpg', description: 'Ambulance' },
-        { icon: 'fa-solid fa-bus', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT9prAP7T1frpb6qLq4lINSirnG7sS-FIZvQ&s', description: 'Children' }
+        { icon: 'fa-solid fa-bicycle', img: 'https://cdn.pixabay.com/photo/2020/12/09/16/41/stethoscope-5817919_960_720.png', description: 'General Check-up' },
+        { icon: 'fa-solid fa-car', img: 'https://cdn.pixabay.com/photo/2021/08/30/07/52/bed-6585117_1280.png', description: 'Emergency & Trauma' },
+        { icon: 'fa-solid fa-helicopter', img: 'https://cdn.pixabay.com/photo/2017/01/31/23/23/heart-2028154_1280.png', description: 'Heart' },
+        { icon: 'fa-solid fa-plane', img: 'https://cdn.pixabay.com/photo/2014/04/03/10/31/stomach-310730_1280.png', description: 'GI Center' },
+        { icon: 'fa-solid fa-rocket', img: 'https://cdn.pixabay.com/photo/2021/05/12/17/23/the-ambulance-6248792_1280.png', description: 'Ambulance' },
+        { icon: 'fa-solid fa-bus', img: 'https://cdn.pixabay.com/photo/2024/04/02/14/27/ai-generated-8670974_1280.png', description: 'Children' }
       ]
     };
   }
@@ -33,7 +32,7 @@ export default {
 
 <style scoped>
 .cardServes {
-  padding: 2rem 1rem;
+  padding:10%;
   background-color: var(--bgColor);
   color: var(--color);
 }
@@ -41,7 +40,7 @@ export default {
 h1 {
   text-align: center;
   margin-bottom: 2rem;
-  font-size: 2.5rem;
+  font-weight: bold;
   color: var(--color);
   color: orange;
 }
@@ -67,17 +66,13 @@ li {
   padding: 1rem;
   transition: transform 0.3s;
 }
-
-li:hover {
-  transform: translateY(-10px);
-}
-
-.card {
+.cards {
   width: 100%;
+  margin-top: 5%;
   text-align: center;
   background-color: white;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 4px solid orange;
   padding: 1.5rem;
 }
 
@@ -90,6 +85,7 @@ li:hover {
   width: 13rem; 
   height: 10rem; 
   margin-bottom: 1rem;
+  margin-top: -90px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -99,7 +95,8 @@ li:hover {
   width: 100%;
   height: 100%;
   object-fit: contain; 
-  border-radius: 50%;
+  /* background: white;/ */
+  /* border-radius: 50%; */
 }
 
 .description {

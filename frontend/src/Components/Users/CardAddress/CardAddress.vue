@@ -155,12 +155,10 @@ export default {
 }
 .card {
   background: white;
-  border: 1px solid yellow;
+  border: 1px solid orange;
   transition: box-shadow 0.3s ease-in-out;
 }
-.card:hover {
-  box-shadow: 0 4px 8px 0 rgb(247, 219, 8), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
+
 .card-img-top {
   max-height: 200px;
   object-fit: cover;
