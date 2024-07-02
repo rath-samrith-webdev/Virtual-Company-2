@@ -59,7 +59,6 @@ async function LogIn() {
     } else {
       router.push('/')
     }
-    console.log(data)
   } catch (error) {
     console.log(error)
     router.push('/login')

@@ -84,14 +84,14 @@ function handleCommand(command) {
       <router-link to="" class=" fw-bold pl-5 text-dark" style="text-decoration: none;">Service</router-link>
       <router-link to="/contact" class=" fw-bold pl-5 text-dark" style="text-decoration: none;">Contact</router-link>
     </nav>
-
     <!-- Sign In -->
     <div>
       <router-link v-if="!store.user" to="/login" class="btn py-1 rounded font-semibold text-white log-in ">Get Started
       </router-link>
       <el-dropdown trigger="click" v-if="store.user!=null">
         <span class="el-dropdown-link">
-          <el-avatar></el-avatar>
+          <el-avatar v-if="store.user.profile==='No profile'">{{store.user.first_name[0]}} {{store.user.last_name[0]}}</el-avatar>
+          <el-avatar v-if="store.user.profile!=='No profile'" :src="store.user.profile"></el-avatar>
         </span>
         <template #dropdown>
           <el-dropdown-menu>
