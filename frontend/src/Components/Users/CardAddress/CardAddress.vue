@@ -135,7 +135,6 @@ export default {
   },
   mounted() {
     this.fetchHospital()
-    
   }
 }
 </script>
