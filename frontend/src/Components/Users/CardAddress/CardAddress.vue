@@ -39,15 +39,20 @@
     <div class="row row-cols-1 row-cols-md-3">
       <div class="col" v-for="(card, index) in filteredCards" :key="index">
         <div class="card h-100">
-          <img :src="card.img" class="card-img-top" alt="...">
+          <div class="card_image">
+            <img v-if="card.cover_image!=='No cover'" :src="card.cover_image" class="card-img-top" alt="...">
+              <h4 v-if="card.cover_image=='No cover'" >
+                <img src="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1" alt="" width="400px">
+              </h4>
+          </div>
+          
           <div class="card-body">
-            <h3 class="card-title">{{ card.title }}</h3>
-            <h5 class="card-subtitle mb-2 text-muted"><i class="fas fa-clock"></i> {{ card.time }}</h5>
-            <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ card.address }}</p>
-            <p class="card-text"><i class="fas fa-phone-alt"></i> {{ card.contact }}</p>
-            <p class="card-text">{{ card.description }}</p>
+            <h3 class="card-title">{{ card.name }}</h3>
+            <h5 class="card-subtitle mb-2 text-muted"><i class="fas fa-clock"></i> {{  }}</h5>
+            <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ }}</p>
+            <p class="card-text"><i class="fas fa-phone-alt"></i> {{ }}</p>
+            <p class="card-text">{{ }}</p>
             <el-rate
-              v-model="card.rating"
               disabled
               show-score
               text-color="#ff9900"
@@ -65,7 +70,8 @@
 <script>
 import { ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
-
+import axiosInstance from '@/plugins/axios'
+import { da } from 'element-plus/es/locales.mjs';
 export default {
   name: 'CardAddress',
   components: {
@@ -102,45 +108,33 @@ export default {
         { value: 'Tboung Khmum', label: 'Tboung Khmum' },
       ],
       searchQuery: '',
-      cardAddress: [
-        {
-          img: 'https://chamberbusinessnews.com/wp-content/uploads/2024/06/New-Tower-Exteriors-6-5-241-scaled.jpg',
-          title: 'Orchid Hospital',
-          time: '24/7',
-          address: 'Banteay Meanchey',
-          contact: '+123 456 7890',
-          description: 'Orchid Hospital provides comprehensive healthcare services with state-of-the-art facilities and experienced staff.',
-          rating: 3,
-        },
-        {
-          img: 'https://i.ytimg.com/vi/y296UElmNCs/maxresdefault.jpg',
-          title: 'General Hospital',
-          time: '24/7',
-          address: 'Battambang',
-          contact: '+987 654 3210',
-          description: 'General Hospital offers a wide range of medical services, ensuring the best care for all patients.',
-          rating: 4,
-        },
-        {
-          img: 'https://slhd.health.nsw.gov.au/sites/default/files/2022-11/2022.01.31%20%5B89918%5D%20Concord%20Hospital%20Redevelopment%20RAY%20WS3-096727.jpg',
-          title: 'Concord Hospital',
-          time: '24/7',
-          address: 'Kampong Cham',
-          contact: '+555 555 5555',
-          description: 'Concord Hospital is known for its excellent patient care and advanced medical technology.',
-          rating: 2,
-        },
-      ]
+      cardAddress: []
     }
   },
   computed: {
     filteredCards() {
       return this.cardAddress.filter(card => {
-        const matchesTitle = card.title.toLowerCase().includes(this.searchQuery.toLowerCase());
-        const matchesOptions = this.selectedOptions.length === 0 || this.selectedOptions.includes(card.address);
+        const matchesTitle = card.name.toLowerCase().includes(this.searchQuery.toLowerCase());
+        const matchesOptions = this.selectedOptions.length === 0 || this.selectedOptions.includes(card.province.toLowerCase());
         return matchesTitle && matchesOptions;
       });
+    },
+  },
+  methods:{
+    async fetchHospital() {
+    try {
+      const { data } = await axiosInstance.get('/hospitals/list')
+      data.data.forEach(hospitals =>{
+        this.cardAddress.push(hospitals)
+      })
+    } catch (error) {
+      console.log(error)
+      return null
     }
+} 
+  },
+  mounted() {
+    this.fetchHospital()
   }
 }
 </script>
@@ -154,7 +148,7 @@ export default {
   color: orange;
 }
 .card {
-  background: white;
+  background: rgb(255, 255, 255);
   border: 1px solid yellow;
   transition: box-shadow 0.3s ease-in-out;
 }
@@ -185,4 +179,15 @@ h1 {
   text-align: center;
   color: orange;
 }
+.card-img-top img{
+  background: #007bff;
+}
+h4 img{
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  
+}
+
+
 </style>
