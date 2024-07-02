@@ -30,8 +30,8 @@ class DatabaseSeeder extends Seeder
             'user_id'=>3,
             'category_id'=>1,
             'name'=>'Angkor Thom',
-            'latitude'=>'11.567547615780182',
-            'longitude'=>'104.89754414346955'
+            'latitude'=>'11.566859422611982',
+            'longitude'=>'104.89597919278232'
         ]);
         Department::create([
             'hospital_id'=>1,

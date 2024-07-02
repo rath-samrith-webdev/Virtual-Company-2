@@ -21,6 +21,9 @@ class HospitalResource extends JsonResource
             'preview_images'=>PreviewImagesResource::collection($this->previewImage()->get()),
             'department'=>$this->departments()->get(),
             'appointment'=>AppointmentResource::collection($this->appointments()->get()),
+            'lat'=>$this->latitude,
+            'lng'=>$this->longitude,
+            'feedbacks'=>RateResource::collection($this->rates()->latest()->get())
         ];
     }
 }
