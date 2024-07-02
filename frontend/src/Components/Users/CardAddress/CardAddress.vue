@@ -48,10 +48,10 @@
           
           <div class="card-body">
             <h3 class="card-title">{{ card.name }}</h3>
-            <h5 class="card-subtitle mb-2 text-muted"><i class="fas fa-clock"></i> {{  }}</h5>
-            <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ }}</p>
-            <p class="card-text"><i class="fas fa-phone-alt"></i> {{ }}</p>
-            <p class="card-text">{{ }}</p>
+            <h5 class="card-subtitle mb-2 text-muted"><i class="fas fa-clock"></i> {{ card.time }}</h5>
+            <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ card.province }}</p>
+            <p class="card-text"><i class="fas fa-phone-alt"></i> {{ card.phone_number }}</p>
+            <p class="card-text">{{ card.title }}</p>
             <el-rate
               disabled
               show-score
@@ -71,7 +71,6 @@
 import { ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
 import axiosInstance from '@/plugins/axios'
-import { da } from 'element-plus/es/locales.mjs';
 export default {
   name: 'CardAddress',
   components: {
@@ -124,6 +123,7 @@ export default {
     async fetchHospital() {
     try {
       const { data } = await axiosInstance.get('/hospitals/list')
+      console.log(data.data);
       data.data.forEach(hospitals =>{
         this.cardAddress.push(hospitals)
       })
@@ -135,6 +135,7 @@ export default {
   },
   mounted() {
     this.fetchHospital()
+    
   }
 }
 </script>
@@ -186,7 +187,7 @@ h4 img{
   width: 100%;
   height: 100%;
   padding: 10px;
-  
+
 }
 
 
