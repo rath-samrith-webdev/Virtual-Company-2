@@ -84,6 +84,7 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         Route::resource('doctors', 'DoctorController');
         Route::resource('departments', 'DepartmentController');
         Route::resource('rates', 'RateController');
+        Route::resource('system-requests', 'SystemRequestController');
 
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
         Route::put('/profile-update', [ProfileController::class, 'update'])->name('profile.update');

@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\SystemRequest;
+use App\Models\SystemRequestCategory;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
@@ -46,6 +48,30 @@ class AdminSeeder extends Seeder
         $user_role = Role::create(['name' => 'user']);
         $hospital_role = Role::create(['name' => 'hospital']);
 
+        $feature=SystemRequestCategory::create([
+            'name'=>'Feature',
+        ]);
+        $feature=SystemRequestCategory::create([
+            'name'=>'Error',
+        ]);
+        $feature=SystemRequestCategory::create([
+            'name'=>'Other',
+        ]);
+        $request=SystemRequest::create([
+            'user_id'=>2,
+            'category_id'=>1,
+            'request_details'=>fake()->sentence()
+        ]);
+        $request=SystemRequest::create([
+            'user_id'=>2,
+            'category_id'=>1,
+            'request_details'=>fake()->sentence()
+        ]);
+        $request=SystemRequest::create([
+            'user_id'=>3,
+            'category_id'=>3,
+            'request_details'=>fake()->sentence()
+        ]);
         $permission = Permission::create(['name' => 'Role access' ,'front_name'=>'role_access']);
         $permission = Permission::create(['name' => 'Role edit' ,'front_name'=>'role_edit']);
         $permission = Permission::create(['name' => 'Role create' ,'front_name'=>'role_create']);

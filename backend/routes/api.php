@@ -9,6 +9,7 @@ use App\Http\Controllers\API\V1\PostController;
 use App\Http\Controllers\API\V1\RateController;
 use App\Http\Controllers\API\V1\RateReplyController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SystemRequestController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -85,6 +86,13 @@ Route::prefix('v1')->group(function () {
         Route::get('/show/{rateReply}',[RateReplyController::class,'show']);
         Route::put('/update/{rateReply}',[RateReplyController::class,'update']);
         Route::delete('/delete/{rateReply}',[RateReplyController::class,'destroy']);
+    });
+    Route::middleware('auth:sanctum')->prefix('system-requests')->group(function () {
+        Route::get('/list',[SystemRequestController::class,'index']);
+        Route::post('/create',[SystemRequestController::class,'store']);
+        Route::get('/show/{systemRequest}',[SystemRequestController::class,'show']);
+        Route::put('/update/{systemRequest}',[SystemRequestController::class,'update']);
+        Route::delete('/delete/{systemRequest}',[SystemRequestController::class,'destroy']);
     });
     Route::get('/post/list', [PostController::class, 'index'])->middleware('auth:sanctum');
 });
