@@ -46,7 +46,6 @@ class AdminSeeder extends Seeder
         $user_role = Role::create(['name' => 'user']);
         $hospital_role = Role::create(['name' => 'hospital']);
 
-
         $permission = Permission::create(['name' => 'Role access' ,'front_name'=>'role_access']);
         $permission = Permission::create(['name' => 'Role edit' ,'front_name'=>'role_edit']);
         $permission = Permission::create(['name' => 'Role create' ,'front_name'=>'role_create']);

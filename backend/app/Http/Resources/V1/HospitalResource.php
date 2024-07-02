@@ -21,6 +21,8 @@ class HospitalResource extends JsonResource
             'preview_images'=>PreviewImagesResource::collection($this->previewImage()->get()),
             'department'=>$this->departments()->get(),
             'appointment'=>AppointmentResource::collection($this->appointments()->get()),
+            'open_time'=>$this->open_time?$this->open_time:'Not set yet',
+            'close_time'=>$this->close_time?$this->close_time:'Not set yet',
             'street'=>$this->street?$this->street:'Not Added yet',
             'village'=>$this->village?$this->village:'Not Added yet',
             'commune'=>$this->commune?$this->commune:'Not Added yet',

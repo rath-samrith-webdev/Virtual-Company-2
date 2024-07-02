@@ -2,6 +2,7 @@
 
 use App\Models\Appointment;
 use App\Models\Hospital;
+use App\Models\Rate;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
@@ -43,16 +44,26 @@ Route::get('/admin/dashboard', function () {
     $users=User::all();
     $appointments=Appointment::all();
     $month=[1,2,3,4,5,6,7,8,9,10,11,12];
+    $stars=[1,2,3,4,5];
     $year = Carbon::now()->year;
     $new_orders_count=[];
+    $new_feedback_count=[];
+    $star_base_count=[];
     foreach ($month as $key => $value) {
         $new_orders_count[] = User::whereYear('created_at', $year)
             ->whereMonth('created_at',$value)->count();
+        $new_feedback_count[]=Rate::whereYear('created_at', $year)
+            ->whereMonth('created_at',$value)->count();
+    }
+    foreach ($stars as $key => $value) {
+        $star_base_count[]=Rate::where('star',$value)->count();
     }
     $data=[
         'label'=>['Hospital','User','Appointment'],
         'data'=>[$hospitals->count(),$users->count(),$appointments->count()],
-        'monthly_user'=>$new_orders_count
+        'monthly_user'=>$new_orders_count,
+        'feedbacks'=>$new_feedback_count,
+        'star_base'=>$star_base_count
     ];
     return view('dashboard',compact('data'));
 })->middleware(['auth'])->name('admin.dashboard');

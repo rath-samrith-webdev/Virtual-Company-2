@@ -13,7 +13,8 @@ class Rate extends Model
     protected $fillable=[
         'hospital_id',
         'user_id',
-        'content'
+        'content',
+        'star'
     ];
     public function hospital(): BelongsTo
     {
