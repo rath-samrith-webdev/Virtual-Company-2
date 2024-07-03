@@ -39,6 +39,67 @@
                             </div>
                         </div>
                     </div>
+                    <div class="mt-3 relative overflow-x-auto">
+                        <p class="text-xl pb-3 flex justify-center items-center">
+                            <i class="fas fa-plus mr-3"></i> Latest Request
+                        </p>
+                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                            <thead
+                                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">
+                                    User Name
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Request For
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Detail
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Status
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Requested
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($data['system_requests'] as $request)
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    <th scope="row"
+                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{$request->user->name}}
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        {{$request->category->name}}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{$request->request_details}}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        Pending
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="bg-blue-100 text-blue-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400">
+                                            <svg class="w-2.5 h-2.5 mr-2" aria-hidden="true"
+                                                 xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                 viewBox="0 0 20 20"><path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z"/></svg>
+                                            @if(\Carbon\Carbon::now()->diffInMinutes($request->created_at) <60)
+                                                {{\Carbon\Carbon::now()->diffInMinutes($request->created_at) }} minutes ago
+                                            @elseif(\Carbon\Carbon::now()->diffInHours($request->created_at) >1)
+                                                {{\Carbon\Carbon::now()->diffInHours($request->created_at) }} Hours ago
+                                            @elseif(\Carbon\Carbon::now()->diffInHours($request->created_at) <24)
+                                                {{\Carbon\Carbon::now()->diffInDays($request->created_at) }} Hours ago
+                                            @endif
+                                        </span>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             @endif
         </main>
@@ -47,11 +108,9 @@
 </x-app-layout>
 <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 <!-- Font Awesome -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"
-        integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
 <!-- ChartJS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
-        integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 
 <script>
     var chartOne = document.getElementById('chartOne');

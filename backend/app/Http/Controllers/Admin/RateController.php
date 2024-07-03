@@ -7,6 +7,7 @@ use App\Models\Hospital;
 use App\Models\Rate;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class RateController extends Controller
@@ -24,15 +25,48 @@ class RateController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $month=[1,2,3,4,5,6,7,8,9,10,11,12];
+        $stars=[0,1,2,3,4,5];
+        $year = Carbon::now()->year;
+        $data=[];
+        $new_orders_count=[];
+        $star_base_count=[];
         try {
             if ($user->hasRole('admin')) {
-                $rates = Rate::all();
+                $data['rates']=Rate::all();
+                foreach ($month as $key => $value) {
+                    $new_orders_count[] = Rate::whereYear('created_at', $year)
+                        ->whereMonth('created_at',$value)->count();
+                }
+                $data['new_orders_count']=$new_orders_count;
+                foreach ($stars as $key => $value) {
+                    $star_base_count[]=Rate::where('star',$value)->count();
+                }
+                $data['star_base_count']=$star_base_count;
             } elseif ($user->hasRole('hospital')) {
-                $rates = $user->hospital->rates()->get();
+                $data['rates'] = $user->hospital->rates()->get();
+                foreach ($month as $key => $value) {
+                    $new_orders_count[] = $user->hospital->rates()->whereYear('created_at', $year)
+                        ->whereMonth('created_at',$value)->count();
+                }
+                $data['new_orders_count']=$new_orders_count;
+                foreach ($stars as $key => $value) {
+                    $star_base_count[]=$user->hospital->rates()->where('star',$value)->count();
+                }
+                $data['star_base_count']=$star_base_count;
             } else {
-                $rates = $user->rates()->get();
+                $data['rates'] = $user->rates()->get();
+                foreach ($month as $key => $value) {
+                    $new_orders_count[] = $user->rates()->whereYear('created_at', $year)
+                        ->whereMonth('created_at',$value)->count();
+                }
+                $data['new_orders_count']=$new_orders_count;
+                foreach ($stars as $key => $value) {
+                    $star_base_count[]=$user->rates()->where('star',$value)->count();
+                }
+                $data['star_base_count']=$star_base_count;
             }
-            return view('rate.index', compact('rates'));
+            return view('rate.index', compact('data'));
         } catch (\Exception $exception) {
             return redirect()->route('rate.index')->with('error', $exception->getMessage());
         }

@@ -3,6 +3,7 @@
 use App\Models\Appointment;
 use App\Models\Hospital;
 use App\Models\Rate;
+use App\Models\SystemRequest;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
@@ -58,12 +59,14 @@ Route::get('/admin/dashboard', function () {
     foreach ($stars as $key => $value) {
         $star_base_count[]=Rate::where('star',$value)->count();
     }
+    $request=SystemRequest::orderByDesc('id')->take(10)->get();
     $data=[
         'label'=>['Hospital','User','Appointment'],
         'data'=>[$hospitals->count(),$users->count(),$appointments->count()],
         'monthly_user'=>$new_orders_count,
         'feedbacks'=>$new_feedback_count,
-        'star_base'=>$star_base_count
+        'star_base'=>$star_base_count,
+        'system_requests'=>$request
     ];
     return view('dashboard',compact('data'));
 })->middleware(['auth'])->name('admin.dashboard');

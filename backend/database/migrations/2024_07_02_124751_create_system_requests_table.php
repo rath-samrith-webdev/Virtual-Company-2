@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('category_id')->constrained('system_request_categories')->onDelete('cascade');
             $table->text('request_details');
+            $table->enum('request_status', ['pending', 'approved'])->default('pending');
             $table->timestamps();
         });
     }

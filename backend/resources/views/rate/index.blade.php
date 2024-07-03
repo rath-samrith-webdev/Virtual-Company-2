@@ -1,4 +1,9 @@
 <x-app-layout>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <!-- Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
+    <!-- ChartJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
         <div class="container mx-auto px-6 py-2">
             <div class="text-right">
@@ -9,6 +14,24 @@
             </div>
             <div class="bg-white rounded my-6 p-5" style="background-color: #FCB22D">
                 <h1 class="text-center font-bold">Feedback List</h1>
+            </div>
+            <div class="flex flex-wrap mt-6">
+                <div class="w-full lg:w-1/2 pr-0 lg:pr-2">
+                    <p class="text-xl pb-3 flex items-center">
+                        <i class="fas fa-plus mr-3"></i> Star Base Feedback
+                    </p>
+                    <div class="p-6 rounded bg-white">
+                        <canvas id="chartThree" width="400" height="200"></canvas>
+                    </div>
+                </div>
+                <div class="w-full lg:w-1/2 pl-0 lg:pl-2 mt-12 lg:mt-0">
+                    <p class="text-xl pb-3 flex items-center">
+                        <i class="fas fa-account mr-3"></i>Monthly Feedback
+                    </p>
+                    <div class="p-6 rounded bg-white">
+                        <canvas id="chartFour" width="400" height="200"></canvas>
+                    </div>
+                </div>
             </div>
             <div class="bg-white shadow-md rounded my-6">
                 <table class="text-left w-full border-collapse table-auto">
@@ -36,7 +59,7 @@
                     </thead>
                     <tbody>
                         @can('Rate access')
-                        @foreach($rates as $rate)
+                        @foreach($data['rates'] as $rate)
                         <tr class="hover:bg-grey-lighter text-start">
                             <td class="py-4 px-4 border-b border-grey-light">{{ $rate->id }}</td>
                             <td class="py-4 px-4 border-b border-grey-light">
@@ -101,5 +124,82 @@
             </div>
         </div>
     </main>
-    </div>
 </x-app-layout>
+<script>
+    var chartThree = document.getElementById('chartThree')
+    var chartFour = document.getElementById('chartFour')
+    let feedback_monthly = {!! json_encode($data['new_orders_count'],JSON_HEX_TAG) !!};
+    let star_base_feedback = {!! json_encode($data['star_base_count'],JSON_HEX_TAG) !!};
+    var FeedbackCategorize = new Chart(chartThree, {
+        type: 'bar',
+        data: {
+            labels: ['Zero Star','One Star', 'Two Star', 'Three Star', 'Four Star', 'Five Star'],
+            datasets: [{
+                label: 'Total Feedback',
+                data: star_base_feedback,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+    var feedbackMonthly = new Chart(chartFour, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'April', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [{
+                label: 'New Feedback',
+                data: feedback_monthly,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
