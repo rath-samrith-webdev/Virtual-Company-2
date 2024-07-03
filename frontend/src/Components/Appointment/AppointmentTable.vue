@@ -35,8 +35,8 @@
         </div>
       </template>
       <div class="buttonClose">
-         <el-button type="danger" @click="closeDialog">
-            Close
+        <el-button type="danger" @click="closeDialog">
+          Close
         </el-button>
       </div>
     </el-dialog>

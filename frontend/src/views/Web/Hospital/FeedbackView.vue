@@ -17,9 +17,9 @@ async function fetchFeedback() {
   }
 }
 fetchFeedback()
-// onMounted(() => {
-//   console.log(tableData.value)
-// })
+onMounted(() => {
+  console.log(tableData)
+})
 const textarea = ref('');
 
 // Function to show details popover
