@@ -18,6 +18,8 @@ class RateResource extends JsonResource
             'id'=>$this->id,
             'content'=>$this->content,
             'user'=>RaterResource::make($this->user),
+            'from'=>$this->user->first_name.' '.$this->user->last_name,
+            'to'=>$this->hospital->name,
             'replies'=>RateReplyResource::collection($this->rateReply()->get())
         ];
     }
