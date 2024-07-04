@@ -1,11 +1,12 @@
 <script setup lang='ts'>
 import axiosInstance from '@/plugins/axios';
-import { onMounted,reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useAuthStore } from '@/stores/auth-store'
 const showTable= true
 let visible= ref(false)
 let currentAppointment= {}
 let tableData= ref([])
+let doctorData= ref([])
 let hospital= ref([])
 const dialogTableVisible = ref(false)
 const store = useAuthStore()
@@ -14,6 +15,8 @@ const form = reactive({
   last_name: store.user.last_name,
   user_id: store.user.id,
   hospital_id:'',
+  doctor_id:'',
+  title:'',
   date1: '',
   date2: '',
   delivery: false,
@@ -24,7 +27,6 @@ const form = reactive({
 async function fetchData() {
   try {
     const { data } = await axiosInstance.get('/appointments/list');
-    console.log(data.data);
     data.data.forEach((appointment)=>{
       tableData.value.push(appointment);
     })
@@ -32,7 +34,17 @@ async function fetchData() {
     console.log(error);
   }
 }
-async function fetchDoctor() {
+async function fetchHospital(hospital_id:any) {
+  try {
+    const { data } = await axiosInstance.get(`/hospitals/show/${hospital_id}`);
+    data.data.forEach((hosp)=>{
+      hospital.value.push(hosp);
+    })
+  } catch (error) {
+    console.log(error);
+  }
+}
+async function fetchHospitals() {
   try {
     const { data } = await axiosInstance.get('/hospitals/list');
     data.data.forEach((hosp)=>{
@@ -42,14 +54,32 @@ async function fetchDoctor() {
     console.log(error);
   }
 }
-const onSubmit = () => {
-  const data={
+async function fetchDoctor(hospital_id:any) {
+  try {
+    const { data } = await axiosInstance.get('/hospitals/show/'.hospital_id);
+    data.data.forEach((hosp)=>{
+      doctorData.value.push(hosp);
+    })
+  } catch (error) {
+    console.log(error);
+  }
+}
+const onSubmit = async () => {
+  const formData={
     'first_name':form.first_name,
     'last_name':form.last_name,
     'user_id':form.user_id,
-    "hospital_id":form.hospital_id,
+    'appointment_date':form.date1.toLocaleDateString(),
+    'hospital_id':form.hospital_id,
+    'title':form.title,
+    'doctor_id':form.doctor_id
   }
-  console.log(data)
+  try {
+    const { data } = await axiosInstance.post('/appointments/create',formData);
+    console.log(data)
+  } catch (error) {
+    console.log(error);
+  }
 }
 function openDialog(row) {
   visible.value = true;
@@ -58,9 +88,12 @@ function openDialog(row) {
 function closeDialog() {
   visible.value = false;
 }
+computed((data)=>{
+    fetchDoctor(form.hospital_id)
+})
 onMounted(()=>{
   fetchData();
-  fetchDoctor();
+  fetchHospitals();
 })
 </script>
 
@@ -90,9 +123,17 @@ onMounted(()=>{
             </el-form-item>
           </el-col>
         </el-form-item>
+        <el-form-item label="Appointment Title">
+          <el-input v-model="form.title" />
+        </el-form-item>
         <el-form-item label="Activity zone">
           <el-select v-model="form.hospital_id" placeholder="please select your zone">
             <el-option v-for="item in hospital" :key="item.id" :label="item.name" :value="item.id" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Select Doctor">
+          <el-select v-model="form.doctor_id" placeholder="please select your zone">
+            <el-option v-for="item in doctorData" :key="item.id" :label="item.name" :value="item.id" />
           </el-select>
         </el-form-item>
         <el-form-item label="Activity time">
