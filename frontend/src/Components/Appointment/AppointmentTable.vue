@@ -1,6 +1,6 @@
 <script setup lang='ts'>
 import axiosInstance from '@/plugins/axios';
-import { computed, onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth-store'
 const showTable= true
 let visible= ref(false)
@@ -54,11 +54,12 @@ async function fetchHospitals() {
     console.log(error);
   }
 }
-async function fetchDoctor(hospital_id:any) {
+async function fetchDoctors(hospital_id:any) {
+  console.log(hospital_id)
   try {
-    const { data } = await axiosInstance.get('/hospitals/show/'.hospital_id);
-    data.data.forEach((hosp)=>{
-      doctorData.value.push(hosp);
+    const { data } = await axiosInstance.get(`/hospitals/show/1`);
+    data.data.doctors.forEach((doctor)=>{
+      doctorData.value.push(doctor);
     })
   } catch (error) {
     console.log(error);
@@ -88,13 +89,14 @@ function openDialog(row) {
 function closeDialog() {
   visible.value = false;
 }
-computed((data)=>{
-    fetchDoctor(form.hospital_id)
-})
 onMounted(()=>{
   fetchData();
   fetchHospitals();
 })
+watch(()=>form.hospital_id,()=>{
+  fetchDoctors(form.hospital_id)
+});
+
 </script>
 
 <template>
@@ -127,12 +129,12 @@ onMounted(()=>{
           <el-input v-model="form.title" />
         </el-form-item>
         <el-form-item label="Activity zone">
-          <el-select v-model="form.hospital_id" placeholder="please select your zone">
+          <el-select v-model="form.hospital_id"  placeholder="please select your zone">
             <el-option v-for="item in hospital" :key="item.id" :label="item.name" :value="item.id" />
           </el-select>
         </el-form-item>
         <el-form-item label="Select Doctor">
-          <el-select v-model="form.doctor_id" placeholder="please select your zone">
+          <el-select v-model="form.doctor_id"  placeholder="please select your zone">
             <el-option v-for="item in doctorData" :key="item.id" :label="item.name" :value="item.id" />
           </el-select>
         </el-form-item>
