@@ -1,8 +1,126 @@
+<script setup lang='ts'>
+import axiosInstance from '@/plugins/axios';
+import { onMounted,reactive, ref } from 'vue'
+import { useAuthStore } from '@/stores/auth-store'
+const showTable= true
+let visible= ref(false)
+let currentAppointment= {}
+let tableData= ref([])
+let hospital= ref([])
+const dialogTableVisible = ref(false)
+const store = useAuthStore()
+const form = reactive({
+  first_name: store.user.first_name,
+  last_name: store.user.last_name,
+  user_id: store.user.id,
+  hospital_id:'',
+  date1: '',
+  date2: '',
+  delivery: false,
+  type: [],
+  resource: '',
+  desc: '',
+})
+async function fetchData() {
+  try {
+    const { data } = await axiosInstance.get('/appointments/list');
+    console.log(data.data);
+    data.data.forEach((appointment)=>{
+      tableData.value.push(appointment);
+    })
+  } catch (error) {
+    console.log(error);
+  }
+}
+async function fetchDoctor() {
+  try {
+    const { data } = await axiosInstance.get('/hospitals/list');
+    data.data.forEach((hosp)=>{
+      hospital.value.push(hosp);
+    })
+  } catch (error) {
+    console.log(error);
+  }
+}
+const onSubmit = () => {
+  const data={
+    'first_name':form.first_name,
+    'last_name':form.last_name,
+    'user_id':form.user_id,
+    "hospital_id":form.hospital_id,
+  }
+  console.log(data)
+}
+function openDialog(row) {
+  visible.value = true;
+  currentAppointment = row;
+}
+function closeDialog() {
+  visible.value = false;
+}
+onMounted(()=>{
+  fetchData();
+  fetchDoctor();
+})
+</script>
+
 <template>
   <div>
     <div class="appointment">
       <h1>Appointment</h1>
     </div>
+    <el-button plain @click="dialogTableVisible = true">
+      Open a Form nested Dialog
+    </el-button>
+    <el-dialog v-model="dialogTableVisible" title="Shipping address" width="800">
+      <el-form :model="form" label-position="top" label-width="auto" style="max-width: 800px">
+        <el-input hidden v-model="form.user_id" />
+        <el-form-item>
+          <el-col :span="11">
+            <el-form-item label="Activity name">
+              <el-input v-model="form.first_name" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="2" class="text-center">
+            <span class="text-gray-500">-</span>
+          </el-col>
+          <el-col :span="11">
+            <el-form-item label="Activity name">
+              <el-input v-model="form.last_name" />
+            </el-form-item>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="Activity zone">
+          <el-select v-model="form.hospital_id" placeholder="please select your zone">
+            <el-option v-for="item in hospital" :key="item.id" :label="item.name" :value="item.id" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Activity time">
+          <el-col :span="11">
+            <el-date-picker
+              v-model="form.date1"
+              type="date"
+              placeholder="Pick a date"
+              style="width: 100%"
+            />
+          </el-col>
+          <el-col :span="2" class="text-center">
+            <span class="text-gray-500">-</span>
+          </el-col>
+          <el-col :span="11">
+            <el-time-picker
+              v-model="form.date2"
+              placeholder="Pick a time"
+              style="width: 100%"
+            />
+          </el-col>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">Create</el-button>
+          <el-button>Cancel</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
     <el-table v-if="showTable" :data="tableData" height="450" style="width: 100%" class="mt-3">
       <el-table-column prop="user.name" label="Name" width="180" class="heading"/>
       <el-table-column prop="hospital" label="Department" width="180" />
@@ -13,7 +131,7 @@
             Details
           </el-button>
           <el-button plain >
-            cancel
+            Cancel
           </el-button>
         </template>
       </el-table-column>
@@ -44,42 +162,6 @@
     </el-dialog>
   </div>
 </template>
-<script>
-import axiosInstance from '@/plugins/axios';
-
-export default {
-  name: 'AppointmentTable',
-  data() {
-    return {
-      showTable: true,
-      visible: false,
-      currentAppointment: {},
-      tableData: []
-    };
-  },
-  methods: {
-    async fetchData() {
-      try {
-        const { data } = await axiosInstance.get('/appointments/list');
-        console.log(data);
-        this.tableData = data.data;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    openDialog(row) {
-      this.currentAppointment = row;
-      this.visible = true;
-    },
-    closeDialog() {
-      this.visible = false;
-    }
-  },
-  mounted() {
-    this.fetchData();
-  }
-};
-</script>
 <style scoped>
 .appointment {
   height: 8vh;
