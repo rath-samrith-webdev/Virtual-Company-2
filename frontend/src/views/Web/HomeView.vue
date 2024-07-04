@@ -421,7 +421,7 @@ feedbacks.value = 512
   <el-container class="px2 d-flex flex-column mt-20">
     <el-row class="d-flex justify-content-around mt-3 gap-3 p-5">
       <el-col :span="5" class="d-flex flex-column justify-content-between align-items-center mb-3">
-        <div class="d-flex justify-content-between" style="width: 100%">
+        <!-- <div class="d-flex justify-content-between" style="width: 100%">
           <el-tooltip class="box-item" effect="dark" content="Gmail" placement="top-start">
             <el-avatar fit="cover" class="bg-white">
               <Search style="width: 2em; height: 2em; color: #32b4e3" />
@@ -437,11 +437,11 @@ feedbacks.value = 512
               <Location style="width: 2em; height: 2em; color: #32b4e3" />
             </el-avatar>
           </el-tooltip>
-        </div>
-        <h1 class="text-center" style="font-size: 90px; font-weight: bold">
+        </div> -->
+        <!-- <h1 class="text-center" style="font-size: 90px; font-weight: bold">
           <span class="text-#32B4E3 font-bold">H</span>ospital
-        </h1>
-        <div class="d-flex justify-content-between" style="width: 100%">
+        </h1> -->
+        <!-- <div class="d-flex justify-content-between" style="width: 100%">
           <el-tooltip class="box-item" effect="dark" content="Gmail" placement="top-start">
             <el-avatar class="bg-white">
               <User style="width: 2em; height: 2em; color: #32b4e3" />
@@ -457,27 +457,41 @@ feedbacks.value = 512
               <DataAnalysis style="width: 2em; height: 2em; color: #32b4e3" />
             </el-avatar>
           </el-tooltip>
+        </div> -->
+        <div class="text-center">
+          <img class="w-150" src="@/assets/image/hospital-icon.png" alt="image" />
         </div>
       </el-col>
-      <el-col :span="5" class="d-flex flex-column justify-start align-items-start mt-3">
+      <el-col :span="7" class="d-flex flex-column justify-start align-items-start mt-10">
         <div>
           <h1 class="text-center" style="font-size: 90px; font-weight: bold">
-            <span class="text-#32B4E3 font-bold">H</span>ospital
+            <span class="text-#32B4E3 font-bold">H</span>ospital <span class="text-#32B4E3 font-bold">S</span>upport
           </h1>
-          <el-timeline>
+          <el-timeline class="mt-4">
             <el-timeline-item class="text-start"
-            >Browse through our professionally designed selection of free template and customize a
-              design for any occasion.
+              >Bring a good book. Have a book you've been trying. 
             </el-timeline-item>
             <el-timeline-item class="text-start"
-            >Browse through our professionally designed selection.
+              >If your diet allows, ask for your favorite food or snack
+            </el-timeline-item>
+            <el-timeline-item class="text-start"
+              >to get through for a while but never had the time.
+            </el-timeline-item>
+            <el-timeline-item class="text-start"
+              >Hospitals and Private health facilities Hospitals.
+            </el-timeline-item>
+            <el-timeline-item class="text-start"
+              >Surround yourself with positive people. 
+            </el-timeline-item>
+            <el-timeline-item class="text-start"
+              >Display pictures of your family and friends.
             </el-timeline-item>
           </el-timeline>
         </div>
       </el-col>
     </el-row>
   </el-container>
-  <el-container class="container-fluid value px-20 d-flex flex-column align-items-center">
+  <el-container class="container-fluid value px-20 d-flex flex-column align-items-center mt-30">
     <div class="container inner d-flex justify-content-center align-items-center">
       <h1 class="text-center font-bold">
         <span class="text-#FCB22D font-bold">O</span>ur
@@ -488,7 +502,7 @@ feedbacks.value = 512
       <el-card style="width: 120px" class="d-flex card-item flex-column align-items-center">
         <div class="d-flex justify-content-center">
           <el-avatar class="bg-white" :size="50">
-            <FirstAidKit style="color: #fcb22d;font-size: 10px" />
+            <FirstAidKit style="color: #fcb22d; font-size: 10px" />
           </el-avatar>
         </div>
         <h3>Mission</h3>
@@ -496,7 +510,7 @@ feedbacks.value = 512
       <el-card style="width: 120px" class="d-flex card-item flex-column align-items-center">
         <div class="d-flex justify-content-center">
           <el-avatar class="bg-white" :size="50">
-            <View style="color: #fcb22d;font-size: 10px" />
+            <View style="color: #fcb22d; font-size: 10px" />
           </el-avatar>
         </div>
         <h3>Vision</h3>
@@ -504,7 +518,7 @@ feedbacks.value = 512
       <el-card style="width: 120px" class="d-flex card-item flex-column align-items-center">
         <div class="d-flex justify-content-center">
           <el-avatar class="bg-white" :size="50">
-            <SuitcaseLine style="color: #fcb22d;font-size: 10px" />
+            <SuitcaseLine style="color: #fcb22d; font-size: 10px" />
           </el-avatar>
         </div>
         <h3>Value</h3>
@@ -512,14 +526,14 @@ feedbacks.value = 512
       <el-card style="width: 120px" class="d-flex card-item flex-column align-items-center">
         <div class="d-flex justify-content-center">
           <el-avatar class="bg-white" :size="50">
-            <Service style="color: #fcb22d;font-size: 10px" />
+            <Service style="color: #fcb22d; font-size: 10px" />
           </el-avatar>
         </div>
         <h3>Service</h3>
       </el-card>
     </div>
   </el-container>
-  <FooterLayout/>
+  <FooterLayout />
 </template>
 <style scoped>
 .bg-card {
@@ -560,8 +574,9 @@ feedbacks.value = 512
 }
 
 .value {
-  height: 70vh;
-  background-image: url('@/assets/image/PhysPatient_SplitWidthHero_1920x1280.png');
+  height: 100vh;
+  /* background-image: url('@/assets/image/PhysPatient_SplitWidthHero_1920x1280.png'); */
+  background-image: url('@/assets/image/value_image.png');
   background-size: cover;
   background-repeat: no-repeat;
 }
