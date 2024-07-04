@@ -7,11 +7,13 @@
       <el-table-column prop="user.name" label="Name" width="180" class="heading"/>
       <el-table-column prop="hospital" label="Department" width="180" />
       <el-table-column prop="appointment_date" label="Date" />
-
-      <el-table-column label="Tag">
+      <el-table-column label="Action">
         <template #default="scope">
           <el-button plain @click="openDialog(scope.row)">
             Details
+          </el-button>
+          <el-button plain >
+            cancel
           </el-button>
         </template>
       </el-table-column>
@@ -42,7 +44,6 @@
     </el-dialog>
   </div>
 </template>
-
 <script>
 import axiosInstance from '@/plugins/axios';
 
@@ -79,8 +80,6 @@ export default {
   }
 };
 </script>
-
-
 <style scoped>
 .appointment {
   height: 8vh;
