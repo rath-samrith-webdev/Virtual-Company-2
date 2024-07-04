@@ -5,7 +5,7 @@ namespace App\Http\Resources\V1;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class HospitalResource extends JsonResource
+class HospitalFavorite extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,10 +18,6 @@ class HospitalResource extends JsonResource
             'id'=>$this->id,
             'name'=>$this->name,
             'cover_image'=>$this->cover_image?asset('/images/hospital/hospital-cover/hospital-'.$this->id.'/'.$this->cover_image):'No Cover Image',
-            'preview_images'=>PreviewImagesResource::collection($this->previewImage()->get()),
-            'department'=>$this->departments()->get(),
-            'appointment'=>AppointmentResource::collection($this->appointments()->get()),
-            'feedbacks'=>RateResource::collection($this->rates()->latest()->get()),
             'open_time'=>$this->open_time?$this->open_time:'Not set yet',
             'close_time'=>$this->close_time?$this->close_time:'Not set yet',
             'street'=>$this->street?$this->street:'Not Added yet',
@@ -31,7 +27,6 @@ class HospitalResource extends JsonResource
             'province'=>$this->province?$this->province:'Not Added yet',
             'lat'=>$this->latitude,
             'lng'=>$this->longitude,
-            'favourite_by'=>$this->favourites()->get()->count()
         ];
     }
 }
