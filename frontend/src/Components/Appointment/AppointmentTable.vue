@@ -36,7 +36,7 @@
           </h2>
         </div>
       </template>
-      <div class="buttonClose">
+      <div class="buttonClose" >
          <el-button type="danger" @click="closeDialog">
             Close
         </el-button>
@@ -106,7 +106,8 @@ export default {
 .el-dialog{
   background: #32B4E3;
 }
-.buttonClose{
+.buttonClose .el-button{
   margin-left: 400px;
+  background: orange;
 }
 </style>
