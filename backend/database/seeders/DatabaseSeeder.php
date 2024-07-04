@@ -49,6 +49,7 @@ class DatabaseSeeder extends Seeder
             'doctor_id'=>1,
             'user_id'=>2,
             'appointment_date'=>'2022-01-01',
+            'appointment_time'=>'09:00',
         ]);
         Rate::create([
             'hospital_id'=>1,

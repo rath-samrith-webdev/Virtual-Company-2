@@ -28,6 +28,7 @@ class AppointmentController extends Controller
             'hospital_id' => 'required|exists:hospitals,id',
             'doctor_id' => 'required|exists:doctors,id',
             'appointment_date' => 'required|date',
+            'appointment_time'=>'required|date_format:H:i',
         ]);
         $data['user_id'] = Auth::id();
         try {

@@ -28,7 +28,8 @@ class HospitalResource extends JsonResource
             'province'=>$this->province?$this->province:'Not Added yet',
             'lat'=>$this->latitude,
             'lng'=>$this->longitude,
-            'feedbacks'=>RateResource::collection($this->rates()->latest()->get())
+            'feedbacks'=>RateResource::collection($this->rates()->latest()->get()),
+            'doctors'=>$this->doctors()->get()
         ];
     }
 }
