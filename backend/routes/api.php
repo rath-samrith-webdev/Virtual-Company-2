@@ -10,7 +10,9 @@ use App\Http\Controllers\API\V1\RateController;
 use App\Http\Controllers\API\V1\RateReplyController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SystemRequestController;
+use App\Mail\TestMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
