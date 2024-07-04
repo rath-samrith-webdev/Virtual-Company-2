@@ -80,12 +80,17 @@ const router = createRouter({
       path: '/map',
       name: 'map',
       component: () => import('../views/Web/User/MapView.vue')
+    },
+    {
+      path: '/favorite',
+      name: 'favorite',
+      component: () => import('../views/Web/User/FavoriteView.vue')
     }
   ]
 })
 
 router.beforeEach(async (to, from, next) => {
-  const publicPages = ['/landing', '/login', '/about', '/contact','/appointment']
+  const publicPages = ['/landing', '/login', '/about', '/contact','/appointment','/favorite']
   const authRequired = !publicPages.includes(to.path)
   const store = useAuthStore()
 
