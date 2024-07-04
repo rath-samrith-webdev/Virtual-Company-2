@@ -3,36 +3,17 @@
     <h1>Search address</h1>
     <div class="search_form">
       <div>
-        <el-select 
-          v-model="selectedOptions"
-          multiple
-          filterable
-          allow-create
-          default-first-option
-          :reserve-keyword="false"
-          placeholder="Select province"
-          style="width: 240px;"
-          size="large"
-        >
-          <el-option
-          
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
+        <el-select v-model="selectedOptions" multiple filterable allow-create default-first-option
+          :reserve-keyword="false" placeholder="Select province" style="width: 240px;" size="large">
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </div>
-      <el-input class=" m-2"
-       :rows="2"
-        prefix-icon="Search"
-        style="width: 1000px"
-         size="large"
-        placeholder="Search province"
-        v-model="searchQuery"
-      >
+      <el-input class=" m-2" :rows="2" prefix-icon="Search" style="width: 1000px" size="large"
+        placeholder="Search province" v-model="searchQuery">
         <template #prefix>
-          <el-icon><search /></el-icon>
+          <el-icon>
+            <search />
+          </el-icon>
         </template>
       </el-input>
     </div>
@@ -40,23 +21,27 @@
       <div class="col" v-for="(card, index) in filteredCards" :key="index">
         <div class="card h-100">
           <div class="card_image">
-            <img v-if="card.cover_image!=='No cover'" :src="card.cover_image" class="card-img-top" alt="...">
-              <h4 v-if="card.cover_image=='No cover'" >
-                <img src="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1" alt="" width="400px">
-              </h4>
+            <img v-if="card.cover_image !== 'No cover'" :src="card.cover_image" class="card-img-top" alt="...">
+            <h4 v-if="card.cover_image == 'No cover'">
+              <img src="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1" alt=""
+                width="400px">
+            </h4>
           </div>
-          
+
           <div class="card-body">
-            <h3 class="card-title">{{ card.name }}</h3>
+            <div class="card-title">
+              <h3>{{ card.name }}</h3>
+              <div class="icon_favorite">
+                <el-icon>
+                  <CollectionTag />
+                </el-icon>
+              </div>
+            </div>
             <h5 class="card-subtitle mb-2 text-muted"><i class="fas fa-clock"></i> {{ card.time }}</h5>
             <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ card.province }}</p>
             <p class="card-text"><i class="fas fa-phone-alt"></i> {{ card.phone_number }}</p>
             <p class="card-text">{{ card.title }}</p>
-            <el-rate
-              disabled
-              show-score
-              text-color="#ff9900"
-            />
+            <el-rate disabled show-score text-color="#ff9900" />
             <div class="mt-2">
               <button type="button" class="btn btn-warning"><i class="fas fa-info-circle"></i> See Details</button>
             </div>
@@ -71,10 +56,12 @@
 import { ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
 import axiosInstance from '@/plugins/axios'
+import { CollectionTag } from '@element-plus/icons-vue'
 export default {
   name: 'CardAddress',
   components: {
     Search,
+    CollectionTag,
   },
   data() {
     return {
@@ -119,19 +106,19 @@ export default {
       });
     },
   },
-  methods:{
+  methods: {
     async fetchHospital() {
-    try {
-      const { data } = await axiosInstance.get('/hospitals/list')
-      console.log(data.data);
-      data.data.forEach(hospitals =>{
-        this.cardAddress.push(hospitals)
-      })
-    } catch (error) {
-      console.log(error)
-      return null
+      try {
+        const { data } = await axiosInstance.get('/hospitals/list')
+        console.log(data.data);
+        data.data.forEach(hospitals => {
+          this.cardAddress.push(hospitals)
+        })
+      } catch (error) {
+        console.log(error)
+        return null
+      }
     }
-} 
   },
   mounted() {
     this.fetchHospital()
@@ -144,50 +131,64 @@ export default {
   width: 90%;
   margin: 100px auto;
 }
+
 .card-title {
   color: orange;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+.icon_favorite {
+  width: 30px;
+  height: 30px;
+}
+
 .card {
   background: rgb(255, 255, 255);
   border: 1px solid yellow;
   transition: box-shadow 0.3s ease-in-out;
 }
+
 .card:hover {
   box-shadow: 0 4px 8px 0 rgb(247, 219, 8), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
 .card-img-top {
   max-height: 200px;
   object-fit: cover;
 }
+
 .btn-warning {
   background-color: #f0ad4e;
   border-color: #f0ad4e;
 }
+
 .btn-primary {
   background-color: #007bff;
   border-color: #007bff;
   margin-left: 10px;
 }
+
 .search_form {
   width: 87%;
   display: flex;
   align-items: center;
   margin-left: 100px;
-  margin-top: 20px;  
+  margin-top: 20px;
 }
+
 h1 {
   text-align: center;
   color: orange;
 }
-.card-img-top img{
+
+.card-img-top img {
   background: #007bff;
 }
-h4 img{
+
+h4 img {
   width: 100%;
   height: 100%;
   padding: 10px;
-
 }
-
-
 </style>
