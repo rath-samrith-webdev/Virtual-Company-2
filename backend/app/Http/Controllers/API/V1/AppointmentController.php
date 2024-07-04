@@ -15,7 +15,7 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        return response()->json(['success'=>true,"appointments"=>AppointmentResource::collection(Appointment::all())],200);
+        return response()->json(['success'=>true,"data"=>AppointmentResource::collection(Appointment::all())],200);
     }
 
     /**
