@@ -2,6 +2,7 @@
 import axiosInstance from '@/plugins/axios';
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth-store'
+import { CirclePlus } from '@element-plus/icons-vue'
 const showTable= true
 let visible= ref(false)
 let currentAppointment= {}
@@ -27,18 +28,9 @@ const form = reactive({
 async function fetchData() {
   try {
     const { data } = await axiosInstance.get('/appointments/list');
+    console.log(data)
     data.data.forEach((appointment)=>{
       tableData.value.push(appointment);
-    })
-  } catch (error) {
-    console.log(error);
-  }
-}
-async function fetchHospital(hospital_id:any) {
-  try {
-    const { data } = await axiosInstance.get(`/hospitals/show/${hospital_id}`);
-    data.data.forEach((hosp)=>{
-      hospital.value.push(hosp);
     })
   } catch (error) {
     console.log(error);
@@ -67,10 +59,9 @@ async function fetchDoctors(hospital_id:any) {
 }
 const onSubmit = async () => {
   const formData={
-    'first_name':form.first_name,
-    'last_name':form.last_name,
     'user_id':form.user_id,
-    'appointment_date':form.date1.toLocaleDateString(),
+    'appointment_date':form.date1,
+    'appointment_time':form.date2,
     'hospital_id':form.hospital_id,
     'title':form.title,
     'doctor_id':form.doctor_id
@@ -104,9 +95,11 @@ watch(()=>form.hospital_id,()=>{
     <div class="appointment">
       <h1>Appointment</h1>
     </div>
-    <el-button plain @click="dialogTableVisible = true">
-      Open a Form nested Dialog
-    </el-button>
+    <div class="mt-2 p-1">
+      <el-button plain @click="dialogTableVisible = true">
+        <el-icon><CirclePlus/></el-icon>
+      </el-button>
+    </div>
     <el-dialog v-model="dialogTableVisible" title="Shipping address" width="800">
       <el-form :model="form" label-position="top" label-width="auto" style="max-width: 800px">
         <el-input hidden v-model="form.user_id" />
@@ -128,12 +121,12 @@ watch(()=>form.hospital_id,()=>{
         <el-form-item label="Appointment Title">
           <el-input v-model="form.title" />
         </el-form-item>
-        <el-form-item label="Activity zone">
+        <el-form-item label="Select a hospital">
           <el-select v-model="form.hospital_id"  placeholder="please select your zone">
             <el-option v-for="item in hospital" :key="item.id" :label="item.name" :value="item.id" />
           </el-select>
         </el-form-item>
-        <el-form-item label="Select Doctor">
+        <el-form-item label="Select a Doctor">
           <el-select v-model="form.doctor_id"  placeholder="please select your zone">
             <el-option v-for="item in doctorData" :key="item.id" :label="item.name" :value="item.id" />
           </el-select>
@@ -144,6 +137,8 @@ watch(()=>form.hospital_id,()=>{
               v-model="form.date1"
               type="date"
               placeholder="Pick a date"
+              format="YYYY/MM/DD"
+              value-format="YYYY-MM-DD"
               style="width: 100%"
             />
           </el-col>
@@ -155,6 +150,7 @@ watch(()=>form.hospital_id,()=>{
               v-model="form.date2"
               placeholder="Pick a time"
               style="width: 100%"
+              value-format="HH:mm"
             />
           </el-col>
         </el-form-item>
@@ -166,8 +162,9 @@ watch(()=>form.hospital_id,()=>{
     </el-dialog>
     <el-table v-if="showTable" :data="tableData" height="450" style="width: 100%" class="mt-3">
       <el-table-column prop="user.name" label="Name" width="180" class="heading"/>
-      <el-table-column prop="hospital" label="Department" width="180" />
+      <el-table-column prop="hospital" label="Hospital" width="180" />
       <el-table-column prop="appointment_date" label="Date" />
+      <el-table-column prop="appointment_date" label="Status" />
       <el-table-column label="Action">
         <template #default="scope">
           <el-button plain @click="openDialog(scope.row)">
@@ -182,12 +179,13 @@ watch(()=>form.hospital_id,()=>{
     <el-dialog v-model="visible" :show-close="false" width="500">
       <div class="card-body">
         <p><b>Name:</b> {{ currentAppointment.user.name }}</p>
-        <p><b>Doctor:</b> {{ currentAppointment.user.doctor }}</p>
-        <p><b>Department:</b> {{ currentAppointment.hospital }}</p>
+        <p><b>Doctor:</b> {{ currentAppointment.doctor }}</p>
+        <p><b>Hospital:</b> {{ currentAppointment.hospital }}</p>
         <p><b>Phone Number:</b> {{ currentAppointment.user.phone_number }}</p>
         <p><b>Date:</b> {{ currentAppointment.appointment_date }}</p>
         <p><b>Time:</b> {{ currentAppointment.user.time }}</p>
-        <p><b>Age:</b> {{ currentAppointment.user.age }}</p>
+        <p><b>Room No:</b> {{ currentAppointment.user.time }}</p>
+        <p><b>Status:</b> Confirmed</p>
         <p><b>Gender:</b> {{ currentAppointment.user.gender }}</p>
       </div>
       <template #header="{ close, titleId, titleClass }">
