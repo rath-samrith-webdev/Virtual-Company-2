@@ -1,100 +1,25 @@
-<template>
-  <WebLayout>
-    <div>
-      <div class="appointment">
-        <h1>Feedback List</h1>
-      </div>
-      <el-table v-if="showTable" :data="tableData" height="550" style="width: 100%" class="mt-3">
-        <!-- Profile Column -->
-        <el-table-column label="Profile" width="300">
-          <template #default="scope">
-            <div class="profile-column">
-              <img :src="scope.row.profile" alt="Profile Image" class="profile-image" @click="showDetails(scope.row)">
-              <div class="profile-info">
-                <p>{{ scope.row.name }}</p>
-                <p>{{ scope.row.email }}</p>
-              </div>
-            </div>
-          </template>
-        </el-table-column>
-
-        <!-- Content Column -->
-        <el-table-column prop="content" label="Content" width="310" />
-
-        <!-- From Column -->
-        <el-table-column prop="from" label="From" width="250" />
-
-        <!-- To Column -->
-        <el-table-column prop="to" label="To" width="250" />
-
-        <!-- Star Column -->
-        <el-table-column label="Star" width="150">
-          <template #default="scope">
-            <el-rate
-              v-model="scope.row.star"
-              disabled
-              text-color="#ff9900"
-            />
-          </template>
-        </el-table-column>
-
-        <!-- Action Column -->
-        <el-table-column label="Action">
-          <template #default="scope">
-            <el-popover placement="right" width="600" trigger="click">
-              <div class="card-header">
-                <!-- <h4>Reply to customer </h4> -->
-              </div>
-              <div class="card-body">
-                <el-input v-model="textarea" style="width: 540px; border: none;" :rows="5" type="textarea" placeholder="Please input"></el-input>
-                <div class="button">
-                  <el-button type="primary" @click="handleWarningClick">Send</el-button>
-                </div>
-              </div>
-              <template #reference>
-                <el-button size="small">Reply</el-button>
-              </template>
-            </el-popover>
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
-  </WebLayout>
-</template>
-
 <script setup lang="ts">
 import WebLayout from '@/Components/Layouts/WebLayout.vue';
 import { ref } from 'vue';
+import axiosInstance from '@/plugins/axios';
+import { onMounted } from 'vue'
 
 const showTable = ref(true);
-const tableData = ref([
-  {
-    profile: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXJA32WU4rBpx7maglqeEtt3ot1tPIRWptxA&s',
-    name: 'Phal Him',
-    email: 'phal.him@example.com',
-    content: 'Service is good for this hospital',
-    from: 'Dr. Smith',
-    to: 'Royal Phnom Penh',
-    star: 4,
-  },{
-    profile: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXJA32WU4rBpx7maglqeEtt3ot1tPIRWptxA&s',
-    name: 'Phal Him',
-    email: 'phal.him@example.com',
-    content: 'Service is good for this hospital',
-    from: 'Dr. Smith',
-    to: 'Royal Phnom Penh',
-    star: 5,
-  },
-   {
-    profile: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXJA32WU4rBpx7maglqeEtt3ot1tPIRWptxA&s',
-    name: 'Phal Him',
-    email: 'phal.him@example.com',
-    content: 'Service is good for this hospital',
-    from: 'Dr. Smith',
-    to: 'Royal Phnom Penh',
-    star: 2,
-   }
-]);
+const tableData = ref([]);
+async function fetchFeedback() {
+  try {
+    const { data } = await axiosInstance.get('/feedbacks/list')
+    data.data.forEach((feedback) => {
+      tableData.value.push(feedback)
+    })
+  } catch (error) {
+    console.error(error)
+  }
+}
+fetchFeedback()
+onMounted(() => {
+  console.log(tableData)
+})
 const textarea = ref('');
 
 // Function to show details popover
@@ -111,6 +36,67 @@ function handleWarningClick(event: Event) {
 }
 </script>
 
+<template>
+  <WebLayout>
+    <div>
+      <div class="appointment">
+        <h1>Feedback List</h1>
+      </div>
+      <el-table v-if="showTable" :data="tableData" height="550" style="width: 100%" class="mt-3">
+        <!-- Profile Column -->
+        <el-table-column label="Profile" width="250">
+          <template #default="scope">
+            <div class="profile-column">
+              <el-avatar v-if="scope.row.user.profile==='No profile'"></el-avatar>
+              <el-avatar v-if="scope.row.user.profile!=='No profile'" :src="scope.row.user.profile"></el-avatar>
+              <div class="profile-info">
+                <p>{{ scope.row.user.full_name }}</p>
+                <!-- <p>{{ scope.row.email }}</p> -->
+              </div>
+            </div>
+          </template>
+        </el-table-column>
+
+        <!-- Content Column -->
+        <el-table-column prop="content" label="Content" width="310" />
+
+        <!-- From Column -->
+        <el-table-column prop="from" label="From" width="250" />
+
+        <!-- To Column -->
+        <el-table-column prop="to" label="To" width="250" />
+
+        <!-- Star Column -->
+        <el-table-column label="Star" width="180">
+          <template #default="scope">
+            <el-rate v-model="scope.row.star" disabled text-color="#ff9900" />
+          </template>
+        </el-table-column>
+
+        <!-- Action Column -->
+        <el-table-column label="Action">
+          <template #default="scope">
+            <el-popover placement="right" width="600" trigger="click">
+              <div class="card-header">
+                <!-- <h4>Reply to customer </h4> -->
+              </div>
+              <div class="card-body">
+                <el-input v-model="textarea" style="width: 540px; border: none;" :rows="5" type="textarea"
+                  placeholder="Please input"></el-input>
+                <div class="button">
+                  <el-button type="primary" @click="handleWarningClick">Send</el-button>
+                </div>
+              </div>
+              <template #reference>
+                <el-button size="small">Reply</el-button>
+              </template>
+            </el-popover>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+  </WebLayout>
+</template>
 <style scoped>
 .appointment {
   height: 8vh;
@@ -148,7 +134,10 @@ function handleWarningClick(event: Event) {
 .detail-card {
   width: 400px;
 }
-
+.profile-info, p{
+  text-align: center;
+  margin-top: 10px;
+}
 .card-header {
   color: white;
   padding: 10px;
