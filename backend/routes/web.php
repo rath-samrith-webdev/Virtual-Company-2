@@ -42,7 +42,7 @@ Route::get('/admin/dashboard', function () {
     $users = User::all();
     $appointments = Appointment::all();
     $month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-    $stars = [1, 2, 3, 4, 5];
+    $stars = [0, 1, 2, 3, 4, 5];
     $year = Carbon::now()->year;
     $new_orders_count = [];
     $new_feedback_count = [];

@@ -4,6 +4,7 @@ use App\Http\Controllers\API\V1\AppointmentController;
 use App\Http\Controllers\API\V1\CategoryController;
 use App\Http\Controllers\API\V1\DepartmentController;
 use App\Http\Controllers\API\V1\DoctorController;
+use App\Http\Controllers\API\V1\FavouriteController;
 use App\Http\Controllers\API\V1\HospitalController;
 use App\Http\Controllers\API\V1\PostController;
 use App\Http\Controllers\API\V1\RateController;
@@ -30,6 +31,8 @@ Route::prefix('v1')->group(function () {
 
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/forget-password', [AuthController::class, 'forgetPassword']);
+    Route::post('/reset-password', [AuthController::class, 'resetPassword']);
     Route::post('/profileUpload',[AuthController::class, 'profileUpload'])->middleware('auth:sanctum');
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
     Route::get('/me', [AuthController::class, 'index'])->middleware('auth:sanctum');
@@ -91,10 +94,17 @@ Route::prefix('v1')->group(function () {
     });
     Route::middleware('auth:sanctum')->prefix('system-requests')->group(function () {
         Route::get('/list',[SystemRequestController::class,'index']);
+        Route::get('/categories',[SystemRequestController::class,'categories']);
         Route::post('/create',[SystemRequestController::class,'store']);
         Route::get('/show/{systemRequest}',[SystemRequestController::class,'show']);
         Route::put('/update/{systemRequest}',[SystemRequestController::class,'update']);
         Route::delete('/delete/{systemRequest}',[SystemRequestController::class,'destroy']);
+    });
+    Route::middleware('auth:sanctum')->prefix('favourites')->group(function () {
+        Route::get('/list',[FavouriteController::class,'index']);
+        Route::post('/create',[FavouriteController::class,'store']);
+        Route::put('/update/{favourite}',[FavouriteController::class,'update']);
+        Route::delete('/delete/{favourite}',[FavouriteController::class,'destroy']);
     });
     Route::get('/post/list', [PostController::class, 'index'])->middleware('auth:sanctum');
 });

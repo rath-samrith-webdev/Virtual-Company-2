@@ -10,9 +10,9 @@ class SystemRequestController extends Controller
 {
     function __construct()
     {
-        $this->middleware('role_or_permission:Role access|Role create|Role edit|Role delete', ['only' => ['index','show']]);
-        $this->middleware('role_or_permission:Role create', ['only' => ['create','store']]);
-        $this->middleware('role_or_permission:Role edit', ['only' => ['edit','update']]);
+        $this->middleware('role_or_permission:Role access|Role create|Role edit|Role delete', ['only' => ['index', 'show']]);
+        $this->middleware('role_or_permission:Role create', ['only' => ['create', 'store']]);
+        $this->middleware('role_or_permission:Role edit', ['only' => ['edit', 'update']]);
         $this->middleware('role_or_permission:Role delete', ['only' => ['destroy']]);
     }
     /**
@@ -51,7 +51,7 @@ class SystemRequestController extends Controller
      */
     public function edit(SystemRequest $systemRequest)
     {
-        return view('system_request.edit',compact('systemRequest'));
+        return view('system_request.edit', compact('systemRequest'));
     }
 
     /**
@@ -63,13 +63,13 @@ class SystemRequestController extends Controller
      */
     public function update(Request $request, SystemRequest $systemRequest)
     {
-        $data=$request->validate([
-            'request_status'=>'required|string',
+        $data = $request->validate([
+            'request_status' => 'required',
         ]);
         try {
             $systemRequest->update($data);
-            return redirect()->back()->withSuccess('Role updated !!!');
-        }catch (\Exception $exception){
+            return redirect()->back()->withSuccess('Request updated !!!');
+        } catch (\Exception $exception) {
             return redirect()->back()->withErrors([$exception->getMessage()]);
         }
     }
@@ -82,7 +82,7 @@ class SystemRequestController extends Controller
      */
     public function destroy(SystemRequest $systemRequest)
     {
-        $role->delete();
-        return redirect()->back()->withSuccess('Role deleted !!!');
+        $systemRequest->delete();
+        return redirect()->back()->withSuccess('Request deleted !!!');
     }
 }

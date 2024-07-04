@@ -56,4 +56,8 @@ class Hospital extends Model
     {
         return $this->hasMany(Rate::class);
     }
+    public function favourites():HasMany
+    {
+        return $this->hasMany(Favourite::class);
+    }
 }

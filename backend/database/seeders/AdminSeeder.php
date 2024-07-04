@@ -77,6 +77,11 @@ class AdminSeeder extends Seeder
         $permission = Permission::create(['name' => 'Role create' ,'front_name'=>'role_create']);
         $permission = Permission::create(['name' => 'Role delete','front_name'=>'role_delete']);
 
+        $permission = Permission::create(['name' => 'System-Request access' ,'front_name'=>'system_request_access']);
+        $permission = Permission::create(['name' => 'System-Request edit' ,'front_name'=>'system_request_edit']);
+        $permission = Permission::create(['name' => 'System-Request create' ,'front_name'=>'system_request_create']);
+        $permission = Permission::create(['name' => 'System-Request delete','front_name'=>'system_request_delete']);
+
         $permission = Permission::create(['name' => 'User access','front_name'=>'user_access']);
         $permission = Permission::create(['name' => 'User edit','front_name'=>'user_edit']);
         $permission = Permission::create(['name' => 'User create','front_name'=>'user_create']);

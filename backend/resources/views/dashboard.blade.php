@@ -88,10 +88,12 @@
                                                  viewBox="0 0 20 20"><path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z"/></svg>
                                             @if(\Carbon\Carbon::now()->diffInMinutes($request->created_at) <60)
                                                 {{\Carbon\Carbon::now()->diffInMinutes($request->created_at) }} minutes ago
-                                            @elseif(\Carbon\Carbon::now()->diffInHours($request->created_at) >1)
+                                            @elseif(\Carbon\Carbon::now()->diffInHours($request->created_at) >=1)
                                                 {{\Carbon\Carbon::now()->diffInHours($request->created_at) }} Hours ago
-                                            @elseif(\Carbon\Carbon::now()->diffInHours($request->created_at) <24)
-                                                {{\Carbon\Carbon::now()->diffInDays($request->created_at) }} Hours ago
+                                            @elseif(\Carbon\Carbon::now()->diffInHours($request->created_at) ==24)
+                                                {{\Carbon\Carbon::now()->diffInDays($request->created_at) }} day ago
+                                            @else
+                                                {{\Carbon\Carbon::now()->diffInDays($request->created_at) }} days ago
                                             @endif
                                         </span>
                                     </td>
@@ -103,7 +105,6 @@
                 </div>
             @endif
         </main>
-    </div>
     </div>
 </x-app-layout>
 <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
@@ -197,7 +198,7 @@
     var FeedbackCategorize = new Chart(chartThree, {
         type: 'bar',
         data: {
-            labels: ['One Star', 'Two Star', 'Three Star', 'Four Star', 'Five Star'],
+            labels: ['Zero Star','One Star', 'Two Star', 'Three Star', 'Four Star', 'Five Star'],
             datasets: [{
                 label: 'Total Feedback',
                 data: star_base_feedback,

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->time('open_time')->nullable();
             $table->time('close_time')->nullable();
+            $table->string('phone_number')->nullable();
             $table->string('street_address')->nullable();
             $table->string('village')->nullable();
             $table->string('commune')->nullable();

@@ -7,6 +7,7 @@ use App\Http\Resources\V1\AppointmentResource;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class AppointmentController extends Controller
 {

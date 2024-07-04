@@ -6,6 +6,7 @@ use App\Models\Appointment;
 use App\Models\Category;
 use App\Models\Department;
 use App\Models\Doctor;
+use App\Models\Favourite;
 use App\Models\Hospital;
 use App\Models\Rate;
 use App\Models\RateReply;
@@ -60,7 +61,10 @@ class DatabaseSeeder extends Seeder
             'user_id'=>2,
             'content'=>'Could not disagree'
         ]);
-
+        $user_favourite = Favourite::create([
+            'user_id'=>2,
+            'hospital_id'=>1,
+        ]);
         $this->call(MailsettingSeeder::class);
     }
 }

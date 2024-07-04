@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SystemRequest;
+use App\Models\SystemRequestCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,6 +15,10 @@ class SystemRequestController extends Controller
     public function index()
     {
         return response()->json(['success' => true, 'data' => SystemRequest::all()]);
+    }
+    public function categories()
+    {
+        return response()->json(['success' => true, 'data' => SystemRequestCategory::all()]);
     }
 
     /**

@@ -15,6 +15,7 @@
             <div class="bg-white rounded my-6 p-5" style="background-color: #FCB22D">
                 <h1 class="text-center font-bold">Feedback List</h1>
             </div>
+            @if(auth()->user()->hasRole('hospital'))
             <div class="flex flex-wrap mt-6">
                 <div class="w-full lg:w-1/2 pr-0 lg:pr-2">
                     <p class="text-xl pb-3 flex items-center">
@@ -33,6 +34,7 @@
                     </div>
                 </div>
             </div>
+            @endcan
             <div class="bg-white shadow-md rounded my-6">
                 <table class="text-left w-full border-collapse table-auto">
                     <thead class="text-left">
@@ -80,11 +82,11 @@
                                 @if($rate->star ===5)
                                 <div class="flex items-center">
                                     @for ($i =0; $i < $rate->star; $i++)
-                                    <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                    </svg>
-                                    @endfor
-                                    <p class="ms-1 ml-1 text-sm font-medium text-gray-500 dark:text-gray-400">{{$rate->star}} out of 5 </p>
+                                        <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                        </svg>
+                                        @endfor
+                                        <p class="ms-1 ml-1 text-sm font-medium text-gray-500 dark:text-gray-400">{{$rate->star}} out of 5 </p>
                                 </div>
                                 @else
                                 <div class="flex items-center">
@@ -128,12 +130,12 @@
 <script>
     var chartThree = document.getElementById('chartThree')
     var chartFour = document.getElementById('chartFour')
-    let feedback_monthly = {!! json_encode($data['new_orders_count'],JSON_HEX_TAG) !!};
-    let star_base_feedback = {!! json_encode($data['star_base_count'],JSON_HEX_TAG) !!};
+    let feedback_monthly = {!!json_encode($data['new_orders_count'], JSON_HEX_TAG) !!};
+    let star_base_feedback = {!!json_encode($data['star_base_count'], JSON_HEX_TAG) !!};
     var FeedbackCategorize = new Chart(chartThree, {
         type: 'bar',
         data: {
-            labels: ['Zero Star','One Star', 'Two Star', 'Three Star', 'Four Star', 'Five Star'],
+            labels: ['Zero Star', 'One Star', 'Two Star', 'Three Star', 'Four Star', 'Five Star'],
             datasets: [{
                 label: 'Total Feedback',
                 data: star_base_feedback,

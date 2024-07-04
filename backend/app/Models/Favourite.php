@@ -5,22 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class SystemRequest extends Model
+class Favourite extends Model
 {
     use HasFactory;
-    protected $fillable = [
+    protected $fillable=[
         'user_id',
-        'category_id',
-        'request_details',
-        'request_status'
+        'hospital_id'
     ];
-    public function user(): BelongsTo
+    public function user():BelongsTo
     {
         return $this->belongsTo(User::class);
     }
-    public function category(): BelongsTo
+    public function hospital():BelongsTo
     {
-        return $this->belongsTo(SystemRequestCategory::class);
+        return $this->belongsTo(Hospital::class);
     }
 }
