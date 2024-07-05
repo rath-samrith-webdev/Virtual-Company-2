@@ -16,6 +16,8 @@ class AppointmentMaker extends JsonResource
     {
         return [
             'id'=>$this->id,
+            'first_name'=>$this->first_name,
+            'last_name'=>$this->last_name,
             'name'=>$this->name,
             'profile'=>$this->profile?asset('images/profiles/user-'.$this->first_name.'/'.$this->profile):'No profile',
             'gender'=>$this->gender?$this->gender!=null:'No gender',
