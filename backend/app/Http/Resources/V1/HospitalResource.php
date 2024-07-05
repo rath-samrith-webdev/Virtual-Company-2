@@ -31,7 +31,7 @@ class HospitalResource extends JsonResource
             'province'=>$this->province?$this->province:'Not Added yet',
             'lat'=>$this->latitude,
             'lng'=>$this->longitude,
-            'doctors'=>$this->doctors()->get()
+            'doctors'=>$this->doctors()->get(),
             'favourite_by'=>$this->favourites()->get()->count()
         ];
     }
