@@ -36,9 +36,9 @@
         >
           <el-option
             v-for="item in category"
-            :key="item.value"
+            :key="item.name"
             :label="item.label"
-            :value="item.value"
+            :value="item.name"
           />
         </el-select>
       </div>
@@ -96,6 +96,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import { ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
@@ -137,20 +138,8 @@ export default {
       ],
       searchQuery: '',
       cardAddress: [],
-      selectedCategorys: [],
-      category: [
-        { value: 'Psychiatry', label: 'Psychiatry' },
-        { value: 'Specialty hospitals', label: 'Specialty hospitals' },
-        { value: 'Teaching hospitals', label: 'Teaching hospitals' },
-        { value: 'Nonteaching hospitals', label: 'Nonteaching hospitals' },
-        { value: 'Trauma levels hospitals', label: 'Trauma levels hospitals' },
-        { value: 'Clinics', label: 'Clinics' },
-        { value: 'Publicly owned hospitals', label: 'Publicly owned hospitals' },
-        { value: 'Types by hospital size', label: 'Types by hospital size' },
-        { value: 'Acute hospitals', label: 'Acute hospitals' },
-        { value: 'Hospice homes', label: 'Hospice homes' },
-        { value: 'Rehabilitation', label: 'Rehabilitation' },
-      ]
+      selectedCategory: [],
+      category: []
     }
   },
   computed: {
@@ -159,11 +148,11 @@ export default {
         const matchesTitle = card.name.toLowerCase().includes(this.searchQuery.toLowerCase())
         const matchesOptions =
           this.selectedOptions.length === 0 ||
-          this.selectedOptions.includes(card.province.toLowerCase())
-        const matchesCategorys =
+          this.selectedOptions.includes(card.province)
+        const matchesCategory =
           this.selectedCategory.length === 0 ||
-          this.selectedCategory.includes(card.province.toLowerCase())
-        return matchesTitle && matchesOptions && matchesCategorys
+          this.selectedCategory.includes(card.name)
+        return matchesTitle && matchesOptions && matchesCategory
       })
     }
   },
@@ -172,9 +161,17 @@ export default {
       try {
         const { data } = await axiosInstance.get('/hospitals/list')
         console.log(data.data)
-        data.data.forEach((hospitals) => {
-          this.cardAddress.push(hospitals)
-        })
+        this.cardAddress = data.data
+      } catch (error) {
+        console.log(error)
+        return null
+      }
+    },
+    async categoryHospital() {
+      try {
+        const { data } = await axiosInstance.get('/categories/list')
+        console.log(data.data)
+        this.category = data.data
       } catch (error) {
         console.log(error)
         return null
@@ -183,6 +180,7 @@ export default {
   },
   mounted() {
     this.fetchHospital()
+    this.categoryHospital()
   }
 }
 </script>
