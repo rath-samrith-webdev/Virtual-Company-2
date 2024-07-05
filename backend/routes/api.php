@@ -47,6 +47,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/create', [AppointmentController::class, 'store']);
         Route::get('/show/{appointment}', [AppointmentController::class, 'show']);
         Route::put('/update/{appointment}', [AppointmentController::class, 'update']);
+        Route::put('/update-status/{appointment}', [AppointmentController::class, 'updateAppointments']);
         Route::delete('/delete/{appointment}', [AppointmentController::class, 'destroy']);
     });
     Route::middleware('auth:sanctum')->prefix('categories')->group(function () {

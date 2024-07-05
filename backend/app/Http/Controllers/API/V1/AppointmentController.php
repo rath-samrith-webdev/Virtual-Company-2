@@ -59,14 +59,24 @@ class AppointmentController extends Controller
         $data = $request->validate([
             'hospital_id' => 'required|exists:hospitals,id',
             'doctor_id' => 'required|exists:doctors,id',
+            'appointment_date' => 'required|date',
+            'appointment_time'=>'required|date_format:H:i',
         ]);
-        $data['user_id'] = Auth::id();
+        $user=Auth::user();
         try {
-            if($appointment->hospital_id==$data['hospital_id'] && $appointment->user_id==$data['user_id']){
-                $appointment->update($data);
-                return response()->json(['success'=>true,"appointments"=>Appointment::all()],200);
+            if($user->hasRole('admin')){
+                return response()-json(['success'=>false,'message'=>'You are not authorized to update appointment.'],403);
+            }elseif($user->hasRole('hospital')){
+                if($appointment->hospital_id==$data['hospital_id']) {
+                    $appointment->update($data);
+                    return response()->json(['success' => true, 'message' => 'Appointment updated successfully', "data" => Appointment::all()], 200);
+                }else{
+                    return response()->json(['success' => false, 'message' => 'You are not authorized to update appointment.'], 403);
+                }
             }else{
-                return response()->json(['success'=>false],500);
+                $data['user_id'] = Auth::id();
+                $appointment->update($data);
+                return response()->json(['success'=>true,'message'=>'Appointment updated successfully'],200);
             }
         }catch (\Exception $exception){
             return response()->json(['success'=>false,'message'=>$exception->getMessage()],500);
@@ -84,6 +94,31 @@ class AppointmentController extends Controller
                 return response()->json(['success'=>true,'message'=>'Appointment has been deleted'],200);
             }else{
                 return response()->json(['success'=>false,'message'=>'Unauthorized'],500);
+            }
+        }catch (\Exception $exception){
+            return response()->json(['success'=>false,'message'=>$exception->getMessage()],500);
+        }
+    }
+    public function updateAppointments(Request $request, Appointment $appointment)
+    {
+        $data = $request->validate([
+            'status'=>'required|string',
+        ]);
+        $user=Auth::user();
+        try {
+            if($appointment->status!=='Canceled'){
+                if($user->hasRole('admin')){
+                    $appointment->update($data);
+                }elseif ($user->hasRole('hospital')){
+                    $appointment->update($data);
+                }elseif($user->id==$appointment->user_id){
+                    $appointment->update($data);
+                }else{
+                    return response()->json(['success'=>false,'message'=>'Unauthorized'],500);
+                }
+                return response()->json(['success'=>true,'message'=>'Appointments has been canceled successfully'],200);
+            }else{
+                return response()->json(['success'=>false,'message'=>'This Appointment has already been canceled'],200);
             }
         }catch (\Exception $exception){
             return response()->json(['success'=>false,'message'=>$exception->getMessage()],500);
