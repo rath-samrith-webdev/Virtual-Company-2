@@ -72,12 +72,7 @@ const handleSuccess = (response, file, fileList) => {
 const clickUploadButton = () => {
   uploadRef.value.submit()
 }
-=======
->>>>>>> 8eb9201367c713e41da394b599c0968522545fd8
-</script>
 
-=======
->>>>>>> 452e7f000bdac8f9586420b5549a2e73748d5977
 <template>
   <WebLayout>
     <div class="container">
