@@ -2,10 +2,12 @@
   <WebLayout>
     <div class="container">
       <div class="card-header">
-        <h1>Hospital Details</h1>
+        <h1 class="text-color-#32B4E3 font-size" style="font-size: 50px; font-weight: bold">
+          Hospital Details
+        </h1>
       </div>
       <!-- ======================================================= -->
-                          <!-- hospital details -->
+      <!-- hospital details -->
       <!-- ======================================================= -->
       <div class="card-container">
         <div class="card-left">
@@ -13,12 +15,17 @@
         </div>
         <div class="card-right">
           <div class="title">
-            <span class="title-hospital">Royal Phnom Penh Hospital</span>
+            <span class="title-hospital text-color-#ffff">Royal Phnom Penh Hospital</span>
             <el-divider />
           </div>
           <div class="information mb-4">
             <div><strong>Open: Monday-Sunday 24/7</strong></div>
-            <div><strong>Location: BP 511, Phum Tropeang Chhuk (Borey Sorla) Sangtak, Street 371, Phnom Penh</strong></div>
+            <div>
+              <strong
+                >Location: BP 511, Phum Tropeang Chhuk (Borey Sorla) Sangtak, Street 371, Phnom
+                Penh</strong
+              >
+            </div>
           </div>
           <div class="rate mb-4">
             <el-rate
@@ -33,12 +40,28 @@
           </div>
           <div class="contact-information">
             <div class="mb-4 mt-1">
-              <el-button type="warning">Contact</el-button>
-              <el-button type="warning" @click="dialogFormVisible = true">Booking</el-button>
-              <el-button type="warning">Location</el-button>
+              <el-button
+                type="#ffff"
+                class="text-color-#32B4E3 font-size"
+                style="font-size: 17px; font-weight: bold"
+                >Contact</el-button
+              >
+              <el-button
+                type="#ffff"
+                class="text-color-#32B4E3 font-size"
+                style="font-size: 17px; font-weight: bold"
+                @click="dialogFormVisible = true"
+                >Booking</el-button
+              >
+              <el-button
+                type="#ffff"
+                class="text-color-#32B4E3 font-size"
+                style="font-size: 17px; font-weight: bold"
+                >Location</el-button
+              >
             </div>
           </div>
-          <!-- ==========alert form booking========== -->
+          <!-- ==========alert form booking==========
           <el-dialog
             class="booking"
             v-model="dialogFormVisible"
@@ -51,10 +74,10 @@
                 <el-input v-model="form.fullname" />
               </el-form-item>
               <el-form-item label="Phone Number" prop="phone_number">
-                <el-input v-model="form.phone_number" type="number"/>
+                <el-input v-model="form.phone_number" type="number" />
               </el-form-item>
               <el-form-item label="Age" prop="age">
-                <el-input v-model="form.age" type="number"/>
+                <el-input v-model="form.age" type="number" />
               </el-form-item>
               <el-form-item label="Gender" prop="gender">
                 <el-radio-group v-model="form.gender">
@@ -110,11 +133,139 @@
                 </el-button>
               </div>
             </template>
-          </el-dialog>
+          </el-dialog> -->
         </div>
       </div>
+      <div class="container-information">
+        <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+          <el-tab-pane class="" label="Comments and Feedback" name="first">
+            <div class="container main-comment">
+              <div class="comment-form mt-3">
+                <el-form
+                  class="form-comment mt-4"
+                  :model="form"
+                  label-width="auto"
+                  style="max-width: 2000px"
+                >
+                  <el-form-item class="hello">
+                    <el-input
+                      v-model="form.desc"
+                      type="text"
+                      placeholder="Write your comment here!"
+                      class="custom-input"
+                    />
+                  </el-form-item>
+                  <el-form-item>
+                    <el-button type="warning" @click="onSubmit">Submit</el-button>
+                    <el-button type="primary">Cancel</el-button>
+                  </el-form-item>
+                </el-form>
+              </div>
+
+              <div class="demo-collapse mt-4">
+                <el-collapse v-model="activeNames" @change="handleChange">
+                  <el-collapse-item title="Comments" name="1">
+                    <div
+                      class="comment-container p-3 mt-2"
+                      v-for="comment in comments"
+                      :key="comment.id"
+                    >
+                      <div class="comment-left d-flex flex-column p-2">
+                        <div class="demo-type">
+                          <el-avatar :size="70">
+                            <img :src="comment.avatar" />
+                          </el-avatar>
+                        </div>
+                      </div>
+                      <div class="comment-right p-2">
+                        <div class="information">
+                          <div>
+                            <p>
+                              <strong>{{ comment.name }}</strong> . <span>{{ comment.time }}</span>
+                            </p>
+                          </div>
+                          <div>
+                            <p>{{ comment.content }}</p>
+                          </div>
+                          <div>
+                            <el-rate
+                              v-model="comment.value"
+                              disabled
+                              show-score
+                              text-color="#ff9900"
+                              score-template="{value} points"
+                            />
+                          </div>
+                          <div class="mt-2">
+                            <el-button
+                              v-for="button in buttons"
+                              :key="button.text"
+                              :type="button.type"
+                              text
+                              bg
+                            >
+                              {{ button.text }}
+                            </el-button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </el-collapse-item>
+                </el-collapse>
+              </div>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="Our Doctors" name="second">
+            <div class="comment-container p-3 mt-2" v-for="comment in comments" :key="comment.id">
+              <div class="comment-left d-flex flex-column p-2">
+                <div class="demo-type">
+                  <el-avatar :size="70">
+                    <img :src="comment.avatar" />
+                  </el-avatar>
+                </div>
+              </div>
+              <div class="comment-right p-2">
+                <div class="information">
+                  <div>
+                    <p>
+                      <strong>{{ comment.name }}</strong> . <span>{{ comment.time }}</span>
+                    </p>
+                  </div>
+                  <div>
+                    <p>{{ comment.content }}</p>
+                  </div>
+                  <div>
+                    <el-rate
+                      v-model="comment.value"
+                      disabled
+                      show-score
+                      text-color="#ff9900"
+                      score-template="{value} points"
+                    />
+                  </div>
+                  <div class="mt-2">
+                    <el-button
+                      v-for="button in buttons"
+                      :key="button.text"
+                      :type="button.type"
+                      text
+                      bg
+                    >
+                      {{ button.text }}
+                    </el-button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="Contact to Hospital" name="third">Comments and Feedback</el-tab-pane>
+          <el-tab-pane label="Location Hospital" name="fourth">Location Hospital</el-tab-pane>
+          <el-tab-pane label="Contact to Hospital" name="five">Comments and Feedback</el-tab-pane>
+          <el-tab-pane label="Location Hospital" name="six">Location Hospital</el-tab-pane>
+        </el-tabs>
+      </div>
       <!-- ======================================================= -->
-                      <!-- comment information-->
+      <!-- comment information-->
       <!-- ======================================================= -->
       <div class="container main-comment">
         <div class="comment-form mt-3">
@@ -130,7 +281,6 @@
                 type="text"
                 placeholder="Write your comment here!"
                 class="custom-input"
-                
               />
             </el-form-item>
             <el-form-item>
@@ -139,7 +289,7 @@
             </el-form-item>
           </el-form>
         </div>
-        
+
         <div class="demo-collapse mt-4">
           <el-collapse v-model="activeNames" @change="handleChange">
             <el-collapse-item title="Comments" name="1">
@@ -154,7 +304,9 @@
                 <div class="comment-right p-2">
                   <div class="information">
                     <div>
-                      <p><strong>{{ comment.name }}</strong> . <span>{{ comment.time }}</span></p>
+                      <p>
+                        <strong>{{ comment.name }}</strong> . <span>{{ comment.time }}</span>
+                      </p>
                     </div>
                     <div>
                       <p>{{ comment.content }}</p>
@@ -215,33 +367,17 @@ const buttons = [
   {
     text: 'Like',
     type: 'warning'
-  },
+  }
 ]
 const formRules = reactive({
-  fullname: [
-    { required: true, message: 'Please enter your full name', trigger: 'blur' }
-  ],
-  phone_number: [
-    { required: true, message: 'Please enter your phone number', trigger: 'blur' }
-  ],
-  age: [
-    { required: true, message: 'Please enter your age', trigger: 'blur' }
-  ],
-  gender: [
-    { required: true, message: 'Please select your gender', trigger: 'change' }
-  ],
-  department: [
-    { required: true, message: 'Please select a department', trigger: 'change' }
-  ],
-  doctor: [
-    { required: true, message: 'Please select a doctor', trigger: 'change' }
-  ],
-  date: [
-    { required: true, message: 'Please select an appointment date', trigger: 'change' }
-  ],
-  time: [
-    { required: true, message: 'Please select an appointment time', trigger: 'change' }
-  ]
+  fullname: [{ required: true, message: 'Please enter your full name', trigger: 'blur' }],
+  phone_number: [{ required: true, message: 'Please enter your phone number', trigger: 'blur' }],
+  age: [{ required: true, message: 'Please enter your age', trigger: 'blur' }],
+  gender: [{ required: true, message: 'Please select your gender', trigger: 'change' }],
+  department: [{ required: true, message: 'Please select a department', trigger: 'change' }],
+  doctor: [{ required: true, message: 'Please select a doctor', trigger: 'change' }],
+  date: [{ required: true, message: 'Please select an appointment date', trigger: 'change' }],
+  time: [{ required: true, message: 'Please select an appointment time', trigger: 'change' }]
 })
 
 const comments = [
@@ -250,7 +386,8 @@ const comments = [
     name: 'Florida',
     time: '30 min ago',
     content: 'To highlight a number or a group of numbers...',
-    avatar: 'https://dl.memuplay.com/new_market/img/com.vicman.newprofilepic.icon.2022-06-07-21-33-07.png',
+    avatar:
+      'https://dl.memuplay.com/new_market/img/com.vicman.newprofilepic.icon.2022-06-07-21-33-07.png',
     value: 4.5
   },
   {
@@ -258,7 +395,8 @@ const comments = [
     name: 'Radit Thy',
     time: '1h ago',
     content: 'To highlight a number or a group of numbers...',
-    avatar: 'https://media.licdn.com/dms/image/D5603AQGCCYbUstS9xg/profile-displayphoto-shrink_400_400/0/1718211706383?e=1724889600&v=beta&t=AsGCwsdVHSL4a9JCH2ucQwk3JNZtcsX9KymwXSkAKYk',
+    avatar:
+      'https://media.licdn.com/dms/image/D5603AQGCCYbUstS9xg/profile-displayphoto-shrink_400_400/0/1718211706383?e=1724889600&v=beta&t=AsGCwsdVHSL4a9JCH2ucQwk3JNZtcsX9KymwXSkAKYk',
     value: 4.2
   },
   {
@@ -266,17 +404,16 @@ const comments = [
     name: 'Rath Samrath',
     time: '1 day ago',
     content: 'To highlight a number or a group of numbers...',
-    avatar: 'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
+    avatar:
+      'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
     value: 4.8
-  },
+  }
 ]
 
 const onSubmit = () => {
   // Logic for form submission can be added here
   ElMessage.success('Form submitted successfully!')
-  console.log('hello');
-  
-  
+  console.log('hello')
 }
 </script>
 
@@ -322,7 +459,7 @@ const onSubmit = () => {
 }
 
 .card-right {
-  background: #fcb22d;
+  background: #32b4e3;
   display: flex;
   flex-direction: column;
   padding: 60px;
@@ -375,11 +512,38 @@ const onSubmit = () => {
 }
 .custom-input {
   font-size: 1rem;
-  background: #fcb22d;
-  padding: 1px;
+  background: #32b4e3;
+  /* padding: 1px; */
+  border-radius: 20px;
   height: 8vh;
-  
 }
 
-
+/* tabs setting */
+.demo-tabs > .el-tabs__content {
+  padding: 32px;
+  color: #6b778c;
+  font-size: 32px;
+  font-weight: 600;
+}
+.demo-tabs {
+  padding: 32px;
+  color: #6b778c;
+  font-size: 32px;
+  font-weight: 600;
+}
+.container-information {
+  width: 90%;
+  box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
+}
+.demo-tabs .el-tabs__item {
+  background: #000;
+  font-size: 50px;
+  padding: 30px;
+}
+label {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: green;
+}
 </style>
+
