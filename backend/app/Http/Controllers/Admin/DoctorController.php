@@ -72,18 +72,19 @@ class DoctorController extends Controller
     public function update(Request $request, Doctor $doctor)
     {
         $data=$request->validate([
-            'name'=>'required',
+            'first_name'=>'required',
             'email'=>'required',
             'phone'=>'required',
             'hospital_id'=>'required',
         ]);
         $user=Auth::user();
+        $doc=$doctor->user;
         try {
             if($user->hasRole('admin')){
-                $doctor->update($data);
+                $doc->update($data);
             }elseif ($user->hasRole('hospital')) {
                 $data['hospital_id']=$data->hospital->id;
-                $doctor->update($data);
+                $doc->update($data);
             }
             return redirect()->back()->with('success','Doctor updated successfully');
         }catch (\Exception $exception){

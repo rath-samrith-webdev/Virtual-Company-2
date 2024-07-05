@@ -11,19 +11,19 @@
                         @method('put')
                         <div class="flex flex-col space-y-2">
                             <label for="title" class="text-gray-700 select-none font-medium">Name</label>
-                            <input id="title" type="text" name="name" value="{{ old('title',$data['doctor']->name) }}"
+                            <input id="title" type="text" name="first_name" value="{{ old('title',$data['doctor']->user->first_name) }}"
                                    placeholder="Appointment Title"
                                    class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200"/>
                         </div>
                         <div class="flex flex-col space-y-2">
                             <label for="title" class="text-gray-700 select-none font-medium">Email</label>
-                            <input id="title" type="text" name="email" value="{{ old('title',$data['doctor']->email) }}"
+                            <input id="title" type="text" name="email" value="{{ old('title',$data['doctor']->user->email) }}"
                                    placeholder="Appointment Title"
                                    class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200"/>
                         </div>
                         <div class="flex flex-col space-y-2">
                             <label for="title" class="text-gray-700 select-none font-medium">Phone Number</label>
-                            <input id="title" type="text" name="phone" value="{{ old('title',$data['doctor']->phone) }}"
+                            <input id="title" type="text" name="phone" value="{{ old('title',$data['doctor']->user->phone_number) }}"
                                    placeholder="Appointment Title"
                                    class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200"/>
                         </div>

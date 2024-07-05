@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Doctor;
 use App\Models\SystemRequest;
 use App\Models\SystemRequestCategory;
 use Illuminate\Database\Seeder;
@@ -41,12 +42,20 @@ class AdminSeeder extends Seeder
             'email'=>'hospital@gmail.com',
             'password'=>bcrypt('password'),
         ]);
+        $doctor=User::create([
+            'first_name'=>"Doctor",
+            'last_name'=>"User",
+            'name'=>'Doctor',
+            'email'=>'doctor@gmail.com',
+            'password'=>bcrypt('password'),
+        ]);
 
 
 
         $admin_role = Role::create(['name' => 'admin']);
         $user_role = Role::create(['name' => 'user']);
         $hospital_role = Role::create(['name' => 'hospital']);
+        $doctor_role = Role::create(['name' => 'doctor']);
 
         $feature=SystemRequestCategory::create([
             'name'=>'Feature',
@@ -133,6 +142,7 @@ class AdminSeeder extends Seeder
         $admin->assignRole($admin_role);
         $user->assignRole($user_role);
         $hospital->assignRole($hospital_role);
+        $doctor->assignRole($doctor_role);
 
         $admin_role->givePermissionTo(Permission::all());
     }

@@ -4,8 +4,10 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Doctor;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class DoctorController extends Controller
 {
@@ -27,16 +29,30 @@ class DoctorController extends Controller
     public function store(Request $request)
     {
         $data=$request->validate([
-            'hospital_id'=>'required|exists:hospitals,id',
+            'first_name'=>'required',
+            'last_name'=>'required',
             'name'=>'required',
-            'email'=>'required|email|unique:doctors,email',
-            'phone'=>'required|unique:doctors,phone',
+            'email'=>'required|email|unique:users,email',
+            'password'=>'required',
+            'hospital_id'=>'required|exists:hospitals,id',
         ]);
         $user = Auth::user();
         $hospial=$user->hospital;
         try {
             if ($hospial->id==$data['hospital_id']) {
-                $doctor=Doctor::create($data);
+                $newUser=User::create([
+                    'first_name'=>$data['first_name'],
+                    'last_name'=>$data['last_name'],
+                    'name'=>$data['name'],
+                    'email'=>$data['email'],
+                    'password'=>bcrypt($data['password']),
+                ]);
+                $newUser->assignRole('doctor');
+                $uid=$newUser->id;
+                $doctor=Doctor::create([
+                    'hospital_id'=>$data['hospital_id'],
+                    'user_id'=>$uid,
+                ]);
                 return response()->json(['success' => true, 'data' => $doctor],201);
             }else{
                 return response()->json(['success' => false, 'message' => 'Hospital not found'],404);

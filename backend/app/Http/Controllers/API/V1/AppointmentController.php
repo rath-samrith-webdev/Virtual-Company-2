@@ -16,7 +16,21 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        return response()->json(['success'=>true,"data"=>AppointmentResource::collection(Appointment::all())],200);
+        $user=Auth::user();
+        try {
+            if($user->hasRole('admin')){
+                $appointments=Appointment::all();
+                return response()->json(['success'=>true,"data"=>AppointmentResource::collection($appointments)],200);
+            }elseif ($user->hasRole('doctor')) {
+                $appointments=$user->doctor->appointments()->get();
+                return response()->json(['success'=>true,'data'=>AppointmentResource::collection($appointments)],200);
+            }else{
+                $appointments=$user->appointments()->get();
+                return response()->json(['success'=>true,'data'=>AppointmentResource::collection($appointments)],200);
+            }
+        }catch (\Exception $e){
+            return response()->json(['success'=>false,'error'=>['message'=>$e->getMessage()]],500);
+        }
     }
 
     /**
