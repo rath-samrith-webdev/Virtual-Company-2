@@ -136,11 +136,15 @@
           </el-dialog> -->
         </div>
       </div>
+      <!-- ======================================================= -->
+      <!-- comment information-->
+      <!-- ======================================================= -->
       <div class="container-information">
         <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
           <el-tab-pane class="" label="Comments and Feedback" name="first">
-            <div class="container main-comment">
-              <div class="comment-form mt-3">
+            <div class="main-comment">
+              <h5 class="mt-5 text-color-#32B4E3">Comments there to our hospital!</h5>
+              <div class="comment-form mt-1">
                 <el-form
                   class="form-comment mt-4"
                   :model="form"
@@ -156,17 +160,16 @@
                     />
                   </el-form-item>
                   <el-form-item>
-                    <el-button type="warning" @click="onSubmit">Submit</el-button>
-                    <el-button type="primary">Cancel</el-button>
+                    <el-button type="#32B4E3" @click="onSubmit">Submit</el-button>
+                    <el-button type="warning">Cancel</el-button>
                   </el-form-item>
                 </el-form>
               </div>
-
               <div class="demo-collapse mt-4">
                 <el-collapse v-model="activeNames" @change="handleChange">
-                  <el-collapse-item title="Comments" name="1">
+                  <el-collapse-item title="Show All the Comments" name="1">
                     <div
-                      class="comment-container p-3 mt-2"
+                      class="comment-container p-3 mt-3"
                       v-for="comment in comments"
                       :key="comment.id"
                     >
@@ -215,7 +218,7 @@
               </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="Our Doctors" name="second">
+          <el-tab-pane label="Hospital Doctors" name="second">
             <div class="comment-container p-3 mt-2" v-for="comment in comments" :key="comment.id">
               <div class="comment-left d-flex flex-column p-2">
                 <div class="demo-type">
@@ -258,85 +261,29 @@
               </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="Contact to Hospital" name="third">Comments and Feedback</el-tab-pane>
-          <el-tab-pane label="Location Hospital" name="fourth">Location Hospital</el-tab-pane>
-          <el-tab-pane label="Contact to Hospital" name="five">Comments and Feedback</el-tab-pane>
-          <el-tab-pane label="Location Hospital" name="six">Location Hospital</el-tab-pane>
+          <el-tab-pane label="Hospital Departments" name="third">Comments and Feedback</el-tab-pane>
+          <el-tab-pane label="Hospital Calendar" name="fourth">
+            <el-calendar ref="calendar">
+              <template #header="{ date }">
+                <span>Custom header content</span>
+                <span>{{ date }}</span>
+                <el-button-group>
+                  <el-button size="small" @click="selectDate('prev-year')">
+                    Previous Year
+                  </el-button>
+                  <el-button size="small" @click="selectDate('prev-month')">
+                    Previous Month
+                  </el-button>
+                  <el-button size="small" @click="selectDate('today')">Today</el-button>
+                  <el-button size="small" @click="selectDate('next-month')"> Next Month </el-button>
+                  <el-button size="small" @click="selectDate('next-year')"> Next Year </el-button>
+                </el-button-group>
+              </template>
+            </el-calendar>
+          </el-tab-pane>
+          <el-tab-pane label="Hospital Contact" name="five">Comments and Feedback</el-tab-pane>
+          <el-tab-pane label="Hospital Location " name="six">Location Hospital</el-tab-pane>
         </el-tabs>
-      </div>
-      <!-- ======================================================= -->
-      <!-- comment information-->
-      <!-- ======================================================= -->
-      <div class="container main-comment">
-        <div class="comment-form mt-3">
-          <el-form
-            class="form-comment mt-4"
-            :model="form"
-            label-width="auto"
-            style="max-width: 2000px"
-          >
-            <el-form-item class="hello">
-              <el-input
-                v-model="form.desc"
-                type="text"
-                placeholder="Write your comment here!"
-                class="custom-input"
-              />
-            </el-form-item>
-            <el-form-item>
-              <el-button type="warning" @click="onSubmit">Submit</el-button>
-              <el-button type="primary">Cancel</el-button>
-            </el-form-item>
-          </el-form>
-        </div>
-
-        <div class="demo-collapse mt-4">
-          <el-collapse v-model="activeNames" @change="handleChange">
-            <el-collapse-item title="Comments" name="1">
-              <div class="comment-container p-3 mt-2" v-for="comment in comments" :key="comment.id">
-                <div class="comment-left d-flex flex-column p-2">
-                  <div class="demo-type">
-                    <el-avatar :size="70">
-                      <img :src="comment.avatar" />
-                    </el-avatar>
-                  </div>
-                </div>
-                <div class="comment-right p-2">
-                  <div class="information">
-                    <div>
-                      <p>
-                        <strong>{{ comment.name }}</strong> . <span>{{ comment.time }}</span>
-                      </p>
-                    </div>
-                    <div>
-                      <p>{{ comment.content }}</p>
-                    </div>
-                    <div>
-                      <el-rate
-                        v-model="comment.value"
-                        disabled
-                        show-score
-                        text-color="#ff9900"
-                        score-template="{value} points"
-                      />
-                    </div>
-                    <div class="mt-2">
-                      <el-button
-                        v-for="button in buttons"
-                        :key="button.text"
-                        :type="button.type"
-                        text
-                        bg
-                      >
-                        {{ button.text }}
-                      </el-button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </el-collapse-item>
-          </el-collapse>
-        </div>
       </div>
     </div>
   </WebLayout>
@@ -346,6 +293,7 @@
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
+import { Calendar } from '@element-plus/icons-vue/dist/types'
 
 const dialogFormVisible = ref(false)
 const form = reactive({
@@ -414,6 +362,15 @@ const onSubmit = () => {
   // Logic for form submission can be added here
   ElMessage.success('Form submitted successfully!')
   console.log('hello')
+}
+
+// Calendar
+import type { CalendarDateType, CalendarInstance } from 'element-plus'
+
+const calendar = ref<CalendarInstance>()
+const selectDate = (val: CalendarDateType) => {
+  if (!calendar.value) return
+  calendar.value.selectDate(val)
 }
 </script>
 
@@ -495,7 +452,7 @@ const onSubmit = () => {
 }
 
 .form-comment {
-  width: 97%;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -507,8 +464,8 @@ const onSubmit = () => {
 }
 
 .main-comment {
-  width: 90%;
-  box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
+  width: 100%;
+  /* box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06); */
 }
 .custom-input {
   font-size: 1rem;
