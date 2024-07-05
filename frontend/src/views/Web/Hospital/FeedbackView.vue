@@ -47,8 +47,8 @@ function handleWarningClick(event: Event) {
         <el-table-column label="Profile" width="250">
           <template #default="scope">
             <div class="profile-column">
-              <el-avatar v-if="scope.row.user.profile==='No profile'"></el-avatar>
-              <el-avatar v-if="scope.row.user.profile!=='No profile'" :src="scope.row.user.profile"></el-avatar>
+              <el-avatar v-if="scope.row.user.profile === 'No profile'"></el-avatar>
+              <el-avatar v-if="scope.row.user.profile !== 'No profile'" :src="scope.row.user.profile"></el-avatar>
               <div class="profile-info">
                 <p>{{ scope.row.user.full_name }}</p>
                 <!-- <p>{{ scope.row.email }}</p> -->
@@ -134,10 +134,13 @@ function handleWarningClick(event: Event) {
 .detail-card {
   width: 400px;
 }
-.profile-info, p{
+
+.profile-info,
+p {
   text-align: center;
   margin-top: 10px;
 }
+
 .card-header {
   color: white;
   padding: 10px;
