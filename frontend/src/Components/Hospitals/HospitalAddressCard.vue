@@ -37,7 +37,7 @@
           <el-option
             v-for="item in category"
             :key="item.name"
-            :label="item.label"
+            :label="item.name"
             :value="item.name"
           />
         </el-select>
@@ -151,8 +151,9 @@ export default {
           this.selectedOptions.includes(card.province)
         const matchesCategory =
           this.selectedCategory.length === 0 ||
-          this.selectedCategory.includes(card.name)
+          this.selectedCategory.includes(card.category.name)
         return matchesTitle && matchesOptions && matchesCategory
+        console.log(this.category);
       })
     }
   },
