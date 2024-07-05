@@ -55,10 +55,11 @@ onMounted(()=>{
       <el-container>
         <el-card v-for="(doctor,index) in doctors" :key="index" style="width: 300px" shadow="hover" class="d-flex flex-column align-items-center members-card">
           <div class="rounded-50% d-flex justify-content-center">
-            <img src="@/assets/image/doctor.png" alt="" class="img-fluid w-75 card-img" />
+            <el-avatar v-if="doctor.profile!=='No profile'" shape="square" :size="250" :src="doctor.profile" />
+            <el-avatar v-if="doctor.profile=='No profile'" shape="square" :size="250" src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png" />
           </div>
           <el-row class="d-flex justify-content-center mt-4">
-            <h3 class="text-#FCB22D text-center">{{doctor.name}}</h3>
+            <h3 class="text-#FCB22D text-center">{{doctor.first_name}} {{doctor.last_name }}</h3>
           </el-row>
           <el-row class="d-flex justify-content-center mt-2">
             <span class="font-bold role-team"> {{doctor.email}}</span>
