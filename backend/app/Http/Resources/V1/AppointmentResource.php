@@ -19,7 +19,8 @@ class AppointmentResource extends JsonResource
             'hospital'=>$this->hospital->name,
             'user'=>AppointmentMaker::make($this->user),
             'doctor'=>$this->doctor->name,
-            'appointment_date'=>$this->appointment_date
+            'appointment_date'=>$this->appointment_date,
+            'status'=>$this->status
         ];
     }
 }

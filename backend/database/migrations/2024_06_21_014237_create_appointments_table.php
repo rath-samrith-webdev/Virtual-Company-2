@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('doctor_id')->constrained('doctors')->onDelete('cascade');
             $table->date('appointment_date');
             $table->time('appointment_time');
-            $table->enum('status', ['Pending', 'Confirmed', 'Rejected'])->default('Pending');
+            $table->enum('status', ['Pending','Missing', 'Confirmed', 'Rejected'])->default('Pending');
             $table->timestamps();
         });
     }
