@@ -2,7 +2,30 @@
 import { onMounted } from 'vue'
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import { Lock, Message, UserFilled } from '@element-plus/icons-vue/global'
+import axiosInstance from '@/plugins/axios'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
+const loginCredential: { email: string, password: string } = {
+  email: '',
+  password: ''
+}
+const registerCredential: {
+  first_name: string,
+  last_name: string,
+  email: string,
+  user_type: string,
+  password: string,
+  password_confirmation: string
+} = {
+  first_name: '',
+  last_name: '',
+  name:'',
+  email: '',
+  password: '',
+  user_type: '',
+  password_confirmation: ''
+}
 onMounted(() => {
   {
     const sign_in_btn = document.querySelector('#sign-in-btn')
@@ -24,24 +47,54 @@ onMounted(() => {
     })
   }
 })
+
+async function LogIn() {
+  try {
+    const { data } = await axiosInstance.post('/login', loginCredential)
+    localStorage.setItem('access_token', data.access_token)
+    if (data.role == 'hospital') {
+      router.push('/hospital/dashboard')
+    } else if (data.role == 'admin') {
+      router.push('/admin/dashboard')
+    } else {
+      router.push('/')
+    }
+  } catch (error) {
+    console.log(error)
+    router.push('/login')
+  }
+}
+
+async function Register() {
+  try {
+    const { data } = await axiosInstance.post('/register', registerCredential)
+    console.log(data)
+    console.log(registerCredential)
+    router.push('/login')
+  } catch (error) {
+    console.log(error)
+    router.push('/login')
+  }
+}
 </script>
 <template>
   <WebLayout>
     <div class="container">
       <div class="signin-signup">
-        <form action="" class="sign-in-form">
+        <!--Login Form-->
+        <form action="" @submit.prevent="LogIn" class="sign-in-form">
           <h2 class="title">Sign in</h2>
           <div class="input-field">
             <el-icon :size="20">
               <UserFilled />
             </el-icon>
-            <input type="text" placeholder="Email" />
+            <input type="email" v-model="loginCredential.email" placeholder="Email" />
           </div>
           <div class="input-field">
             <el-icon :size="20">
               <Lock />
             </el-icon>
-            <input type="password" placeholder="Password" />
+            <input type="password" v-model="loginCredential.password" placeholder="Password" />
           </div>
           <p class="social-text">Or Sign in with social platform</p>
           <div class="social-media">
@@ -73,31 +126,53 @@ onMounted(() => {
             Don't have an account? <a href="#" id="sign-up-btn2">Sign up</a>
           </p>
         </form>
-        <form action="" class="sign-up-form">
+        <!--Sign Up Form-->
+        <form action="" @submit.prevent="Register" class="sign-up-form">
           <h2 class="title">Sign up</h2>
-          <div class="input-field">
-            <el-icon :size="20">
-              <UserFilled />
-            </el-icon>
-            <input type="text" placeholder="First Name" />
+          <div class="d-flex">
+            <div class="input-field d-flex gap-1 align-items-center">
+              <el-icon :size="20">
+                <UserFilled />
+              </el-icon>
+              <input type="text" v-model="registerCredential.first_name" placeholder="First Name" />
+            </div>
+            <div class="input-field d-flex align-items-center">
+              <el-icon :size="20">
+                <UserFilled />
+              </el-icon>
+              <input type="text" v-model="registerCredential.last_name" placeholder="Last Name" />
+            </div>
           </div>
           <div class="input-field">
             <el-icon :size="20">
               <UserFilled />
             </el-icon>
-            <input type="text" placeholder="Last Name" />
+            <input type="text" v-model="registerCredential.name" placeholder="User name" />
           </div>
           <div class="input-field">
             <el-icon :size="20">
               <Message />
             </el-icon>
-            <input type="text" placeholder="Email" />
+            <input type="email" v-model="registerCredential.email" placeholder="Email" />
           </div>
           <div class="input-field">
             <el-icon :size="20">
               <Lock />
             </el-icon>
-            <input type="password" placeholder="Password" />
+            <input type="password" v-model="registerCredential.password" placeholder="Password" />
+          </div>
+          <div class="input-field">
+            <el-icon :size="20">
+              <Lock />
+            </el-icon>
+            <input type="password" v-model="registerCredential.password_confirmation" placeholder="Confirm Password" />
+          </div>
+          <div class="input-field">
+            <select class="select form-control" v-model="registerCredential.user_type">
+              <option selected value="" hidden>Who are you?</option>
+              <option value="user">Normal User</option>
+              <option value="hospital">Hospital Owner</option>
+            </select>
           </div>
           <p class="social-text">Or Sign in with social platform</p>
           <div class="social-media">
@@ -123,7 +198,7 @@ onMounted(() => {
             </a>
           </div>
           <div class="main-btn">
-            <input type="submit" value="Sign up" class="btn" />
+            <button type="submit" class="btn">Sign Up</button>
           </div>
           <p class="account-text">
             Already have an account? <a href="#" id="sign-in-btn2">Sign in</a>
@@ -224,7 +299,7 @@ form.sign-up-form {
 
 .input-field {
   width: 100%;
-  height: 50px;
+  height: 45px;
   background: #f0f0f0;
   margin: 5px 0;
   border: 2px solid #32B4E3;
@@ -233,14 +308,7 @@ form.sign-up-form {
   align-items: center;
 }
 
-.input-field i {
-  flex: 0.5;
-  text-align: center;
-  color: #666;
-  font-size: 10px;
-}
-
-.input-field input {
+.input-field input, .input-field .select {
   flex: 4;
   background: none;
   border: none;

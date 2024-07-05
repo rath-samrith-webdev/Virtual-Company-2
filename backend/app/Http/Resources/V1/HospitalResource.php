@@ -17,10 +17,21 @@ class HospitalResource extends JsonResource
         return [
             'id'=>$this->id,
             'name'=>$this->name,
-            'cover_image'=>asset('/images/hospital/hospital-cover/hospital-'.$this->id.'/'.$this->cover_image),
+            'cover_image'=>$this->cover_image?asset('/images/hospital/hospital-cover/hospital-'.$this->id.'/'.$this->cover_image):'No Cover Image',
             'preview_images'=>PreviewImagesResource::collection($this->previewImage()->get()),
             'department'=>$this->departments()->get(),
             'appointment'=>AppointmentResource::collection($this->appointments()->get()),
+            'feedbacks'=>RateResource::collection($this->rates()->latest()->get()),
+            'open_time'=>$this->open_time?$this->open_time:'Not set yet',
+            'close_time'=>$this->close_time?$this->close_time:'Not set yet',
+            'street'=>$this->street?$this->street:'Not Added yet',
+            'village'=>$this->village?$this->village:'Not Added yet',
+            'commune'=>$this->commune?$this->commune:'Not Added yet',
+            'district'=>$this->district?$this->district:'Not Added yet',
+            'province'=>$this->province?$this->province:'Not Added yet',
+            'lat'=>$this->latitude,
+            'lng'=>$this->longitude,
+            'favourite_by'=>$this->favourites()->get()->count()
         ];
     }
 }

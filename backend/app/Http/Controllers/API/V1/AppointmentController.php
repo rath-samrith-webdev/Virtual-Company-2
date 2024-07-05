@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\AppointmentResource;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class AppointmentController extends Controller
 {
@@ -14,15 +16,16 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        return response()->json(['success'=>true,"appointments"=>Appointment::all()],200);
+        return response()->json(['success'=>true,"data"=>AppointmentResource::collection(Appointment::all())],200);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\JsonResponse
     {
         $data = $request->validate([
+            'title'=>'required|string',
             'hospital_id' => 'required|exists:hospitals,id',
             'doctor_id' => 'required|exists:doctors,id',
             'appointment_date' => 'required|date',
@@ -30,7 +33,7 @@ class AppointmentController extends Controller
         $data['user_id'] = Auth::id();
         try {
             Appointment::create($data);
-            return response()->json(['success'=>true,"appointments"=>Appointment::all()],201);
+            return response()->json(['success'=>true,"data"=>AppointmentResource::collection(Appointment::all())],201);
         }catch (\Exception $exception){
             return response()->json(['success'=>false,'message'=>$exception->getMessage()],500);
         }
@@ -42,7 +45,7 @@ class AppointmentController extends Controller
     public function show(Appointment $appointment)
     {
         try {
-            return response()->json(['success'=>true,"appointments"=>Appointment::all()],200);
+            return response()->json(['success'=>true,"data"=>AppointmentResource::make($appointment)],200);
         }catch (\Exception $exception){
             return response()->json(['success'=>false,'message'=>$exception->getMessage()],500);
         }
@@ -78,9 +81,9 @@ class AppointmentController extends Controller
         try {
             if($appointment->user_id==Auth::id()){
                 $appointment->delete();
-                return response()->json(['success'=>true,"appointments"=>Appointment::all()],200);
+                return response()->json(['success'=>true,'message'=>'Appointment has been deleted'],200);
             }else{
-                return response()->json(['success'=>false],500);
+                return response()->json(['success'=>false,'message'=>'Unauthorized'],500);
             }
         }catch (\Exception $exception){
             return response()->json(['success'=>false,'message'=>$exception->getMessage()],500);

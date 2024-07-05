@@ -15,11 +15,11 @@ export default {
         return {
             items: [
                 {
-                    img: 'https://helloangkor.com/wp-content/uploads/2021/10/IMG_20220408_113311-e1650598048283.jpg'
+                    img: 'https://cdn.pixabay.com/photo/2016/11/08/05/29/surgery-1807541_1280.jpg'
                 }
                 ,
                 {
-                    img: 'https://www.gocambodia.tours/wp-content/uploads/2018/07/Calmette-Hospital-Phnom-Penh.jpg'
+                    img: 'https://cdn.pixabay.com/photo/2024/04/09/05/38/ai-generated-8685104_1280.jpg'
                 }
                 ,
                 {
@@ -31,11 +31,11 @@ export default {
                 }
                 ,
                 {
-                    img: 'http://subsites.chinadaily.com.cn/cidca/att/20220330/1648636225570051552.png'
+                    img: 'https://cdn.pixabay.com/photo/2017/07/23/10/44/dentist-2530990_1280.jpg'
                 }
                 ,
                 {
-                    img: 'https://assets.charltonmedia.com/s3fs-public/styles/article_node_main_image/public/2022-04/thumbnail_image002.jpg?h=4938c091&itok=kwxQe63P'
+                    img: 'https://cdn.pixabay.com/photo/2024/05/20/14/30/ai-generated-8775433_960_720.png'
                 }
             ]
         }
@@ -45,7 +45,7 @@ export default {
 
 <style>
 .el-carousel{
-  height: 80vh;
+  height: 85vh;
   width: 90vw;
   margin: 0 auto;
 }

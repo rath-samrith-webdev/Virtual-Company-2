@@ -4,10 +4,16 @@ use App\Http\Controllers\API\V1\AppointmentController;
 use App\Http\Controllers\API\V1\CategoryController;
 use App\Http\Controllers\API\V1\DepartmentController;
 use App\Http\Controllers\API\V1\DoctorController;
+use App\Http\Controllers\API\V1\FavouriteController;
 use App\Http\Controllers\API\V1\HospitalController;
 use App\Http\Controllers\API\V1\PostController;
+use App\Http\Controllers\API\V1\RateController;
+use App\Http\Controllers\API\V1\RateReplyController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SystemRequestController;
+use App\Mail\TestMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +31,8 @@ Route::prefix('v1')->group(function () {
 
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/forget-password', [AuthController::class, 'forgetPassword']);
+    Route::post('/reset-password', [AuthController::class, 'resetPassword']);
     Route::post('/profileUpload',[AuthController::class, 'profileUpload'])->middleware('auth:sanctum');
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
     Route::get('/me', [AuthController::class, 'index'])->middleware('auth:sanctum');
@@ -68,6 +76,35 @@ Route::prefix('v1')->group(function () {
         Route::get('/show/{doctor}', [DoctorController::class, 'show']);
         Route::put('/update/{doctor}', [DoctorController::class, 'update']);
         Route::delete('/delete/{doctor}', [DoctorController::class, 'destroy']);
+    });
+    Route::middleware('auth:sanctum')->prefix('feedbacks')->group(function (){
+        Route::get('/list',[RateController::class,'index']);
+        Route::post('/create',[RateController::class,'store']);
+        Route::get('/show/{rate}',[RateController::class,'show']);
+        Route::get('/recent',[RateController::class,'recentFeedback']);
+        Route::put('/update/{rate}',[RateController::class,'update']);
+        Route::delete('/delete/{rate}',[RateController::class,'destroy']);
+    });
+    Route::middleware('auth:sanctum')->prefix('feedback-reply')->group(function () {
+        Route::get('/list',[RateReplyController::class,'index']);
+        Route::post('/create',[RateReplyController::class,'store']);
+        Route::get('/show/{rateReply}',[RateReplyController::class,'show']);
+        Route::put('/update/{rateReply}',[RateReplyController::class,'update']);
+        Route::delete('/delete/{rateReply}',[RateReplyController::class,'destroy']);
+    });
+    Route::middleware('auth:sanctum')->prefix('system-requests')->group(function () {
+        Route::get('/list',[SystemRequestController::class,'index']);
+        Route::get('/categories',[SystemRequestController::class,'categories']);
+        Route::post('/create',[SystemRequestController::class,'store']);
+        Route::get('/show/{systemRequest}',[SystemRequestController::class,'show']);
+        Route::put('/update/{systemRequest}',[SystemRequestController::class,'update']);
+        Route::delete('/delete/{systemRequest}',[SystemRequestController::class,'destroy']);
+    });
+    Route::middleware('auth:sanctum')->prefix('favourites')->group(function () {
+        Route::get('/list',[FavouriteController::class,'index']);
+        Route::post('/create',[FavouriteController::class,'store']);
+        Route::put('/update/{favourite}',[FavouriteController::class,'update']);
+        Route::delete('/delete/{favourite}',[FavouriteController::class,'destroy']);
     });
     Route::get('/post/list', [PostController::class, 'index'])->middleware('auth:sanctum');
 });
