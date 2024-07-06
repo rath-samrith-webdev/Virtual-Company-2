@@ -2,58 +2,18 @@
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import Chart from 'chart.js/auto'
 import { computed, h, onMounted, ref } from 'vue'
-import { Message, Plus,StarFilled,Star } from '@element-plus/icons-vue/global'
+import { ArrowRight, CaretBottom, CaretTop, Message, Plus, Warning } from '@element-plus/icons-vue/global'
 import { ElNotification } from 'element-plus'
-
+import { FeedbackList } from '@/stores/feedback-list'
+import { hopsitalAppointmentListStore } from '@/stores/hospital-appointment-list'
+const appointmentStore=hopsitalAppointmentListStore()
+const store=FeedbackList()
 let dialogOverflowVisible = ref(false)
-const tableData: User[] = [
-  {
-    id: 1,
-    date: '2016-05-02',
-    name: 'wangxiaohu',
-    status: 'Accepted',
-    star:5,
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    id: 2,
-    date: '2016-05-04',
-    name: 'wangxiaohu',
-    status: 'Accepted',
-    star:5,
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    id: 3,
-    date: '2016-05-01',
-    name: 'wangxiaohu',
-    status: 'Accepted',
-    star:4,
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    id: 4,
-    date: '2016-05-03',
-    name: 'wangxiaohu',
-    status: 'Rejected',
-    star:3,
-    address: 'No. 189, Grove St, Los Angeles'
-  }
-]
-const data = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-  datasets: [{
-    label: 'Total Appointments',
-    data: [65, 59, 80, 81, 26, 55, 40, 81, 26, 55, 40, 50],
-    fill: true,
-    borderColor: 'rgb(75, 192, 192)'
-  }]
-}
 const data2 = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
   datasets: [{
     label: 'Total Feedback',
-    data: [65, 59, 80, 81, 26, 55, 40, 81, 26, 55, 40, 50],
+    data:[65, 59, 80, 81, 26, 55, 40, 81, 26, 55, 40, 50] ,
     fill: true,
     backgroundColor: [
       'rgba(255, 99, 132, 0.2)',
@@ -76,27 +36,7 @@ const data2 = {
     borderWidth: 1
   }]
 }
-const config = {
-  type: 'line',
-  data: data,
-  options: {
-    animations: {
-      tension: {
-        duration: 1000,
-        easing: 'linear',
-        from: 1,
-        to: 0
-      }
-    },
-    scales: {
-      y: { // defining min and max so hiding the dataset does not change scale range
-        min: 0,
-        max: 100
-      }
-    }
-  }
-}
-let delayed
+let delayed:boolean
 const config2 = {
   type: 'bar',
   data: data2,
@@ -105,7 +45,7 @@ const config2 = {
       onComplete: () => {
         delayed = true
       },
-      delay: (context) => {
+      delay: (context:any) => {
         let delay = 0
         if (context.type === 'data' && context.mode === 'default' && !delayed) {
           delay = context.dataIndex * 300 + context.datasetIndex * 100
@@ -132,13 +72,6 @@ interface User {
   status: string
 }
 
-const open4 = () => {
-  ElNotification({
-    title: 'Appointment Rejection',
-    type: 'success',
-    message: h('i', { style: 'color: green' }, 'Rejected Successfully')
-  })
-}
 const open = () => {
   ElNotification({
     title: 'Warning',
@@ -148,10 +81,10 @@ const open = () => {
 }
 const search = ref('')
 const filterTableData = computed(() =>
-  tableData.filter(
+  store.recentFeedbacks.filter(
     (data) =>
       !search.value ||
-      data.name.toLowerCase().includes(search.value.toLowerCase())
+      data.from.toLowerCase().includes(search.value.toLowerCase())
   )
 )
 const handleEdit = (index: number, row: User) => {
@@ -169,11 +102,23 @@ const sentReply = () => {
     open()
   }
 }
+function fetchRecent(){
+  store.fetchRecentFeedbacks()
+}
+function fetchFeedback(){
+  store.fetchFeedback()
+}
+function fetchMonthlyAppointment(){
+  appointmentStore.fetchMonthlyAppointment()
+}
 onMounted(() => {
+  fetchRecent()
+  fetchFeedback()
+  fetchMonthlyAppointment()
   const feedBack = document.getElementById('chartOne')
   const appointments = document.getElementById('chartTwo')
-  new Chart(feedBack, config)
   new Chart(appointments, config2)
+  new Chart(feedBack, config2)
 })
 </script>
 
@@ -182,6 +127,59 @@ onMounted(() => {
     <div class="bg-warning py-2">
       <h1 class="text-center text-white">Dashboard</h1>
     </div>
+    <el-row :gutter="16" class="mt-5 bg-body-secondary p3">
+      <el-col :span="8">
+        <div class="statistic-card">
+          <el-statistic :value="store.allFeedback.length">
+            <template #title>
+              <div style="display: inline-flex; font-size: 15px; align-items: center">
+                Total Feedbacks
+                <el-tooltip
+                  effect="dark"
+                  content="Number of users who logged into the product in one day"
+                  placement="top"
+                >
+                  <el-icon style="margin-left: 4px" :size="12">
+                    <Warning />
+                  </el-icon>
+                </el-tooltip>
+              </div>
+            </template>
+          </el-statistic>
+        </div>
+      </el-col>
+      <el-col :span="8">
+        <div class="statistic-card">
+          <el-statistic :value="693700">
+            <template #title>
+              <div style="display: inline-flex; font-size: 15px;align-items: center">
+                Pending Appointments
+                <el-tooltip
+                  effect="dark"
+                  content="Number of users who logged into the product in one month"
+                  placement="top"
+                >
+                  <el-icon style="margin-left: 4px" :size="12">
+                    <Warning />
+                  </el-icon>
+                </el-tooltip>
+              </div>
+            </template>
+          </el-statistic>
+        </div>
+      </el-col>
+      <el-col :span="8">
+        <div class="statistic-card">
+          <el-statistic :value="72000" title="New transactions today">
+            <template #title>
+              <div style="display: inline-flex; font-size: 15px; align-items: center">
+                Confirmed Appointments
+              </div>
+            </template>
+          </el-statistic>
+        </div>
+      </el-col>
+    </el-row>
     <div class="flex flex-wrap mt-6">
       <div class="w-full lg:w-1/2 pr-0 lg:pr-2">
         <p class="text-xl text-center">
@@ -213,12 +211,12 @@ onMounted(() => {
           <template #default="avatar">
             <div class="d-flex align-items-center gap-4">
               <el-avatar
-                src="https://media.licdn.com/dms/image/C5603AQEy_W2B5osjlQ/profile-displayphoto-shrink_800_800/0/1610784133410?e=1724889600&v=beta&t=CA6qUP_8mLjqs-qd1ZtXt0UEdfIOeCl0MQkuFVWYw2Y"></el-avatar>
-              {{ avatar.row.name }}
+                :src="avatar.row.from.profile"></el-avatar>
+              {{ avatar.row.from.first_name  }} {{avatar.row.from.last_name}}
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="Content" prop="status" />
+        <el-table-column label="Content" prop="content" />
         <el-table-column label="Stars" prop="star">
           <template #default="star">
             <el-rate
@@ -265,16 +263,52 @@ onMounted(() => {
   </WebLayout>
 </template>
 <style scoped>
+:global(h2#card-usage ~ .example .example-showcase) {
+  background-color: var(--el-fill-color) !important;
+}
+
+.el-statistic {
+  --el-statistic-content-font-size: 28px;
+}
+
+.statistic-card {
+  height: 100%;
+  padding: 20px;
+  border-radius: 4px;
+  background-color: var(--el-bg-color-overlay);
+}
+
+.statistic-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--el-text-color-regular);
+  margin-top: 16px;
+}
+
+.statistic-footer .footer-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.statistic-footer .footer-item span:last-child {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 4px;
+}
+
+.green {
+  color: var(--el-color-success);
+}
+.red {
+  color: var(--el-color-error);
+}
 .el-col {
   text-align: center;
 }
 
-.el-statistic {
-  --el-statistic-title-color: black;
-  --el-statistic-content-color: #000;
-  --el-statistic-content-font-size: 20px;
-  --el-statistic-title-font-size: 20px;
-  --el-statistic-content-font-weight: bold;
-}
 </style>
 

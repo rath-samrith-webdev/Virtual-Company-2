@@ -4,23 +4,26 @@
       <div class="appointment">
         <h1>Customers' Appointment</h1>
       </div>
-      <el-table v-if="showTable" :data="tableData" height="450" style="width: 100%" class="mt-3">
+      <el-table v-if="showTable" :data="store.appointments" height="450" style="width: 100%" class="mt-3">
         <!-- Profile Column -->
         <el-table-column label="Profile" width="120">
           <template #default="scope">
-            <img :src="scope.row.profile" alt="Profile Image" style="width: 50px; height: 50px; border-radius: 50%;"
-                 @click="showDetails(scope.row)">
+            <el-avatar :src="scope.row.user.profile"></el-avatar>
           </template>
         </el-table-column>
 
         <!-- Name Column -->
-        <el-table-column prop="name" label="Name" width="180" />
+        <el-table-column label="Name" width="180" >
+          <template #default="scope">
+            <strong>{{scope.row.user.first_name}} {{scope.row.user.last_name}}</strong>
+          </template>
+        </el-table-column>
 
         <!-- Date Column -->
-        <el-table-column prop="date" label="Date" />
+        <el-table-column prop="appointment_date" label="Date" />
 
         <!-- Age Column -->
-        <el-table-column prop="age" label="Age" />
+        <el-table-column prop="hospital" label="Hospital" />
         <!--Status Column-->
         <el-table-column prop="status" label="Status" :filters="[
         { text: 'Confirmed', value: 'Confirmed' },
@@ -38,27 +41,41 @@
         <!-- Tag Column -->
         <el-table-column label="Action">
           <template #default="scope">
-            <el-popover placement="right" :width="700" trigger="click">
-              <div class="card-header">
-                <h3>Appointment Details</h3>
-              </div>
-              <div class="card-body">
-                <div class="profile-container">
-                  <img :src="scope.row.profile" alt="Profile Image" class="detail-image">
+            <el-button plain @click="showDetails(scope.row)">
+              Details
+            </el-button>
+            <el-dialog v-model="outerVisible" title="Appointment Details" width="600">
+              <p><b>Name:</b> {{ currentAppointment.user.first_name }}</p>
+              <p><b>Doctor:</b> {{ currentAppointment.doctor.first_name }}</p>
+              <p><b>Hospital:</b> {{ currentAppointment.hospital }}</p>
+              <p><b>Phone Number:</b> {{ currentAppointment.user.phone_number }}</p>
+              <p><b>Date:</b> {{ currentAppointment.appointment_date }}</p>
+              <p><b>Time:</b> {{ currentAppointment.appointment_time }}</p>
+              <p><b>Room No:</b></p>
+              <p><b>Status:</b> {{ currentAppointment.status }}</p>
+              <p><b>Gender:</b> {{ currentAppointment.user.gender }}</p>
+              <el-dialog
+                v-model="innerVisible"
+                width="300"
+                title="Confirm Appointment"
+                append-to-body>
+                <span>This is the inner Dialog</span>
+                <div class="el-dialog__footer">
+                  <el-button @click="innerVisible = false">Cancel</el-button>
+                  <el-button type="primary" @click="ConfirmAppointment(scope.row.id)">
+                    Confirm
+                  </el-button>
                 </div>
-                <p><b>Name:</b> {{ scope.row.name }}</p>
-                <p><b>Doctor:</b> {{ scope.row.doctor }}</p>
-                <p><b>Department:</b> {{ scope.row.department }}</p>
-                <p><b>Phone Number:</b> {{ scope.row.phone_number }}</p>
-                <p><b>Date:</b> {{ scope.row.date }}</p>
-                <p><b>Time:</b> {{ scope.row.time }}</p>
-                <p><b>Age:</b> {{ scope.row.age }}</p>
-                <p><b>Gender:</b> {{ scope.row.sex }}</p>
-              </div>
-              <template #reference>
-                <el-button size="small">Details</el-button>
+              </el-dialog>
+              <template #footer>
+                <div class="dialog-footer">
+                  <el-button @click="outerVisible = false">Cancel</el-button>
+                  <el-button type="primary" @click="innerVisible = true">
+                    Confirm Appointment
+                  </el-button>
+                </div>
               </template>
-            </el-popover>
+            </el-dialog>
           </template>
         </el-table-column>
       </el-table>
@@ -68,68 +85,49 @@
 
 <script setup lang="ts">
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
-import { onMounted } from 'vue'
-
+import { onMounted, ref, watch } from 'vue'
+import {hopsitalAppointmentListStore} from '@/stores/hospital-appointment-list'
+import { string } from 'yup'
+import { ElNotification } from 'element-plus'
+const store=hopsitalAppointmentListStore()
 const showTable = true
-const tableData = [
-  {
-    profile: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXJA32WU4rBpx7maglqeEtt3ot1tPIRWptxA&s',
-    name: 'Rith Sreynang',
-    doctor: 'phal him',
-    department: 'Health centre',
-    phone_number: '012023334',
-    date: '2016-05-02',
-    time: '12:08:30',
-    age: '29',
-    sex: 'Male',
-    status: 'Confirmed'
-  },
-  {
-    profile: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXJA32WU4rBpx7maglqeEtt3ot1tPIRWptxA&s',
-    name: 'Radit THY',
-    doctor: 'phal him',
-    department: 'Health centre',
-    phone_number: '012023334',
-    date: '2016-05-02',
-    time: '12:08:30',
-    age: '29',
-    sex: 'Male',
-    status: 'Pending'
-  },
-  {
-    profile: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXJA32WU4rBpx7maglqeEtt3ot1tPIRWptxA&s',
-    name: 'Radit THY',
-    doctor: 'phal him',
-    department: 'Health centre',
-    phone_number: '012023334',
-    date: '2016-05-02',
-    time: '12:08:30',
-    age: '29',
-    sex: 'Male',
-    status: 'Denied'
-  }
-]
-
+const outerVisible = ref(false)
+const innerVisible = ref(false)
+let currentAppointment={}
 // Function to show details popover
-function showDetails(row: any) {
-  // Implement your logic to show details here
-  console.log('Showing details for:', row)
+const ConfirmAppointment=(id:any)=>{
+  innerVisible.value = false
+  store.confirmAppointment(id)
 }
-
-onMounted(() => {
-  // Function to close popover
-  function closePopover() {
-    $refs.popover.hide()
+const fetchAppointments=()=> {
+  store.fetchAppointments()
+}
+const open2 = (title:string,message:any,type:string) => {
+  ElNotification({
+    title:title,
+    message: message,
+    type: type,
+  })
+}
+watch(()=>store.message,()=>{
+  if(store.message.success){
+    open2('Appointment Confirmed',store.message.message,'success')
+  }else{
+    open2('Appointment Confirmed',store.message.message,'success')
   }
 })
+onMounted(() => {
+  fetchAppointments()
+})
 interface User {
-  date: string
-  name: string
-  address: string
   status: string
 }
 const filterTag = (value: string, row: User) => {
   return row.status === value
+}
+const showDetails= (row) => {
+  outerVisible.value = true
+  currentAppointment=row
 }
 </script>
 

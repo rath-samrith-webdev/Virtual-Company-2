@@ -3,9 +3,7 @@ import axiosInstance from '@/plugins/axios';
 import { onMounted, reactive, ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth-store'
 import { CirclePlus, Close, Delete, EditPen, View } from '@element-plus/icons-vue'
-import { ElMessage, ElNotification } from 'element-plus'
-import { string } from 'yup'
-import EditAppointmentForm from '@/Components/Appointment/EditAppointmentForm.vue'
+import {  ElNotification } from 'element-plus'
 const showTable= true
 let visible= ref(false)
 let currentAppointment= {}
@@ -62,6 +60,7 @@ async function fetchHospitals() {
   }
 }
 const openEditDialog=(row:any)=>{
+  console.log(row)
   dialogEditVisible.value = true
   formEdit.id=row.id
   formEdit.first_name=row.user.first_name
@@ -86,6 +85,7 @@ async function fetchDoctors(hospital_id:any,docData:any[]) {
     const { data } = await axiosInstance.get(`/hospitals/show/${hospital_id}`);
     data.data.doctors.forEach((doctor)=>{
       docData.value.push(doctor);
+      console.log(doctor)
     })
   } catch (error) {
     console.log(error);
@@ -220,7 +220,7 @@ watch(()=>formEdit.hospital_id,()=>{
         </el-form-item>
         <el-form-item label="Select a Doctor">
           <el-select v-model="formEdit.doctor_id"  placeholder="Select Doctor">
-            <el-option v-for="item in doctorEditData" :key="item.id" :label="item.name" :value="item.id" />
+            <el-option v-for="item in doctorEditData" :key="item.id" :label="item.first_name+' '+item.last_name" :value="item.id" />
           </el-select>
         </el-form-item>
         <el-form-item label="Activity time">
@@ -283,7 +283,7 @@ watch(()=>formEdit.hospital_id,()=>{
         </el-form-item>
         <el-form-item label="Select a Doctor">
           <el-select v-model="form.doctor_id"  placeholder="Please select a doctor">
-            <el-option v-for="item in doctorData" :key="item.id" :label="item.name" :value="item.id" />
+            <el-option v-for="item in doctorData" :key="item.id" :label="item.first_name+' '+item.last_name" :value="item.id" />
           </el-select>
         </el-form-item>
         <el-form-item label="Activity time">

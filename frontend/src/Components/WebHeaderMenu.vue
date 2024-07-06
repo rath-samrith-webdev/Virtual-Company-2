@@ -51,6 +51,27 @@ function handleCommand(command) {
       </router-link
       >
     </nav>
+    <!--Doctor Menu-->
+    <nav class="flex justify-center space-x-4 ms-lg-4" v-if="store.user && store.roles[0]=='doctor'">
+      <router-link
+        to="/"
+        class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+      >Home
+      </router-link
+      >
+      <router-link
+        to="/doctor/calendar"
+        class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+      >Calendar
+      </router-link
+      >
+      <router-link
+        to="/doctor/appointment"
+        class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+      >Appointments
+      </router-link
+      >
+    </nav>
     <!-- User Menu -->
     <nav class="flex justify-center space-x-4 ms-lg-4" v-if="store.user && store.roles[0]=='user'">
       <router-link
@@ -78,6 +99,7 @@ function handleCommand(command) {
       </router-link
       >
     </nav>
+<!-- Landing Nav           -->
     <nav class="pb-4 pt-3 flex justify-center space-x-4 " v-if="!store.user">
       <router-link to="/landing" class=" fw-bold text-dark " style="text-decoration: none;">Home</router-link>
       <router-link to="/about" class="fw-bold pl-5 text-dark" style="text-decoration: none;">About Us</router-link>

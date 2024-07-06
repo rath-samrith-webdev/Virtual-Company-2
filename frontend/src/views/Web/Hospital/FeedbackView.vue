@@ -61,7 +61,11 @@ function handleWarningClick(event: Event) {
         <el-table-column prop="content" label="Content" width="310" />
 
         <!-- From Column -->
-        <el-table-column prop="from" label="From" width="250" />
+        <el-table-column prop="from" label="From" width="250">
+          <template #default="scope">
+            <strong>{{ scope.row.user.full_name }}</strong>
+          </template>
+        </el-table-column>
 
         <!-- To Column -->
         <el-table-column prop="to" label="To" width="250" />
@@ -77,9 +81,6 @@ function handleWarningClick(event: Event) {
         <el-table-column label="Action">
           <template #default="scope">
             <el-popover placement="right" width="600" trigger="click">
-              <div class="card-header">
-                <!-- <h4>Reply to customer </h4> -->
-              </div>
               <div class="card-body">
                 <el-input v-model="textarea" style="width: 540px; border: none;" :rows="5" type="textarea"
                   placeholder="Please input"></el-input>

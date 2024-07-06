@@ -90,6 +90,11 @@ const router = createRouter({
       path: '/hospital/user',
       name: 'hospital/user',
       component: () => import('../views/Web/User/HospitalView.vue')
+    },
+    {
+      path:'/doctor/dashboard',
+      name:'doctor-dashboard',
+      component:()=>import('../views/Web/Doctor/Dashboard.vue')
     }
   ]
 })
