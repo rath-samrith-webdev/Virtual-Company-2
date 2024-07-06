@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\DoctorDetails;
 use App\Models\Doctor;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class DoctorController extends Controller
     public function index()
     {
         try {
-            return response()->json(['success' => true, 'data' => Doctor::all()]);
+            return response()->json(['success' => true, 'data' => DoctorDetails::collection(Doctor::all())], 200);
         }catch (\Exception $exception){
             return response()->json(['success' => false, 'message' => $exception->getMessage()]);
         }
