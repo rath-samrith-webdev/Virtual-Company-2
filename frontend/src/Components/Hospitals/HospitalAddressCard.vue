@@ -77,6 +77,7 @@
             </h4>
           </div>
           <div class="info">
+       
             <h3 class="card-title">{{ card.name }}</h3>
             <h5 class="card-subtitle mb-2 text-muted">
               <i class="fas fa-clock"></i> {{ card.time }}
@@ -86,6 +87,7 @@
             <p class="card-text">{{ card.title }}</p>
             <el-rate v-model="card.rating" disabled show-score text-color="#ff9900" />
             <div class="card_button mt-2">
+              <el-icon><CollectionTag /></el-icon>
               <button type="button" class="btn btn-warning">
                 <i class="fas fa-info-circle"></i> See Details
               </button>
@@ -100,11 +102,13 @@
 <script>
 import { ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
+import { CollectionTag } from '@element-plus/icons-vue'
 import axiosInstance from '@/plugins/axios'
 export default {
   name: 'HospitalAddressCard',
   components: {
-    Search
+    Search,
+    CollectionTag
   },
   data() {
     return {
@@ -308,6 +312,14 @@ h1 {
 
 .card_button {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+
+}
+.card_button .el-icon{
+size: 20px;
+border-radius: 5px ;
+background: rgba(255, 166, 0, 0.856);
+width: 20%;
+height: 40px;
 }
 </style>
