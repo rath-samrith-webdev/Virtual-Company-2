@@ -3,7 +3,7 @@
     <h1>Search address</h1>
     <div class="search_form">
       <div>
-        <el-select 
+        <el-select
           v-model="selectedOptions"
           multiple
           filterable
@@ -11,11 +11,10 @@
           default-first-option
           :reserve-keyword="false"
           placeholder="Select province"
-          style="width: 240px;"
+          style="width: 240px"
           size="large"
         >
           <el-option
-          
             v-for="item in options"
             :key="item.value"
             :label="item.label"
@@ -23,11 +22,12 @@
           />
         </el-select>
       </div>
-      <el-input class=" m-2"
-       :rows="2"
+      <el-input
+        class="m-2"
+        :rows="2"
         prefix-icon="Search"
         style="width: 1000px"
-         size="large"
+        size="large"
         placeholder="Search province"
         v-model="searchQuery"
       >
@@ -40,26 +40,37 @@
       <div class="col" v-for="(card, index) in filteredCards" :key="index">
         <div class="card h-100">
           <div class="card_image">
-            <img v-if="card.cover_image!=='No cover'" :src="card.cover_image" class="card-img-top" alt="...">
-              <h4 v-if="card.cover_image=='No cover'" >
-                <img src="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1" alt="" width="400px">
-              </h4>
+            <img
+              v-if="card.cover_image == 'No cover'"
+              :src="card.cover_image"
+              class="card-img-top"
+              alt="..."
+            />
+            <h4 v-if="card.cover_image !== 'No cover'">
+              <img
+                src="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1"
+                alt=""
+                width="400px"
+              />
+            </h4>
           </div>
 
           <div class="card-body">
-            <h3 class="card-title">{{ card.name }}</h3>
-            <h5 class="card-subtitle mb-2 text-muted"><i class="fas fa-clock"></i> {{ card.time }}</h5>
+            <div>
+              <h3 class="card-title">{{ card.name }}</h3>
+              <el-icon><CollectionTag /></el-icon>
+            </div>
+            <h5 class="card-subtitle mb-2 text-muted">
+              <i class="fas fa-clock"></i> {{ card.time }}
+            </h5>
             <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ card.province }}</p>
             <p class="card-text"><i class="fas fa-phone-alt"></i> {{ card.phone_number }}</p>
             <p class="card-text">{{ card.title }}</p>
-            <el-rate
-              v-model="card.rating"
-              disabled
-              show-score
-              text-color="#ff9900"
-            />
+            <el-rate v-model="card.rating" disabled show-score text-color="#ff9900" />
             <div class="mt-2">
-              <button type="button" class="btn btn-warning"><i class="fas fa-info-circle"></i> See Details</button>
+              <button type="button" class="btn btn-warning">
+                <i class="fas fa-info-circle"></i> See Details
+              </button>
             </div>
           </div>
         </div>
@@ -75,7 +86,7 @@ import axiosInstance from '@/plugins/axios'
 export default {
   name: 'CardAddress',
   components: {
-    Search,
+    Search
   },
   data() {
     return {
@@ -105,7 +116,7 @@ export default {
         { value: 'Stung Treng', label: 'Stung Treng' },
         { value: 'Svay Rieng', label: 'Svay Rieng' },
         { value: 'Takéo', label: 'Takéo' },
-        { value: 'Tboung Khmum', label: 'Tboung Khmum' },
+        { value: 'Tboung Khmum', label: 'Tboung Khmum' }
       ],
       searchQuery: '',
       cardAddress: []
@@ -113,26 +124,28 @@ export default {
   },
   computed: {
     filteredCards() {
-      return this.cardAddress.filter(card => {
-        const matchesTitle = card.name.toLowerCase().includes(this.searchQuery.toLowerCase());
-        const matchesOptions = this.selectedOptions.length === 0 || this.selectedOptions.includes(card.province.toLowerCase());
-        return matchesTitle && matchesOptions;
-      });
-    },
-  },
-  methods:{
-    async fetchHospital() {
-    try {
-      const { data } = await axiosInstance.get('/hospitals/list')
-      console.log(data.data);
-      data.data.forEach(hospitals =>{
-        this.cardAddress.push(hospitals)
+      return this.cardAddress.filter((card) => {
+        const matchesTitle = card.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+        const matchesOptions =
+          this.selectedOptions.length === 0 ||
+          this.selectedOptions.includes(card.province.toLowerCase())
+        return matchesTitle && matchesOptions
       })
-    } catch (error) {
-      console.log(error)
-      return null
     }
-}
+  },
+  methods: {
+    async fetchHospital() {
+      try {
+        const { data } = await axiosInstance.get('/hospitals/list')
+        console.log(data.data)
+        data.data.forEach((hospitals) => {
+          this.cardAddress.push(hospitals)
+        })
+      } catch (error) {
+        console.log(error)
+        return null
+      }
+    }
   },
   mounted() {
     this.fetchHospital()
@@ -154,7 +167,9 @@ export default {
   transition: box-shadow 0.3s ease-in-out;
 }
 .card:hover {
-  box-shadow: 0 4px 8px 0 rgb(247, 219, 8), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow:
+    0 4px 8px 0 rgb(247, 219, 8),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .card-img-top {
   max-height: 200px;
@@ -174,21 +189,18 @@ export default {
   display: flex;
   align-items: center;
   margin-left: 100px;
-  margin-top: 20px;  
+  margin-top: 20px;
 }
 h1 {
   text-align: center;
   color: orange;
 }
-.card-img-top img{
+.card-img-top img {
   background: #007bff;
 }
-h4 img{
+h4 img {
   width: 100%;
   height: 100%;
   padding: 10px;
-
 }
-
-
 </style>

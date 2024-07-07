@@ -218,7 +218,6 @@ h1 {
 .single-card {
   position: relative;
   width: 280px;
-  height: 400px;
   margin: 15px;
   box-shadow: 0 2px 20px rgba(255, 251, 175, 0.635);
   transition: box-shadow 0.3s ease;
