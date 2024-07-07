@@ -4,8 +4,8 @@
       <div class="wrapper" v-for="cardFavorite in cardFavorites" :key="cardFavorite.id">
         <div class="single-card">
           <div class="img-area">
-            <img v-if="cardFavorite.cover_image !== 'No cover'" :src="cardFavorite.cover_image" class="card-img-top" alt="...">
-            <h4 v-else>
+            <img v-if="cardFavorite.cover_image == 'No cover'" :src="cardFavorite.cover_image" class="card-img-top" alt="...">
+            <h4 v-if="cardFavorite.cover_image !== 'No cover'">
               <img src="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1" alt="" width="400px">
             </h4>
           </div>
@@ -51,6 +51,14 @@ export default {
     }
   },
   methods: {
+    // async userhospital() {
+    //   try {
+    //     const { data } = await axiosInstance.get('/hospitals/list')
+    //     this.cardFavorites = data.data;
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // },
     async userFavorite() {
       try {
         const { data } = await axiosInstance.get('/favourites/list')
