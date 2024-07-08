@@ -139,8 +139,8 @@
                     <img :src="doctor.avatar" />
                   </el-avatar>
                 </div>
-                <h4 class="text-color-#32B4E3">{{doctor.name}}</h4>
-                <h6>{{doctor.role}}</h6>
+                <h4 class="text-color-#32B4E3">{{ doctor.name }}</h4>
+                <h6>{{ doctor.role }}</h6>
                 <el-row class="d-flex justify-content-center gap-3 mt-3">
                   <el-tooltip
                     class="box-item"
@@ -149,12 +149,14 @@
                     placement="top-start"
                   >
                     <el-avatar
+                      :size="35"
                       shape="circle"
                       :src="'https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png'"
                     ></el-avatar>
                   </el-tooltip>
                   <el-tooltip class="box-item" effect="dark" content="Gmail" placement="top-start">
                     <el-avatar
+                      :size="35"
                       shape="circle"
                       class="social-media-contact"
                       :src="'https://cdn-icons-png.freepik.com/512/6711/6711567.png'"
@@ -167,6 +169,7 @@
                     placement="top-start"
                   >
                     <el-avatar
+                      :size="35"
                       shape="circle"
                       :src="'https://banner2.cleanpng.com/20200525/hhx/transparent-instagram-logo-icon-5ecc25c4860dd5.0946990115904373165491.jpg'"
                     ></el-avatar>
@@ -182,26 +185,93 @@
             </el-table>
           </el-tab-pane>
           <el-tab-pane label="Hospital Calendar" name="fourth">
-            <el-calendar ref="calendar">
+            <el-calendar ref="calendar" class="mt-4 calendar" style="font-size: 18px; font-weight: bold">
               <template #header="{ date }">
-                <span>Custom header content</span>
-                <span>{{ date }}</span>
+                <span class="text-color-#32b4e3">Calendar Hostpital</span>
+                <span class="text-color-#32b4e3">{{ date }}</span>
                 <el-button-group>
-                  <el-button size="small" @click="selectDate('prev-year')">
+                  <el-button
+                    size="large"
+                    class="bg-#32b4e3 text-white hover:bg-#2b9dc8 transition-colors duration-300"
+                    @click="selectDate('prev-year')"
+                  >
                     Previous Year
                   </el-button>
-                  <el-button size="small" @click="selectDate('prev-month')">
+                  <el-button
+                    size="large"
+                    class="bg-#32b4e3 text-white hover:bg-#2b9dc8 transition-colors duration-300"
+                    @click="selectDate('prev-month')"
+                  >
                     Previous Month
                   </el-button>
-                  <el-button size="small" @click="selectDate('today')">Today</el-button>
-                  <el-button size="small" @click="selectDate('next-month')"> Next Month </el-button>
-                  <el-button size="small" @click="selectDate('next-year')"> Next Year </el-button>
+                  <el-button
+                    size="large"
+                    class="bg-#32b4e3 text-white hover:bg-#2b9dc8 transition-colors duration-300"
+                    @click="selectDate('today')"
+                    >Today</el-button
+                  >
+                  <el-button
+                    size="large"
+                    class="bg-#32b4e3 text-white hover:bg-#2b9dc8 transition-colors duration-300"
+                    @click="selectDate('next-month')"
+                  >
+                    Next Month
+                  </el-button>
+                  <el-button
+                    size="large"
+                    class="bg-#32b4e3 text-white hover:bg-#2b9dc8 transition-colors duration-300"
+                    @click="selectDate('next-year')"
+                  >
+                    Next Year
+                  </el-button>
                 </el-button-group>
               </template>
             </el-calendar>
           </el-tab-pane>
-          <el-tab-pane label="Hospital Contact" name="five">Comments and Feedback</el-tab-pane>
-          <el-tab-pane label="Hospital Location " name="six">Location Hospital</el-tab-pane>
+          <el-tab-pane label="Hospital Contact" name="five">
+            <div class="d-flex align-item-center text-align-center DT">
+              <h4 class="mt-4 text-color-#32b4e3">Contact to Us</h4>
+            </div>
+            <div class="doctor-container d-flex flex-wrap gap-4">
+              <div
+                class="contact-infor d-flex flex-column justity-content-center p-5"
+                v-for="contact in contacts"
+                :key="contact.id"
+              >
+                <div class="d-flex">
+                  <el-icon class="text-color-#ffff"><Phone /></el-icon>
+                  <h4 class="text-color-#ffff ml-2 font-weight: bold">{{ contact.title }}</h4>
+                </div>
+                <h6 class="text-color-#ffff mt-3">{{ contact.phone1 }}</h6>
+                <h6 class="text-color-#ffff">{{ contact.phone2 }}</h6>
+              </div>
+              <div
+                class="contact-infor d-flex flex-column justity-content-center p-5"
+                v-for="location in locations"
+                :key="location.id"
+              >
+                <div class="d-flex">
+                  <el-icon class="text-color-#ffff"><Location /></el-icon>
+                  <h4 class="text-color-#ffff font-weight: bold ml-2">{{ location.title }}</h4>
+                </div>
+                <h6 class="text-color-#ffff mt-3">{{ location.address }}</h6>
+              </div>
+              <div
+                class="contact-infor d-flex flex-column justity-content-center p-5"
+                v-for="hour in hours"
+                :key="hour.id"
+              >
+                <div class="d-flex">
+                  <el-icon class="text-color-#ffff"><Clock /></el-icon>
+                  <h4 class="text-color-#ffff font-weight: bold ml-2">{{ hour.title }}</h4>
+                </div>
+                <h6 class="text-color-#ffff mt-3">{{ hour.time }}</h6>
+              </div>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="Hospital Location " name="six">
+            <div id="map" style="height: 400px; width: 100%"></div>
+          </el-tab-pane>
         </el-tabs>
       </div>
     </div>
@@ -213,7 +283,7 @@ import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Calendar } from '@element-plus/icons-vue/dist/types'
-
+import { Phone, Location, Clock } from '@element-plus/icons-vue'
 const dialogFormVisible = ref(false)
 const form = reactive({
   fullname: '',
@@ -280,7 +350,7 @@ const doctors = [
   {
     id: 1,
     name: 'Florida',
-    role: '30 min ago',
+    role: 'A doctor primarily works in medicine',
     avatar:
       'https://dl.memuplay.com/new_market/img/com.vicman.newprofilepic.icon.2022-06-07-21-33-07.png',
     value: 4.5
@@ -288,7 +358,7 @@ const doctors = [
   {
     id: 2,
     name: 'Radit Thy',
-    role: '30 min ago',
+    role: 'A doctor primarily works in medicine',
     avatar:
       'https://media.licdn.com/dms/image/D5603AQGCCYbUstS9xg/profile-displayphoto-shrink_400_400/0/1718211706383?e=1724889600&v=beta&t=AsGCwsdVHSL4a9JCH2ucQwk3JNZtcsX9KymwXSkAKYk',
     value: 4.2
@@ -296,7 +366,7 @@ const doctors = [
   {
     id: 3,
     name: 'Rath Samrath',
-    role: '30 min ago',
+    role: 'A doctor primarily works in medicine',
     avatar:
       'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
     value: 4.8
@@ -304,7 +374,7 @@ const doctors = [
   {
     id: 4,
     name: 'Rath Samrath',
-    role: '30 min ago',
+    role: 'A doctor primarily works in medicine',
     avatar:
       'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
     value: 4.8
@@ -312,7 +382,7 @@ const doctors = [
   {
     id: 5,
     name: 'Rath Samrath',
-    role: '30 min ago',
+    role: 'A doctor primarily works in medicine',
     avatar:
       'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
     value: 4.8
@@ -320,7 +390,7 @@ const doctors = [
   {
     id: 6,
     name: 'Rath Samrath',
-    role: '30 min ago',
+    role: 'A doctor primarily works in medicine',
     avatar:
       'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
     value: 4.8
@@ -358,6 +428,28 @@ const tableData = [
   }
 ]
 
+const contacts = [
+  {
+    title: 'CALL US',
+    icon: 'el-icon-message',
+    phone1: '+855 123456789',
+    phone2: '+855 987654321'
+  }
+]
+const locations = [
+  {
+    title: 'FIND US',
+    icon: 'el-icon-location',
+    address: 'BP 511, Phum Tropeang Chhuk (Borey Sorla) Sangtak, Street 371, Phnom Penh'
+  }
+]
+const hours = [
+  {
+    title: 'HOURS',
+    time: 'Mon-Fri 8am-8pm Sat-Sun 8am-8pm'
+  }
+]
+
 const onSubmit = () => {
   // Logic for form submission can be added here
   ElMessage.success('Form submitted successfully!')
@@ -372,8 +464,9 @@ const selectDate = (val: CalendarDateType) => {
   if (!calendar.value) return
   calendar.value.selectDate(val)
 }
-</script>
 
+// mape
+</script>
 <style scoped>
 .container {
   display: flex;
@@ -520,5 +613,26 @@ const selectDate = (val: CalendarDateType) => {
   display: flex;
   justify-content: center;
 }
+.contact-container {
+  /* height: 40vh; */
+  display: flex;
+  margin-top: 20px;
+}
+.contact-infor {
+  background: #32b4e3;
+  display: flex;
+  align-items: flex-start;
+  border-radius: 10px;
+  width: 32%;
+  height: 25vh;
+}
+/* calendar */
+.calendar {
+  /* background: #32b4e3; */
+  /* color: #ffff; */
+  border-radius: 10px;
+
+}
+
 </style>
 
