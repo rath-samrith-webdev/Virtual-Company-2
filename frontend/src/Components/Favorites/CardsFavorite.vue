@@ -10,9 +10,11 @@
             </h4>
           </div>
           <div class="info">
-            <h5>{{ cardFavorite.name }}</h5>
-            <p class="price">{{ cardFavorite.time }}</p>
-            <p>{{ cardFavorite.data }}</p>
+            <h5>{{ cardFavorite.hospital.name }}</h5>
+            <p class="price">{{ cardFavorite.hospital.open_time }}</p>
+            <p>{{ cardFavorite.hospital.province }}</p>
+            <p>{{ cardFavorite.hospital.phone_number }}</p>
+            <p>{{ cardFavorite.hospital.street_address }}</p>
             <el-rate v-model="cardFavorite.rating" disabled show-score text-color="#ff9900" score-template="{value} points" />
           </div>
           <div class="card_button m-2">
@@ -51,17 +53,10 @@ export default {
     }
   },
   methods: {
-    // async userhospital() {
-    //   try {
-    //     const { data } = await axiosInstance.get('/hospitals/list')
-    //     this.cardFavorites = data.data;
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // },
     async userFavorite() {
       try {
         const { data } = await axiosInstance.get('/favourites/list')
+        console.log(data);
         this.cardFavorites = data.data;
       } catch (error) {
         console.log(error)
@@ -85,7 +80,6 @@ export default {
 .single-card {
   position: relative;
   width: 280px;
-  height: 400px;
   margin: 15px;
   box-shadow: 0 2px 20px rgba(255, 251, 175, 0.635);
   transition: box-shadow 0.3s ease;
@@ -129,8 +123,6 @@ export default {
 .info .price {
   margin: 0;
   font-size: 20px;
-  font-weight: bold;
-  color: rgb(255, 229, 84);
 }
 
 .card_button {
