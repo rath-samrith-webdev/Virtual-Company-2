@@ -20,7 +20,6 @@ import {
 } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 
-<<<<<<< HEAD
 const source = ref(0)
 const feedbacks = ref(0)
 const outputValue = useTransition(source, {

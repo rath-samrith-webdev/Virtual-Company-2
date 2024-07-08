@@ -38,102 +38,6 @@
             />
             <el-divider />
           </div>
-          <div class="contact-information">
-            <div class="mb-4 mt-1">
-              <el-button
-                type="#ffff"
-                class="text-color-#32B4E3 font-size"
-                style="font-size: 17px; font-weight: bold"
-                >Contact</el-button
-              >
-              <el-button
-                type="#ffff"
-                class="text-color-#32B4E3 font-size"
-                style="font-size: 17px; font-weight: bold"
-                @click="dialogFormVisible = true"
-                >Booking</el-button
-              >
-              <el-button
-                type="#ffff"
-                class="text-color-#32B4E3 font-size"
-                style="font-size: 17px; font-weight: bold"
-                >Location</el-button
-              >
-            </div>
-          </div>
-          <!-- ==========alert form booking==========
-          <el-dialog
-            class="booking"
-            v-model="dialogFormVisible"
-            title="Get An Appointment"
-            width="700"
-            align-center
-          >
-            <el-form :model="form" :rules="formRules" label-width="auto" style="max-width: 700px">
-              <el-form-item label="Full Name" prop="fullname">
-                <el-input v-model="form.fullname" />
-              </el-form-item>
-              <el-form-item label="Phone Number" prop="phone_number">
-                <el-input v-model="form.phone_number" type="number" />
-              </el-form-item>
-              <el-form-item label="Age" prop="age">
-                <el-input v-model="form.age" type="number" />
-              </el-form-item>
-              <el-form-item label="Gender" prop="gender">
-                <el-radio-group v-model="form.gender">
-                  <el-radio border value="Men">Men</el-radio>
-                  <el-radio border value="Women">Women</el-radio>
-                </el-radio-group>
-              </el-form-item>
-              <el-form-item label="Department" prop="department">
-                <el-select v-model="form.department" placeholder="please select department">
-                  <el-option label="ICU: Intensive Care Unit" value="1" />
-                  <el-option label="ASU: Ambulatory Surgery Unit" value="2" />
-                  <el-option label="ED or ER: Emergency Department or Emergency Room" value="3" />
-                  <el-option label="L&D: Labor and Delivery" value="4" />
-                  <el-option label="Med-Surg: Medical-Surgical Unit" value="5" />
-                </el-select>
-              </el-form-item>
-              <el-form-item label="Doctor" prop="doctor">
-                <el-select v-model="form.doctor" placeholder="please select doctor">
-                  <el-option label="Radit Thy" value="Radit Thy" />
-                  <el-option label="Rath Samrath" value="Rath Samrath" />
-                  <el-option label="Phal Him" value="Phal Him" />
-                  <el-option label="Sreynang Rith" value="Sreynang Rith" />
-                  <el-option label="Bour Klan" value="Bour Klan" />
-                  <el-option label="Leysreng Ol" value="Leysreng Ol" />
-                </el-select>
-              </el-form-item>
-              <el-form-item label="Appointment Date" prop="date">
-                <el-col :span="11">
-                  <el-date-picker
-                    v-model="form.date"
-                    type="date"
-                    placeholder="Pick a date"
-                    style="width: 100%"
-                  />
-                </el-col>
-                <el-col :span="2" class="text-center">
-                  <span class="text-gray-500">-</span>
-                </el-col>
-                <el-col :span="11">
-                  <el-time-picker
-                    v-model="form.time"
-                    placeholder="Pick a time"
-                    style="width: 100%"
-                  />
-                </el-col>
-              </el-form-item>
-            </el-form>
-            <template #footer>
-              <div class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">Cancel Booking</el-button>
-                <el-button type="warning" @click="dialogFormVisible = false">
-                  Confirm Booking
-                </el-button>
-              </div>
-            </template>
-          </el-dialog> -->
         </div>
       </div>
       <!-- ======================================================= -->
@@ -143,7 +47,7 @@
         <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
           <el-tab-pane class="" label="Comments and Feedback" name="first">
             <div class="main-comment">
-              <h5 class="mt-5 text-color-#32B4E3">Comments there to our hospital!</h5>
+              <h5 class="mt-4 text-color-#32B4E3">Comments there to our hospital!</h5>
               <div class="comment-form mt-1">
                 <el-form
                   class="form-comment mt-4"
@@ -160,7 +64,9 @@
                     />
                   </el-form-item>
                   <el-form-item>
-                    <el-button type="#32B4E3" @click="onSubmit">Submit</el-button>
+                    <el-button type="#ffff" class="text-color-#ffff btn-comment" @click="onSubmit"
+                      >Submit</el-button
+                    >
                     <el-button type="warning">Cancel</el-button>
                   </el-form-item>
                 </el-form>
@@ -219,49 +125,62 @@
             </div>
           </el-tab-pane>
           <el-tab-pane label="Hospital Doctors" name="second">
-            <div class="comment-container p-3 mt-2" v-for="comment in comments" :key="comment.id">
-              <div class="comment-left d-flex flex-column p-2">
-                <div class="demo-type">
-                  <el-avatar :size="70">
-                    <img :src="comment.avatar" />
+            <div class="d-flex align-item-center text-align-center DT">
+              <h4 class="mt-4 text-color-#32B4E3">Our Doctor In Hostpital</h4>
+            </div>
+            <div class="doctor-container d-flex flex-wrap gap-4">
+              <div
+                class="doctor-members d-flex flex-column justity-content-center p-2"
+                v-for="doctor in doctors"
+                :key="doctor.id"
+              >
+                <div class="demo-type mt-2">
+                  <el-avatar :size="100">
+                    <img :src="doctor.avatar" />
                   </el-avatar>
                 </div>
-              </div>
-              <div class="comment-right p-2">
-                <div class="information">
-                  <div>
-                    <p>
-                      <strong>{{ comment.name }}</strong> . <span>{{ comment.time }}</span>
-                    </p>
-                  </div>
-                  <div>
-                    <p>{{ comment.content }}</p>
-                  </div>
-                  <div>
-                    <el-rate
-                      v-model="comment.value"
-                      disabled
-                      show-score
-                      text-color="#ff9900"
-                      score-template="{value} points"
-                    />
-                  </div>
-                  <div class="mt-2">
-                    <el-button
-                      v-for="button in buttons"
-                      :key="button.text"
-                      :type="button.type"
-                      text
-                      bg
-                    >
-                      {{ button.text }}
-                    </el-button>
-                  </div>
-                </div>
+                <h4 class="text-color-#32B4E3">{{doctor.name}}</h4>
+                <h6>{{doctor.role}}</h6>
+                <el-row class="d-flex justify-content-center gap-3 mt-3">
+                  <el-tooltip
+                    class="box-item"
+                    effect="dark"
+                    content="LinkedIn"
+                    placement="top-start"
+                  >
+                    <el-avatar
+                      shape="circle"
+                      :src="'https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png'"
+                    ></el-avatar>
+                  </el-tooltip>
+                  <el-tooltip class="box-item" effect="dark" content="Gmail" placement="top-start">
+                    <el-avatar
+                      shape="circle"
+                      class="social-media-contact"
+                      :src="'https://cdn-icons-png.freepik.com/512/6711/6711567.png'"
+                    ></el-avatar>
+                  </el-tooltip>
+                  <el-tooltip
+                    class="box-item"
+                    effect="dark"
+                    content="Instagram"
+                    placement="top-start"
+                  >
+                    <el-avatar
+                      shape="circle"
+                      :src="'https://banner2.cleanpng.com/20200525/hhx/transparent-instagram-logo-icon-5ecc25c4860dd5.0946990115904373165491.jpg'"
+                    ></el-avatar>
+                  </el-tooltip>
+                </el-row>
               </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="Hospital Departments" name="third">Comments and Feedback</el-tab-pane>
+          <el-tab-pane label="Hospital Departments" name="third" class="mt-4">
+            <el-table :data="tableData" height="250" style="width: 100%">
+              <el-table-column prop="id" label="Department ID" width="180" />
+              <el-table-column prop="departmentName" label="Department Name" width="880" />
+            </el-table>
+          </el-tab-pane>
           <el-tab-pane label="Hospital Calendar" name="fourth">
             <el-calendar ref="calendar">
               <template #header="{ date }">
@@ -357,6 +276,87 @@ const comments = [
     value: 4.8
   }
 ]
+const doctors = [
+  {
+    id: 1,
+    name: 'Florida',
+    role: '30 min ago',
+    avatar:
+      'https://dl.memuplay.com/new_market/img/com.vicman.newprofilepic.icon.2022-06-07-21-33-07.png',
+    value: 4.5
+  },
+  {
+    id: 2,
+    name: 'Radit Thy',
+    role: '30 min ago',
+    avatar:
+      'https://media.licdn.com/dms/image/D5603AQGCCYbUstS9xg/profile-displayphoto-shrink_400_400/0/1718211706383?e=1724889600&v=beta&t=AsGCwsdVHSL4a9JCH2ucQwk3JNZtcsX9KymwXSkAKYk',
+    value: 4.2
+  },
+  {
+    id: 3,
+    name: 'Rath Samrath',
+    role: '30 min ago',
+    avatar:
+      'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
+    value: 4.8
+  },
+  {
+    id: 4,
+    name: 'Rath Samrath',
+    role: '30 min ago',
+    avatar:
+      'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
+    value: 4.8
+  },
+  {
+    id: 5,
+    name: 'Rath Samrath',
+    role: '30 min ago',
+    avatar:
+      'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
+    value: 4.8
+  },
+  {
+    id: 6,
+    name: 'Rath Samrath',
+    role: '30 min ago',
+    avatar:
+      'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
+    value: 4.8
+  }
+]
+
+const tableData = [
+  {
+    id: '1',
+    departmentName: 'Executive and VVIP Wards.'
+  },
+  {
+    id: '2',
+    departmentName: 'Intensive Care Unit.'
+  },
+  {
+    id: '3',
+    departmentName: 'Medical and Surgical Ward.'
+  },
+  {
+    id: '4',
+    departmentName: 'Maternity Ward.'
+  },
+  {
+    id: '5',
+    departmentName: 'Neonatal ICU.'
+  },
+  {
+    id: '6',
+    departmentName: 'Paediatric Ward.'
+  },
+  {
+    id: '7',
+    departmentName: 'Tom'
+  }
+]
 
 const onSubmit = () => {
   // Logic for form submission can be added here
@@ -384,8 +384,8 @@ const selectDate = (val: CalendarDateType) => {
 }
 
 .card-container {
-  width: 90%;
-  height: 100vh;
+  width: 100%;
+  height: 80vh;
   display: flex;
   margin-top: 20px;
   border-radius: 20px;
@@ -474,6 +474,10 @@ const selectDate = (val: CalendarDateType) => {
   border-radius: 20px;
   height: 8vh;
 }
+.btn-comment {
+  background: #32b4e3;
+  color: white;
+}
 
 /* tabs setting */
 .demo-tabs > .el-tabs__content {
@@ -489,7 +493,7 @@ const selectDate = (val: CalendarDateType) => {
   font-weight: 600;
 }
 .container-information {
-  width: 90%;
+  width: 100%;
   box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
 }
 .demo-tabs .el-tabs__item {
@@ -497,10 +501,24 @@ const selectDate = (val: CalendarDateType) => {
   font-size: 50px;
   padding: 30px;
 }
-label {
-  font-size: 24px;
-  margin-bottom: 10px;
-  color: green;
+/* Doctor setting */
+.doctor-container {
+  /* height: 40vh; */
+  display: flex;
+  margin-top: 20px;
+}
+.doctor-members {
+  background: whitesmoke;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  width: 18%;
+  height: 40vh;
+}
+.DT {
+  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 </style>
 
