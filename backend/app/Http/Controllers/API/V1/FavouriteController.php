@@ -54,7 +54,7 @@ class FavouriteController extends Controller
                 }
                 return response()->json(['success' => true, 'message' => 'Favourite Added Successfully', 'data' => UserFavorites::make($fav)]);
             }else{
-                return response()->json(['success' => true, 'message' => 'Favourite already added']);
+                return response()->json(['success' => false, 'message' => 'Favourite already added']);
             }
         }catch (\Exception $exception){
             return response()->json(['success' => false, 'message' => $exception->getMessage()]);
