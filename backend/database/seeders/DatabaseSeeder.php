@@ -38,11 +38,9 @@ class DatabaseSeeder extends Seeder
             'hospital_id'=>1,
             'name'=>"Dentist"
         ]);
-        Doctor::create([
+        $datDoct=Doctor::create([
+            'user_id'=>4,
             'hospital_id'=>1,
-            'name'=>'Radit THY',
-            'email'=>'radithy@gmail.com',
-            'phone'=>'0123456789',
         ]);
         Appointment::create([
             'title'=>'Appointment',

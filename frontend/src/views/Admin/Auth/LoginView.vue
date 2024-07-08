@@ -56,7 +56,9 @@ async function LogIn() {
       router.push('/hospital/dashboard')
     } else if (data.role == 'admin') {
       router.push('/admin/dashboard')
-    } else {
+    } else if(data.role == 'doctor'){
+      router.push('/doctor/dashboard')
+    }else{
       router.push('/')
     }
   } catch (error) {

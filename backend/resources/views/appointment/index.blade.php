@@ -47,7 +47,7 @@
                                     {{$appointment->user->first_name .' '.$appointment->user->last_name}}
                                 </td>
                                 <td class="py-4 px-6 border-b border-grey-light">
-                                    {{$appointment->doctor->name}}
+                                    {{$appointment->doctor->user->first_name.' '.$appointment->doctor->user->last_name}}
                                 </td>
                                 <td class="py-4 px-6 border-b border-grey-light">
                                     {{$appointment->appointment_date}}

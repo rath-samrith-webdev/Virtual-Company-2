@@ -35,7 +35,7 @@
                     <select class="border border-gray-300  text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none" name="hospital_id" >
                         <option value="" disabled>Select Doctor</option>
                         @foreach($data['doctors'] as $user)
-                            <option value="{{$user->id}}" @if($user->id==$data['appointment']->doctor_id) selected  @endif>{{$user->name}}</option>
+                            <option value="{{$user->id}}" @if($user->user->id==$data['appointment']->doctor_id) selected  @endif>{{$user->user->name}}</option>
                         @endforeach
                     </select>
                 </div>
