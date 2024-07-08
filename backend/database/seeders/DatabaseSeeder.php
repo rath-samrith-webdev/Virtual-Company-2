@@ -6,6 +6,7 @@ use App\Models\Appointment;
 use App\Models\Category;
 use App\Models\Department;
 use App\Models\Doctor;
+use App\Models\Favourite;
 use App\Models\Hospital;
 use App\Models\Rate;
 use App\Models\RateReply;
@@ -30,18 +31,16 @@ class DatabaseSeeder extends Seeder
             'user_id'=>3,
             'category_id'=>1,
             'name'=>'Angkor Thom',
-            'latitude'=>'11.567547615780182',
-            'longitude'=>'104.89754414346955'
+            'latitude'=>'11.566859422611982',
+            'longitude'=>'104.89597919278232'
         ]);
         Department::create([
             'hospital_id'=>1,
             'name'=>"Dentist"
         ]);
-        Doctor::create([
+        $datDoct=Doctor::create([
+            'user_id'=>4,
             'hospital_id'=>1,
-            'name'=>'Radit THY',
-            'email'=>'radithy@gmail.com',
-            'phone'=>'0123456789',
         ]);
         Appointment::create([
             'title'=>'Appointment',
@@ -49,6 +48,7 @@ class DatabaseSeeder extends Seeder
             'doctor_id'=>1,
             'user_id'=>2,
             'appointment_date'=>'2022-01-01',
+            'appointment_time'=>'09:00',
         ]);
         Rate::create([
             'hospital_id'=>1,
@@ -60,7 +60,10 @@ class DatabaseSeeder extends Seeder
             'user_id'=>2,
             'content'=>'Could not disagree'
         ]);
-
+        $user_favourite = Favourite::create([
+            'user_id'=>2,
+            'hospital_id'=>1,
+        ]);
         $this->call(MailsettingSeeder::class);
     }
 }

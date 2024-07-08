@@ -38,13 +38,13 @@
                             <tr class="hover:bg-grey-lighter">
                                 <td class="py-4 px-6 border-b border-grey-light">{{ $doctor->id }}</td>
                                 <td class="py-4 px-6 border-b border-grey-light">
-                                    {{$doctor->name}}
+                                    {{$doctor->user->first_name}}
                                 </td>
                                 <td class="py-4 px-6 border-b border-grey-light">
-                                    {{$doctor->email}}
+                                    {{$doctor->user->email}}
                                 </td>
                                 <td class="py-4 px-6 border-b border-grey-light">
-                                    {{$doctor->phone}}
+                                    {{$doctor->user->phone_number?$doctor->user->phone_number:'No Contact'}}
                                 </td>
                                 <td class="py-4 px-6 border-b border-grey-light text-right">
 

@@ -37,7 +37,7 @@
           <p class="fs-4">
             For my services can make it easy for you to find a hospital near you and you have used the
             service for hospital reservations and booking all the services available in the booked
-            hospital. Espacially, you can check the hospital before you booking.
+            hospital. Especially, you can check the hospital before you booking.
           </p>
         </div>
       </div>

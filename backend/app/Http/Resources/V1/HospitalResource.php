@@ -21,6 +21,19 @@ class HospitalResource extends JsonResource
             'preview_images'=>PreviewImagesResource::collection($this->previewImage()->get()),
             'department'=>$this->departments()->get(),
             'appointment'=>AppointmentResource::collection($this->appointments()->get()),
+            'feedbacks'=>RateResource::collection($this->rates()->latest()->get()),
+            'open_time'=>$this->open_time?$this->open_time:'Not set yet',
+            'close_time'=>$this->close_time?$this->close_time:'Not set yet',
+            'street'=>$this->street?$this->street:'Not Added yet',
+            'village'=>$this->village?$this->village:'Not Added yet',
+            'commune'=>$this->commune?$this->commune:'Not Added yet',
+            'district'=>$this->district?$this->district:'Not Added yet',
+            'province'=>$this->province?$this->province:'Not Added yet',
+            'lat'=>$this->latitude,
+            'lng'=>$this->longitude,
+            'category'=>$this->category,
+            'doctors'=>DoctorDetails::collection($this->doctors()->get()),
+            'favourite_by'=>$this->favourites()->get()->count()
         ];
     }
 }

@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Doctor;
+use App\Models\SystemRequest;
+use App\Models\SystemRequestCategory;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
@@ -39,18 +42,54 @@ class AdminSeeder extends Seeder
             'email'=>'hospital@gmail.com',
             'password'=>bcrypt('password'),
         ]);
+        $doctor=User::create([
+            'first_name'=>"Doctor",
+            'last_name'=>"User",
+            'name'=>'Doctor',
+            'email'=>'doctor@gmail.com',
+            'password'=>bcrypt('password'),
+        ]);
 
 
 
         $admin_role = Role::create(['name' => 'admin']);
         $user_role = Role::create(['name' => 'user']);
         $hospital_role = Role::create(['name' => 'hospital']);
+        $doctor_role = Role::create(['name' => 'doctor']);
 
-
+        $feature=SystemRequestCategory::create([
+            'name'=>'Feature',
+        ]);
+        $feature=SystemRequestCategory::create([
+            'name'=>'Error',
+        ]);
+        $feature=SystemRequestCategory::create([
+            'name'=>'Other',
+        ]);
+        $request=SystemRequest::create([
+            'user_id'=>2,
+            'category_id'=>1,
+            'request_details'=>fake()->sentence()
+        ]);
+        $request=SystemRequest::create([
+            'user_id'=>2,
+            'category_id'=>1,
+            'request_details'=>fake()->sentence()
+        ]);
+        $request=SystemRequest::create([
+            'user_id'=>3,
+            'category_id'=>3,
+            'request_details'=>fake()->sentence()
+        ]);
         $permission = Permission::create(['name' => 'Role access' ,'front_name'=>'role_access']);
         $permission = Permission::create(['name' => 'Role edit' ,'front_name'=>'role_edit']);
         $permission = Permission::create(['name' => 'Role create' ,'front_name'=>'role_create']);
         $permission = Permission::create(['name' => 'Role delete','front_name'=>'role_delete']);
+
+        $permission = Permission::create(['name' => 'System-Request access' ,'front_name'=>'system_request_access']);
+        $permission = Permission::create(['name' => 'System-Request edit' ,'front_name'=>'system_request_edit']);
+        $permission = Permission::create(['name' => 'System-Request create' ,'front_name'=>'system_request_create']);
+        $permission = Permission::create(['name' => 'System-Request delete','front_name'=>'system_request_delete']);
 
         $permission = Permission::create(['name' => 'User access','front_name'=>'user_access']);
         $permission = Permission::create(['name' => 'User edit','front_name'=>'user_edit']);
@@ -103,6 +142,7 @@ class AdminSeeder extends Seeder
         $admin->assignRole($admin_role);
         $user->assignRole($user_role);
         $hospital->assignRole($hospital_role);
+        $doctor->assignRole($doctor_role);
 
         $admin_role->givePermissionTo(Permission::all());
     }

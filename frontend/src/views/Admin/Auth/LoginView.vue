@@ -56,10 +56,11 @@ async function LogIn() {
       router.push('/hospital/dashboard')
     } else if (data.role == 'admin') {
       router.push('/admin/dashboard')
-    } else {
+    } else if(data.role == 'doctor'){
+      router.push('/doctor/dashboard')
+    }else{
       router.push('/')
     }
-    console.log(data)
   } catch (error) {
     console.log(error)
     router.push('/login')
@@ -71,6 +72,7 @@ async function Register() {
     const { data } = await axiosInstance.post('/register', registerCredential)
     console.log(data)
     console.log(registerCredential)
+    router.push('/login')
   } catch (error) {
     console.log(error)
     router.push('/login')

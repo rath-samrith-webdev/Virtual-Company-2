@@ -63,4 +63,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(RateReply::class);
     }
+    public function favorites():HasMany
+    {
+        return $this->hasMany(Favourite::class);
+    }
+    public function doctor():HasOne
+    {
+        return $this->hasOne(Doctor::class);
+    }
 }

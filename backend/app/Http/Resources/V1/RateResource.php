@@ -17,7 +17,9 @@ class RateResource extends JsonResource
         return [
             'id'=>$this->id,
             'content'=>$this->content,
-            'user'=>$this->user->first_name.' '.$this->user->last_name,
+            'user'=>RaterResource::make($this->user),
+            'from'=>AppointmentMaker::make($this->user),
+            'to'=>$this->hospital->name,
             'replies'=>RateReplyResource::collection($this->rateReply()->get())
         ];
     }

@@ -6,9 +6,12 @@ use App\Http\Resources\V1\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -102,7 +105,7 @@ class AuthController extends Controller
     }
     public function index(Request $request)
     {
-        $user = $request->user();
+        $user = UserResource::make($request->user());
         $permissions = $user->getAllPermissions();
         $roles = $user->getRoleNames();
         return response()->json([
@@ -133,5 +136,48 @@ class AuthController extends Controller
             return response()->json(['success' => false,'message'=>$exception->getMessage()],400);
         }
 
+    }
+    public function forgetPassword(Request $request): JsonResponse
+    {
+        $data=$request->validate([
+            'email' => 'required|string|email|max:255'
+        ]);
+        $email=$data['email'];
+        try {
+            $user=User::where('email',$data['email'])->firstOrFail();
+            if($user){
+                $remember_token = Str::random(60);
+                DB::table('password_resets')->insert([
+                    'email' => $email,
+                    'token' => $remember_token,
+                    'created_at' => Carbon::now()
+                ]);
+                return response()->json(['success' => true,'message'=>'We have e-mailed your password reset link','reset_token'=>$remember_token],201);
+            }else{
+                return response()->json(['success' => false,'message'=>'We cannot find a user with that e-mail address']);
+            }
+        }catch (\Exception $exception){
+            return response()->json(['success' => false,'message'=>$exception->getMessage()],400);
+        }
+    }
+    public function resetPassword(Request $request): JsonResponse
+    {
+        $reset_request = $request->validate([
+            'reset_token' => 'required|string',
+            'password' => 'required|confirmed'
+        ]);
+        $token = $reset_request['reset_token'];
+        try {
+            $tokenData = DB::table('password_reset_tokens')->where('token', $token)->first();
+            $user = User::where('email', $tokenData->email)->first();
+            if (!$user) {
+                return response()->json(['success' => false, 'message' => 'Invalid token'], 404);
+            }
+            $user->update(['password' => bcrypt($reset_request['password'])]);
+            DB::table('password_reset_tokens')->where('token', $token)->delete();
+            return response()->json(['success' => true, 'new_password' => $request->password], 200);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 404);
+        }
     }
 }

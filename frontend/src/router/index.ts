@@ -29,7 +29,7 @@ const router = createRouter({
     {
       path: '/profile',
       name: 'profile',
-      component: () => import('../views/Web/ProfileView.vue')
+      component: () => import('../views/Web/User/ProfileView.vue')
     },
     {
       path: '/hospital/detail',
@@ -70,12 +70,37 @@ const router = createRouter({
       path:'/hospital/feedbacks',
       name:'feedbacks',
       component:()=>import('../views/Web/Hospital/FeedbackView.vue')
+    },
+    {
+      path:'/hospital/appointments',
+      name:'appointments',
+      component: () => import('../views/Web/Hospital/AppointmentView.vue')
+    },
+    {
+      path: '/map',
+      name: 'map',
+      component: () => import('../views/Web/User/MapView.vue')
+    },
+    {
+      path:'/hospital/doctors',
+      name:'doctors',
+      component:()=>import('../views/Web/Hospital/AddDoctorView.vue')
+    },
+    {
+      path: '/user/hospital',
+      name: 'user-hospital',
+      component: () => import('../views/Web/User/HospitalView.vue')
+    },
+    {
+      path:'/doctor/dashboard',
+      name:'doctor-dashboard',
+      component:()=>import('../views/Web/Doctor/Dashboard.vue')
     }
   ]
 })
 
 router.beforeEach(async (to, from, next) => {
-  const publicPages = ['/landing', '/login', '/about', '/contact','/appointment','/hospital/detail']
+  const publicPages = ['/landing', '/login', '/about', '/contact','/appointment','/hospital/detail','/hospital/doctors']
   const authRequired = !publicPages.includes(to.path)
   const store = useAuthStore()
 
