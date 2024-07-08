@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Search address</h1>
+    <h1>Search Address</h1>
     <div class="search_form">
       <div class="ms-3">
         <el-select
@@ -36,7 +36,7 @@
         >
           <el-option
             v-for="item in category"
-            :key="item.name"
+            :key="item.id"
             :label="item.name"
             :value="item.name"
           />
@@ -48,50 +48,45 @@
         prefix-icon="Search"
         style="width: 1000px"
         size="large"
-        placeholder="Search province"
+        placeholder="Search hospital name....."
         v-model="searchQuery"
-      >
-        <template #prefix>
-          <el-icon>
-            <search />
-          </el-icon>
-        </template>
-      </el-input>
+      />
     </div>
     <div class="card_hospital">
       <div class="wrapper" v-for="(card, index) in filteredCards" :key="index">
         <div class="single-card">
           <div class="img-area">
             <img
+              v-if="card.cover_image !== 'No cover'"
+              src="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1"
+              alt="Placeholder"
+              width="400px"
+            />
+            <img
               v-if="card.cover_image == 'No cover'"
               :src="card.cover_image"
               class="card-img-top"
-              alt="..."
+              alt="Hospital cover image"
             />
-            <h4 v-if="card.cover_image !== 'No cover'">
-              <img
-                src="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1"
-                alt=""
-                width="400px"
-              />
-            </h4>
           </div>
           <div class="info">
             <div class="card_title">
               <h4 class="card-title">{{ card.name }}</h4>
             </div>
-            <h5 class="card-subtitle mb-2 text-muted">
+            <h6 class="card-subtitle mb-2 text-muted">
               <i class="fas fa-clock"></i> {{ card.open_time }}
-            </h5>
+            </h6>
             <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ card.province }}</p>
             <p class="card-text"><i class="fas fa-phone-alt"></i> {{ card.phone_number }}</p>
             <p class="card-text">{{ card.street_address }}</p>
             <el-rate v-model="card.rating" disabled show-score text-color="#ff9900" />
             <div class="card_button mt-2">
-              <button type="button" class="btn btn-warning">
+              <button type="button" class="btn btn-outline-primary">
                 <i class="fas fa-info-circle"></i> See Details
               </button>
-              <el-icon><CollectionTag /></el-icon>
+              <button type="button" class="btn btn-outline-primary" @click="addToFavorites(card.id)">
+                <el-icon><CollectionTag /></el-icon>
+              </button>
             </div>
           </div>
         </div>
@@ -102,9 +97,11 @@
 
 <script>
 import { ref } from 'vue'
-import { Search } from '@element-plus/icons-vue'
-import { CollectionTag } from '@element-plus/icons-vue'
+import { useRouter } from 'vue-router'
+import { Search, CollectionTag } from '@element-plus/icons-vue'
 import axiosInstance from '@/plugins/axios'
+import { useAuthStore } from '@/stores/auth-store'
+const store = useAuthStore()
 export default {
   name: 'HospitalAddressCard',
   components: {
@@ -152,13 +149,10 @@ export default {
       return this.cardAddress.filter((card) => {
         const matchesTitle = card.name.toLowerCase().includes(this.searchQuery.toLowerCase())
         const matchesOptions =
-          this.selectedOptions.length === 0 ||
-          this.selectedOptions.includes(card.province)
+          this.selectedOptions.length === 0 || this.selectedOptions.includes(card.province)
         const matchesCategory =
-          this.selectedCategory.length === 0 ||
-          this.selectedCategory.includes(card.category.name)
+          this.selectedCategory.length === 0 || this.selectedCategory.includes(card.category.name)
         return matchesTitle && matchesOptions && matchesCategory
-        console.log(this.category);
       })
     }
   },
@@ -166,7 +160,6 @@ export default {
     async fetchHospital() {
       try {
         const { data } = await axiosInstance.get('/hospitals/list')
-        console.log(data.data)
         this.cardAddress = data.data
       } catch (error) {
         console.log(error)
@@ -176,11 +169,21 @@ export default {
     async categoryHospital() {
       try {
         const { data } = await axiosInstance.get('/categories/list')
-        console.log(data.data)
         this.category = data.data
       } catch (error) {
-        console.log(error)
         return null
+      }
+    },
+    async addToFavorites(card) {
+      const fav = {
+        user_id: store.user.id,
+        hospital_id: card
+      }
+      try {
+        const { data } = await axiosInstance.post('/favourites/create', fav)
+        console.log(data)
+      } catch (error) {
+        console.log(error)
       }
     }
   },
@@ -220,7 +223,7 @@ h1 {
   position: relative;
   width: 280px;
   margin: 15px;
-  box-shadow: 0 2px 20px rgba(255, 251, 175, 0.635);
+  box-shadow: 0 2px 20px rgba(255, 204, 175, 0.43);
   transition: box-shadow 0.3s ease;
   overflow: hidden;
   background: #ffffff;
@@ -306,20 +309,10 @@ h1 {
 .info .price {
   margin: 0;
   font-size: 30px;
-  font-weight: bold;
-  color: rgb(255, 229, 84);
 }
 
 .card_button {
   display: flex;
   justify-content: space-between;
-
-}
-.card_button .el-icon{
-size: 20px;
-border-radius: 5px ;
-background: rgba(255, 166, 0, 0.856);
-width: 20%;
-height: 40px;
 }
 </style>

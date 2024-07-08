@@ -4,9 +4,18 @@
       <div class="wrapper" v-for="cardFavorite in cardFavorites" :key="cardFavorite.id">
         <div class="single-card">
           <div class="img-area">
-            <img v-if="cardFavorite.cover_image == 'No cover'" :src="cardFavorite.cover_image" class="card-img-top" alt="...">
+            <img
+              v-if="cardFavorite.cover_image == 'No cover'"
+              :src="cardFavorite.cover_image"
+              class="card-img-top"
+              alt="..."
+            />
             <h4 v-if="cardFavorite.cover_image !== 'No cover'">
-              <img src="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1" alt="" width="400px">
+              <img
+                src="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1"
+                alt=""
+                width="400px"
+              />
             </h4>
           </div>
           <div class="info">
@@ -15,10 +24,18 @@
             <p>{{ cardFavorite.hospital.province }}</p>
             <p>{{ cardFavorite.hospital.phone_number }}</p>
             <p>{{ cardFavorite.hospital.street_address }}</p>
-            <el-rate v-model="cardFavorite.rating" disabled show-score text-color="#ff9900" score-template="{value} points" />
+            <el-rate
+              v-model="cardFavorite.rating"
+              disabled
+              show-score
+              text-color="#ff9900"
+              score-template="{value} points"
+            />
           </div>
           <div class="card_button m-2">
-            <button type="button" class="btn btn-warning"><i class="fas fa-info-circle"></i> See Details</button>
+            <button type="button" class="btn btn-outline-primary">
+              <i class="fas fa-info-circle"></i> See Details
+            </button>
           </div>
         </div>
       </div>
@@ -34,7 +51,7 @@ import axiosInstance from '@/plugins/axios'
 export default {
   name: 'CardAddress',
   components: {
-    Search,
+    Search
   },
   data() {
     return {
@@ -45,19 +62,20 @@ export default {
   },
   computed: {
     filteredCards() {
-      return this.cardFavorites.filter(card => {
-        const matchesTitle = card.name.toLowerCase().includes(this.searchQuery.toLowerCase());
-        const matchesOptions = this.selectedOptions.length === 0 || this.selectedOptions.includes(card.address);
-        return matchesTitle && matchesOptions;
-      });
+      return this.cardFavorites.filter((card) => {
+        const matchesTitle = card.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+        const matchesOptions =
+          this.selectedOptions.length === 0 || this.selectedOptions.includes(card.address)
+        return matchesTitle && matchesOptions
+      })
     }
   },
   methods: {
     async userFavorite() {
       try {
         const { data } = await axiosInstance.get('/favourites/list')
-        console.log(data);
-        this.cardFavorites = data.data;
+        console.log(data)
+        this.cardFavorites = data.data
       } catch (error) {
         console.log(error)
       }
@@ -81,7 +99,7 @@ export default {
   position: relative;
   width: 280px;
   margin: 15px;
-  box-shadow: 0 2px 20px rgba(255, 251, 175, 0.635);
+  box-shadow: 0 2px 20px rgba(249, 206, 206, 0.421);
   transition: box-shadow 0.3s ease;
   overflow: hidden;
   background: #ffffff;

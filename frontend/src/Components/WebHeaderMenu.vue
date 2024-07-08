@@ -66,6 +66,12 @@ function handleCommand(command) {
       </router-link
       >
       <router-link
+        to="/favorite"
+        class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+      >Favorites
+      </router-link
+      >
+      <router-link
         to="/map"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
       >Map
