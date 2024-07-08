@@ -40,8 +40,8 @@ class FavouriteController extends Controller
             'user_id' => 'exists:users,id',
             'hospital_id' => 'exists:hospitals,id',
         ]);
+        $favourite=Favourite::where('hospital_id',$data['hospital_id'])->where('user_id',$data['user_id'])->first();
         try {
-            $favourite=Favourite::where('user_id',$data['user_id'])->first();
             if(!$favourite){
                 if ($user->hasRole('admin')) {
                     $fav=Favourite::create($data);
