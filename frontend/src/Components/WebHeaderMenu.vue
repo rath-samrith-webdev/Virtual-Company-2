@@ -29,24 +29,35 @@ function handleCommand(command) {
       <router-link
         to="/hospital/dashboard"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+        style="text-decoration: none;"
       >Home
+      </router-link
+      >
+      <router-link
+        to="/myHospital"
+        class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+        style="text-decoration: none;"
+      >Hospital
       </router-link
       >
       <router-link
         to="/hospital/feedbacks"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+        style="text-decoration: none;"
       >Feedbacks
       </router-link
       >
       <router-link
         to="/map"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+        style="text-decoration: none;"
       >Appointments
       </router-link
       >
       <router-link
         to="/reports"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+        style="text-decoration: none;"
       >Reports
       </router-link
       >
@@ -56,24 +67,22 @@ function handleCommand(command) {
       <router-link
         to="/"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+        style="text-decoration: none;"
       >Home
       </router-link
       >
-      <router-link
-        to="/hospital"
-        class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
-      >Hospital
-      </router-link
-      >
+      
       <router-link
         to="/map"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+        style="text-decoration: none;"
       >Map
       </router-link
       >
       <router-link
         to="/appointment"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+        style="text-decoration: none;"
       >Appointments
       </router-link
       >

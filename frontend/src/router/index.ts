@@ -80,6 +80,11 @@ const router = createRouter({
       path: '/map',
       name: 'map',
       component: () => import('../views/Web/User/MapView.vue')
+    },
+    {
+      path: '/myHospital',
+      name: 'myHospital',
+      component: () => import('../views/Web/Hospital/HospitalView.vue')
     }
   ]
 })
