@@ -19,12 +19,13 @@
             <el-divider />
           </div>
           <div class="information mb-4">
-            <div><strong>Open: Monday-Sunday 24/7</strong></div>
             <div>
-              <strong
-                >Location: BP 511, Phum Tropeang Chhuk (Borey Sorla) Sangtak, Street 371, Phnom
-                Penh</strong
-              >
+              <p class="text-color-#ffff" style="font-size: 18px">Open: Monday-Sunday 24/7</p>
+            </div>
+            <div>
+              <p class="text-color-#ffff" style="font-size: 18px">
+                Location: BP 511, Phum Tropeang Chhuk (Borey Sorla) Sangtak, Street 371, Phnom Penh
+              </p>
             </div>
           </div>
           <div class="rate mb-4">
@@ -36,7 +37,6 @@
               text-color="#ff9900"
               score-template="{value} points"
             />
-            <el-divider />
           </div>
         </div>
       </div>
@@ -185,7 +185,11 @@
             </el-table>
           </el-tab-pane>
           <el-tab-pane label="Hospital Calendar" name="fourth">
-            <el-calendar ref="calendar" class="mt-4 calendar" style="font-size: 18px; font-weight: bold">
+            <el-calendar
+              ref="calendar"
+              class="mt-4 calendar"
+              style="font-size: 18px; font-weight: bold"
+            >
               <template #header="{ date }">
                 <span class="text-color-#32b4e3">Calendar Hostpital</span>
                 <span class="text-color-#32b4e3">{{ date }}</span>
@@ -631,8 +635,6 @@ const selectDate = (val: CalendarDateType) => {
   /* background: #32b4e3; */
   /* color: #ffff; */
   border-radius: 10px;
-
 }
-
 </style>
 
