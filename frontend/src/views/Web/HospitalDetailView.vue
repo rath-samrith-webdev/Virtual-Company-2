@@ -273,16 +273,16 @@
               </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="Hospital Location " name="six">
+          <el-tab-pane label="Hospital Information " name="six">
             <div class="block text-center" m="t-4" style="height: 900px; width: 100%">
-              <span class="demonstration">Our Hospital Details</span>
-              <el-carousel trigger="click" height="550px">
+              <h2 class="mt-4 text-color-#32b4e3">Our Hospital Information Details</h2>
+              <el-carousel trigger="click" height="100vh">
                 <el-carousel-item v-for="item in 4" :key="item" style="height: 600px; width: 100%">
-                  <h3 class="small justify-center" text="2xl">{{ item }}</h3>
+                  <!-- <h3 class="small justify-center" text="2xl">{{ item }}</h3> -->
                   <img
                     :src="`https://picsum.photos/id/${item}/1920/1080`"
                     alt="Image placeholder"
-                    class="image-container"
+                    class="image-container mt-5"
                     
                   />
 
