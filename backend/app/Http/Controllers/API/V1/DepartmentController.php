@@ -27,7 +27,8 @@ class DepartmentController extends Controller
     public function store(Request $request)
     {
         $data=$request->validate([
-            'name'=>'required',
+            'name'=>'required|string',
+            'details'=>'required|string'
         ]);
         $user=Auth::user();
         $hospital_id=$user->hospital->id;
@@ -58,7 +59,8 @@ class DepartmentController extends Controller
     public function update(Request $request, Department $department)
     {
         $data=$request->validate([
-            'name'=>'required',
+            'name'=>'required|string',
+            'details'=>'required|string'
         ]);
         $user=Auth::user();
         $hospital=$user->hospital;
