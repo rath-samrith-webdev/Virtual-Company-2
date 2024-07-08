@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Department;
+use App\Http\Resources\V1\DepartmentResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,10 +15,18 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        try {
-            return response()->json(['success' => true, 'data' => Department::all()],200);
-        }catch (\Exception $e){
-            return response()->json(['success' => false, 'message' => $e->getMessage()],500);
+        $user=Auth::user();
+        try{
+            if($user->hasRole('admin')){
+                $departments=Department::all();
+            }elseif($user->hasRole('hospital')){
+                $department=$user->hospital->departments()->get();
+            }else{
+                return response()->json(['success'=>true,'message'=>'You have no access'],443);
+            }
+            return response()->json(['success'=>true,'message'=>'Resquest successful','data'=>DepartmentResource($departments)]);
+        }catch(\Exeption $e){
+            return response()->json(['success'=>false,'message'=>$e->getMessage()]);
         }
     }
 
@@ -28,7 +37,8 @@ class DepartmentController extends Controller
     {
         $data=$request->validate([
             'name'=>'required|string',
-            'details'=>'required|string'
+            'details'=>'required|string',
+            'image'=>'image|mimes:jpeg,jpg,png'
         ]);
         $user=Auth::user();
         $hospital_id=$user->hospital->id;
