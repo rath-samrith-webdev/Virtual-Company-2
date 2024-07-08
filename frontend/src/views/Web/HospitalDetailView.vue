@@ -47,7 +47,7 @@
         <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
           <el-tab-pane class="" label="Comments and Feedback" name="first">
             <div class="main-comment">
-              <h5 class="mt-4 text-color-#32B4E3">Comments there to our hospital!</h5>
+              <h3 class="mt-4 text-color-#32B4E3">Comments there to our hospital!</h3>
               <div class="comment-form mt-1">
                 <el-form
                   class="form-comment mt-4"
@@ -124,9 +124,9 @@
               </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="Hospital Doctors" name="second">
+          <el-tab-pane label="Hospital Doctors" name="second" class="main-doctor">
             <div class="d-flex align-item-center text-align-center DT">
-              <h4 class="mt-4 text-color-#32B4E3">Our Doctor In Hostpital</h4>
+              <h3 class="mt-4 text-color-#32B4E3">Our Doctor In Hostpital</h3>
             </div>
             <div class="doctor-container d-flex flex-wrap gap-4">
               <div
@@ -179,11 +179,15 @@
             </div>
           </el-tab-pane>
           <el-tab-pane label="Hospital Departments" name="third" class="mt-4">
+            <h3 class="mt-4 text-color-#32B4E3">Our Department In Hospital!</h3>
             <el-table :data="tableData" height="250" style="width: 100%">
               <el-table-column prop="id" label="Department ID" width="180" />
               <el-table-column prop="departmentName" label="Department Name" width="880" />
             </el-table>
           </el-tab-pane>
+          <!-- ======================================================= -->
+          <!-- hospital Calendar -->
+          <!-- ======================================================= -->
           <el-tab-pane label="Hospital Calendar" name="fourth">
             <el-calendar
               ref="calendar"
@@ -234,7 +238,7 @@
           </el-tab-pane>
           <el-tab-pane label="Hospital Contact" name="five">
             <div class="d-flex align-item-center text-align-center DT">
-              <h4 class="mt-4 text-color-#32b4e3">Contact to Us</h4>
+              <h3 class="mt-4 text-color-#32b4e3">Contact to Us</h3>
             </div>
             <div class="doctor-container d-flex flex-wrap gap-4">
               <div
@@ -274,13 +278,12 @@
             </div>
           </el-tab-pane>
           <el-tab-pane label="Hospital Information " name="six">
-            <div class="block text-center" m="t-4" style="height: 900px; width: 100%">
-              <h2 class="mt-4 text-color-#32b4e3">Our Hospital Information Details</h2>
-              <el-carousel trigger="click" height="100vh">
-                <el-carousel-item v-for="item in 4" :key="item" style="height: 600px; width: 100%">
-                  <!-- <h3 class="small justify-center" text="2xl">{{ item }}</h3> -->
+            <div class="block text-center" m="t-4" style="height: 90vh; width: 100%">
+              <h3 class="mt-4 text-color-#32b4e3">Our Hospital Information Details</h3>
+              <el-carousel trigger="click" height="80vh">
+                <el-carousel-item v-for="hospitalInfomation in hospitalInfo" :key="hospitalInfomation" style="height: 600px; width: 100%">
                   <img
-                    :src="`https://picsum.photos/id/${item}/1920/1080`"
+                    :src="hospitalInfomation.image"
                     alt="Image placeholder"
                     class="image-container mt-5"
                     
@@ -324,16 +327,6 @@ const buttons = [
     type: 'warning'
   }
 ]
-const formRules = reactive({
-  fullname: [{ required: true, message: 'Please enter your full name', trigger: 'blur' }],
-  phone_number: [{ required: true, message: 'Please enter your phone number', trigger: 'blur' }],
-  age: [{ required: true, message: 'Please enter your age', trigger: 'blur' }],
-  gender: [{ required: true, message: 'Please select your gender', trigger: 'change' }],
-  department: [{ required: true, message: 'Please select a department', trigger: 'change' }],
-  doctor: [{ required: true, message: 'Please select a doctor', trigger: 'change' }],
-  date: [{ required: true, message: 'Please select an appointment date', trigger: 'change' }],
-  time: [{ required: true, message: 'Please select an appointment time', trigger: 'change' }]
-})
 
 const comments = [
   {
@@ -467,6 +460,26 @@ const hours = [
     time: 'Mon-Fri 8am-8pm Sat-Sun 8am-8pm'
   }
 ]
+// hospital information
+const hospitalInfo = [
+  {
+    image: "https://static-images.vnncdn.net/files/publish/2023/7/8/hospital-291.jpg"
+  },
+  {
+    image: "https://images.assettype.com/fortuneindia%2F2022-04%2Fe84e75e6-468d-411e-af42-2f6341a3481b%2FGettyImages_1296010649.jpeg?rect=0,411,6698,3768&w=1250&q=60"
+  },
+  {
+    image: "https://www.aamc.org/sites/default/files/styles/scale_and_crop_1200_x_666/public/d/1/3-hospitalist_patient-story.jpg__992x558_q85_crop-smart_subsampling-2_upscale.jpg?itok=HL_cR-BT"
+  },
+  {
+    image: "https://m.economictimes.com/thumb/msid-105450574,width-1600,height-900,resizemode-4,imgsize-143554/rainbow-hospitals-plans-to-launch-four-new-facilities-add-270-beds-in-h2-of-fy24.jpg"
+  },
+  {
+    image: "https://www.who.int/images/default-source/wpro/health-topic/hospitals/f8-11102016-my-6042.tmb-1024v.jpg?Culture=en&sfvrsn=57e1f33d_4"
+  },
+]
+
+
 
 const onSubmit = () => {
   // Logic for form submission can be added here
@@ -619,12 +632,24 @@ const selectDate = (val: CalendarDateType) => {
   margin-top: 20px;
 }
 .doctor-members {
-  background: whitesmoke;
+  background: white;
   display: flex;
   align-items: center;
   border-radius: 10px;
   width: 18%;
   height: 40vh;
+  border: 2px solid whitesmoke;
+  box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
+  
+}
+.doctor-members:hover {
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
+  transition: box-shadow 0.3s ease-in-out;
+  transition: transform 0.9s ease-in-out;
+  transform: translateY(-5px);
+  transition: box-shadow 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
 }
 .DT {
   text-align: center;
@@ -644,11 +669,25 @@ const selectDate = (val: CalendarDateType) => {
   width: 32%;
   height: 25vh;
 }
+.contact-infor:hover {
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
+  transition: box-shadow 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
+  transform: translateY(-5px);
+  transition: box-shadow 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
+}
 /* calendar */
 .calendar {
   /* background: #32b4e3; */
   /* color: #ffff; */
   border-radius: 10px;
+}
+/* doctor-controller */
+.main-doctor {
+  /* background: #f3f3f4; */
+  width: 100%;
 }
 </style>
 
