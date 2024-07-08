@@ -43,7 +43,7 @@ h1 {
   margin-bottom: 2rem;
   font-size: 2.5rem;
   color: var(--color);
-  color: orange;
+  color: rgb(0, 0, 0);
 }
 
 ol {

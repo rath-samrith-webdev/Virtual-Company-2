@@ -68,9 +68,10 @@ export default {
 .el-carousel {
   margin-top: 50px;
 }
-h1{
-  color: orange;
+h1 {
+  color: rgb(0, 0, 0);
   margin-top: 30px;
+  text-align: center;
 }
 .card-content {
   display: flex;
@@ -90,12 +91,10 @@ h1{
   height: 400px;
   object-fit: cover;
   border-radius: 4px;
-
 }
 
 .card-content h1 {
   font-size: 1.5em;
-
 }
 
 .card-content p {
@@ -122,10 +121,8 @@ h1{
 
 .el-carousel__item {
   background-color: #efefef;
-
 }
-.el-carousel__item p{
-   text-align: center;
+.el-carousel__item p {
+  text-align: center;
 }
-
 </style>
