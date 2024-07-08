@@ -5,7 +5,7 @@
         <div class="single-card">
           <div class="img-area">
             <img
-              v-if="cardFavorite.cover_image == 'No cover'"
+              v-if="cardFavorite.cover_image === 'No cover'"
               :src="cardFavorite.cover_image"
               class="card-img-top"
               alt="..."
