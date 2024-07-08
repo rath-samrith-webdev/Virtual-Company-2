@@ -96,11 +96,10 @@
 </template>
 
 <script>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 import { Search, CollectionTag } from '@element-plus/icons-vue'
 import axiosInstance from '@/plugins/axios'
 import { useAuthStore } from '@/stores/auth-store'
+import { ElNotification } from 'element-plus'
 const store = useAuthStore()
 export default {
   name: 'HospitalAddressCard',
@@ -157,6 +156,13 @@ export default {
     }
   },
   methods: {
+     alertMessage (title,message,type){
+      ElNotification({
+        title: title,
+        message: message,
+        type: type,
+      })
+    },
     async fetchHospital() {
       try {
         const { data } = await axiosInstance.get('/hospitals/list')
@@ -181,7 +187,11 @@ export default {
       }
       try {
         const { data } = await axiosInstance.post('/favourites/create', fav)
-        console.log(data)
+        if(data.success){
+          this.alertMessage('Favorite',data.message,'success')
+        }else {
+          this.alertMessage('Favorite',data.message,'warning')
+        }
       } catch (error) {
         console.log(error)
       }

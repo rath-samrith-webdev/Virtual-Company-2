@@ -82,8 +82,6 @@ const router = createRouter({
       component: () => import('../views/Web/User/MapView.vue')
     },
     {
-      path: '/user/hospital',
-      name: 'user-hospital',
       path:'/hospital/doctors',
       name:'doctors',
       component:()=>import('../views/Web/Hospital/AddDoctorView.vue')
