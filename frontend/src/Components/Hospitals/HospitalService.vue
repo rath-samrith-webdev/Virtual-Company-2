@@ -44,12 +44,12 @@
   background:red;
   height: 80px;
   width: 20%;
-  margin-left:150px;
+  margin-left:170px;
 }
 .col{
   width: 30%;
   padding:20px;
-  margin-left:35px;
+  margin-left:25px;
   
 }
 .card-body{
