@@ -185,7 +185,11 @@
             </el-table>
           </el-tab-pane>
           <el-tab-pane label="Hospital Calendar" name="fourth">
-            <el-calendar ref="calendar" class="mt-4 calendar" style="font-size: 18px; font-weight: bold">
+            <el-calendar
+              ref="calendar"
+              class="mt-4 calendar"
+              style="font-size: 18px; font-weight: bold"
+            >
               <template #header="{ date }">
                 <span class="text-color-#32b4e3">Calendar Hostpital</span>
                 <span class="text-color-#32b4e3">{{ date }}</span>
@@ -270,7 +274,21 @@
             </div>
           </el-tab-pane>
           <el-tab-pane label="Hospital Location " name="six">
-            <div id="map" style="height: 400px; width: 100%"></div>
+            <div class="block text-center" m="t-4" style="height: 900px; width: 100%">
+              <span class="demonstration">Our Hospital Details</span>
+              <el-carousel trigger="click" height="550px">
+                <el-carousel-item v-for="item in 4" :key="item" style="height: 600px; width: 100%">
+                  <h3 class="small justify-center" text="2xl">{{ item }}</h3>
+                  <img
+                    :src="`https://picsum.photos/id/${item}/1920/1080`"
+                    alt="Image placeholder"
+                    class="image-container"
+                    
+                  />
+
+                </el-carousel-item>
+              </el-carousel>
+            </div>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -631,8 +649,6 @@ const selectDate = (val: CalendarDateType) => {
   /* background: #32b4e3; */
   /* color: #ffff; */
   border-radius: 10px;
-
 }
-
 </style>
 
