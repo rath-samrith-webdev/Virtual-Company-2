@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\MailController;
+use App\Mail\ResetPasswordMail;
 use App\Mail\TestMail;
 use App\Models\Appointment;
 use App\Models\Hospital;
 use App\Models\Rate;
 use App\Models\SystemRequest;
 use App\Models\User;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +35,14 @@ Route::get('/mail', function () {
     try {
         Mail::to('rothsamreth@gmail.com')->send(new TestMail());
     } catch (Exception $e) {
+        dd($e);
+    }
+});
+Route::get('/reset',function (){
+    try {
+        Mail::to('rothsamreth@gmail.com')->send(new ResetPasswordMail());
+        dd('send');
+    }catch (Exception $e){
         dd($e);
     }
 });
