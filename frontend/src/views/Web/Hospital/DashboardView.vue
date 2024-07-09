@@ -5,8 +5,8 @@ import { computed, h, onMounted, ref } from 'vue'
 import { Message, Plus, Warning } from '@element-plus/icons-vue/global'
 import { ElNotification } from 'element-plus'
 import { FeedbackList } from '@/stores/feedback-list'
-import { hopsitalAppointmentListStore } from '@/stores/hospital-appointment-list'
-const appointmentStore=hopsitalAppointmentListStore()
+import { hospitalAppointmentListStore } from '@/stores/hospital-appointment-list'
+const appointmentStore=hospitalAppointmentListStore()
 const store=FeedbackList()
 let dialogOverflowVisible = ref(false)
 const data2 = {
