@@ -34,7 +34,7 @@ const router = createRouter({
     {
       path: '/hospital/detail',
       name: 'hospital-detail',
-      component: () => import('../views/Web/HospitalDetailView.vue')
+      component: () => import('../views/Web/User/HospitalDetailView.vue')
     },
     {
       path: '/post',
