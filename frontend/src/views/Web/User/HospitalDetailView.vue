@@ -238,6 +238,44 @@
                   </el-button>
                 </el-button-group>
               </template>
+              <template #date-cell="{ data }">
+                <div v-for="(item, index) in textContent(data.day)" :key="index" @click="alertMessage">
+                  <el-row v-if="item.status=='Confirmed'">
+                    <el-col class="center">
+                      <el-tag type="success" class="tag">
+                        <el-row>
+                          <el-col :span="20" class="tag">
+                            <span>Booked</span>
+                          </el-col>
+                        </el-row>
+                      </el-tag>
+                    </el-col>
+                  </el-row>
+                  <el-row v-else-if="item.status=='Pending'">
+                    <el-col class="center">
+                      <el-tag type="warning" class="tag">
+                        <el-row>
+                          <el-col :span="20" class="tag">
+                            <span>Booked</span>
+                          </el-col>
+                        </el-row>
+                      </el-tag>
+                    </el-col>
+                  </el-row>
+                  <el-row v-else>
+                    <el-col class="center">
+                      <el-tag type="danger" class="tag">
+                        <el-row>
+                          <el-col :span="20" class="tag">
+                            <span>Booked</span>
+                            <span>Status</span>
+                          </el-col>
+                        </el-row>
+                      </el-tag>
+                    </el-col>
+                  </el-row>
+                </div>
+              </template>
             </el-calendar>
           </el-tab-pane>
           <el-tab-pane label="Hospital Contact" name="five">
@@ -252,10 +290,9 @@
               >
                 <div class="d-flex">
                   <el-icon class="text-color-#ffff"><Phone /></el-icon>
-                  <h4 class="text-color-#ffff ml-2 font-weight: bold">{{ contact.title }}</h4>
+                  <h4 class="text-color-#ffff ml-2 font-weight: bold">Contact us</h4>
                 </div>
-                <h6 class="text-color-#ffff mt-3">{{ contact.phone1 }}</h6>
-                <h6 class="text-color-#ffff">{{ contact.phone2 }}</h6>
+                <h6 class="text-color-#ffff mt-3">{{ store.hospitalDetail.phone_number }}</h6>
               </div>
               <div
                 class="contact-infor d-flex flex-column justity-content-center p-5"
@@ -306,7 +343,7 @@
 </template>
 <script setup lang="ts">
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
-import { ref, reactive, watch, onMounted } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Phone, Location, Clock } from '@element-plus/icons-vue'
 import { hospitalDetailStore } from '@/stores/hospital-detail'
@@ -319,6 +356,14 @@ const form = reactive({
   content: '',
   star: '',
 })
+const textContent = (date) => {
+  return store.appointment.filter((item) => {
+    return date === item.day;
+  });
+};
+const alertMessage=()=>{
+  alert('Hi')
+}
 const activeName=ref('first')
 onMounted(()=>{
   store.fetchHospitalDetail(sessionStorage.getItem('id'))
@@ -455,7 +500,7 @@ const selectDate = (val: CalendarDateType) => {
 }
 
 .title-hospital {
-  font-size: 70px;
+  font-size: 50px;
   font-weight: bold;
 }
 
