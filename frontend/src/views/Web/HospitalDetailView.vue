@@ -57,7 +57,7 @@
                 >
                   <el-form-item>
                     <el-input
-                      v-model="form.desc"
+                      v-model="form.content"
                       type="text"
                       placeholder="Write your comment here!"
                       class="custom-input"
@@ -500,7 +500,6 @@ const onSubmit = () => {
 //rating
 const value = ref(0)
 
-
 // Calendar
 import type { CalendarDateType, CalendarInstance } from 'element-plus'
 const calendar = ref<CalendarInstance>()
@@ -604,7 +603,6 @@ const selectDate = (val: CalendarDateType) => {
 
 .main-comment {
   width: 100%;
-  /* box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06); */
 }
 .custom-input {
   font-size: 1rem;
@@ -645,7 +643,6 @@ const selectDate = (val: CalendarDateType) => {
 }
 /* Doctor setting */
 .doctor-container {
-  /* height: 40vh; */
   display: flex;
   margin-top: 20px;
 }
@@ -674,7 +671,6 @@ const selectDate = (val: CalendarDateType) => {
   justify-content: center;
 }
 .contact-container {
-  /* height: 40vh; */
   display: flex;
   margin-top: 20px;
 }
@@ -692,8 +688,6 @@ const selectDate = (val: CalendarDateType) => {
   transition: box-shadow 0.3s ease-in-out;
   transition: transform 0.3s ease-in-out;
   transform: translateY(-5px);
-  transition: box-shadow 0.3s ease-in-out;
-  transition: transform 0.3s ease-in-out;
 }
 /* calendar */
 .calendar {
@@ -701,7 +695,6 @@ const selectDate = (val: CalendarDateType) => {
 }
 /* doctor-controller */
 .main-doctor {
-  /* background: #f3f3f4; */
   width: 100%;
 }
 /* rate controller */
