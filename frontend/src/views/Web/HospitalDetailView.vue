@@ -47,7 +47,7 @@
         <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
           <el-tab-pane class="" label="Comments and Feedback" name="first">
             <div class="main-comment">
-              <h3 class="mt-4 text-color-#32B4E3">Comments there to our hospital!</h3>
+              <h3 class="mt-4 text-color-#32B4E3">Comments this hospital!</h3>
               <div class="comment-form mt-1">
                 <el-form
                   class="form-comment mt-4"
@@ -55,7 +55,7 @@
                   label-width="auto"
                   style="max-width: 2000px"
                 >
-                  <el-form-item class="hello">
+                  <el-form-item>
                     <el-input
                       v-model="form.desc"
                       type="text"
@@ -63,11 +63,16 @@
                       class="custom-input"
                     />
                   </el-form-item>
-                  <el-form-item>
+                  <div class="rating mt-4">
+                    <h4 class="text-color-warning">Rate this Hostpital</h4>
+                    <h6 class="text-color-gray">Tell others what you think.</h6>
+                    <el-rate class="custom-rate" v-model="value" size="large" clearable />
+                  </div>
+                  <el-form-item class="mt-4">
+                    <el-button type="warning" class="text-color-#ffff btn-cancel">Cancel</el-button>
                     <el-button type="#ffff" class="text-color-#ffff btn-comment" @click="onSubmit"
                       >Submit</el-button
                     >
-                    <el-button type="warning">Cancel</el-button>
                   </el-form-item>
                 </el-form>
               </div>
@@ -281,14 +286,16 @@
             <div class="block text-center" m="t-4" style="height: 90vh; width: 100%">
               <h3 class="mt-4 text-color-#32b4e3">Our Hospital Information Details</h3>
               <el-carousel trigger="click" height="80vh">
-                <el-carousel-item v-for="hospitalInfomation in hospitalInfo" :key="hospitalInfomation" style="height: 600px; width: 100%">
+                <el-carousel-item
+                  v-for="hospitalInfomation in hospitalInfo"
+                  :key="hospitalInfomation"
+                  style="height: 600px; width: 100%"
+                >
                   <img
                     :src="hospitalInfomation.image"
                     alt="Image placeholder"
                     class="image-container mt-5"
-                    
                   />
-
                 </el-carousel-item>
               </el-carousel>
             </div>
@@ -305,18 +312,19 @@ import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Calendar } from '@element-plus/icons-vue/dist/types'
 import { Phone, Location, Clock } from '@element-plus/icons-vue'
+
+//dialog
 const dialogFormVisible = ref(false)
+
+//form
 const form = reactive({
-  fullname: '',
-  phone_number: '',
-  age: '',
-  gender: '',
   department: '',
   doctor: '',
-  date: '',
-  time: ''
+
+
 })
 
+//btn comment
 const buttons = [
   {
     text: 'Reply',
@@ -328,6 +336,7 @@ const buttons = [
   }
 ]
 
+//comment hospital
 const comments = [
   {
     id: 1,
@@ -357,6 +366,8 @@ const comments = [
     value: 4.8
   }
 ]
+
+//doctor hospital
 const doctors = [
   {
     id: 1,
@@ -364,7 +375,6 @@ const doctors = [
     role: 'A doctor primarily works in medicine',
     avatar:
       'https://dl.memuplay.com/new_market/img/com.vicman.newprofilepic.icon.2022-06-07-21-33-07.png',
-    value: 4.5
   },
   {
     id: 2,
@@ -372,7 +382,6 @@ const doctors = [
     role: 'A doctor primarily works in medicine',
     avatar:
       'https://media.licdn.com/dms/image/D5603AQGCCYbUstS9xg/profile-displayphoto-shrink_400_400/0/1718211706383?e=1724889600&v=beta&t=AsGCwsdVHSL4a9JCH2ucQwk3JNZtcsX9KymwXSkAKYk',
-    value: 4.2
   },
   {
     id: 3,
@@ -380,7 +389,6 @@ const doctors = [
     role: 'A doctor primarily works in medicine',
     avatar:
       'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
-    value: 4.8
   },
   {
     id: 4,
@@ -388,7 +396,6 @@ const doctors = [
     role: 'A doctor primarily works in medicine',
     avatar:
       'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
-    value: 4.8
   },
   {
     id: 5,
@@ -396,7 +403,6 @@ const doctors = [
     role: 'A doctor primarily works in medicine',
     avatar:
       'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
-    value: 4.8
   },
   {
     id: 6,
@@ -404,10 +410,10 @@ const doctors = [
     role: 'A doctor primarily works in medicine',
     avatar:
       'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
-    value: 4.8
   }
 ]
 
+//department table
 const tableData = [
   {
     id: '1',
@@ -439,21 +445,22 @@ const tableData = [
   }
 ]
 
+//conatct hospital
 const contacts = [
   {
     title: 'CALL US',
-    icon: 'el-icon-message',
     phone1: '+855 123456789',
     phone2: '+855 987654321'
   }
 ]
+//location
 const locations = [
   {
     title: 'FIND US',
-    icon: 'el-icon-location',
     address: 'BP 511, Phum Tropeang Chhuk (Borey Sorla) Sangtak, Street 371, Phnom Penh'
   }
 ]
+//hour
 const hours = [
   {
     title: 'HOURS',
@@ -463,41 +470,49 @@ const hours = [
 // hospital information
 const hospitalInfo = [
   {
-    image: "https://static-images.vnncdn.net/files/publish/2023/7/8/hospital-291.jpg"
+    image: 'https://static-images.vnncdn.net/files/publish/2023/7/8/hospital-291.jpg'
   },
   {
-    image: "https://images.assettype.com/fortuneindia%2F2022-04%2Fe84e75e6-468d-411e-af42-2f6341a3481b%2FGettyImages_1296010649.jpeg?rect=0,411,6698,3768&w=1250&q=60"
+    image:
+      'https://images.assettype.com/fortuneindia%2F2022-04%2Fe84e75e6-468d-411e-af42-2f6341a3481b%2FGettyImages_1296010649.jpeg?rect=0,411,6698,3768&w=1250&q=60'
   },
   {
-    image: "https://www.aamc.org/sites/default/files/styles/scale_and_crop_1200_x_666/public/d/1/3-hospitalist_patient-story.jpg__992x558_q85_crop-smart_subsampling-2_upscale.jpg?itok=HL_cR-BT"
+    image:
+      'https://www.aamc.org/sites/default/files/styles/scale_and_crop_1200_x_666/public/d/1/3-hospitalist_patient-story.jpg__992x558_q85_crop-smart_subsampling-2_upscale.jpg?itok=HL_cR-BT'
   },
   {
-    image: "https://m.economictimes.com/thumb/msid-105450574,width-1600,height-900,resizemode-4,imgsize-143554/rainbow-hospitals-plans-to-launch-four-new-facilities-add-270-beds-in-h2-of-fy24.jpg"
+    image:
+      'https://m.economictimes.com/thumb/msid-105450574,width-1600,height-900,resizemode-4,imgsize-143554/rainbow-hospitals-plans-to-launch-four-new-facilities-add-270-beds-in-h2-of-fy24.jpg'
   },
   {
-    image: "https://www.who.int/images/default-source/wpro/health-topic/hospitals/f8-11102016-my-6042.tmb-1024v.jpg?Culture=en&sfvrsn=57e1f33d_4"
-  },
+    image:
+      'https://www.who.int/images/default-source/wpro/health-topic/hospitals/f8-11102016-my-6042.tmb-1024v.jpg?Culture=en&sfvrsn=57e1f33d_4'
+  }
 ]
 
-
-
+//btn submiy
 const onSubmit = () => {
   // Logic for form submission can be added here
   ElMessage.success('Form submitted successfully!')
-  console.log('hello')
+  console.log(onSubmit)
 }
+
+//rating
+const value = ref(0)
+
 
 // Calendar
 import type { CalendarDateType, CalendarInstance } from 'element-plus'
-
 const calendar = ref<CalendarInstance>()
 const selectDate = (val: CalendarDateType) => {
   if (!calendar.value) return
   calendar.value.selectDate(val)
 }
 
-// mape
+
 </script>
+
+
 <style scoped>
 .container {
   display: flex;
@@ -582,7 +597,7 @@ const selectDate = (val: CalendarDateType) => {
 
 .comment-form {
   width: 100%;
-  height: 23vh;
+  height: 40vh;
   background: linear-gradient(to right, rgba(249, 249, 249, 0.8));
   box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
 }
@@ -593,10 +608,13 @@ const selectDate = (val: CalendarDateType) => {
 }
 .custom-input {
   font-size: 1rem;
-  background: #32b4e3;
-  /* padding: 1px; */
   border-radius: 20px;
   height: 8vh;
+}
+.btn-comment, .btn-cancel {
+  width: 130px;
+  height: 5vh;
+  border-radius: 5px;
 }
 .btn-comment {
   background: #32b4e3;
@@ -640,7 +658,6 @@ const selectDate = (val: CalendarDateType) => {
   height: 40vh;
   border: 2px solid whitesmoke;
   box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
-  
 }
 .doctor-members:hover {
   transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
@@ -680,8 +697,6 @@ const selectDate = (val: CalendarDateType) => {
 }
 /* calendar */
 .calendar {
-  /* background: #32b4e3; */
-  /* color: #ffff; */
   border-radius: 10px;
 }
 /* doctor-controller */
@@ -689,5 +704,18 @@ const selectDate = (val: CalendarDateType) => {
   /* background: #f3f3f4; */
   width: 100%;
 }
+/* rate controller */
+.custom-rate .el-rate__item {
+  font-size: 100px; /* Adjust this value to make it larger */
+}
+
+.custom-rate .el-rate__icon {
+  font-size: 100px; /* Adjust this value to make it larger */
+}
+.custom-rate {
+  font-size: 50px;
+  
+}
+
 </style>
 
