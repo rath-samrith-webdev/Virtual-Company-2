@@ -51,6 +51,7 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->prefix('appointments')->group(function () {
         Route::get('/list', [AppointmentController::class, 'index']);
         Route::post('/create', [AppointmentController::class, 'store']);
+        Route::get('/todayAppointment', [AppointmentController::class, 'todayAppointment']);
         Route::get('/show/{appointment}', [AppointmentController::class, 'show']);
         Route::get('/monthlyAppointments', [AppointmentController::class, 'monthlyAppointments']);
         Route::put('/update/{appointment}', [AppointmentController::class, 'update']);

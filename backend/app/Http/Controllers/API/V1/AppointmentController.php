@@ -143,6 +143,26 @@ class AppointmentController extends Controller
             return response()->json(['success' => false, 'message' => $exception->getMessage()], 500);
         }
     }
+    public function todayAppointment()
+    {
+        $user = Auth::user();
+        $date=Carbon::today()->toDateString();
+        try {
+            if ($user->hasRole('admin')) {
+                $todayAppointment=Appointment::where('appointment_date', $date)->get();
+            }elseif ($user->hasRole('hospital')) {
+                $hospital=$user->hospital;
+                if($hospital){
+                    $todayAppointment=$hospital->appointments()->where('appointment_date', $date)->get();
+                }
+            }else{
+                $todayAppointment=$user->appointments()->where('appointment',$date)->get();
+            }
+            return response()->json(['success' => true,'date'=>$date, 'data' => AppointmentResource::collection($todayAppointment)], 200);
+        }catch (\Exception $exception){
+            return response()->json(['success' => false, 'message' => $exception->getMessage()], 500);
+        }
+    }
     public function monthlyAppointments()
     {
         $month=[1,2,3,4,5,6,7,8,9,10,11,12];
@@ -177,4 +197,5 @@ class AppointmentController extends Controller
             return response()->json(['success' => false, 'message' => $exception->getMessage()], 500);
         }
     }
+
 }
