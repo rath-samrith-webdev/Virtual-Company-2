@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\V1;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -18,7 +18,7 @@ class DepartmentResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->details,
-            'image' => $this->image_name ? asset('images/profiles/user-' . $this->first_name . '/' . $this->profile) : 'No profile',
+            'image' => $this->image ? asset('images/hospital/department'.$this->id .'/'. $this->image) : 'No profile',
         ];
     }
 }

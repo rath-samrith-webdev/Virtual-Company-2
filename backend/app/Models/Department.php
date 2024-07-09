@@ -12,7 +12,8 @@ class Department extends Model
     protected $fillable = [
         'hospital_id',
         'name',
-        'details'
+        'details',
+        'image'
     ];
     public function hospital(): BelongsTo
     {
