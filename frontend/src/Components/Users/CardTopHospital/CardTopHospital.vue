@@ -1,15 +1,17 @@
 <template>
   <div>
     <h1>Top Hospitals</h1>
-    <el-carousel :interval="4000" type="card" height="400px">
+    <el-carousel :interval="4000" type="card" height="200px">
       <el-carousel-item v-for="(card, index) in cards" :key="index">
         <div class="card-content">
           <img :src="card.img" alt="Hospital Image" class="card-img" />
-          <h1>{{ card.h1 }}</h1>
-          <p>{{ card.text }}</p>
-          <div class="stars">
-            <span v-for="n in card.stars" :key="`star-${n}`" class="star">★</span>
-            <span v-for="n in 5 - card.stars" :key="`empty-${n}`" class="star empty">★</span>
+          <div class="card-info">
+            <h2>{{ card.h1 }}</h2>
+            <p>{{ card.text }}</p>
+            <div class="stars">
+              <span v-for="n in card.stars" :key="`star-${n}`" class="star">★</span>
+              <span v-for="n in 5 - card.stars" :key="`empty-${n}`" class="star empty">★</span>
+            </div>
           </div>
         </div>
       </el-carousel-item>
@@ -51,13 +53,6 @@ export default {
           img: 'https://cambodianess.com/uploads/images/1640765322z6c2p-chkhgee007005-20211229-cbmfn0a001.jpg',
           stars: 4
         },
-        {
-          h1: 'Orchid Hospital',
-          title: 'Card 5',
-          text: 'This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.',
-          img: 'https://static.ips-cambodia.com/wp-content/uploads/2019/09/Sen-Sok-International-University-Hospital-1024x679.jpg',
-          stars: 5
-        }
       ]
     }
   }
@@ -66,44 +61,52 @@ export default {
 
 <style scoped>
 .el-carousel {
-  margin-top: 50px;
+  margin-top: 70px;
+  background:  white;
 }
-h1{
-  color: orange;
-  margin-top: 30px;
+
+h1 {
+  color: rgb(0, 0, 0);
+  margin-top: 150px;
+  text-align: center;
 }
+
 .card-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 350px; 
-  padding: 20px;
-  box-sizing: border-box;
-  background: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(255, 200, 0, 0.1);
+  height: 350px;
+  background: #ffffff;
+  
 }
 
 .card-img {
   width: 100%;
-  height: 400px; 
+  height: 100%;
   object-fit: cover;
-  border-radius: 4px;
-
+  border-radius: 10px;
+  margin-bottom: 20px;
 }
 
-.card-content h1 {
+.card-info {
+  /* width: 50%; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.card-info h2 {
   font-size: 1.5em;
-  
+  margin-bottom: 10px;
+  color: orange;
 }
 
-.card-content p {
-  font-size: 1em;
+.card-info p {
+  font-weight: bold;
   color: #000000;
   text-align: center;
-  margin-bottom: 10px;
-  margin-top: 70px;
+  /* margin-bottom: 20px; */
 }
 
 .stars {
@@ -122,10 +125,10 @@ h1{
 
 .el-carousel__item {
   background-color: #efefef;
- 
-}
-.el-carousel__item p{
-   text-align: center;
+  
 }
 
+.el-carousel__item p {
+  text-align: center;
+}
 </style>

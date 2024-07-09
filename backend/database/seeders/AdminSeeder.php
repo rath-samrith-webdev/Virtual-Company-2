@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Doctor;
+use App\Models\SystemRequest;
+use App\Models\SystemRequestCategory;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
@@ -18,32 +21,75 @@ class AdminSeeder extends Seeder
     public function run()
     {
         $admin = User::create([
+            'first_name'=>"Admin",
+            'last_name'=>"User",
             'name'=>'Admin',
             'email'=>'admin@gmail.com',
             'password'=>bcrypt('password'),
-            'profile' => 'user.avif'
         ]);
 
-        $writer = User::create([
+        $user = User::create([
+            'first_name'=>"Test",
+            'last_name'=>"User",
             'name'=>'User',
             'email'=>'user@gmail.com',
             'password'=>bcrypt('password')
+        ]);
+        $hospital=User::create([
+            'first_name'=>"Hospital",
+            'last_name'=>"User",
+            'name'=>'Hospital',
+            'email'=>'hospital@gmail.com',
+            'password'=>bcrypt('password'),
+        ]);
+        $doctor=User::create([
+            'first_name'=>"Doctor",
+            'last_name'=>"User",
+            'name'=>'Doctor',
+            'email'=>'doctor@gmail.com',
+            'password'=>bcrypt('password'),
         ]);
 
 
 
         $admin_role = Role::create(['name' => 'admin']);
-        $writer_role = Role::create(['name' => 'user']);
+        $user_role = Role::create(['name' => 'user']);
+        $hospital_role = Role::create(['name' => 'hospital']);
+        $doctor_role = Role::create(['name' => 'doctor']);
 
-        $permission = Permission::create(['name' => 'Post access','front_name'=>'post_access']);
-        $permission = Permission::create(['name' => 'Post edit' ,'front_name'=>'post_edit']);
-        $permission = Permission::create(['name' => 'Post create' ,'front_name'=>'post_create']);
-        $permission = Permission::create(['name' => 'Post delete' ,'front_name'=>'post_delete']);
-
+        $feature=SystemRequestCategory::create([
+            'name'=>'Feature',
+        ]);
+        $feature=SystemRequestCategory::create([
+            'name'=>'Error',
+        ]);
+        $feature=SystemRequestCategory::create([
+            'name'=>'Other',
+        ]);
+        $request=SystemRequest::create([
+            'user_id'=>2,
+            'category_id'=>1,
+            'request_details'=>fake()->sentence()
+        ]);
+        $request=SystemRequest::create([
+            'user_id'=>2,
+            'category_id'=>1,
+            'request_details'=>fake()->sentence()
+        ]);
+        $request=SystemRequest::create([
+            'user_id'=>3,
+            'category_id'=>3,
+            'request_details'=>fake()->sentence()
+        ]);
         $permission = Permission::create(['name' => 'Role access' ,'front_name'=>'role_access']);
         $permission = Permission::create(['name' => 'Role edit' ,'front_name'=>'role_edit']);
         $permission = Permission::create(['name' => 'Role create' ,'front_name'=>'role_create']);
         $permission = Permission::create(['name' => 'Role delete','front_name'=>'role_delete']);
+
+        $permission = Permission::create(['name' => 'System-Request access' ,'front_name'=>'system_request_access']);
+        $permission = Permission::create(['name' => 'System-Request edit' ,'front_name'=>'system_request_edit']);
+        $permission = Permission::create(['name' => 'System-Request create' ,'front_name'=>'system_request_create']);
+        $permission = Permission::create(['name' => 'System-Request delete','front_name'=>'system_request_delete']);
 
         $permission = Permission::create(['name' => 'User access','front_name'=>'user_access']);
         $permission = Permission::create(['name' => 'User edit','front_name'=>'user_edit']);
@@ -58,11 +104,45 @@ class AdminSeeder extends Seeder
         $permission = Permission::create(['name' => 'Mail access','front_name'=>'mail_access']);
         $permission = Permission::create(['name' => 'Mail edit','front_name'=>'mail_edit']);
 
+        $permission = Permission::create(['name' => 'Hospital access','front_name'=>'hospital_access']);
+        $permission = Permission::create(['name' => 'Hospital edit' ,'front_name'=>'hospital_edit']);
+        $permission = Permission::create(['name' => 'Hospital create' ,'front_name'=>'hospital_create']);
+        $permission = Permission::create(['name' => 'Hospital delete' ,'front_name'=>'hospital_delete']);
 
+        $permission = Permission::create(['name' => 'Category access','front_name'=>'category_access']);
+        $permission = Permission::create(['name' => 'Category edit' ,'front_name'=>'category_edit']);
+        $permission = Permission::create(['name' => 'Category create' ,'front_name'=>'category_create']);
+        $permission = Permission::create(['name' => 'Category delete' ,'front_name'=>'category_delete']);
+
+        $permission = Permission::create(['name' => 'Appointment access','front_name'=>'appointment_access']);
+        $permission = Permission::create(['name' => 'Appointment edit' ,'front_name'=>'appointment_edit']);
+        $permission = Permission::create(['name' => 'Appointment create' ,'front_name'=>'appointment_create']);
+        $permission = Permission::create(['name' => 'Appointment delete' ,'front_name'=>'appointment_delete']);
+
+        $permission = Permission::create(['name' => 'Department access','front_name'=>'department_access']);
+        $permission = Permission::create(['name' => 'Department edit' ,'front_name'=>'department_edit']);
+        $permission = Permission::create(['name' => 'Department create' ,'front_name'=>'department_create']);
+        $permission = Permission::create(['name' => 'Department delete' ,'front_name'=>'department_delete']);
+
+        $permission = Permission::create(['name' => 'Doctor access','front_name'=>'doctor_access']);
+        $permission = Permission::create(['name' => 'Doctor edit','front_name'=>'doctor_edit']);
+        $permission = Permission::create(['name' => 'Doctor create','front_name'=>'doctor_create']);
+        $permission = Permission::create(['name' => 'Doctor delete','front_name'=>'doctor_delete']);
+
+        $permission = Permission::create(['name' => 'Rate access','front_name'=>'rate_access']);
+        $permission = Permission::create(['name' => 'Rate edit' ,'front_name'=>'rate_edit']);
+        $permission = Permission::create(['name' => 'Rate create' ,'front_name'=>'rate_create']);
+        $permission = Permission::create(['name' => 'Rate delete' ,'front_name'=>'rate_delete']);
+
+        $permission = Permission::create(['name' => 'RateReply access','front_name'=>'rate_reply_access']);
+        $permission = Permission::create(['name' => 'RateReply edit' ,'front_name'=>'rate_reply_edit']);
+        $permission = Permission::create(['name' => 'RateReply create' ,'front_name'=>'rate_reply_create']);
+        $permission = Permission::create(['name' => 'RateReply delete' ,'front_name'=>'rate_reply_delete']);
 
         $admin->assignRole($admin_role);
-        $writer->assignRole($writer_role);
-
+        $user->assignRole($user_role);
+        $hospital->assignRole($hospital_role);
+        $doctor->assignRole($doctor_role);
 
         $admin_role->givePermissionTo(Permission::all());
     }

@@ -13,9 +13,13 @@ return new class extends Migration
     {
         Schema::create('hospitals', function (Blueprint $table) {
             $table->id();
+            $table->string('cover_image')->nullable();
             $table->string('name');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->time('open_time')->nullable();
+            $table->time('close_time')->nullable();
+            $table->string('phone_number')->nullable();
             $table->string('street_address')->nullable();
             $table->string('village')->nullable();
             $table->string('commune')->nullable();
