@@ -86,10 +86,9 @@
 <script setup lang="ts">
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import { onMounted, ref, watch } from 'vue'
-import {hopsitalAppointmentListStore} from '@/stores/hospital-appointment-list'
-import { string } from 'yup'
+import {hospitalAppointmentListStore} from '@/stores/hospital-appointment-list'
 import { ElNotification } from 'element-plus'
-const store=hopsitalAppointmentListStore()
+const store=hospitalAppointmentListStore()
 const showTable = true
 const outerVisible = ref(false)
 const innerVisible = ref(false)

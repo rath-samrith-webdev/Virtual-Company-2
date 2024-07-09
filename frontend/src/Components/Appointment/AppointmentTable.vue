@@ -144,9 +144,8 @@ const onUpdate = async () => {
   }
 }
 async function cancelAppointment(row){
-  const body={
-    'status':'Canceled'
-  }
+  const body=new FormData()
+  body.append('status','Canceled')
   try {
     const { data } = await axiosInstance.put(`/appointments/update-status/${row.id}`,body);
     if(data.success==true){

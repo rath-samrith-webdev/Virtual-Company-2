@@ -2,11 +2,11 @@
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import Chart from 'chart.js/auto'
 import { computed, h, onMounted, ref } from 'vue'
-import { ArrowRight, CaretBottom, CaretTop, Message, Plus, Warning } from '@element-plus/icons-vue/global'
+import { Message, Plus, Warning } from '@element-plus/icons-vue/global'
 import { ElNotification } from 'element-plus'
 import { FeedbackList } from '@/stores/feedback-list'
-import { hopsitalAppointmentListStore } from '@/stores/hospital-appointment-list'
-const appointmentStore=hopsitalAppointmentListStore()
+import { hospitalAppointmentListStore } from '@/stores/hospital-appointment-list'
+const appointmentStore=hospitalAppointmentListStore()
 const store=FeedbackList()
 let dialogOverflowVisible = ref(false)
 const data2 = {
@@ -84,7 +84,8 @@ const filterTableData = computed(() =>
   store.recentFeedbacks.filter(
     (data) =>
       !search.value ||
-      data.from.toLowerCase().includes(search.value.toLowerCase())
+      data.from.first_name.toLowerCase().includes(search.value.toLowerCase()) ||
+      data.from.last_name.toLowerCase().includes(search.value.toLowerCase())
   )
 )
 const handleEdit = (index: number, row: User) => {
