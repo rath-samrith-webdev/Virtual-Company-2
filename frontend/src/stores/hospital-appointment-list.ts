@@ -1,6 +1,6 @@
 import {defineStore} from 'pinia'
 import axiosInstance from '@/plugins/axios'
-export const hopsitalAppointmentListStore = defineStore('appointments',{
+export const hospitalAppointmentListStore = defineStore('appointments',{
   state:()=>({
     appointments:[],
     monthlyAppointment:[],
@@ -15,11 +15,11 @@ export const hopsitalAppointmentListStore = defineStore('appointments',{
         console.log(error)
       }
     },
-    async confirmAppointment(id:number){
+    async confirmAppointment(id:any){
+      const formData= new FormData()
+      formData.append('status', 'Confirmed')
       try {
-        const {data}= await axiosInstance.put(`/appointments/update-status/${id}`,{
-          status:'Confirmed'
-        })
+        const {data}= await axiosInstance.put(`/appointments/update-status/${id}`,formData)
         this.message=data
       }catch(error){
         console.log(error)
