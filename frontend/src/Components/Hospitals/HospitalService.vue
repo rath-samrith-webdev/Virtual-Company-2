@@ -44,7 +44,7 @@
   background:red;
   height: 80px;
   width: 20%;
-  margin-left:170px;
+  margin-left:130px;
 }
 .col{
   width: 30%;
