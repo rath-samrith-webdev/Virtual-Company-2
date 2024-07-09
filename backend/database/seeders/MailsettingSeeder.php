@@ -15,13 +15,13 @@ class MailsettingSeeder extends Seeder
     public function run()
     {
         Mailsetting::create([
-            'mail_transport'            =>'smtp',
-            'mail_host'                 =>'smtp.mailtrap.io',
-            'mail_port'                 =>'2525',
-            'mail_username'             =>'ed3caa94a48fd1',
-            'mail_password'             =>'baf29d92154c72',
-            'mail_encryption'           =>'tls',
-            'mail_from'                 => 'ajayyadavexpo@gmail.com',
+            'mail_transport'            => 'smtp',
+            'mail_host'                 => 'smtp.gmail.com',
+            'mail_port'                 => '587',
+            'mail_username'             => 'rathsamreth0200@gmail.com',
+            'mail_password'             => 'bvxokupccvdmxcll',
+            'mail_encryption'           => 'tls',
+            'mail_from'                 => 'rathsamreth0200@gmail.com',
         ]);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Department;
+use App\Http\Resources\V1\DepartmentResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,10 +15,18 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        try {
-            return response()->json(['success' => true, 'data' => Department::all()],200);
-        }catch (\Exception $e){
-            return response()->json(['success' => false, 'message' => $e->getMessage()],500);
+        $user=Auth::user();
+        try{
+            if($user->hasRole('admin')){
+                $department=Department::all();
+            }elseif($user->hasRole('hospital')){
+                $department=$user->hospital->departments()->get();
+            }else{
+                return response()->json(['success'=>true,'message'=>'You have no access'],443);
+            }
+            return response()->json(['success'=>true,'message'=>'Resquest successful','data'=>DepartmentResource::collection($department)]);
+        }catch(\Exeption $e){
+            return response()->json(['success'=>false,'message'=>$e->getMessage()]);
         }
     }
 
@@ -27,19 +36,35 @@ class DepartmentController extends Controller
     public function store(Request $request)
     {
         $data=$request->validate([
-            'name'=>'required',
+            'name'=>'required|string',
+            'details'=>'required|string',
+            'image'=>'image|mimes:jpeg,jpg,png'
         ]);
         $user=Auth::user();
         $hospital_id=$user->hospital->id;
         $data['hospital_id']=$hospital_id;
+        $image=$request->file('image');
+        $ext=$image->getClientOriginalExtension();
+        $filename=time().'.'.$ext;
         try {
-            $department=Department::create($data);
-            return response()->json(['success' => true,'data'=>$department],200);
+            if($user->hasRole('admin')){
+                $data['image']=$filename;
+                $department=Department::create($data);
+                $image->move(public_path('/').'images/hospital/department'.$department->id, $filename);
+                return response()->json(['success' => true,'data'=>$department],201);
+            }elseif ($user->hasRole('hospital')) {
+                $data['hospital_id']=$hospital_id;
+                $data['image']=$filename;
+                $department=Department::create($data);
+                $image->move(public_path('/').'images/hospital/department'.$department->id, $filename);
+                return response()->json(['success' => true,'data'=>$department],201);
+            }else{
+                return response()->json(['success'=>false,'message'=>'You have no access'],443);
+            }
         }catch (\Exception $e){
             return response()->json(['success' => false, 'message' => $e->getMessage()],500);
         }
     }
-
     /**
      * Display the specified resource.
      */
@@ -58,7 +83,8 @@ class DepartmentController extends Controller
     public function update(Request $request, Department $department)
     {
         $data=$request->validate([
-            'name'=>'required',
+            'name'=>'required|string',
+            'details'=>'required|string'
         ]);
         $user=Auth::user();
         $hospital=$user->hospital;
