@@ -1,3 +1,77 @@
+<<<<<<< HEAD
+<script setup lang="ts">
+import WebLayout from '@/Components/Layouts/WebLayout.vue'
+import { ref } from 'vue'
+import { useTransition } from '@vueuse/core'
+import {
+  ChatLineRound,
+  DataAnalysis,
+  FirstAidKit,
+  Location,
+  Memo,
+  Position,
+  Search,
+  Service,
+  SuitcaseLine,
+  User,
+  View,
+  Edit,
+  Upload
+} from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
+
+const source = ref(0)
+const feedbacks = ref(0)
+const outputValue = useTransition(source, {
+  duration: 1500
+})
+const outputFeedBack = useTransition(feedbacks, {
+  duration: 1500
+})
+source.value = 172000
+feedbacks.value = 512
+
+// =========upload image================
+
+// Reactive properties for avatar and upload
+const avatarUrl = ref('https://newprofilepicapp.com/wp-content/uploads/2024/02/New-Profile-Pic-App.webp')
+const fileList = ref([])
+const uploadRef = ref(null)
+
+// Methods for handling upload events
+const handlePreview = (file) => {
+  console.log('Preview:', file)
+}
+const handleRemove = (file, fileList) => {
+  console.log('Remove:', file, fileList)
+}
+const beforeUpload = (file) => {
+  const isJPG = file.type === 'image/jpeg'
+  const isPNG = file.type === 'image/png'
+  const isLt2M = file.size / 1024 / 1024 < 2
+
+  if (!isJPG && !isPNG) {
+    ElMessage.error('Upload image only in JPG or PNG format!')
+    return false
+  }
+  if (!isLt2M) {
+    ElMessage.error('Upload image size should be less than 2MB!')
+    return false
+  }
+  return true
+}
+
+const handleSuccess = (response, file, fileList) => {
+  // Assuming response contains the URL of the uploaded image
+  // In a real scenario, you might need to adjust this based on the response structure
+  avatarUrl.value = URL.createObjectURL(file.raw)
+  ElMessage.success('Upload success!')
+}
+
+const clickUploadButton = () => {
+  uploadRef.value.submit()
+}
+
 <template>
   <WebLayout>
     <div class="container">

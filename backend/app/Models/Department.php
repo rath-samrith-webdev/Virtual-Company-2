@@ -11,7 +11,9 @@ class Department extends Model
     use HasFactory;
     protected $fillable = [
         'hospital_id',
-        'name'
+        'name',
+        'details',
+        'image'
     ];
     public function hospital(): BelongsTo
     {

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\DoctorDetails;
 use App\Models\Doctor;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class DoctorController extends Controller
 {
@@ -15,8 +18,8 @@ class DoctorController extends Controller
     public function index()
     {
         try {
-            return response()->json(['success' => true, 'data' => Doctor::all()]);
-        }catch (\Exception $exception){
+            return response()->json(['success' => true, 'data' => DoctorDetails::collection(Doctor::all())], 200);
+        } catch (\Exception $exception) {
             return response()->json(['success' => false, 'message' => $exception->getMessage()]);
         }
     }
@@ -26,23 +29,41 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-        $data=$request->validate([
-            'hospital_id'=>'required|exists:hospitals,id',
-            'name'=>'required',
-            'email'=>'required|email|unique:doctors,email',
-            'phone'=>'required|unique:doctors,phone',
+        $data = $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required',
+            'hospital_id' => 'required|exists:hospitals,id',
         ]);
         $user = Auth::user();
-        $hospial=$user->hospital;
+        $hospital = $user->hospital;
         try {
-            if ($hospial->id==$data['hospital_id']) {
-                $doctor=Doctor::create($data);
-                return response()->json(['success' => true, 'data' => $doctor],201);
-            }else{
-                return response()->json(['success' => false, 'message' => 'Hospital not found'],404);
+            if (!$user->hasRole('hospital')) {
+                return response()->json(['success' => false, 'message' => "You don't have permission to access this page"], 403);
+            } else {
+                if ($hospital->id == $data['hospital_id']) {
+                    $newUser = User::create([
+                        'first_name' => $data['first_name'],
+                        'last_name' => $data['last_name'],
+                        'name' => $data['name'],
+                        'email' => $data['email'],
+                        'password' => bcrypt($data['password']),
+                    ]);
+                    $newUser->assignRole('doctor');
+                    $uid = $newUser->id;
+                    $doctor = Doctor::create([
+                        'hospital_id' => $data['hospital_id'],
+                        'user_id' => $uid,
+                    ]);
+                    return response()->json(['success' => true, 'data' => $doctor], 201);
+                } else {
+                    return response()->json(['success' => false, 'message' => 'Hospital not found'], 404);
+                }
             }
-        }catch (\Exception $exception){
-            return response()->json(['success' => false, 'message' => $exception->getMessage()],404);
+        } catch (\Exception $exception) {
+            return response()->json(['success' => false, 'message' => $exception->getMessage()], 404);
         }
     }
 
@@ -51,16 +72,16 @@ class DoctorController extends Controller
      */
     public function show(Doctor $doctor)
     {
-        $user=Auth::user();
-        $hospital=$user->hospital;
+        $user = Auth::user();
+        $hospital = $user->hospital;
         try {
-            if($hospital->id==$doctor->hospital_id){
-                return response()->json(['success' => true, 'data' => $doctor],201);
-            }else{
-                return response()->json(['success' => false, 'message' => 'Hospital not found'],404);
+            if ($hospital->id == $doctor->hospital_id) {
+                return response()->json(['success' => true, 'data' => $doctor], 201);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Hospital not found'], 404);
             }
-        }catch (\Exception $exception){
-            return response()->json(['success' => false, 'message' => $exception->getMessage()],404);
+        } catch (\Exception $exception) {
+            return response()->json(['success' => false, 'message' => $exception->getMessage()], 404);
         }
     }
 
@@ -69,21 +90,21 @@ class DoctorController extends Controller
      */
     public function update(Request $request, Doctor $doctor)
     {
-        $data=$request->validate([
-            'hospital_id'=>'required|exists:hospitals,id',
-            'name'=>'required',
+        $data = $request->validate([
+            'hospital_id' => 'required|exists:hospitals,id',
+            'name' => 'required',
         ]);
         $user = Auth::user();
-        $hospital=$user->hospital;
+        $hospital = $user->hospital;
         try {
-            if ($hospital->id==$data['hospital_id']) {
-                $doctor=$doctor->update($data);
-                return response()->json(['success' => true, 'data' => $doctor],201);
-            }else{
-                return response()->json(['success' => false, 'message' => 'Hospital not found'],404);
+            if ($hospital->id == $data['hospital_id']) {
+                $doctor = $doctor->update($data);
+                return response()->json(['success' => true, 'data' => $doctor], 201);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Hospital not found'], 404);
             }
-        }catch (\Exception $exception){
-            return response()->json(['success' => false, 'message' => $exception->getMessage()],404);
+        } catch (\Exception $exception) {
+            return response()->json(['success' => false, 'message' => $exception->getMessage()], 404);
         }
     }
 
@@ -93,16 +114,16 @@ class DoctorController extends Controller
     public function destroy(Doctor $doctor)
     {
         $user = Auth::user();
-        $hospital=$user->hospital;
+        $hospital = $user->hospital;
         try {
-            if($doctor->hospital_id==$hospital->id) {
+            if ($doctor->hospital_id == $hospital->id) {
                 $doctor = $doctor->delete();
                 return response()->json(['success' => true, 'data' => $doctor], 201);
-            }else{
-                return response()->json(['success' => false, 'message' => 'Hospital not found'],404);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Hospital not found'], 404);
             }
-        }catch (\Exception $exception){
-            return response()->json(['success' => false, 'message' => $exception->getMessage()],404);
+        } catch (\Exception $exception) {
+            return response()->json(['success' => false, 'message' => $exception->getMessage()], 404);
         }
     }
 }

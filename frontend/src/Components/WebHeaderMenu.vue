@@ -46,9 +46,14 @@ function handleCommand(command) {
         style="text-decoration: none;"
       >Feedbacks
       </router-link
+      ><router-link
+        to="/hospital/doctors"
+        class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+      >Doctors
+      </router-link
       >
       <router-link
-        to="/map"
+        to="/hospital/appointments"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
         style="text-decoration: none;"
       >Appointments
@@ -71,22 +76,33 @@ function handleCommand(command) {
       >Home
       </router-link
       >
-      
+
+      <router-link
+        to="/user/hospital"
+        class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+      >Hospital
+      </router-link
+      >
+      <router-link
+        to="/favorite"
+        class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+      >Favorites
+      </router-link
+      >
       <router-link
         to="/map"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
-        style="text-decoration: none;"
       >Map
       </router-link
       >
       <router-link
         to="/appointment"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
-        style="text-decoration: none;"
       >Appointments
       </router-link
       >
     </nav>
+<!-- Landing Nav           -->
     <nav class="pb-4 pt-3 flex justify-center space-x-4 " v-if="!store.user">
       <router-link to="/landing" class=" fw-bold text-dark " style="text-decoration: none;">Home</router-link>
       <router-link to="/about" class="fw-bold pl-5 text-dark" style="text-decoration: none;">About Us</router-link>

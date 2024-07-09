@@ -17,9 +17,9 @@ async function fetchFeedback() {
   }
 }
 fetchFeedback()
-// onMounted(() => {
-//   console.log(tableData.value)
-// })
+onMounted(() => {
+  console.log(tableData)
+})
 const textarea = ref('');
 
 // Function to show details popover
@@ -47,8 +47,8 @@ function handleWarningClick(event: Event) {
         <el-table-column label="Profile" width="250">
           <template #default="scope">
             <div class="profile-column">
-              <el-avatar v-if="scope.row.user.profile==='No profile'"></el-avatar>
-              <el-avatar v-if="scope.row.user.profile!=='No profile'" :src="scope.row.user.profile"></el-avatar>
+              <el-avatar v-if="scope.row.user.profile === 'No profile'"></el-avatar>
+              <el-avatar v-if="scope.row.user.profile !== 'No profile'" :src="scope.row.user.profile"></el-avatar>
               <div class="profile-info">
                 <p>{{ scope.row.user.full_name }}</p>
                 <!-- <p>{{ scope.row.email }}</p> -->
@@ -61,7 +61,11 @@ function handleWarningClick(event: Event) {
         <el-table-column prop="content" label="Content" width="310" />
 
         <!-- From Column -->
-        <el-table-column prop="from" label="From" width="250" />
+        <el-table-column prop="from" label="From" width="250">
+          <template #default="scope">
+            <strong>{{ scope.row.user.full_name }}</strong>
+          </template>
+        </el-table-column>
 
         <!-- To Column -->
         <el-table-column prop="to" label="To" width="250" />
@@ -77,9 +81,6 @@ function handleWarningClick(event: Event) {
         <el-table-column label="Action">
           <template #default="scope">
             <el-popover placement="right" width="600" trigger="click">
-              <div class="card-header">
-                <!-- <h4>Reply to customer </h4> -->
-              </div>
               <div class="card-body">
                 <el-input v-model="textarea" style="width: 540px; border: none;" :rows="5" type="textarea"
                   placeholder="Please input"></el-input>
@@ -134,10 +135,13 @@ function handleWarningClick(event: Event) {
 .detail-card {
   width: 400px;
 }
-.profile-info, p{
+
+.profile-info,
+p {
   text-align: center;
   margin-top: 10px;
 }
+
 .card-header {
   color: white;
   padding: 10px;

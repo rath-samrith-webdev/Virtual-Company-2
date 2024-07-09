@@ -2,10 +2,12 @@
   <WebLayout>
     <div class="container">
       <div class="card-header">
-        <h1>Hospital Details</h1>
+        <h1 class="text-color-#32B4E3 font-size" style="font-size: 50px; font-weight: bold">
+          Hospital Details
+        </h1>
       </div>
       <!-- ======================================================= -->
-                          <!-- hospital details -->
+      <!-- hospital details -->
       <!-- ======================================================= -->
       <div class="card-container">
         <div class="card-left">
@@ -13,12 +15,17 @@
         </div>
         <div class="card-right">
           <div class="title">
-            <span class="title-hospital">Royal Phnom Penh Hospital</span>
+            <span class="title-hospital text-color-#ffff">Royal Phnom Penh Hospital</span>
             <el-divider />
           </div>
           <div class="information mb-4">
             <div><strong>Open: Monday-Sunday 24/7</strong></div>
-            <div><strong>Location: BP 511, Phum Tropeang Chhuk (Borey Sorla) Sangtak, Street 371, Phnom Penh</strong></div>
+            <div>
+              <strong
+                >Location: BP 511, Phum Tropeang Chhuk (Borey Sorla) Sangtak, Street 371, Phnom
+                Penh</strong
+              >
+            </div>
           </div>
           <div class="rate mb-4">
             <el-rate
@@ -31,160 +38,259 @@
             />
             <el-divider />
           </div>
-          <div class="contact-information">
-            <div class="mb-4 mt-1">
-              <el-button type="warning">Contact</el-button>
-              <el-button type="warning" @click="dialogFormVisible = true">Booking</el-button>
-              <el-button type="warning">Location</el-button>
-            </div>
-          </div>
-          <!-- ==========alert form booking========== -->
-          <el-dialog
-            class="booking"
-            v-model="dialogFormVisible"
-            title="Get An Appointment"
-            width="700"
-            align-center
-          >
-            <el-form :model="form" :rules="formRules" label-width="auto" style="max-width: 700px">
-              <el-form-item label="Full Name" prop="fullname">
-                <el-input v-model="form.fullname" />
-              </el-form-item>
-              <el-form-item label="Phone Number" prop="phone_number">
-                <el-input v-model="form.phone_number" type="number"/>
-              </el-form-item>
-              <el-form-item label="Age" prop="age">
-                <el-input v-model="form.age" type="number"/>
-              </el-form-item>
-              <el-form-item label="Gender" prop="gender">
-                <el-radio-group v-model="form.gender">
-                  <el-radio border value="Men">Men</el-radio>
-                  <el-radio border value="Women">Women</el-radio>
-                </el-radio-group>
-              </el-form-item>
-              <el-form-item label="Department" prop="department">
-                <el-select v-model="form.department" placeholder="please select department">
-                  <el-option label="ICU: Intensive Care Unit" value="1" />
-                  <el-option label="ASU: Ambulatory Surgery Unit" value="2" />
-                  <el-option label="ED or ER: Emergency Department or Emergency Room" value="3" />
-                  <el-option label="L&D: Labor and Delivery" value="4" />
-                  <el-option label="Med-Surg: Medical-Surgical Unit" value="5" />
-                </el-select>
-              </el-form-item>
-              <el-form-item label="Doctor" prop="doctor">
-                <el-select v-model="form.doctor" placeholder="please select doctor">
-                  <el-option label="Radit Thy" value="Radit Thy" />
-                  <el-option label="Rath Samrath" value="Rath Samrath" />
-                  <el-option label="Phal Him" value="Phal Him" />
-                  <el-option label="Sreynang Rith" value="Sreynang Rith" />
-                  <el-option label="Bour Klan" value="Bour Klan" />
-                  <el-option label="Leysreng Ol" value="Leysreng Ol" />
-                </el-select>
-              </el-form-item>
-              <el-form-item label="Appointment Date" prop="date">
-                <el-col :span="11">
-                  <el-date-picker
-                    v-model="form.date"
-                    type="date"
-                    placeholder="Pick a date"
-                    style="width: 100%"
-                  />
-                </el-col>
-                <el-col :span="2" class="text-center">
-                  <span class="text-gray-500">-</span>
-                </el-col>
-                <el-col :span="11">
-                  <el-time-picker
-                    v-model="form.time"
-                    placeholder="Pick a time"
-                    style="width: 100%"
-                  />
-                </el-col>
-              </el-form-item>
-            </el-form>
-            <template #footer>
-              <div class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">Cancel Booking</el-button>
-                <el-button type="warning" @click="dialogFormVisible = false">
-                  Confirm Booking
-                </el-button>
-              </div>
-            </template>
-          </el-dialog>
         </div>
       </div>
       <!-- ======================================================= -->
-                      <!-- comment information-->
+      <!-- comment information-->
       <!-- ======================================================= -->
-      <div class="container main-comment">
-        <div class="comment-form mt-3">
-          <el-form
-            class="form-comment mt-4"
-            :model="form"
-            label-width="auto"
-            style="max-width: 2000px"
-          >
-            <el-form-item class="hello">
-              <el-input
-                v-model="form.desc"
-                type="text"
-                placeholder="Write your comment here!"
-                class="custom-input"
-                
-              />
-            </el-form-item>
-            <el-form-item>
-              <el-button type="warning" @click="onSubmit">Submit</el-button>
-              <el-button type="primary">Cancel</el-button>
-            </el-form-item>
-          </el-form>
-        </div>
-        
-        <div class="demo-collapse mt-4">
-          <el-collapse v-model="activeNames" @change="handleChange">
-            <el-collapse-item title="Comments" name="1">
-              <div class="comment-container p-3 mt-2" v-for="comment in comments" :key="comment.id">
-                <div class="comment-left d-flex flex-column p-2">
-                  <div class="demo-type">
-                    <el-avatar :size="70">
-                      <img :src="comment.avatar" />
-                    </el-avatar>
-                  </div>
-                </div>
-                <div class="comment-right p-2">
-                  <div class="information">
-                    <div>
-                      <p><strong>{{ comment.name }}</strong> . <span>{{ comment.time }}</span></p>
-                    </div>
-                    <div>
-                      <p>{{ comment.content }}</p>
-                    </div>
-                    <div>
-                      <el-rate
-                        v-model="comment.value"
-                        disabled
-                        show-score
-                        text-color="#ff9900"
-                        score-template="{value} points"
-                      />
-                    </div>
-                    <div class="mt-2">
-                      <el-button
-                        v-for="button in buttons"
-                        :key="button.text"
-                        :type="button.type"
-                        text
-                        bg
-                      >
-                        {{ button.text }}
-                      </el-button>
-                    </div>
-                  </div>
-                </div>
+      <div class="container-information">
+        <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+          <el-tab-pane class="" label="Comments and Feedback" name="first">
+            <div class="main-comment">
+              <h5 class="mt-4 text-color-#32B4E3">Comments there to our hospital!</h5>
+              <div class="comment-form mt-1">
+                <el-form
+                  class="form-comment mt-4"
+                  :model="form"
+                  label-width="auto"
+                  style="max-width: 2000px"
+                >
+                  <el-form-item class="hello">
+                    <el-input
+                      v-model="form.desc"
+                      type="text"
+                      placeholder="Write your comment here!"
+                      class="custom-input"
+                    />
+                  </el-form-item>
+                  <el-form-item>
+                    <el-button type="#ffff" class="text-color-#ffff btn-comment" @click="onSubmit"
+                      >Submit</el-button
+                    >
+                    <el-button type="warning">Cancel</el-button>
+                  </el-form-item>
+                </el-form>
               </div>
-            </el-collapse-item>
-          </el-collapse>
-        </div>
+              <div class="demo-collapse mt-4">
+                <el-collapse v-model="activeNames" @change="handleChange">
+                  <el-collapse-item title="Show All the Comments" name="1">
+                    <div
+                      class="comment-container p-3 mt-3"
+                      v-for="comment in comments"
+                      :key="comment.id"
+                    >
+                      <div class="comment-left d-flex flex-column p-2">
+                        <div class="demo-type">
+                          <el-avatar :size="70">
+                            <img :src="comment.avatar" />
+                          </el-avatar>
+                        </div>
+                      </div>
+                      <div class="comment-right p-2">
+                        <div class="information">
+                          <div>
+                            <p>
+                              <strong>{{ comment.name }}</strong> . <span>{{ comment.time }}</span>
+                            </p>
+                          </div>
+                          <div>
+                            <p>{{ comment.content }}</p>
+                          </div>
+                          <div>
+                            <el-rate
+                              v-model="comment.value"
+                              disabled
+                              show-score
+                              text-color="#ff9900"
+                              score-template="{value} points"
+                            />
+                          </div>
+                          <div class="mt-2">
+                            <el-button
+                              v-for="button in buttons"
+                              :key="button.text"
+                              :type="button.type"
+                              text
+                              bg
+                            >
+                              {{ button.text }}
+                            </el-button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </el-collapse-item>
+                </el-collapse>
+              </div>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="Hospital Doctors" name="second">
+            <div class="d-flex align-item-center text-align-center DT">
+              <h4 class="mt-4 text-color-#32B4E3">Our Doctor In Hostpital</h4>
+            </div>
+            <div class="doctor-container d-flex flex-wrap gap-4">
+              <div
+                class="doctor-members d-flex flex-column justity-content-center p-2"
+                v-for="doctor in doctors"
+                :key="doctor.id"
+              >
+                <div class="demo-type mt-2">
+                  <el-avatar :size="100">
+                    <img :src="doctor.avatar" />
+                  </el-avatar>
+                </div>
+                <h4 class="text-color-#32B4E3">{{ doctor.name }}</h4>
+                <h6>{{ doctor.role }}</h6>
+                <el-row class="d-flex justify-content-center gap-3 mt-3">
+                  <el-tooltip
+                    class="box-item"
+                    effect="dark"
+                    content="LinkedIn"
+                    placement="top-start"
+                  >
+                    <el-avatar
+                      :size="35"
+                      shape="circle"
+                      :src="'https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png'"
+                    ></el-avatar>
+                  </el-tooltip>
+                  <el-tooltip class="box-item" effect="dark" content="Gmail" placement="top-start">
+                    <el-avatar
+                      :size="35"
+                      shape="circle"
+                      class="social-media-contact"
+                      :src="'https://cdn-icons-png.freepik.com/512/6711/6711567.png'"
+                    ></el-avatar>
+                  </el-tooltip>
+                  <el-tooltip
+                    class="box-item"
+                    effect="dark"
+                    content="Instagram"
+                    placement="top-start"
+                  >
+                    <el-avatar
+                      :size="35"
+                      shape="circle"
+                      :src="'https://banner2.cleanpng.com/20200525/hhx/transparent-instagram-logo-icon-5ecc25c4860dd5.0946990115904373165491.jpg'"
+                    ></el-avatar>
+                  </el-tooltip>
+                </el-row>
+              </div>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="Hospital Departments" name="third" class="mt-4">
+            <el-table :data="tableData" height="250" style="width: 100%">
+              <el-table-column prop="id" label="Department ID" width="180" />
+              <el-table-column prop="departmentName" label="Department Name" width="880" />
+            </el-table>
+          </el-tab-pane>
+          <el-tab-pane label="Hospital Calendar" name="fourth">
+            <el-calendar
+              ref="calendar"
+              class="mt-4 calendar"
+              style="font-size: 18px; font-weight: bold"
+            >
+              <template #header="{ date }">
+                <span class="text-color-#32b4e3">Calendar Hostpital</span>
+                <span class="text-color-#32b4e3">{{ date }}</span>
+                <el-button-group>
+                  <el-button
+                    size="large"
+                    class="bg-#32b4e3 text-white hover:bg-#2b9dc8 transition-colors duration-300"
+                    @click="selectDate('prev-year')"
+                  >
+                    Previous Year
+                  </el-button>
+                  <el-button
+                    size="large"
+                    class="bg-#32b4e3 text-white hover:bg-#2b9dc8 transition-colors duration-300"
+                    @click="selectDate('prev-month')"
+                  >
+                    Previous Month
+                  </el-button>
+                  <el-button
+                    size="large"
+                    class="bg-#32b4e3 text-white hover:bg-#2b9dc8 transition-colors duration-300"
+                    @click="selectDate('today')"
+                    >Today</el-button
+                  >
+                  <el-button
+                    size="large"
+                    class="bg-#32b4e3 text-white hover:bg-#2b9dc8 transition-colors duration-300"
+                    @click="selectDate('next-month')"
+                  >
+                    Next Month
+                  </el-button>
+                  <el-button
+                    size="large"
+                    class="bg-#32b4e3 text-white hover:bg-#2b9dc8 transition-colors duration-300"
+                    @click="selectDate('next-year')"
+                  >
+                    Next Year
+                  </el-button>
+                </el-button-group>
+              </template>
+            </el-calendar>
+          </el-tab-pane>
+          <el-tab-pane label="Hospital Contact" name="five">
+            <div class="d-flex align-item-center text-align-center DT">
+              <h4 class="mt-4 text-color-#32b4e3">Contact to Us</h4>
+            </div>
+            <div class="doctor-container d-flex flex-wrap gap-4">
+              <div
+                class="contact-infor d-flex flex-column justity-content-center p-5"
+                v-for="contact in contacts"
+                :key="contact.id"
+              >
+                <div class="d-flex">
+                  <el-icon class="text-color-#ffff"><Phone /></el-icon>
+                  <h4 class="text-color-#ffff ml-2 font-weight: bold">{{ contact.title }}</h4>
+                </div>
+                <h6 class="text-color-#ffff mt-3">{{ contact.phone1 }}</h6>
+                <h6 class="text-color-#ffff">{{ contact.phone2 }}</h6>
+              </div>
+              <div
+                class="contact-infor d-flex flex-column justity-content-center p-5"
+                v-for="location in locations"
+                :key="location.id"
+              >
+                <div class="d-flex">
+                  <el-icon class="text-color-#ffff"><Location /></el-icon>
+                  <h4 class="text-color-#ffff font-weight: bold ml-2">{{ location.title }}</h4>
+                </div>
+                <h6 class="text-color-#ffff mt-3">{{ location.address }}</h6>
+              </div>
+              <div
+                class="contact-infor d-flex flex-column justity-content-center p-5"
+                v-for="hour in hours"
+                :key="hour.id"
+              >
+                <div class="d-flex">
+                  <el-icon class="text-color-#ffff"><Clock /></el-icon>
+                  <h4 class="text-color-#ffff font-weight: bold ml-2">{{ hour.title }}</h4>
+                </div>
+                <h6 class="text-color-#ffff mt-3">{{ hour.time }}</h6>
+              </div>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="Hospital Information " name="six">
+            <div class="block text-center" m="t-4" style="height: 900px; width: 100%">
+              <h2 class="mt-4 text-color-#32b4e3">Our Hospital Information Details</h2>
+              <el-carousel trigger="click" height="100vh">
+                <el-carousel-item v-for="item in 4" :key="item" style="height: 600px; width: 100%">
+                  <!-- <h3 class="small justify-center" text="2xl">{{ item }}</h3> -->
+                  <img
+                    :src="`https://picsum.photos/id/${item}/1920/1080`"
+                    alt="Image placeholder"
+                    class="image-container mt-5"
+                    
+                  />
+
+                </el-carousel-item>
+              </el-carousel>
+            </div>
+          </el-tab-pane>
+        </el-tabs>
       </div>
     </div>
   </WebLayout>
@@ -194,7 +300,8 @@
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
-
+import { Calendar } from '@element-plus/icons-vue/dist/types'
+import { Phone, Location, Clock } from '@element-plus/icons-vue'
 const dialogFormVisible = ref(false)
 const form = reactive({
   fullname: '',
@@ -215,33 +322,17 @@ const buttons = [
   {
     text: 'Like',
     type: 'warning'
-  },
+  }
 ]
 const formRules = reactive({
-  fullname: [
-    { required: true, message: 'Please enter your full name', trigger: 'blur' }
-  ],
-  phone_number: [
-    { required: true, message: 'Please enter your phone number', trigger: 'blur' }
-  ],
-  age: [
-    { required: true, message: 'Please enter your age', trigger: 'blur' }
-  ],
-  gender: [
-    { required: true, message: 'Please select your gender', trigger: 'change' }
-  ],
-  department: [
-    { required: true, message: 'Please select a department', trigger: 'change' }
-  ],
-  doctor: [
-    { required: true, message: 'Please select a doctor', trigger: 'change' }
-  ],
-  date: [
-    { required: true, message: 'Please select an appointment date', trigger: 'change' }
-  ],
-  time: [
-    { required: true, message: 'Please select an appointment time', trigger: 'change' }
-  ]
+  fullname: [{ required: true, message: 'Please enter your full name', trigger: 'blur' }],
+  phone_number: [{ required: true, message: 'Please enter your phone number', trigger: 'blur' }],
+  age: [{ required: true, message: 'Please enter your age', trigger: 'blur' }],
+  gender: [{ required: true, message: 'Please select your gender', trigger: 'change' }],
+  department: [{ required: true, message: 'Please select a department', trigger: 'change' }],
+  doctor: [{ required: true, message: 'Please select a doctor', trigger: 'change' }],
+  date: [{ required: true, message: 'Please select an appointment date', trigger: 'change' }],
+  time: [{ required: true, message: 'Please select an appointment time', trigger: 'change' }]
 })
 
 const comments = [
@@ -250,7 +341,8 @@ const comments = [
     name: 'Florida',
     time: '30 min ago',
     content: 'To highlight a number or a group of numbers...',
-    avatar: 'https://dl.memuplay.com/new_market/img/com.vicman.newprofilepic.icon.2022-06-07-21-33-07.png',
+    avatar:
+      'https://dl.memuplay.com/new_market/img/com.vicman.newprofilepic.icon.2022-06-07-21-33-07.png',
     value: 4.5
   },
   {
@@ -258,7 +350,8 @@ const comments = [
     name: 'Radit Thy',
     time: '1h ago',
     content: 'To highlight a number or a group of numbers...',
-    avatar: 'https://media.licdn.com/dms/image/D5603AQGCCYbUstS9xg/profile-displayphoto-shrink_400_400/0/1718211706383?e=1724889600&v=beta&t=AsGCwsdVHSL4a9JCH2ucQwk3JNZtcsX9KymwXSkAKYk',
+    avatar:
+      'https://media.licdn.com/dms/image/D5603AQGCCYbUstS9xg/profile-displayphoto-shrink_400_400/0/1718211706383?e=1724889600&v=beta&t=AsGCwsdVHSL4a9JCH2ucQwk3JNZtcsX9KymwXSkAKYk',
     value: 4.2
   },
   {
@@ -266,20 +359,132 @@ const comments = [
     name: 'Rath Samrath',
     time: '1 day ago',
     content: 'To highlight a number or a group of numbers...',
-    avatar: 'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
+    avatar:
+      'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
+    value: 4.8
+  }
+]
+const doctors = [
+  {
+    id: 1,
+    name: 'Florida',
+    role: 'A doctor primarily works in medicine',
+    avatar:
+      'https://dl.memuplay.com/new_market/img/com.vicman.newprofilepic.icon.2022-06-07-21-33-07.png',
+    value: 4.5
+  },
+  {
+    id: 2,
+    name: 'Radit Thy',
+    role: 'A doctor primarily works in medicine',
+    avatar:
+      'https://media.licdn.com/dms/image/D5603AQGCCYbUstS9xg/profile-displayphoto-shrink_400_400/0/1718211706383?e=1724889600&v=beta&t=AsGCwsdVHSL4a9JCH2ucQwk3JNZtcsX9KymwXSkAKYk',
+    value: 4.2
+  },
+  {
+    id: 3,
+    name: 'Rath Samrath',
+    role: 'A doctor primarily works in medicine',
+    avatar:
+      'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
     value: 4.8
   },
+  {
+    id: 4,
+    name: 'Rath Samrath',
+    role: 'A doctor primarily works in medicine',
+    avatar:
+      'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
+    value: 4.8
+  },
+  {
+    id: 5,
+    name: 'Rath Samrath',
+    role: 'A doctor primarily works in medicine',
+    avatar:
+      'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
+    value: 4.8
+  },
+  {
+    id: 6,
+    name: 'Rath Samrath',
+    role: 'A doctor primarily works in medicine',
+    avatar:
+      'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
+    value: 4.8
+  }
+]
+
+const tableData = [
+  {
+    id: '1',
+    departmentName: 'Executive and VVIP Wards.'
+  },
+  {
+    id: '2',
+    departmentName: 'Intensive Care Unit.'
+  },
+  {
+    id: '3',
+    departmentName: 'Medical and Surgical Ward.'
+  },
+  {
+    id: '4',
+    departmentName: 'Maternity Ward.'
+  },
+  {
+    id: '5',
+    departmentName: 'Neonatal ICU.'
+  },
+  {
+    id: '6',
+    departmentName: 'Paediatric Ward.'
+  },
+  {
+    id: '7',
+    departmentName: 'Tom'
+  }
+]
+
+const contacts = [
+  {
+    title: 'CALL US',
+    icon: 'el-icon-message',
+    phone1: '+855 123456789',
+    phone2: '+855 987654321'
+  }
+]
+const locations = [
+  {
+    title: 'FIND US',
+    icon: 'el-icon-location',
+    address: 'BP 511, Phum Tropeang Chhuk (Borey Sorla) Sangtak, Street 371, Phnom Penh'
+  }
+]
+const hours = [
+  {
+    title: 'HOURS',
+    time: 'Mon-Fri 8am-8pm Sat-Sun 8am-8pm'
+  }
 ]
 
 const onSubmit = () => {
   // Logic for form submission can be added here
   ElMessage.success('Form submitted successfully!')
-  console.log('hello');
-  
-  
+  console.log('hello')
 }
-</script>
 
+// Calendar
+import type { CalendarDateType, CalendarInstance } from 'element-plus'
+
+const calendar = ref<CalendarInstance>()
+const selectDate = (val: CalendarDateType) => {
+  if (!calendar.value) return
+  calendar.value.selectDate(val)
+}
+
+// mape
+</script>
 <style scoped>
 .container {
   display: flex;
@@ -290,8 +495,8 @@ const onSubmit = () => {
 }
 
 .card-container {
-  width: 90%;
-  height: 100vh;
+  width: 100%;
+  height: 80vh;
   display: flex;
   margin-top: 20px;
   border-radius: 20px;
@@ -322,7 +527,7 @@ const onSubmit = () => {
 }
 
 .card-right {
-  background: #fcb22d;
+  background: #32b4e3;
   display: flex;
   flex-direction: column;
   padding: 60px;
@@ -358,7 +563,7 @@ const onSubmit = () => {
 }
 
 .form-comment {
-  width: 97%;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -370,16 +575,80 @@ const onSubmit = () => {
 }
 
 .main-comment {
-  width: 90%;
-  box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
+  width: 100%;
+  /* box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06); */
 }
 .custom-input {
   font-size: 1rem;
-  background: #fcb22d;
-  padding: 1px;
+  background: #32b4e3;
+  /* padding: 1px; */
+  border-radius: 20px;
   height: 8vh;
-  
+}
+.btn-comment {
+  background: #32b4e3;
+  color: white;
 }
 
-
+/* tabs setting */
+.demo-tabs > .el-tabs__content {
+  padding: 32px;
+  color: #6b778c;
+  font-size: 32px;
+  font-weight: 600;
+}
+.demo-tabs {
+  padding: 32px;
+  color: #6b778c;
+  font-size: 32px;
+  font-weight: 600;
+}
+.container-information {
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
+}
+.demo-tabs .el-tabs__item {
+  background: #000;
+  font-size: 50px;
+  padding: 30px;
+}
+/* Doctor setting */
+.doctor-container {
+  /* height: 40vh; */
+  display: flex;
+  margin-top: 20px;
+}
+.doctor-members {
+  background: whitesmoke;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  width: 18%;
+  height: 40vh;
+}
+.DT {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.contact-container {
+  /* height: 40vh; */
+  display: flex;
+  margin-top: 20px;
+}
+.contact-infor {
+  background: #32b4e3;
+  display: flex;
+  align-items: flex-start;
+  border-radius: 10px;
+  width: 32%;
+  height: 25vh;
+}
+/* calendar */
+.calendar {
+  /* background: #32b4e3; */
+  /* color: #ffff; */
+  border-radius: 10px;
+}
 </style>
+

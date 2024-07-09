@@ -31,7 +31,10 @@ class AppointmentController extends Controller
         }elseif ($user->hasRole('hospital')) {
             $hospital=$user->hospital;
             $appointments=$hospital->appointments()->get();
-        }else{
+        }elseif ($user->hasRole('doctor')) {
+            $appointments=$user->doctor->appointments()->get();
+        }
+        else{
             $appointments=$user->appointments()->get();
         }
         return view('appointment.index', compact('appointments'));

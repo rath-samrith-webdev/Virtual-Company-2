@@ -8,49 +8,77 @@
                         Hospital</a>
                 @endcan
             </div>
-
+            <div class="bg-white rounded my-6 p-5" style="background-color: #FCB22D">
+                @if(auth()->user()->hasRole('admin'))
+                    <h1 class="text-center font-bold">Hospital List</h1>
+                @elseif(auth()->user()->hasRole('hospital'))
+                    <h1 class="text-center font-bold">My hospital</h1>
+                @else
+                    <h1 class="text-center font-bold">Hospital List</h1>
+                @endif
+            </div>
             <div class="bg-white shadow-md rounded my-6">
                 <table class="text-left w-full border-collapse">
                     <thead>
                     <tr>
-                        <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light">
-                            ID
-                        </th>
-                        <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light">
+                        <th class="py-4 px-3 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light">
                             Hospital Name
                         </th>
-                        <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light">
+                        <th class="py-4 px-3 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light">
                             Hospital Category
                         </th>
-                        <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light w-2/12">
+                        <th class="py-4 px-3 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light">
+                            Hospital Contact
+                        </th>
+                        <th class="py-4 px-3 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light w-2/12">
                             Address
                         </th>
-                        <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light w-2/12">
-                            Belong to
+                        @can("Hospital edit")
+                            <th class="py-4 px-3 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light w-2/12">
+                                Belong to
+                            </th>
+                        @endcan
+                        <th class="py-4 px-3 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light w-2/12">
+                            Favourite By
                         </th>
-                        <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light text-right w-2/12">
-                            Actions
-                        </th>
+                        @can('Hospital edit','Hospital delete')
+                            <th class="py-4 px-3 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light text-right w-2/12">
+                                Actions
+                            </th>
+                        @endcan
                     </tr>
                     </thead>
                     <tbody>
                     @can('Hospital access')
                         @foreach($hospitals as $hospital)
                             <tr class="hover:bg-grey-lighter">
-                                <td class="py-4 px-6 border-b border-grey-light">{{ $hospital->id }}</td>
-                                <td class="py-4 px-6 border-b border-grey-light">
+                                <td class="py-4 px-3  border-b border-grey-light">
                                     {{$hospital->name}}
                                 </td>
-                                <td class="py-4 px-6 border-b border-grey-light">
+                                <td class="py-4 px-3   border-b border-grey-light">
                                     {{$hospital->category->name}}
                                 </td>
-                                <td class="py-4 px-6 border-b border-grey-light">
+                                <td class="py-4 px-3  border-b border-grey-light">
+                                    {{$hospital->phone_number?$hospital->phone_number:'No Contact'}}
+                                </td>
+                                <td class="py-4 px-3  border-b border-grey-light">
                                     {{$hospital->province?$hospital->province:'No address'}}
                                 </td>
-                                <td class="py-4 px-6 border-b border-grey-light">
-                                    {{$hospital->user?$hospital->user->first_name .' '.$hospital->user->last_name:'No address'}}
+                                @can("Hospital edit")
+                                    <td class="py-4 px-3  border-b border-grey-light">
+                                        {{$hospital->user?$hospital->user->first_name .' '.$hospital->user->last_name:'No address'}}
+                                    </td>
+                                @endcan
+                                <td class="py-4  border-b border-grey-light">
+                                    @if($hospital->favourites()->count()==1)
+                                        {{$hospital->favourites()->count().' Person'}}
+                                    @elseif($hospital->favourites()->count()>1)
+                                        {{$hospital->favourites()->count().' People'}}
+                                    @else
+                                        Haven't been favoured
+                                    @endif
                                 </td>
-                                <td class="py-4 px-6 border-b border-grey-light text-right">
+                                <td class="py-4  border-b border-grey-light text-right">
 
                                     @can('Hospital edit')
                                         <a href="{{route('admin.hospitals.edit',$hospital->id)}}"
@@ -77,5 +105,4 @@
             </div>
         </div>
     </main>
-    </div>
 </x-app-layout>

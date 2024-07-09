@@ -29,7 +29,7 @@ const router = createRouter({
     {
       path: '/profile',
       name: 'profile',
-      component: () => import('../views/Web/ProfileView.vue')
+      component: () => import('../views/Web/User/ProfileView.vue')
     },
     {
       path: '/hospital/detail',
@@ -85,6 +85,26 @@ const router = createRouter({
       path: '/myHospital',
       name: 'myHospital',
       component: () => import('../views/Web/Hospital/HospitalView.vue')
+    },
+    {
+      path:'/hospital/doctors',
+      name:'doctors',
+      component:()=>import('../views/Web/Hospital/AddDoctorView.vue')
+    },
+    {
+      path: '/user/hospital',
+      name: 'user-hospital',
+      component: () => import('../views/Web/User/HospitalView.vue')
+    },
+    {
+      path:'/doctor/dashboard',
+      name:'doctor-dashboard',
+      component:()=>import('../views/Web/Doctor/Dashboard.vue')
+    },
+    {
+      path: '/favorite',
+      name: 'favorite',
+      component: () => import('../views/Web/User/FavoriteView.vue')
     }
   ]
 })
