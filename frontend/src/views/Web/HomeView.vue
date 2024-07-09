@@ -33,7 +33,7 @@ feedbacks.value = 512
       <div class="d-flex flex-column mt-10">
         <div class="w-50 px-4 d-flex flex-column justify-content-between gap-3">
           <div class="mt-3">
-            <h3 style="font-size: 40px; font-weight: bold">Welcome to,</h3>
+            <h1 style="font-weight: bold">Welcome to,</h1>
             <h1 class="d-flex" style="font-size: 120px; font-weight: bold">
               <span class="text-#32B4E3 font-bold">C</span>are
               <span class="text-#32B4E3 font-bold">F</span>inder!
@@ -443,7 +443,7 @@ feedbacks.value = 512
           </el-avatar>
         </div>
         <h3 class="mt-2">Mission</h3>
-        <p> To serve and enrich the quality of life of patients suffering</p>
+        <p>To serve and enrich the quality of life of patients suffering</p>
       </el-card>
       <el-card style="width: 230px" class="d-flex card-item flex-column align-items-center">
         <div class="d-flex justify-content-center">
