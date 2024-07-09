@@ -68,7 +68,7 @@ const tableData = [
           <el-table-column prop="status" label="Status" width="350" />
           <el-table-column label="Action">
             <template v-slot="scope">
-              <el-button type="primary" plain @click="handleClick(scope.row)">Primary</el-button>
+              <el-button type="primary" plain @click="handleClick(scope.row)">Detail</el-button>
             </template>
           </el-table-column>
         </el-table>

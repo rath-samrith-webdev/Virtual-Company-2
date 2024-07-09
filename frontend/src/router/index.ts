@@ -95,6 +95,16 @@ const router = createRouter({
       path:'/doctor/dashboard',
       name:'doctor-dashboard',
       component:()=>import('../views/Web/Doctor/Dashboard.vue')
+    },
+    {
+      path:'/doctor/calendar',
+      name:'doctor-calendar',
+      component:()=>import('../views/Web/Doctor/Calendar.vue')
+    },
+    {
+      path:'/doctor/appointment',
+      name:'doctor-appointment',
+      component:()=>import('../views/Web/Doctor/Appointment.vue')
     }
   ]
 })
