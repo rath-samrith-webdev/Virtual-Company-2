@@ -6,8 +6,10 @@ import { Message, Plus, Warning } from '@element-plus/icons-vue/global'
 import { ElNotification } from 'element-plus'
 import { FeedbackList } from '@/stores/feedback-list'
 import { hospitalAppointmentListStore } from '@/stores/hospital-appointment-list'
+import { useAuthStore } from '@/stores/auth-store'
 const appointmentStore=hospitalAppointmentListStore()
 const store=FeedbackList()
+const userStore=useAuthStore()
 let dialogOverflowVisible = ref(false)
 const data2 = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -113,18 +115,20 @@ function fetchMonthlyAppointment(){
   appointmentStore.fetchMonthlyAppointment()
 }
 onMounted(() => {
-  fetchRecent()
-  fetchFeedback()
-  fetchMonthlyAppointment()
-  const feedBack = document.getElementById('chartOne')
-  const appointments = document.getElementById('chartTwo')
-  new Chart(appointments, config2)
-  new Chart(feedBack, config2)
+  if(userStore.hospital!='No hospital'){
+    fetchRecent()
+    fetchFeedback()
+    fetchMonthlyAppointment()
+    const feedBack = document.getElementById('chartOne')
+    const appointments = document.getElementById('chartTwo')
+    new Chart(appointments, config2)
+    new Chart(feedBack, config2)
+  }
 })
 </script>
 
 <template>
-  <WebLayout>
+  <WebLayout v-if="userStore.hospital!='No hospital'">
     <div class="bg-warning py-2">
       <h1 class="text-center text-white">Dashboard</h1>
     </div>
@@ -261,6 +265,9 @@ onMounted(() => {
         </div>
       </template>
     </el-dialog>
+  </WebLayout>
+  <WebLayout v-else>
+    <h4>It seemed that you don't have any hospital</h4>
   </WebLayout>
 </template>
 <style scoped>

@@ -105,7 +105,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  const publicPages = ['/landing', '/login', '/about', '/contact','/hospital/dashboard']
+  const publicPages = ['/landing', '/login', '/about', '/contact']
   const authRequired = !publicPages.includes(to.path)
   const store = useAuthStore()
 
@@ -113,6 +113,7 @@ router.beforeEach(async (to, from, next) => {
     const { data } = await axiosInstance.get('/me')
     store.isAuthenticated = true
     store.user = data.data
+    store.hospital=data.hospitals
     store.permissions = data.permissions.map((item: any) => item.front_name)
     store.roles = data.roles.map((item: any) => item)
     const rules = () => defineAclRules((setRule) => {

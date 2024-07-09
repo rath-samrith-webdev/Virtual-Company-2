@@ -4,7 +4,7 @@ export const hospitalAppointmentListStore = defineStore('appointments',{
   state:()=>({
     appointments:[],
     monthlyAppointment:[],
-    message:{}
+    message:{},
   }),
   actions:{
     async fetchAppointments(){

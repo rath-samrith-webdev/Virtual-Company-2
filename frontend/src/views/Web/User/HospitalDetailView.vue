@@ -2,7 +2,7 @@
   <WebLayout>
     <div class="container">
       <div class="card-header">
-        <h1 class="text-color-#32B4E3 font-size" style="font-size: 50px; font-weight: bold">
+        <h1 class="text-color-#32B4E3 font-size bg-white" style="font-size: 50px; font-weight: bold">
           Hospital Details
         </h1>
       </div>
@@ -15,7 +15,7 @@
         </div>
         <div class="card-right">
           <div class="title">
-            <span class="title-hospital text-color-#ffff">Royal Phnom Penh Hospital</span>
+            <span class="title-hospital text-color-#ffff">{{ store.hospitalDetail.name }}</span>
             <el-divider />
           </div>
           <div class="information mb-4">
@@ -24,14 +24,15 @@
             </div>
             <div>
               <p class="text-color-#ffff" style="font-size: 18px">
-                Location: BP 511, Phum Tropeang Chhuk (Borey Sorla) Sangtak, Street 371, Phnom Penh
+                Location: {{ store.hospitalDetail.village }}, {{ store.hospitalDetail.commune }}, {{ store.hospitalDetail.street }},
+                {{ store.hospitalDetail.province }}
               </p>
             </div>
           </div>
           <div class="rate mb-4">
             <el-rate
               size="large"
-              v-model="value"
+              v-model="store.hospitalDetail.favourite_by"
               disabled
               show-score
               text-color="#ff9900"
@@ -57,16 +58,16 @@
                 >
                   <el-form-item>
                     <el-input
-                      v-model="form.desc"
+                      v-model="form.content"
                       type="text"
                       placeholder="Write your comment here!"
                       class="custom-input"
                     />
                   </el-form-item>
                   <div class="rating mt-4">
-                    <h4 class="text-color-warning">Rate this Hostpital</h4>
+                    <h4 class="text-color-warning">Rate this Hospital</h4>
                     <h6 class="text-color-gray">Tell others what you think.</h6>
-                    <el-rate class="custom-rate" v-model="value" size="large" clearable />
+                    <el-rate class="custom-rate" v-model="form.star" size="large" clearable />
                   </div>
                   <el-form-item class="mt-4">
                     <el-button type="warning" class="text-color-#ffff btn-cancel">Cancel</el-button>
@@ -81,21 +82,20 @@
                   <el-collapse-item title="Show All the Comments" name="1">
                     <div
                       class="comment-container p-3 mt-3"
-                      v-for="comment in comments"
+                      v-for="comment in store.hospitalDetail.feedbacks"
                       :key="comment.id"
                     >
                       <div class="comment-left d-flex flex-column p-2">
                         <div class="demo-type">
-                          <el-avatar :size="70">
-                            <img :src="comment.avatar" />
-                          </el-avatar>
+                          <el-avatar v-if="comment.from.profile!='No profile'" :size="70" :src="comment.from.profile"></el-avatar>
+                          <el-avatar v-else :size="70" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
                         </div>
                       </div>
                       <div class="comment-right p-2">
                         <div class="information">
                           <div>
                             <p>
-                              <strong>{{ comment.name }}</strong> . <span>{{ comment.time }}</span>
+                              <strong>{{ comment.user.full_name }}</strong> . <span>{{ comment.created_at }}</span>
                             </p>
                           </div>
                           <div>
@@ -103,11 +103,11 @@
                           </div>
                           <div>
                             <el-rate
-                              v-model="comment.value"
+                              v-model="comment.star"
                               disabled
                               show-score
                               text-color="#ff9900"
-                              score-template="{value} points"
+                              score-template="{value} stars"
                             />
                           </div>
                           <div class="mt-2">
@@ -135,16 +135,15 @@
             </div>
             <div class="doctor-container d-flex flex-wrap gap-4">
               <div
-                class="doctor-members d-flex flex-column justity-content-center p-2"
-                v-for="doctor in doctors"
+                class="doctor-members d-flex flex-column justify-center p-2"
+                v-for="doctor in store.hospitalDetail.doctors"
                 :key="doctor.id"
               >
                 <div class="demo-type mt-2">
-                  <el-avatar :size="100">
-                    <img :src="doctor.avatar" />
-                  </el-avatar>
+                  <el-avatar v-if="doctor.profile!='No profile'" :size="100" :src="doctor.profile"></el-avatar>
+                  <el-avatar v-else :size="100" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
                 </div>
-                <h4 class="text-color-#32B4E3">{{ doctor.name }}</h4>
+                <h4 class="text-color-#32B4E3">{{ doctor.first_name }} {{doctor.last_name}}</h4>
                 <h6>{{ doctor.role }}</h6>
                 <el-row class="d-flex justify-content-center gap-3 mt-3">
                   <el-tooltip
@@ -185,9 +184,9 @@
           </el-tab-pane>
           <el-tab-pane label="Hospital Departments" name="third" class="mt-4">
             <h3 class="mt-4 text-color-#32B4E3">Our Department In Hospital!</h3>
-            <el-table :data="tableData" height="250" style="width: 100%">
+            <el-table :data="store.hospitalDetail.department" height="250" style="width: 100%">
               <el-table-column prop="id" label="Department ID" width="180" />
-              <el-table-column prop="departmentName" label="Department Name" width="880" />
+              <el-table-column prop="name" label="Department Name" width="880" />
             </el-table>
           </el-tab-pane>
           <!-- ======================================================= -->
@@ -305,25 +304,25 @@
     </div>
   </WebLayout>
 </template>
-
 <script setup lang="ts">
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
-import { ref, reactive } from 'vue'
+import { ref, reactive, watch, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
-import { Calendar } from '@element-plus/icons-vue/dist/types'
 import { Phone, Location, Clock } from '@element-plus/icons-vue'
-
-//dialog
-const dialogFormVisible = ref(false)
-
+import { hospitalDetailStore } from '@/stores/hospital-detail'
+const store = hospitalDetailStore();
+const user= useAuthStore()
 //form
 const form = reactive({
-  department: '',
-  doctor: '',
-
-
+  hospital_id:store.hospitalDetail.id,
+  user_id:user.user.id,
+  content: '',
+  star: '',
 })
-
+const activeName=ref('first')
+onMounted(()=>{
+  store.fetchHospitalDetail(sessionStorage.getItem('id'))
+})
 //btn comment
 const buttons = [
   {
@@ -335,117 +334,7 @@ const buttons = [
     type: 'warning'
   }
 ]
-
-//comment hospital
-const comments = [
-  {
-    id: 1,
-    name: 'Florida',
-    time: '30 min ago',
-    content: 'To highlight a number or a group of numbers...',
-    avatar:
-      'https://dl.memuplay.com/new_market/img/com.vicman.newprofilepic.icon.2022-06-07-21-33-07.png',
-    value: 4.5
-  },
-  {
-    id: 2,
-    name: 'Radit Thy',
-    time: '1h ago',
-    content: 'To highlight a number or a group of numbers...',
-    avatar:
-      'https://media.licdn.com/dms/image/D5603AQGCCYbUstS9xg/profile-displayphoto-shrink_400_400/0/1718211706383?e=1724889600&v=beta&t=AsGCwsdVHSL4a9JCH2ucQwk3JNZtcsX9KymwXSkAKYk',
-    value: 4.2
-  },
-  {
-    id: 3,
-    name: 'Rath Samrath',
-    time: '1 day ago',
-    content: 'To highlight a number or a group of numbers...',
-    avatar:
-      'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
-    value: 4.8
-  }
-]
-
-//doctor hospital
-const doctors = [
-  {
-    id: 1,
-    name: 'Florida',
-    role: 'A doctor primarily works in medicine',
-    avatar:
-      'https://dl.memuplay.com/new_market/img/com.vicman.newprofilepic.icon.2022-06-07-21-33-07.png',
-  },
-  {
-    id: 2,
-    name: 'Radit Thy',
-    role: 'A doctor primarily works in medicine',
-    avatar:
-      'https://media.licdn.com/dms/image/D5603AQGCCYbUstS9xg/profile-displayphoto-shrink_400_400/0/1718211706383?e=1724889600&v=beta&t=AsGCwsdVHSL4a9JCH2ucQwk3JNZtcsX9KymwXSkAKYk',
-  },
-  {
-    id: 3,
-    name: 'Rath Samrath',
-    role: 'A doctor primarily works in medicine',
-    avatar:
-      'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
-  },
-  {
-    id: 4,
-    name: 'Rath Samrath',
-    role: 'A doctor primarily works in medicine',
-    avatar:
-      'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
-  },
-  {
-    id: 5,
-    name: 'Rath Samrath',
-    role: 'A doctor primarily works in medicine',
-    avatar:
-      'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
-  },
-  {
-    id: 6,
-    name: 'Rath Samrath',
-    role: 'A doctor primarily works in medicine',
-    avatar:
-      'https://media.licdn.com/dms/image/D5603AQFJJOAM6AAM-Q/profile-displayphoto-shrink_400_400/0/1704010367613?e=1724889600&v=beta&t=lT_OdIqbG4SCKpu95R71jbp9ZqEGVhglDVTitXqp7GA',
-  }
-]
-
-//department table
-const tableData = [
-  {
-    id: '1',
-    departmentName: 'Executive and VVIP Wards.'
-  },
-  {
-    id: '2',
-    departmentName: 'Intensive Care Unit.'
-  },
-  {
-    id: '3',
-    departmentName: 'Medical and Surgical Ward.'
-  },
-  {
-    id: '4',
-    departmentName: 'Maternity Ward.'
-  },
-  {
-    id: '5',
-    departmentName: 'Neonatal ICU.'
-  },
-  {
-    id: '6',
-    departmentName: 'Paediatric Ward.'
-  },
-  {
-    id: '7',
-    departmentName: 'Tom'
-  }
-]
-
-//conatct hospital
+//contact hospital
 const contacts = [
   {
     title: 'CALL US',
@@ -490,19 +379,16 @@ const hospitalInfo = [
   }
 ]
 
-//btn submiy
+//btn submit
 const onSubmit = () => {
   // Logic for form submission can be added here
+  store.submitFeedback(form)
   ElMessage.success('Form submitted successfully!')
-  console.log(onSubmit)
 }
-
-//rating
-const value = ref(0)
-
 
 // Calendar
 import type { CalendarDateType, CalendarInstance } from 'element-plus'
+import { useAuthStore } from '@/stores/auth-store'
 const calendar = ref<CalendarInstance>()
 const selectDate = (val: CalendarDateType) => {
   if (!calendar.value) return
