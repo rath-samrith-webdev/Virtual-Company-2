@@ -95,12 +95,22 @@ const router = createRouter({
       path:'/doctor/dashboard',
       name:'doctor-dashboard',
       component:()=>import('../views/Web/Doctor/Dashboard.vue')
+    },
+    {
+      path:'/forgotpassword',
+      name:'forgot-password',
+      component: () => import('../views/Admin/Auth/ForgotPassword.vue')
+    },
+    {
+      path:'/resetpassword',
+      name:'reset-password',
+      component: () => import('../views/Admin/Auth/ResetPassword.vue')
     }
   ]
 })
 
 router.beforeEach(async (to, from, next) => {
-  const publicPages = ['/landing', '/login', '/about', '/contact','/appointment','/hospital/detail','/hospital/doctors']
+  const publicPages = ['/landing', '/login', '/about', '/contact','/appointment','/hospital/detail','/hospital/doctors','/forgotpassword','/resetpassword']
   const authRequired = !publicPages.includes(to.path)
   const store = useAuthStore()
 
