@@ -78,23 +78,25 @@
           </div>
           <input
             type="email"
+            style="font-size: 16px;"
             id="email-address-icon"
-            class="bg-gray-10 border border-gray-100 text-gray-100 text-sm rounded-lg focus:ring-blue-100 focus:border-blue-100 block w-full pl-10 p-2.5 h-15 dark:bg-gray-700 dark:border-gray-100 dark:placeholder-gray-100 dark:text-white dark:focus:ring-blue-100 dark:focus:border-blue-500"
+            class="bg-gray-10 border border-gray-100 text-gray-500 text-sm rounded-lg focus:ring-blue-100 focus:border-blue-100 block w-full pl-10 p-2.5 h-15 dark:bg-gray-700 dark:border-gray-100 dark:placeholder-gray-100 dark:focus:ring-blue-100 dark:focus:border-blue-500"
             placeholder="Please input your email!"
           />
         </div>
         <div class="relative">
           <textarea
             id="message"
+            style="font-size: 16px;"
             rows="4"
-            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-55"
+            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-10 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-55"
             placeholder="Please enter your feedback..."
           ></textarea>
         </div>
         <div class="flex justify-end mt-4">
           <button
             type="button"
-            class="text-white bg-blue-700 border border-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:border-blue-500 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            class="text-white bg-#32B4E3 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:border-blue-500 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             Submit
           </button>
