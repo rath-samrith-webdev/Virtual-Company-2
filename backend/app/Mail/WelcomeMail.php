@@ -9,14 +9,14 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class TestMail extends Mailable implements ShouldQueue
+class WelcomeMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(protected $token)
+    public function __construct(protected $user)
     {
         //
     }
@@ -27,7 +27,7 @@ class TestMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Test Mail',
+            subject: 'Welcome Mail',
         );
     }
 
@@ -37,9 +37,9 @@ class TestMail extends Mailable implements ShouldQueue
     public function content(): Content
     {
         return new Content(
-            view:'mail.test-mail',
+            view: 'mail.welcome-mail',
             with: [
-                'token'=>$this->token
+                'user' => $this->user,
             ]
         );
     }

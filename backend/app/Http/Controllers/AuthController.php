@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\V1\HospitalResource;
 use App\Http\Resources\V1\UserResource;
+use App\Mail\ResetPasswordMail;
 use App\Mail\TestMail;
+use App\Mail\WelcomeMail;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -77,6 +78,7 @@ class AuthController extends Controller
                 $user=User::create($data);
                 $user->assignRole('user');
             }
+            Mail::to($data['email'])->send(new WelcomeMail($user));
             return response()->json(['success' => true,'message'=>'You have been registered'],201);
         }catch (\Exception $exception){
             return response()->json(['success' => false,'message'=>$exception->getMessage()],400);
@@ -156,7 +158,7 @@ class AuthController extends Controller
                     'token' => $remember_token,
                     'created_at' => Carbon::now()
                 ]);
-                Mail::to($email)->send(new TestMail($remember_token));
+                Mail::to($email)->send(new ResetPasswordMail($remember_token,$user));
                 return response()->json(['success' => true,'message'=>'We have e-mailed your password reset link','reset_token'=>$remember_token],201);
             }else{
                 return response()->json(['success' => false,'message'=>'We cannot find a user with that e-mail address']);
