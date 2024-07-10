@@ -129,10 +129,12 @@ class AppointmentController extends Controller
                 if ($user->hasRole('admin')) {
                     $appointment->update($data);
                 } elseif ($user->hasRole('hospital')) {
+                    $appointment->update(['hospital_status'=>$data['status']]);
+                } elseif ($user->hasRole('doctor')) {
+                    $appointment->update(['doctor_status'=>$data['status']]);
+                }elseif ($user->id == $appointment->user_id) {
                     $appointment->update($data);
-                } elseif ($user->id == $appointment->user_id) {
-                    $appointment->update($data);
-                } else {
+                }else {
                     return response()->json(['success' => false, 'message' => 'Unauthorized'], 500);
                 }
                 return response()->json(['success' => true, 'message' => 'Appointments has been Update successfully'], 200);
