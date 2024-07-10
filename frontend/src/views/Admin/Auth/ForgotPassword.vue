@@ -20,19 +20,25 @@
 import { ref } from 'vue';
 import WebLayout from '@/Components/Layouts/WebLayout.vue';
 import { resetPasswordStore } from '@/stores/reset-password';
-import { useRouter } from 'vue-router';
-
+import { ElNotification } from 'element-plus'
 const forgotPasswordEmail = ref('');
-const message = ref('');
-const messageType = ref('');
-const router = useRouter();
 const store = resetPasswordStore();
 
 async function forgotPassword() {
   try {
     await store.sentRequest(forgotPasswordEmail.value);
-    if (store.token !== '') {
-      router.push('/resetpassword');
+    if (store.message.success) {
+      ElNotification({
+        title: 'Success',
+        message: store.message.message,
+        type: 'success',
+      })
+    }else {
+      ElNotification({
+        title: 'Error',
+        message: store.message.message,
+        type: 'warning',
+      })
     }
   } catch (error) {
     // Handle error

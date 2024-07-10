@@ -1,14 +1,14 @@
 <template>
   <WebLayout>
     <div class="container">
-      <form @submit.prevent="resetPassword">
+      <form @submit.prevent="resetPassword(form)">
         <h2>Create New Password</h2>
         <div class="input-text">
-          <input type="password" v-model="newPassword" required>
+          <input type="password" v-model="form.newPass" required>
           <label>New Password</label>
         </div>
         <div class="input-text">
-          <input type="password" v-model="confirmPassword" required>
+          <input type="password" v-model="form.confirmPassword" required>
           <label>Confirm Password</label>
         </div>
         <button type="submit">Save</button>
@@ -16,17 +16,43 @@
     </div>
   </WebLayout>
 </template>
-
 <script setup lang="ts">
 import WebLayout from '@/Components/Layouts/WebLayout.vue';
-import { ref } from 'vue';
-import axiosInstance from '@/plugins/axios';
-
-const newPassword = ref('');
-const confirmPassword = ref('');
-const message = ref('');
-const messageType = ref('');
-
+import { onMounted, ref } from 'vue'
+import { resetPasswordStore } from '@/stores/reset-password'
+import { useRoute } from 'vue-router'
+import { ElNotification } from 'element-plus'
+const form=ref({
+  token:'',
+  newPass:'',
+  confirmPassword:'',
+})
+const route=useRoute()
+const store =resetPasswordStore()
+const resetPassword=(pass)=>{
+  const formData=new FormData()
+  formData.append('reset_token',pass.token)
+  formData.append('password',pass.newPass)
+  formData.append('password_confirmation',pass.confirmPassword)
+  store.resetPassword(formData)
+  if (store.resetMessage.success) {
+    ElNotification({
+      title: 'Success',
+      message: store.resetMessage.message,
+      type: 'success',
+    })
+  }else {
+    ElNotification({
+      title: 'Error',
+      message: store.resetMessage.message,
+      type: 'warning',
+    })
+  }
+}
+onMounted(()=>{
+  form.value.token=<string>route.query.t;
+  console.log(store.token)
+})
 </script>
 
 <style scoped>

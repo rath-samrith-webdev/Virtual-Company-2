@@ -1,9 +1,10 @@
 import axiosInstance from '@/plugins/axios'
-import { data } from '@maptiler/sdk'
 import { defineStore } from 'pinia'
 export const resetPasswordStore = defineStore('resetPassword',{
     state:()=> ({
-        token:''
+        token:'',
+        message:{},
+        resetMessage:{}
     }),
     actions:{
         async sentRequest(email: string){
@@ -12,24 +13,19 @@ export const resetPasswordStore = defineStore('resetPassword',{
                     email: email
                 })
                 console.log(data);
+                this.message=data
                 this.token=data.reset_token;
             }catch(err){
                 console.log(err);
-                
             }
         },
-        async resetPassword(password:string,password_confirmation:string){
-            const formData={
-                token:this.token,
-                password:password,
-                password_confirmation:password_confirmation
-            }
+        async resetPassword(formData:any){
             try{
                 const data = await axiosInstance.post('/reset-password',formData);
                 console.log(data);
-                
+                this.resetMessage=data.data
             }catch(err){
-                console.log(err);   
+                console.log(err);
             }
         }
     }
