@@ -97,6 +97,11 @@ async function Register() {
             </el-icon>
             <input type="password" v-model="loginCredential.password" placeholder="Password" />
           </div>
+          <!-- forgot-password -->
+          <p class="forgot-password text-right">
+              <router-link to="/forgotpassword">Forgot Password</router-link>
+          </p>
+
           <p class="social-text">Or Sign in with social platform</p>
           <div class="social-media">
             <a href="#" class="social-icon">
@@ -123,6 +128,7 @@ async function Register() {
           <div class="main-btn">
             <button type="submit" class="btn">Log in</button>
           </div>
+          
           <p class="account-text">
             Don't have an account? <a href="#" id="sign-up-btn2">Sign up</a>
           </p>
@@ -226,6 +232,7 @@ async function Register() {
               accusantium dolor?
             </p>
             <button class="btn" id="sign-up-btn">Sign up</button>
+
           </div>
           <img src="../assets/signup.svg" alt="" class="image" />
         </div>

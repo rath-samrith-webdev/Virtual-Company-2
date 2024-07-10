@@ -100,6 +100,16 @@ const router = createRouter({
       path: '/favorite',
       name: 'favorite',
       component: () => import('../views/Web/User/FavoriteView.vue')
+    },
+    {
+      path:'/forgotpassword',
+      name:'forgot-password',
+      component: () => import('../views/Admin/Auth/ForgotPassword.vue')
+    },
+    {
+      path:'/resetpassword',
+      name:'reset-password',
+      component: () => import('../views/Admin/Auth/ResetPassword.vue')
     }
   ]
 })

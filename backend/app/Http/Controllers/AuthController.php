@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\V1\HospitalResource;
 use App\Http\Resources\V1\UserResource;
+use App\Mail\TestMail;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -148,12 +150,13 @@ class AuthController extends Controller
         try {
             $user=User::where('email',$data['email'])->firstOrFail();
             if($user){
-                $remember_token = Str::random(60);
+                $remember_token = Str::random(25);
                 DB::table('password_resets')->insert([
                     'email' => $email,
                     'token' => $remember_token,
                     'created_at' => Carbon::now()
                 ]);
+                Mail::to($email)->send(new TestMail($remember_token));
                 return response()->json(['success' => true,'message'=>'We have e-mailed your password reset link','reset_token'=>$remember_token],201);
             }else{
                 return response()->json(['success' => false,'message'=>'We cannot find a user with that e-mail address']);
@@ -170,16 +173,16 @@ class AuthController extends Controller
         ]);
         $token = $reset_request['reset_token'];
         try {
-            $tokenData = DB::table('password_reset_tokens')->where('token', $token)->first();
+            $tokenData = DB::table('password_resets')->where('token', $token)->first();
             $user = User::where('email', $tokenData->email)->first();
             if (!$user) {
-                return response()->json(['success' => false, 'message' => 'Invalid token'], 404);
+                return response()->json(['success' => false, 'message' => 'Invalid token'], 200);
             }
             $user->update(['password' => bcrypt($reset_request['password'])]);
-            DB::table('password_reset_tokens')->where('token', $token)->delete();
-            return response()->json(['success' => true, 'new_password' => $request->password], 200);
+            DB::table('password_resets')->where('token', $token)->delete();
+            return response()->json(['success' => true,'message'=>'Your password has been reset', 'new_password' => $request->password], 200);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 404);
+            return response()->json(['success' => false,'message'=>'Error resetting your password!!' ,'error' => $e->getMessage()], 200);
         }
     }
 }

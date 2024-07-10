@@ -623,8 +623,6 @@ const selectDate = (val: CalendarDateType) => {
   transition: box-shadow 0.3s ease-in-out;
   transition: transform 0.3s ease-in-out;
   transform: translateY(-5px);
-  transition: box-shadow 0.3s ease-in-out;
-  transition: transform 0.3s ease-in-out;
 }
 /* calendar */
 .calendar {
@@ -632,7 +630,6 @@ const selectDate = (val: CalendarDateType) => {
 }
 /* doctor-controller */
 .main-doctor {
-  /* background: #f3f3f4; */
   width: 100%;
 }
 /* rate controller */
