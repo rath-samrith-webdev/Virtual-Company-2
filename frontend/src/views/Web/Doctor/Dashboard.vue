@@ -55,7 +55,7 @@ const tableData = [
 
       <el-card style="width: 350px; height: 35vh; align-items: center; text-align: center; justify-content: center;">
         <el-image style="width: 130px;" :src="urls[1]" lazy />
-        <template #footer>calendar </template>
+        <template #footer>Confirmed </template>
       </el-card>
     </div>
     <div class="body">

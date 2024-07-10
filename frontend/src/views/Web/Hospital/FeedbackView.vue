@@ -3,7 +3,8 @@ import WebLayout from '@/Components/Layouts/WebLayout.vue';
 import { ref } from 'vue';
 import axiosInstance from '@/plugins/axios';
 import { onMounted } from 'vue'
-
+import { useAuthStore } from '@/stores/auth-store'
+const store=useAuthStore()
 const showTable = ref(true);
 const tableData = ref([]);
 async function fetchFeedback() {
@@ -37,7 +38,7 @@ function handleWarningClick(event: Event) {
 </script>
 
 <template>
-  <WebLayout>
+  <WebLayout v-if="store.hospital!='No hospital'">
     <div>
       <div class="appointment">
         <h1>Feedback List</h1>
@@ -96,6 +97,9 @@ function handleWarningClick(event: Event) {
         </el-table-column>
       </el-table>
     </div>
+  </WebLayout>
+  <WebLayout v-else>
+    <h4>You dont have access</h4>
   </WebLayout>
 </template>
 <style scoped>

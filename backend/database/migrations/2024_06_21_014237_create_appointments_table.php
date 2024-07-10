@@ -20,6 +20,8 @@ return new class extends Migration
             $table->date('appointment_date');
             $table->time('appointment_time');
             $table->enum('status', ['Pending','Canceled','Missing', 'Confirmed', 'Rejected'])->default('Pending');
+            $table->enum('hospital_status', ['Pending','Canceled','Missing', 'Confirmed', 'Rejected'])->default('Pending');
+            $table->enum('doctor_status', ['Pending','Canceled','Missing', 'Confirmed', 'Rejected'])->default('Pending');
             $table->timestamps();
         });
     }

@@ -66,8 +66,9 @@ export default {
 }
 
 h1 {
-  color: orange;
+  color: rgb(0, 0, 0);
   margin-top: 150px;
+  text-align: center;
 }
 
 .card-content {

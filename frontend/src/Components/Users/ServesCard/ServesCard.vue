@@ -42,7 +42,7 @@ h1 {
   margin-bottom: 2rem;
   font-weight: bold;
   color: var(--color);
-  color: orange;
+  color: rgb(0, 0, 0);
 }
 
 ol {

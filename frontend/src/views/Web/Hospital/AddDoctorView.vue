@@ -2,7 +2,8 @@
 import { onMounted, ref } from 'vue';
 import WebLayout from '@/Components/Layouts/WebLayout.vue';
 import axiosInstance from '@/plugins/axios';
-
+import { useAuthStore } from '@/stores/auth-store'
+const store=useAuthStore()
 const doctors = ref([]);
 const dialogTableVisible = ref(false);
 const editDialogVisible = ref(false);
@@ -47,7 +48,6 @@ const handleSubmit = async () => {
     console.error(e);
   }
 };
-
 const editDoctor = (doctor) => {
   formData.value = { ...doctor };
   isEditing.value = true;
@@ -69,7 +69,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <WebLayout>
+  <WebLayout v-if="store.hospital!='No hospital'">
       <el-button style="margin-bottom:20px;" plain @click="dialogTableVisible = true">Add Doctor</el-button>
 
       <el-dialog v-model="dialogTableVisible" title="Add New Doctor" width="800">
@@ -152,6 +152,9 @@ onMounted(() => {
           </div>
         </el-card>
       </el-container>
+  </WebLayout>
+  <WebLayout v-else>
+    <h4>You don't have any hospital</h4>
   </WebLayout>
 </template>
 

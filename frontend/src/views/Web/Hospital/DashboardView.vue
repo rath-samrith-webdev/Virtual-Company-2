@@ -2,12 +2,14 @@
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import Chart from 'chart.js/auto'
 import { computed, h, onMounted, ref } from 'vue'
-import { ArrowRight, CaretBottom, CaretTop, Message, Plus, Warning } from '@element-plus/icons-vue/global'
+import { Message, Plus, Warning } from '@element-plus/icons-vue/global'
 import { ElNotification } from 'element-plus'
 import { FeedbackList } from '@/stores/feedback-list'
-import { hopsitalAppointmentListStore } from '@/stores/hospital-appointment-list'
-const appointmentStore=hopsitalAppointmentListStore()
+import { hospitalAppointmentListStore } from '@/stores/hospital-appointment-list'
+import { useAuthStore } from '@/stores/auth-store'
+const appointmentStore=hospitalAppointmentListStore()
 const store=FeedbackList()
+const userStore=useAuthStore()
 let dialogOverflowVisible = ref(false)
 const data2 = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -84,7 +86,8 @@ const filterTableData = computed(() =>
   store.recentFeedbacks.filter(
     (data) =>
       !search.value ||
-      data.from.toLowerCase().includes(search.value.toLowerCase())
+      data.from.first_name.toLowerCase().includes(search.value.toLowerCase()) ||
+      data.from.last_name.toLowerCase().includes(search.value.toLowerCase())
   )
 )
 const handleEdit = (index: number, row: User) => {
@@ -112,18 +115,20 @@ function fetchMonthlyAppointment(){
   appointmentStore.fetchMonthlyAppointment()
 }
 onMounted(() => {
-  fetchRecent()
-  fetchFeedback()
-  fetchMonthlyAppointment()
-  const feedBack = document.getElementById('chartOne')
-  const appointments = document.getElementById('chartTwo')
-  new Chart(appointments, config2)
-  new Chart(feedBack, config2)
+  if(userStore.hospital!='No hospital'){
+    fetchRecent()
+    fetchFeedback()
+    fetchMonthlyAppointment()
+    const feedBack = document.getElementById('chartOne')
+    const appointments = document.getElementById('chartTwo')
+    new Chart(appointments, config2)
+    new Chart(feedBack, config2)
+  }
 })
 </script>
 
 <template>
-  <WebLayout>
+  <WebLayout v-if="userStore.hospital!='No hospital'">
     <div class="bg-warning py-2">
       <h1 class="text-center text-white">Dashboard</h1>
     </div>
@@ -260,6 +265,9 @@ onMounted(() => {
         </div>
       </template>
     </el-dialog>
+  </WebLayout>
+  <WebLayout v-else>
+    <h4>It seemed that you don't have any hospital</h4>
   </WebLayout>
 </template>
 <style scoped>

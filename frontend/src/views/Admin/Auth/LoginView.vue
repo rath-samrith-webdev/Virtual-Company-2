@@ -71,7 +71,6 @@ async function Register() {
   try {
     const { data } = await axiosInstance.post('/register', registerCredential)
     console.log(data)
-    console.log(registerCredential)
     router.push('/login')
   } catch (error) {
     console.log(error)

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\V1\HospitalResource;
 use App\Http\Resources\V1\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -112,7 +113,8 @@ class AuthController extends Controller
             'message' => 'Login success',
             'data' => $user,
             'permissions' => $permissions,
-            'roles' => $roles
+            'roles' => $roles,
+            'hospitals' => $user->hospital?$user->hospital:'No hospital',
         ]);
     }
     public function profile()

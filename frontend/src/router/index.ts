@@ -34,7 +34,7 @@ const router = createRouter({
     {
       path: '/hospital/detail',
       name: 'hospital-detail',
-      component: () => import('../views/Web/HospitalDetailView.vue')
+      component: () => import('../views/Web/User/HospitalDetailView.vue')
     },
     {
       path: '/post',
@@ -105,12 +105,17 @@ const router = createRouter({
       path:'/doctor/appointment',
       name:'doctor-appointment',
       component:()=>import('../views/Web/Doctor/Appointment.vue')
+    },
+    {
+      path: '/favorite',
+      name: 'favorite',
+      component: () => import('../views/Web/User/FavoriteView.vue')
     }
   ]
 })
 
 router.beforeEach(async (to, from, next) => {
-  const publicPages = ['/landing', '/login', '/about', '/contact','/appointment','/hospital/detail','/hospital/doctors']
+  const publicPages = ['/landing', '/login', '/about', '/contact']
   const authRequired = !publicPages.includes(to.path)
   const store = useAuthStore()
 
@@ -118,6 +123,7 @@ router.beforeEach(async (to, from, next) => {
     const { data } = await axiosInstance.get('/me')
     store.isAuthenticated = true
     store.user = data.data
+    store.hospital=data.hospitals
     store.permissions = data.permissions.map((item: any) => item.front_name)
     store.roles = data.roles.map((item: any) => item)
     const rules = () => defineAclRules((setRule) => {
