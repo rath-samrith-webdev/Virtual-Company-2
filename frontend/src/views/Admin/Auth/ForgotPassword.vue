@@ -21,7 +21,9 @@ import { ref } from 'vue';
 import WebLayout from '@/Components/Layouts/WebLayout.vue';
 import { resetPasswordStore } from '@/stores/reset-password';
 import { ElNotification } from 'element-plus'
+import { useRouter } from 'vue-router'
 const forgotPasswordEmail = ref('');
+const router=useRouter()
 const store = resetPasswordStore();
 
 async function forgotPassword() {
@@ -33,12 +35,14 @@ async function forgotPassword() {
         message: store.message.message,
         type: 'success',
       })
+      await router.push('/login')
     }else {
       ElNotification({
         title: 'Error',
         message: store.message.message,
         type: 'warning',
       })
+      location.reload()
     }
   } catch (error) {
     // Handle error

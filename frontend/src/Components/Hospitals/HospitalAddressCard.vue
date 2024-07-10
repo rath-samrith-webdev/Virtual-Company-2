@@ -204,8 +204,7 @@ export default {
     },
     seeDetails(id) {
       details.id = id
-      sessionStorage.setItem('id',details.id)
-      this.$router.push({ path: '/hospital/detail', params: { id: id } })
+      this.$router.push(`/hospital/detail?id=${id}`)
       details.fetchHospitalDetail(id)
     }
   },

@@ -9,13 +9,6 @@ function handleLogout() {
   store.user = null
   router.push('/landing')
 }
-function handleCommand(command) {
-  if (command === 'profile') {
-    router.push('/profile')
-  } else if (command === 'logout') {
-    handleLogout()
-  }
-}
 </script>
 <template>
   <header class="nav flex justify-between px-5 bg-white items-center p-4">

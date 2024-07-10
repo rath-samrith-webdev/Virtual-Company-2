@@ -344,11 +344,14 @@
 <script setup lang="ts">
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import { ref, reactive, onMounted } from 'vue'
-import { ElMessage } from 'element-plus'
 import { Phone, Location, Clock } from '@element-plus/icons-vue'
 import { hospitalDetailStore } from '@/stores/hospital-detail'
+import type { CalendarDateType, CalendarInstance } from 'element-plus'
+import { useAuthStore } from '@/stores/auth-store'
+import { useRoute } from 'vue-router'
 const store = hospitalDetailStore();
 const user= useAuthStore()
+const route=useRoute()
 //form
 const form = reactive({
   hospital_id:store.hospitalDetail.id,
@@ -427,13 +430,18 @@ const hospitalInfo = [
 //btn submit
 const onSubmit = () => {
   // Logic for form submission can be added here
-  store.submitFeedback(form)
-  ElMessage.success('Form submitted successfully!')
+  const formData = new FormData()
+  formData.append('hospital_id', route.query.id)
+  formData.append('user_id', user.user.id)
+  formData.append('content',form.content)
+  formData.append('star', form.star)
+  store.submitFeedback(formData)
 }
-
+onMounted(()=>{
+  store.fetchHospitalDetail(route.query.id)
+})
 // Calendar
-import type { CalendarDateType, CalendarInstance } from 'element-plus'
-import { useAuthStore } from '@/stores/auth-store'
+
 const calendar = ref<CalendarInstance>()
 const selectDate = (val: CalendarDateType) => {
   if (!calendar.value) return

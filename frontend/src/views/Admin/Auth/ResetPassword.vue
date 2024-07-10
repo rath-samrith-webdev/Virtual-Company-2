@@ -20,8 +20,9 @@
 import WebLayout from '@/Components/Layouts/WebLayout.vue';
 import { onMounted, ref } from 'vue'
 import { resetPasswordStore } from '@/stores/reset-password'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ElNotification } from 'element-plus'
+const router = useRouter()
 const form=ref({
   token:'',
   newPass:'',
@@ -41,12 +42,14 @@ const resetPassword=(pass)=>{
       message: store.resetMessage.message,
       type: 'success',
     })
+    router.push('/login')
   }else {
     ElNotification({
       title: 'Error',
       message: store.resetMessage.message,
       type: 'warning',
     })
+    router.push('/login')
   }
 }
 onMounted(()=>{

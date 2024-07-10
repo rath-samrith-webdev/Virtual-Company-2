@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import { Lock, Message, UserFilled } from '@element-plus/icons-vue/global'
 import axiosInstance from '@/plugins/axios'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
+const route=useRoute()
 const loginCredential: { email: string, password: string } = {
   email: '',
   password: ''
@@ -99,7 +100,7 @@ async function Register() {
           </div>
           <!-- forgot-password -->
           <p class="forgot-password text-right">
-              <router-link to="/forgotpassword">Forgot Password</router-link>
+              <router-link to="/forgot-password">Forgot Password</router-link>
           </p>
 
           <p class="social-text">Or Sign in with social platform</p>

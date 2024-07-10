@@ -102,12 +102,12 @@ const router = createRouter({
       component: () => import('../views/Web/User/FavoriteView.vue')
     },
     {
-      path:'/forgotpassword',
+      path:'/forgot-password',
       name:'forgot-password',
       component: () => import('../views/Admin/Auth/ForgotPassword.vue')
     },
     {
-      path:'/resetpassword',
+      path:'/reset-password',
       name:'reset-password',
       component: () => import('../views/Admin/Auth/ResetPassword.vue')
     }
@@ -115,7 +115,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  const publicPages = ['/landing', '/login', '/about', '/contact']
+  const publicPages = ['/landing', '/login', '/about', '/contact','/forgot-password','/reset-password']
   const authRequired = !publicPages.includes(to.path)
   const store = useAuthStore()
 

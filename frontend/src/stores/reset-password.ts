@@ -12,7 +12,6 @@ export const resetPasswordStore = defineStore('resetPassword',{
                 const {data}=await axiosInstance.post('/forget-password',{
                     email: email
                 })
-                console.log(data);
                 this.message=data
                 this.token=data.reset_token;
             }catch(err){
@@ -22,7 +21,6 @@ export const resetPasswordStore = defineStore('resetPassword',{
         async resetPassword(formData:any){
             try{
                 const data = await axiosInstance.post('/reset-password',formData);
-                console.log(data);
                 this.resetMessage=data.data
             }catch(err){
                 console.log(err);
