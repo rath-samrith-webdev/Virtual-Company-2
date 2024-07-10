@@ -177,4 +177,31 @@ class AppointmentController extends Controller
             return response()->json(['success' => false, 'message' => $exception->getMessage()], 500);
         }
     }
+    public function appointmentSummary(){
+        $user = Auth::user();
+        try {
+            if ($user->hasRole('admin')) {
+                $today=Appointment::where('appointment_date',Carbon::now()->format('Y-m-d'))->count();
+                $confirmed=Appointment::where('status','Confirmed')->count();
+                $missing=Appointment::where('status','Missing')->count();
+            }elseif ($user->hasRole('hospital')) {
+                $today=$user->hospital->appointments()->where('appointment_date',Carbon::now()->format('Y-m-d'))->count();
+                $confirmed=$user->hospital->appointments()->where('status','Confirmed')->count();
+                $missing=$user->hospital->appointments()->where('status','Missing')->count();
+            }elseif($user->hasRole('doctor')){
+                $today=$user->doctor->appointments()->where('appointment_date',Carbon::now()->format('Y-m-d'))->count();
+                $confirmed=$user->doctor->appointments()->where('status','Confirmed')->count();
+                $missing=$user->doctor->appointments()->where('status','Missing')->count();
+            }else{
+                return response()->json(['success' => false, 'message' => 'Unauthorized'], 500);
+            }
+            return response()->json(['success' => true, 'data' => [
+                'today' => $today,
+                'confirmed' => $confirmed,
+                'missing' => $missing,
+            ]],200);
+        }catch (\Exception $exception){
+            return response()->json(['success' => false, 'message' => $exception->getMessage()], 500);
+        }
+    }
 }

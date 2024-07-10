@@ -239,13 +239,13 @@
                 </el-button-group>
               </template>
               <template #date-cell="{ data }">
-                <div v-for="(item, index) in textContent(data.day)" :key="index" @click="alertMessage">
-                  <el-row v-if="item.status=='Confirmed'">
+                <div v-for="(item, index) in textContent(data.day)" :key="index" @click="alertMessage(item)">
+                  <el-row v-if="item.user.id==user.user.id">
                     <el-col class="center">
-                      <el-tag type="success" class="tag">
+                      <el-tag type="primary" class="tag">
                         <el-row>
                           <el-col :span="20" class="tag">
-                            <span>Booked</span>
+                            <span>You</span>
                           </el-col>
                         </el-row>
                       </el-tag>
@@ -358,11 +358,11 @@ const form = reactive({
 })
 const textContent = (date) => {
   return store.appointment.filter((item) => {
-    return date === item.day;
+    return date === item.appointment_date;
   });
 };
-const alertMessage=()=>{
-  alert('Hi')
+const alertMessage=(message)=>{
+  alert(message)
 }
 const activeName=ref('first')
 onMounted(()=>{

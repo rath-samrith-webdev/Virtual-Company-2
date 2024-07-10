@@ -22,7 +22,7 @@ class HospitalResource extends JsonResource
             'department'=>$this->departments()->get(),
             'appointment'=>AppointmentResource::collection($this->appointments()->get()),
             'feedbacks'=>RateResource::collection($this->rates()->latest()->get()),
-            'phone_number'=>$this->phone_number?$this->phone_number:'No Contact Number',
+            'phone_number'=>$this->phone_number?:'No Contact Number',
             'open_time'=>$this->open_time?$this->open_time:'Not set yet',
             'close_time'=>$this->close_time?$this->close_time:'Not set yet',
             'street'=>$this->street?$this->street:'Not Added yet',

@@ -11,14 +11,7 @@ export const hospitalDetailStore = defineStore('hospitalDetail', {
       try {
         const { data } = await axiosInstance.get(`/hospitals/show/${id}`)
         this.hospitalDetail = data.data
-        data.data.appointment.forEach(appointment => {
-          const date={
-            day:appointment.appointment_date,
-            status:appointment.status,
-          }
-          this.appointment.push(date)
-        })
-        console.log(this.appointment)
+        this.appointment=data.data.appointment
       } catch (err) {
         console.log(err)
       }
