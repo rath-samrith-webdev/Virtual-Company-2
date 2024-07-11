@@ -148,23 +148,6 @@ class AppointmentController extends Controller
             return response()->json(['success' => false, 'message' => $exception->getMessage()], 500);
         }
     }
-    public function todayAppointment()
-    {
-        $user = Auth::user();
-        $date=Carbon::now();
-        try {
-            if ($user->hasRole('admin')) {
-                $todayAppointment=Appointment::where('appointment_date', $date->format('Y-m-d'))->get();
-            }elseif ($user->hasRole('hospital')) {
-                $todayAppointment=$user->hospital->appointments()->where('appointment_date',Carbon::now()->format('Y-m-d'))->get();
-            }else{
-                $todayAppointment=$user->appointments()->where('appointment_date',$date->format('Y-m-d'))->get();
-            }
-            return response()->json(['success' => true,'date'=>$date, 'data' => AppointmentResource::collection($todayAppointment)], 200);
-        }catch (\Exception $exception){
-            return response()->json(['success' => false, 'message' => $exception->getMessage()], 500);
-        }
-    }
     public function monthlyAppointments()
     {
         $month=[1,2,3,4,5,6,7,8,9,10,11,12];
@@ -227,6 +210,24 @@ class AppointmentController extends Controller
                 'pending'=>$pending
             ]],200);
         }catch (\Exception $exception){
+            return response()->json(['success' => false, 'message' => $exception->getMessage()], 500);
+        }
+    }
+    public function appointmentToday() {
+        $user = Auth::user();
+        try {
+            if ($user->hasRole('admin')) {
+                $today = Appointment::where('appointment_date', Carbon::now()->format('Y-m-d'));
+            } elseif ($user->hasRole('hospital')) {
+                $today = $user->hospital->appointments()->where('appointment_date', Carbon::now()->format('Y-m-d'))->get();
+
+            } elseif ($user->hasRole('doctor')) {
+                $today = $user->doctor->appointments()->where('appointment_date', Carbon::now()->format('Y-m-d'))->get();
+            } else {
+                return response()->json(['success' => false, 'message' => 'Unauthorized'], 500);
+            }
+            return response()->json(['success' => true, 'data' =>AppointmentResource::collection($today)], 200);
+        } catch (\Exception $exception) {
             return response()->json(['success' => false, 'message' => $exception->getMessage()], 500);
         }
     }
