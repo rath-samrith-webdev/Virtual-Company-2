@@ -109,12 +109,15 @@ feedbacks.value = 512
         <p>Ours team build the system Care Finder</p>
       </h1>
     </el-row>
-    <el-row class="d-flex flex-wrap justify-content-center mt-3 gap-5 m-10 members">
-      <el-col :span="5" class="mt-20">
-        <el-card
-          style="width: 300px"
-          shadow="hover"
-          class="d-flex flex-column align-items-center members-card"
+    <!-- ======================================================= -->
+    <!-- member-building -->
+    <!-- ======================================================= -->
+    <div class="members-building d-flex flex-wrap">
+      <el-container
+        class="container-fluid​ flex-wrap px-20 d-flex flex-column align-items-center mt-20"
+      >
+        <div
+          class="container inner d-flex flex-wrap justify-content-center align-items-start mt-10 gap-1"
         >
           <!-- member-1 -->
           <el-card style="width: 300px" class="d-flex card-member flex-column align-items-center">
@@ -376,9 +379,9 @@ feedbacks.value = 512
               </el-tooltip>
             </el-row>
           </el-card>
-        </el-card>
-      </el-col>
-    </el-row>
+        </div>
+      </el-container>
+    </div>
   </el-container>
   <el-container class="px2 d-flex flex-column mt-10">
     <el-row class="d-flex justify-content-around mt-3 gap-3 p-5 hospital-cion-infor">
@@ -417,7 +420,9 @@ feedbacks.value = 512
       </el-col>
     </el-row>
   </el-container>
-  <el-container class="container-value container-fluid value px-20 d-flex flex-column align-items-center mt-20">
+  <el-container
+    class="container-value container-fluid value px-20 d-flex flex-column align-items-center mt-20"
+  >
     <div
       class="container inner d-flex flex-wrap justify-content-center gap-lg-4 align-items-start mt-135"
     >
@@ -700,7 +705,6 @@ feedbacks.value = 512
   }
   .inner {
     gap: 15px;
-  
   }
 }
 
