@@ -56,6 +56,7 @@ Route::prefix('v1')->group(function () {
         Route::put('/update/{appointment}', [AppointmentController::class, 'update']);
         Route::put('/update-status/{appointment}', [AppointmentController::class, 'updateAppointments']);
         Route::get('/summary', [AppointmentController::class, 'appointmentSummary']);
+        Route::get('/today',[AppointmentController::class, 'appointmentToday' ]);
         Route::delete('/delete/{appointment}', [AppointmentController::class, 'destroy']);
     });
     Route::middleware('auth:sanctum')->prefix('categories')->group(function () {

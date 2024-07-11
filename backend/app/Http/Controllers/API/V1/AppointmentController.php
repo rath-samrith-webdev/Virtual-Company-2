@@ -187,9 +187,9 @@ class AppointmentController extends Controller
                 $confirmed=Appointment::where('status','Confirmed')->count();
                 $missing=Appointment::where('status','Missing')->count();
             }elseif ($user->hasRole('hospital')) {
-                $today=$user->hospital->appointments()->where('appointment_date',Carbon::now()->format('Y-m-d'))->count();
-                $confirmed=$user->hospital->appointments()->where('status','Confirmed')->count();
-                $missing=$user->hospital->appointments()->where('status','Missing')->count();
+                $today=$user->hospital->appointments()->where('appointment_date',Carbon::now()->format('Y-m-d'))->get()->count();
+                $confirmed=$user->hospital->appointments()->where('status','Confirmed')->get()->count();
+                $missing=$user->hospital->appointments()->where('status','Missing')->get()->count();
             }elseif($user->hasRole('doctor')){
                 $today=$user->doctor->appointments()->where('appointment_date',Carbon::now()->format('Y-m-d'))->count();
                 $confirmed=$user->doctor->appointments()->where('status','Confirmed')->count();
@@ -206,4 +206,23 @@ class AppointmentController extends Controller
             return response()->json(['success' => false, 'message' => $exception->getMessage()], 500);
         }
     }
+    public function appointmentToday() {
+        $user = Auth::user();
+        try {
+            if ($user->hasRole('admin')) {
+                $today = Appointment::where('appointment_date', Carbon::now()->format('Y-m-d'));
+            } elseif ($user->hasRole('hospital')) {
+                $today = $user->hospital->appointments()->where('appointment_date', Carbon::now()->format('Y-m-d'))->get();
+    
+            } elseif ($user->hasRole('doctor')) {
+                $today = $user->doctor->appointments()->where('appointment_date', Carbon::now()->format('Y-m-d'))->get();
+            } else {
+                return response()->json(['success' => false, 'message' => 'Unauthorized'], 500);
+            }
+            return response()->json(['success' => true, 'data' =>AppointmentResource::collection($today)], 200);
+        } catch (\Exception $exception) {
+            return response()->json(['success' => false, 'message' => $exception->getMessage()], 500);
+        }
+    }
+    
 }
