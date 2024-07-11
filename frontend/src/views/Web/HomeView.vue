@@ -1,3 +1,8 @@
+
+
+
+
+
 <script setup lang="ts">
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import { ref } from 'vue'
@@ -34,7 +39,7 @@ feedbacks.value = 512
         <div class="w-50 px-4 d-flex flex-column justify-content-between gap-3">
           <div class="mt-3">
             <h1 style="font-weight: bold">Welcome to,</h1>
-            <h1 class="d-flex" style="font-size: 120px; font-weight: bold">
+            <h1 class="d-flex carefinder" style="font-size: 120px; font-weight: bold">
               <span class="text-#32B4E3 font-bold">C</span>are
               <span class="text-#32B4E3 font-bold">F</span>inder!
             </h1>
@@ -104,7 +109,7 @@ feedbacks.value = 512
         <p>Ours team build the system Care Finder</p>
       </h1>
     </el-row>
-    <el-row class="d-flex justify-content-center mt-3 gap-5 m-10 members">
+    <el-row class="d-flex flex-wrap justify-content-center mt-3 gap-5 m-10 members">
       <el-col :span="5" class="mt-20">
         <el-card
           style="width: 300px"
@@ -398,7 +403,7 @@ feedbacks.value = 512
     </el-row>
   </el-container>
   <el-container class="px2 d-flex flex-column mt-10">
-    <el-row class="d-flex justify-content-around mt-3 gap-3 p-5">
+    <el-row class="d-flex justify-content-around mt-3 gap-3 p-5 hospital-cion-infor">
       <el-col :span="5" class="d-flex flex-column justify-content-between align-items-center mb-3">
         <div class="text-center">
           <img class="w-150" src="@/assets/image/hospital-icon.png" alt="image" />
@@ -434,9 +439,11 @@ feedbacks.value = 512
       </el-col>
     </el-row>
   </el-container>
-  <el-container class="container-fluid value px-20 d-flex flex-column align-items-center mt-20">
-    <div class="container inner d-flex justify-content-center gap-lg-5 align-items-start mt-135">
-      <el-card style="width: 230px" class="d-flex card-item flex-column align-items-center">
+  <el-container class="container-value container-fluid value px-20 d-flex flex-column align-items-center mt-20">
+    <div
+      class="container inner d-flex flex-wrap justify-content-center gap-lg-4 align-items-start mt-135"
+    >
+      <el-card style="width: 280px" class="d-flex card-item flex-column align-items-center">
         <div class="d-flex justify-content-center">
           <el-avatar class="bg-white" :size="80">
             <FirstAidKit style="color: #32b4e3; font-size: 10px" />
@@ -445,7 +452,7 @@ feedbacks.value = 512
         <h3 class="mt-2">Mission</h3>
         <p>To serve and enrich the quality of life of patients suffering</p>
       </el-card>
-      <el-card style="width: 230px" class="d-flex card-item flex-column align-items-center">
+      <el-card style="width: 280px" class="d-flex card-item flex-column align-items-center">
         <div class="d-flex justify-content-center">
           <el-avatar class="bg-white" :size="80">
             <View style="color: #32b4e3; font-size: 10px" />
@@ -454,7 +461,7 @@ feedbacks.value = 512
         <h3>Vision</h3>
         <p>Our people strive to work wholeheartedly, think positively</p>
       </el-card>
-      <el-card style="width: 230px" class="d-flex card-item flex-column align-items-center">
+      <el-card style="width: 280px" class="d-flex card-item flex-column align-items-center">
         <div class="d-flex justify-content-center">
           <el-avatar class="bg-white" :size="80">
             <SuitcaseLine style="color: #32b4e3; font-size: 10px" />
@@ -463,7 +470,7 @@ feedbacks.value = 512
         <h3 class="mt-2">Value</h3>
         <p>Premier patient-centered tertiary healthcare institution in East</p>
       </el-card>
-      <el-card style="width: 230px" class="d-flex card-item flex-column align-items-center">
+      <el-card style="width: 280px" class="d-flex card-item flex-column align-items-center">
         <div class="d-flex justify-content-center">
           <el-avatar class="bg-white" :size="80">
             <Service style="color: #32b4e3; font-size: 10px" />
@@ -486,7 +493,6 @@ feedbacks.value = 512
 
 .card-item {
   text-align: center;
-  /* background-color: #fcb22d; */
   background-color: #ffffff;
   border: none;
   height: 35vh;
@@ -655,4 +661,48 @@ feedbacks.value = 512
   height: 220px;
   opacity: 1;
 }
+
+/* ==================================================== */
+/* responsive */
+/* ==================================================== */
+
+@media screen and (max-width: 830px) {
+  .state {
+    width: 810px;
+  }
+  .el-statistic {
+    --el-statistic-content-font-size: 35px;
+    --el-statistic-title-font-size: 20px;
+  }
+  .members {
+    background: none;
+    background: #000;
+  }
+  .members-card {
+    background: #000;
+    box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
+    height: 70vh;
+  }
+  .hospital-cion-infor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .container-value {
+    margin-top: -400px;
+    margin-bottom: 200px;
+  }
+  .value {
+    height: 150vh;
+    background-image: none;
+  }
+  .inner {
+    gap: 15px;
+  
+  }
+}
+
+/* ==================================================== */
+/* responsive */
+/* ==================================================== */
 </style>
