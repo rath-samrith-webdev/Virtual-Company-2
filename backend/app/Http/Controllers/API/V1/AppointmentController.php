@@ -139,9 +139,6 @@ class AppointmentController extends Controller
                 }
                 return response()->json(['success' => true, 'message' => 'Appointments has been Update successfully','data'=>$appointment], 200);
             } else {
-                if($appointment->hospital_status=='Confirmed' && $appointment->doctor_status='Confirmed'){
-                    $appointment->update(['status'=>'Confirmed']);
-                }
                 return response()->json(['success' => false, 'message' => 'This Appointment has already been canceled'], 200);
             }
         } catch (\Exception $exception) {
