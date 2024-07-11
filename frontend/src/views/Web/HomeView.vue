@@ -567,11 +567,6 @@ feedbacks.value = 512
   height: 65vh;
   border-radius: 5px;
 }
-/* .card-member:hover {
-  transition: 0.3s;
-  background-color: #32b4e3;
-  color: white;
-} */
 
 .el-card {
   margin: 4px;
@@ -705,6 +700,17 @@ feedbacks.value = 512
   }
   .inner {
     gap: 15px;
+  }
+  /* member-building */
+  .members-building {
+    background: none;
+    align-items: center;
+    width: 105%;
+    height: 250vh;
+    margin-top: -50px;
+  }
+  .card-member {
+    height: 70vh;
   }
 }
 
