@@ -9,6 +9,7 @@ use App\Http\Controllers\API\V1\HospitalController;
 use App\Http\Controllers\API\V1\PostController;
 use App\Http\Controllers\API\V1\RateController;
 use App\Http\Controllers\API\V1\RateReplyController;
+use App\Http\Controllers\API\V1\RoomController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SystemRequestController;
 use Illuminate\Support\Facades\Route;
@@ -107,6 +108,13 @@ Route::prefix('v1')->group(function () {
         Route::post('/create',[FavouriteController::class,'store']);
         Route::put('/update/{favourite}',[FavouriteController::class,'update']);
         Route::delete('/delete/{favourite}',[FavouriteController::class,'destroy']);
+    });
+    Route::middleware('auth:sanctum')->prefix('rooms')->group(function (){
+        Route::get('/list',[RoomController::class,'index']);
+        Route::post('/create',[RoomController::class,'store']);
+        Route::get('/show/{room}',[RoomController::class,'show']);
+        Route::put('/update/{room}',[RoomController::class,'update']);
+        Route::delete('/delete/{room}',[RoomController::class,'destroy']);
     });
     Route::get('/post/list', [PostController::class, 'index'])->middleware('auth:sanctum');
 });
