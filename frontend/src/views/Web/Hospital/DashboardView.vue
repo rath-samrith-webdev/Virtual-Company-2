@@ -148,6 +148,9 @@ const handleEdit = (index: number, row: User) => {
   dialogOverflowVisible.value = true
   replyFeedback.value.rate_id = row.id
 }
+const fetchAppointmentSummary = () => {
+  appointmentStore.fetchAppointmentSummary()
+}
 const replyFeedback = ref({
   rate_id: '',
   content: ''
@@ -170,6 +173,7 @@ function fetchMonthlyAppointment(){
 }
 onMounted(() => {
   if(userStore.hospital!='No hospital'){
+    fetchAppointmentSummary()
     fetchRecent()
     fetchFeedback()
     fetchMonthlyAppointment()
@@ -209,7 +213,7 @@ onMounted(() => {
       </el-col>
       <el-col :span="8">
         <div class="statistic-card">
-          <el-statistic :value="693700">
+          <el-statistic :value="appointmentStore.appointmentSummary.pending">
             <template #title>
               <div style="display: inline-flex; font-size: 15px;align-items: center">
                 Pending Appointments
@@ -229,7 +233,7 @@ onMounted(() => {
       </el-col>
       <el-col :span="8">
         <div class="statistic-card">
-          <el-statistic :value="72000" title="New transactions today">
+          <el-statistic :value="appointmentStore.appointmentSummary.confirm" title="New transactions today">
             <template #title>
               <div style="display: inline-flex; font-size: 15px; align-items: center">
                 Confirmed Appointments
