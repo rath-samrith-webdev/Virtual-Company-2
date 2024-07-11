@@ -420,7 +420,9 @@ feedbacks.value = 512
       </el-col>
     </el-row>
   </el-container>
-  <el-container class="container-value container-fluid value px-20 d-flex flex-column align-items-center mt-20">
+  <el-container
+    class="container-value container-fluid value px-20 d-flex flex-column align-items-center mt-20"
+  >
     <div
       class="container inner d-flex flex-wrap justify-content-center gap-lg-4 align-items-start mt-135"
     >
@@ -565,11 +567,6 @@ feedbacks.value = 512
   height: 65vh;
   border-radius: 5px;
 }
-/* .card-member:hover {
-  transition: 0.3s;
-  background-color: #32b4e3;
-  color: white;
-} */
 
 .el-card {
   margin: 4px;
@@ -703,6 +700,17 @@ feedbacks.value = 512
   }
   .inner {
     gap: 15px;
+  }
+  /* member-building */
+  .members-building {
+    background: none;
+    align-items: center;
+    width: 105%;
+    height: 250vh;
+    margin-top: -50px;
+  }
+  .card-member {
+    height: 70vh;
   }
 }
 
