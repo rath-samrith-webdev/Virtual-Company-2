@@ -109,13 +109,9 @@ feedbacks.value = 512
         <p>Ours team build the system Care Finder</p>
       </h1>
     </el-row>
-    <el-row class="d-flex flex-wrap justify-content-center mt-3 gap-5 m-10 members">
-      <el-col :span="5" class="mt-20">
-        <el-card
-          style="width: 300px"
-          shadow="hover"
-          class="d-flex flex-column align-items-center members-card">
-
+    <!-- ======================================================= -->
+    <!-- member-building -->
+    <!-- ======================================================= -->
     <div class="members-building d-flex flex-wrap">
       <el-container
         class="container-fluid​ flex-wrap px-20 d-flex flex-column align-items-center mt-20"
