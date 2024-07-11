@@ -568,6 +568,16 @@ feedbacks.value = 512
   border-radius: 5px;
 }
 
+ .card-member:hover {
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
+  transition: box-shadow 0.3s ease-in-out;
+  transition: transform 0.9s ease-in-out;
+  transform: translateY(-5px);
+  transition: box-shadow 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
+}
+
 .el-card {
   margin: 4px;
 }
