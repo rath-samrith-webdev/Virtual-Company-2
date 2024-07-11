@@ -85,6 +85,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/create',[RateController::class,'store']);
         Route::get('/show/{rate}',[RateController::class,'show']);
         Route::get('/recent',[RateController::class,'recentFeedback']);
+        Route::get('/monthly',[RateController::class,'monthlyFeedback']);
         Route::put('/update/{rate}',[RateController::class,'update']);
         Route::delete('/delete/{rate}',[RateController::class,'destroy']);
     });

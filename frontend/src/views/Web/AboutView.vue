@@ -91,8 +91,8 @@
 </template>
 <style>
 .head {
-  height: 50vh;
-  background-image: url('https://www.bannerhealthfoundation.org/-/media/images/project/bhf/content-pages/2024-hero-images/tucson_1600x400.ashx');
+  height: 65vh;
+  background-image: url('https://healthnewshub.org/wp-content/uploads/2019/03/doctors-day.jpg');
   background-size: cover;
   background-position: center;
   background-color: rgba(0, 128, 128, 0.578);

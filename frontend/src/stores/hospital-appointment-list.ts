@@ -29,6 +29,7 @@ export const hospitalAppointmentListStore = defineStore('appointments',{
       try {
         const {data}= await axiosInstance.get('/appointments/monthlyAppointments')
         this.monthlyAppointment=data.data
+        localStorage.setItem('appointments',JSON.stringify(this.monthlyAppointment))
       }catch (e){
         console.log(e)
       }

@@ -11,11 +11,38 @@ const appointmentStore=hospitalAppointmentListStore()
 const store=FeedbackList()
 const userStore=useAuthStore()
 let dialogOverflowVisible = ref(false)
+const data = {
+  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+  datasets: [{
+    label: 'Total Feedback',
+    data:JSON.parse(localStorage.getItem('monthlyFeedbacks')),
+    fill: true,
+    backgroundColor: [
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 159, 64, 0.2)',
+      'rgba(255, 205, 86, 0.2)',
+      'rgba(75, 192, 192, 0.2)',
+      'rgba(54, 162, 235, 0.2)',
+      'rgba(153, 102, 255, 0.2)',
+      'rgba(201, 203, 207, 0.2)'
+    ],
+    borderColor: [
+      'rgb(255, 99, 132)',
+      'rgb(255, 159, 64)',
+      'rgb(255, 205, 86)',
+      'rgb(75, 192, 192)',
+      'rgb(54, 162, 235)',
+      'rgb(153, 102, 255)',
+      'rgb(201, 203, 207)'
+    ],
+    borderWidth: 1
+  }]
+}
 const data2 = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
   datasets: [{
     label: 'Total Feedback',
-    data:[65, 59, 80, 81, 26, 55, 40, 81, 26, 55, 40, 50] ,
+    data:JSON.parse(localStorage.getItem('appointments')),
     fill: true,
     backgroundColor: [
       'rgba(255, 99, 132, 0.2)',
@@ -42,6 +69,32 @@ let delayed:boolean
 const config2 = {
   type: 'bar',
   data: data2,
+  options: {
+    animation: {
+      onComplete: () => {
+        delayed = true
+      },
+      delay: (context:any) => {
+        let delay = 0
+        if (context.type === 'data' && context.mode === 'default' && !delayed) {
+          delay = context.dataIndex * 300 + context.datasetIndex * 100
+        }
+        return delay
+      }
+    },
+    scales: {
+      x: {
+        stacked: true
+      },
+      y: {
+        stacked: true
+      }
+    }
+  }
+}
+const config = {
+  type: 'line',
+  data: data,
   options: {
     animation: {
       onComplete: () => {
@@ -110,6 +163,7 @@ function fetchRecent(){
 }
 function fetchFeedback(){
   store.fetchFeedback()
+  store.fetchMonthlyFeedbacks()
 }
 function fetchMonthlyAppointment(){
   appointmentStore.fetchMonthlyAppointment()
@@ -122,7 +176,7 @@ onMounted(() => {
     const feedBack = document.getElementById('chartOne')
     const appointments = document.getElementById('chartTwo')
     new Chart(appointments, config2)
-    new Chart(feedBack, config2)
+    new Chart(feedBack, config)
   }
 })
 </script>

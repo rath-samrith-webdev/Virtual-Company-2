@@ -1,34 +1,43 @@
 import { defineStore } from 'pinia'
 import axiosInstance from '@/plugins/axios'
-import { log10 } from 'chart.js/helpers'
 
 export const FeedbackList = defineStore('feedback-list', {
-  state:()=>( {
-      allFeedback:[],
-      recentFeedbacks:[]
+  state: () => ({
+    allFeedback: [],
+    recentFeedbacks: [],
+    monthlyFeedbacks: []
   }),
-  actions:{
-    async fetchFeedback(){
+  actions: {
+    async fetchFeedback() {
       try {
-        const { data }=await axiosInstance.get('feedbacks/list')
-        this.allFeedback=data.data
-      }catch(error){
+        const { data } = await axiosInstance.get('feedbacks/list')
+        this.allFeedback = data.data
+      } catch (error) {
         console.log(error)
       }
     },
-    async deleteFeedback(id:number){
+    async deleteFeedback(id: number) {
       try {
-        const response=await axiosInstance.delete(`/feedbacks/delete/${id}`)
+        const response = await axiosInstance.delete(`/feedbacks/delete/${id}`)
         console.log(response)
-      }catch(error){
+      } catch (error) {
         console.log(error)
       }
     },
-    async fetchRecentFeedbacks(){
+    async fetchRecentFeedbacks() {
       try {
-        const { data }=await axiosInstance.get('feedbacks/recent')
-        this.recentFeedbacks=data.data
-      }catch(error){
+        const { data } = await axiosInstance.get('feedbacks/recent')
+        this.recentFeedbacks = data.data
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async fetchMonthlyFeedbacks() {
+      try {
+        const { data } = await axiosInstance.get('feedbacks/monthly')
+        this.monthlyFeedbacks = data.data
+        localStorage.setItem('monthlyFeedbacks', JSON.stringify(this.monthlyFeedbacks))
+      } catch (error) {
         console.log(error)
       }
     }
