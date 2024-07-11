@@ -15,7 +15,7 @@ const data2 = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
   datasets: [{
     label: 'Total Feedback',
-    data:[65, 59, 80, 81, 26, 55, 40, 81, 26, 55, 40, 50] ,
+    data:JSON.parse(localStorage.getItem('appointments')),
     fill: true,
     backgroundColor: [
       'rgba(255, 99, 132, 0.2)',
