@@ -151,17 +151,14 @@ class AppointmentController extends Controller
     public function todayAppointment()
     {
         $user = Auth::user();
-        $date=Carbon::today()->toDateString();
+        $date=Carbon::now();
         try {
             if ($user->hasRole('admin')) {
-                $todayAppointment=Appointment::where('appointment_date', $date)->get();
+                $todayAppointment=Appointment::where('appointment_date', $date->format('Y-m-d'))->get();
             }elseif ($user->hasRole('hospital')) {
-                $hospital=$user->hospital;
-                if($hospital){
-                    $todayAppointment=$hospital->appointments()->where('appointment_date', $date)->get();
-                }
+                $todayAppointment=$user->hospital->appointments()->where('appointment_date',Carbon::now()->format('Y-m-d'))->get();
             }else{
-                $todayAppointment=$user->appointments()->where('appointment',$date)->get();
+                $todayAppointment=$user->appointments()->where('appointment_date',$date->format('Y-m-d'))->get();
             }
             return response()->json(['success' => true,'date'=>$date, 'data' => AppointmentResource::collection($todayAppointment)], 200);
         }catch (\Exception $exception){
