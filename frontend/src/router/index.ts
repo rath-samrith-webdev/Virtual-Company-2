@@ -34,7 +34,7 @@ const router = createRouter({
     {
       path: '/hospital/detail',
       name: 'hospital-detail',
-      component: () => import('../views/Web/HospitalDetailView.vue')
+      component: () => import('../views/Web/User/HospitalDetailView.vue')
     },
     {
       path: '/post',
@@ -97,15 +97,35 @@ const router = createRouter({
       component:()=>import('../views/Web/Doctor/Dashboard.vue')
     },
     {
+      path:'/doctor/calendar',
+      name:'doctor-calendar',
+      component:()=>import('../views/Web/Doctor/Calendar.vue')
+    },
+    {
+      path:'/doctor/appointment',
+      name:'doctor-appointment',
+      component:()=>import('../views/Web/Doctor/Appointment.vue')
+    },
+    {
       path: '/favorite',
       name: 'favorite',
       component: () => import('../views/Web/User/FavoriteView.vue')
+    },
+    {
+      path:'/forgot-password',
+      name:'forgot-password',
+      component: () => import('../views/Admin/Auth/ForgotPassword.vue')
+    },
+    {
+      path:'/reset-password',
+      name:'reset-password',
+      component: () => import('../views/Admin/Auth/ResetPassword.vue')
     }
   ]
 })
 
 router.beforeEach(async (to, from, next) => {
-  const publicPages = ['/landing', '/login', '/about', '/contact','/hospital/dashboard']
+  const publicPages = ['/landing', '/login', '/about', '/contact','/forgot-password','/reset-password']
   const authRequired = !publicPages.includes(to.path)
   const store = useAuthStore()
 
@@ -113,6 +133,7 @@ router.beforeEach(async (to, from, next) => {
     const { data } = await axiosInstance.get('/me')
     store.isAuthenticated = true
     store.user = data.data
+    store.hospital=data.hospitals
     store.permissions = data.permissions.map((item: any) => item.front_name)
     store.roles = data.roles.map((item: any) => item)
     const rules = () => defineAclRules((setRule) => {

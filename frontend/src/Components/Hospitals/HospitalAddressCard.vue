@@ -79,12 +79,16 @@
             <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ card.province }}</p>
             <p class="card-text"><i class="fas fa-phone-alt"></i> {{ card.phone_number }}</p>
             <p class="card-text">{{ card.street_address }}</p>
-            <el-rate v-model="card.rating" disabled show-score text-color="#ff9900" />
+            <el-rate v-model="card.favourite_by" disabled text-color="#ff9900" />
             <div class="card_button mt-2">
-              <button type="button" class="btn btn-outline-primary">
+              <button type="button" @click="seeDetails(card.id)" class="btn btn-outline-primary">
                 <i class="fas fa-info-circle"></i> See Details
               </button>
-              <button type="button" class="btn btn-outline-primary" @click="addToFavorites(card.id)">
+              <button
+                type="button"
+                class="btn btn-outline-primary"
+                @click="addToFavorites(card.id)"
+              >
                 <el-icon><CollectionTag /></el-icon>
               </button>
             </div>
@@ -100,7 +104,9 @@ import { Search, CollectionTag } from '@element-plus/icons-vue'
 import axiosInstance from '@/plugins/axios'
 import { useAuthStore } from '@/stores/auth-store'
 import { ElNotification } from 'element-plus'
+import { hospitalDetailStore } from '@/stores/hospital-detail'
 const store = useAuthStore()
+const details = hospitalDetailStore()
 export default {
   name: 'HospitalAddressCard',
   components: {
@@ -156,11 +162,11 @@ export default {
     }
   },
   methods: {
-     alertMessage (title,message,type){
+    alertMessage(title, message, type) {
       ElNotification({
         title: title,
         message: message,
-        type: type,
+        type: type
       })
     },
     async fetchHospital() {
@@ -187,14 +193,19 @@ export default {
       }
       try {
         const { data } = await axiosInstance.post('/favourites/create', fav)
-        if(data.success){
-          this.alertMessage('Favorite',data.message,'success')
-        }else {
-          this.alertMessage('Favorite',data.message,'warning')
+        if (data.success) {
+          this.alertMessage('Favorite', data.message, 'success')
+        } else {
+          this.alertMessage('Favorite', data.message, 'warning')
         }
       } catch (error) {
         console.log(error)
       }
+    },
+    seeDetails(id) {
+      details.id = id
+      this.$router.push(`/hospital/detail?id=${id}`)
+      details.fetchHospitalDetail(id)
     }
   },
   mounted() {

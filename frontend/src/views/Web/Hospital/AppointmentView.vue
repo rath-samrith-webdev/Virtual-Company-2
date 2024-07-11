@@ -1,5 +1,5 @@
 <template>
-  <WebLayout>
+  <WebLayout v-if="userStore.hospital!='No hospital'">
     <div>
       <div class="appointment">
         <h1>Customers' Appointment</h1>
@@ -81,6 +81,9 @@
       </el-table>
     </div>
   </WebLayout>
+  <WebLayout v-else>
+    <h4>You have no hospital</h4>
+  </WebLayout>
 </template>
 
 <script setup lang="ts">
@@ -88,6 +91,8 @@ import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import { onMounted, ref, watch } from 'vue'
 import {hospitalAppointmentListStore} from '@/stores/hospital-appointment-list'
 import { ElNotification } from 'element-plus'
+import { useAuthStore } from '@/stores/auth-store'
+const userStore=useAuthStore()
 const store=hospitalAppointmentListStore()
 const showTable = true
 const outerVisible = ref(false)
@@ -116,7 +121,10 @@ watch(()=>store.message,()=>{
   }
 })
 onMounted(() => {
-  fetchAppointments()
+  if(userStore.hospital!='No hospital'){
+    fetchAppointments()
+  }
+
 })
 interface User {
   status: string

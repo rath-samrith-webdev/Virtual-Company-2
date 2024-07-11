@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import { Lock, Message, UserFilled } from '@element-plus/icons-vue/global'
 import axiosInstance from '@/plugins/axios'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
+const route=useRoute()
 const loginCredential: { email: string, password: string } = {
   email: '',
   password: ''
@@ -71,7 +72,6 @@ async function Register() {
   try {
     const { data } = await axiosInstance.post('/register', registerCredential)
     console.log(data)
-    console.log(registerCredential)
     router.push('/login')
   } catch (error) {
     console.log(error)
@@ -98,6 +98,11 @@ async function Register() {
             </el-icon>
             <input type="password" v-model="loginCredential.password" placeholder="Password" />
           </div>
+          <!-- forgot-password -->
+          <p class="forgot-password text-right">
+              <router-link to="/forgot-password">Forgot Password</router-link>
+          </p>
+
           <p class="social-text">Or Sign in with social platform</p>
           <div class="social-media">
             <a href="#" class="social-icon">
@@ -124,6 +129,7 @@ async function Register() {
           <div class="main-btn">
             <button type="submit" class="btn">Log in</button>
           </div>
+          
           <p class="account-text">
             Don't have an account? <a href="#" id="sign-up-btn2">Sign up</a>
           </p>
@@ -227,6 +233,7 @@ async function Register() {
               accusantium dolor?
             </p>
             <button class="btn" id="sign-up-btn">Sign up</button>
+
           </div>
           <img src="../assets/signup.svg" alt="" class="image" />
         </div>

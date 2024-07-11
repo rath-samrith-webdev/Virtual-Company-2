@@ -19,7 +19,7 @@ class DoctorDetails extends JsonResource
             'uid'=>$this->user->id,
             'first_name'=>$this->user->first_name,
             'name'=>$this->user->name,
-            'profile'=>$this->user->profile?asset('images/profiles/user-'.$this->first_name.'/'.$this->user->profile):'No profile',
+            'profile'=>$this->user->profile?asset('images/profiles/user-'.$this->user->first_name.'/'.$this->user->profile):'No profile',
             'last_name'=>$this->user->last_name,
             'email'=>$this->user->email,
             'hospital_id'=>$this->hospital_id,
