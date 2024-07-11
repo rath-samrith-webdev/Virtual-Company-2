@@ -106,7 +106,8 @@ const router = createRouter({
       name: 'favorite',
       component: () => import('../views/Web/User/FavoriteView.vue')
     }
-  ]
+  ],
+  linkExactActiveClass:'active'
 })
 
 router.beforeEach(async (to, from, next) => {
