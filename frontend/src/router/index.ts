@@ -128,7 +128,6 @@ router.beforeEach(async (to, from, next) => {
   const publicPages = ['/landing', '/login', '/about', '/contact','/forgot-password','/reset-password']
   const authRequired = !publicPages.includes(to.path)
   const store = useAuthStore()
-
   try {
     const { data } = await axiosInstance.get('/me')
     store.isAuthenticated = true
@@ -143,7 +142,7 @@ router.beforeEach(async (to, from, next) => {
     })
     simpleAcl.rules = rules()
   } catch (error) {
-    /* empty */
+    from()
   }
   if (authRequired && !store.isAuthenticated) {
     next('/landing')

@@ -2,7 +2,8 @@
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import axiosInstance from '@/plugins/axios'
 import { ref, onMounted } from 'vue'
-
+import { hospitalAppointmentListStore } from '@/stores/hospital-appointment-list'
+const store=hospitalAppointmentListStore()
 const appointments = ref([])
 const appointment = ref({
   id: '',
@@ -11,6 +12,18 @@ const appointment = ref({
   status: ''
 })
 const centerDialogVisible= ref(false)
+const innerVisible=ref(false)
+const confirmData=ref({
+  'appointment_id':''
+})
+const alertAppointmentPopup=(id:any)=>{
+  confirmData.value.appointment_id=id;
+  innerVisible.value = true
+}
+const confirmAppointment= ()=>{
+  innerVisible.value = false
+  store.confirmAppointment(confirmData.value.appointment_id)
+}
 
 async function fetchAppointment() {
   try {
@@ -69,10 +82,23 @@ onMounted(() => {
               <p>Status : {{ scope.row.status }}</p>
               <p>My response : {{ scope.row.doctor_status }}</p>
             </div>
+            <el-dialog
+              v-model="innerVisible"
+              width="300"
+              title="Confirm Appointment"
+              append-to-body>
+              <span>This is the inner Dialog</span>
+              <div class="el-dialog__footer">
+                <el-button @click="innerVisible = false">Cancel</el-button>
+                <el-button type="primary" @click="confirmAppointment">
+                  Confirm
+                </el-button>
+              </div>
+            </el-dialog>
             <template #footer>
               <div class="dialog-footer">
                 <el-button @click="centerDialogVisible = false">Cancel</el-button>
-                <el-button type="primary" @click="centerDialogVisible = false">
+                <el-button type="primary" @click="alertAppointmentPopup(scope.row.id)">
                   Confirm
                 </el-button>
               </div>
@@ -83,7 +109,6 @@ onMounted(() => {
     </el-table>
   </WebLayout>
 </template>
-
 <style>
 /* .table {
     margin-top: 20px;

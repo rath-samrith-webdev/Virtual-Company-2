@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import WebLayout from '@/Components/Layouts/WebLayout.vue';
+import NoHospitalSet from '@/Components/Hospitals/NoHospitalSet.vue'
 import axiosInstance from '@/plugins/axios';
 import { useAuthStore } from '@/stores/auth-store'
 const store=useAuthStore()
 const doctors = ref([]);
 const dialogTableVisible = ref(false);
 const editDialogVisible = ref(false);
+const userStore=useAuthStore()
 const formData = ref({
   id: null,
   first_name: '',
@@ -64,7 +66,9 @@ const deleteDoctor = async (doctorId) => {
 };
 
 onMounted(() => {
-  fetchDoctors();
+  if(userStore.hospital!='No hospital') {
+    fetchDoctors();
+  }
 });
 </script>
 
@@ -154,7 +158,7 @@ onMounted(() => {
       </el-container>
   </WebLayout>
   <WebLayout v-else>
-    <h4>You don't have any hospital</h4>
+    <NoHospitalSet/>
   </WebLayout>
 </template>
 

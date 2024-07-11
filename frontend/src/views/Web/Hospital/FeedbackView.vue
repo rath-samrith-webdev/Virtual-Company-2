@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import WebLayout from '@/Components/Layouts/WebLayout.vue';
+import WebLayout from '@/Components/Layouts/WebLayout.vue';;
 import { ref } from 'vue';
 import axiosInstance from '@/plugins/axios';
 import { onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth-store'
+import NoHospitalSet from '@/Components/Hospitals/NoHospitalSet.vue'
 const store=useAuthStore()
 const showTable = ref(true);
 const tableData = ref([]);
@@ -99,7 +100,7 @@ function handleWarningClick(event: Event) {
     </div>
   </WebLayout>
   <WebLayout v-else>
-    <h4>You dont have access</h4>
+    <NoHospitalSet/>
   </WebLayout>
 </template>
 <style scoped>

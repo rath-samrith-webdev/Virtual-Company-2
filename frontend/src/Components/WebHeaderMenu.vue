@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth-store'
 import { useRouter } from 'vue-router'
+import { BellFilled, Notification } from '@element-plus/icons-vue'
+
 const router = useRouter()
 const store = useAuthStore()
 
@@ -30,7 +32,8 @@ function handleLogout() {
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
       >Feedbacks
       </router-link
-      ><router-link
+      >
+      <router-link
         to="/hospital/doctors"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
       >Doctors
@@ -40,12 +43,6 @@ function handleLogout() {
         to="/hospital/appointments"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
       >Appointments
-      </router-link
-      >
-      <router-link
-        to="/reports"
-        class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
-      >Reports
       </router-link
       >
     </nav>
@@ -103,7 +100,7 @@ function handleLogout() {
       </router-link
       >
     </nav>
-<!-- Landing Nav           -->
+    <!-- Landing Nav           -->
     <nav class="pb-4 pt-3 flex justify-center space-x-4 " v-if="!store.user">
       <router-link to="/landing" class=" fw-bold text-dark " style="text-decoration: none;">Home</router-link>
       <router-link to="/about" class="fw-bold pl-5 text-dark" style="text-decoration: none;">About Us</router-link>
@@ -111,17 +108,32 @@ function handleLogout() {
       <router-link to="/contact" class=" fw-bold pl-5 text-dark" style="text-decoration: none;">Contact</router-link>
     </nav>
     <!-- Sign In -->
-    <div>
+    <div class="d-flex gap-2 align-items-center min-w-20 justify-between">
       <router-link v-if="!store.user" to="/login" class="btn py-1 rounded font-semibold text-white log-in ">Get Started
       </router-link>
+      <el-dropdown trigger="click">
+        <el-badge v-if="store.user!=null" :value="200" :offset="[-35, 3]" :max="99" class="item">
+        <span class="el-dropdown-link">
+          <el-icon :size="30"><BellFilled /></el-icon>
+        </span>
+        </el-badge>
+        <template #dropdown>
+          <el-card>Hi</el-card>
+          <el-card>Hi</el-card>
+          <el-card>Hi</el-card>
+        </template>
+      </el-dropdown>
       <el-dropdown trigger="click" v-if="store.user!=null">
         <span class="el-dropdown-link">
-          <el-avatar v-if="store.user.profile==='No profile'">{{store.user.first_name[0]}} {{store.user.last_name[0]}}</el-avatar>
+          <el-avatar
+            v-if="store.user.profile==='No profile'">{{ store.user.first_name[0] }} {{ store.user.last_name[0] }}</el-avatar>
           <el-avatar v-if="store.user.profile!=='No profile'" :src="store.user.profile"></el-avatar>
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item><router-link to="/profile" class="nav-link">Profile</router-link></el-dropdown-item>
+            <el-dropdown-item>
+              <router-link to="/profile" class="nav-link">Profile</router-link>
+            </el-dropdown-item>
             <el-dropdown-item>
               <button @click="handleLogout" class="nav-link">Log out</button>
             </el-dropdown-item>

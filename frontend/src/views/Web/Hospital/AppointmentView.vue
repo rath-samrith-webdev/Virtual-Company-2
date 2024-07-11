@@ -95,10 +95,11 @@
     </div>
   </WebLayout>
   <WebLayout v-else>
-    <h4>You have no hospital</h4>
+    <NoHospitalSet/>
   </WebLayout>
 </template>
 <script setup lang="ts">
+import NoHospitalSet from '@/Components/Hospitals/NoHospitalSet.vue'
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import { onMounted, ref, watch } from 'vue'
 import { hospitalAppointmentListStore } from '@/stores/hospital-appointment-list'

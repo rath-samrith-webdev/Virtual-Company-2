@@ -5,6 +5,7 @@ import { computed, h, onMounted, ref } from 'vue'
 import { Message, Plus, Warning } from '@element-plus/icons-vue/global'
 import { ElNotification } from 'element-plus'
 import { FeedbackList } from '@/stores/feedback-list'
+import NoHospitalSet from '@/Components/Hospitals/NoHospitalSet.vue'
 import { hospitalAppointmentListStore } from '@/stores/hospital-appointment-list'
 import { useAuthStore } from '@/stores/auth-store'
 const appointmentStore=hospitalAppointmentListStore()
@@ -325,7 +326,7 @@ onMounted(() => {
     </el-dialog>
   </WebLayout>
   <WebLayout v-else>
-    <h4>It seemed that you don't have any hospital</h4>
+    <NoHospitalSet/>
   </WebLayout>
 </template>
 <style scoped>

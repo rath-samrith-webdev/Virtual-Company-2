@@ -41,7 +41,7 @@ export const hospitalAppointmentListStore = defineStore('appointments',{
         const response = await axiosInstance.get('/appointments/summary');
         console.log(response)
         if (response.data.success) {
-          this.appointmentSummary.value = response.data.data;
+          this.appointmentSummary = response.data.data;
         } else {
           console.error('Failed to fetch appointments for today');
         }
