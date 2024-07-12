@@ -18,7 +18,7 @@ class RateReplyResource extends JsonResource
         return [
             'id'=>$this->id,
             'rate_id'=>$this->rate_id,
-            'user'=>RaterResource::make($this->user),
+            'user'=>RateReplyMaker::make($this->hospital),
             'content'=>$this->content,
             'created_at'=>Carbon::parse($this->created_at)->toDateString(),
             'created_for'=>Carbon::parse($this->created_at)->diffForHumans(),

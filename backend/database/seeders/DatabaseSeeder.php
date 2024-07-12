@@ -74,8 +74,8 @@ class DatabaseSeeder extends Seeder
         ]);
         RateReply::create([
             'rate_id'=>1,
-            'user_id'=>2,
-            'content'=>'Could not disagree'
+            'hospital_id'=>1,
+            'content'=>'Thank you for this comment'
         ]);
         $user_favourite = Favourite::create([
             'user_id'=>2,
