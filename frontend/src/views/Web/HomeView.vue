@@ -38,7 +38,7 @@ feedbacks.value = 512
       <div class="landing-title d-flex flex-column mt-10">
         <div class="w-50 px-4 d-flex flex-column justify-content-between gap-3">
           <div class="mt-3 tittle">
-            <h3 style="font-size: 40px; font-weight: bold">Welcome to,</h3>
+            <h3 style="font-weight: bold">Welcome to,</h3>
             <h1 class="d-flex" style="font-weight: bold">
               <span class="text-#32B4E3 font-bold">C</span>are
               <span class="text-#32B4E3 font-bold">F</span>inder!
@@ -567,6 +567,7 @@ feedbacks.value = 512
   height: 65vh;
   border-radius: 5px;
   width: 300px;
+
 }
 
 .card-member:hover {
@@ -677,6 +678,9 @@ feedbacks.value = 512
 .tittle h1 {
   font-size: 120px;
 }
+.tittle h3 {
+  font-size: 40px;
+}
 
 /* ==================================================== */
 /* responsive */ /*tablet
@@ -685,6 +689,7 @@ feedbacks.value = 512
 @media screen and (max-width: 830px) {
   .state {
     width: 810px;
+    margin-top: 80px;
   }
   .el-statistic {
     --el-statistic-content-font-size: 35px;
@@ -692,11 +697,8 @@ feedbacks.value = 512
   }
   .members {
     background: none;
-    background: #000;
   }
   .members-card {
-    background: #000;
-    box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
     height: 70vh;
   }
   .hospital-cion-infor {
@@ -719,15 +721,18 @@ feedbacks.value = 512
   .members-building {
     background: none;
     align-items: center;
-    width: 105%;
+    width: 120%;
     height: 250vh;
-    margin-top: -50px;
+    margin-top: -120px;
   }
   .card-member {
     height: 70vh;
   }
   .hospital-support {
     margin-left: -80px;
+  }
+  .container-team {
+    margin-top: 40px;
   }
 }
 
@@ -745,6 +750,9 @@ feedbacks.value = 512
   .tittle h1 {
     font-size: 65px;
   }
+  .tittle h3 {
+  font-size: 25px;
+}
 
   .bg-card {
     width: 72px;
@@ -762,14 +770,12 @@ feedbacks.value = 512
   }
   /* member-building */
   .members-building {
-    background: block;
-    align-items: center;
     height: 430vh;
     margin-top: -100px;
+    width: 470px;
   }
   .card-member {
-    height: 68vh;
-    width: 500px;
+    height: 66vh;
   }
   .value {
     height: 220vh;
@@ -790,10 +796,6 @@ feedbacks.value = 512
   .container-team {
     margin-top: 40px;
   }
-  .card-member {
-    /* width: 00px; */
-    background: #000;
-}
 
 }
 
