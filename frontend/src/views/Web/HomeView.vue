@@ -37,9 +37,9 @@ feedbacks.value = 512
     <div class="first-landing d-flex justify-content-center mt-4 ml-20">
       <div class="landing-title d-flex flex-column mt-10">
         <div class="w-50 px-4 d-flex flex-column justify-content-between gap-3">
-          <div class="mt-3 title">
-            <h1 style="font-weight: bold">Welcome to,</h1>
-            <h1 class="d-flex carefinder" style="font-size: 120px; font-weight: bold">
+          <div class="mt-3 tittle">
+            <h3 style="font-size: 40px; font-weight: bold">Welcome to,</h3>
+            <h1 class="d-flex" style="font-weight: bold">
               <span class="text-#32B4E3 font-bold">C</span>are
               <span class="text-#32B4E3 font-bold">F</span>inder!
             </h1>
@@ -120,7 +120,7 @@ feedbacks.value = 512
           class="container inner d-flex flex-wrap justify-content-center align-items-start mt-10 gap-1"
         >
           <!-- member-1 -->
-          <el-card style="width: 300px" class="d-flex card-member flex-column align-items-center">
+          <el-card class="d-flex card-member flex-column align-items-center">
             <div class="rounded-50% d-flex justify-content-center">
               <img src="@/assets/members/Phal.jpg" alt="" class="img-fluid w-75 card-img" />
             </div>
@@ -163,7 +163,7 @@ feedbacks.value = 512
             </el-row>
           </el-card>
           <!-- member-2 -->
-          <el-card style="width: 300px" class="d-flex card-member flex-column align-items-center">
+          <el-card class="d-flex card-member flex-column align-items-center">
             <div class="rounded-50% d-flex justify-content-center">
               <img src="@/assets/members/Rath.jpg" alt="" class="img-fluid w-75 card-img" />
             </div>
@@ -206,7 +206,7 @@ feedbacks.value = 512
             </el-row>
           </el-card>
           <!-- member-3 -->
-          <el-card style="width: 300px" class="d-flex card-member flex-column align-items-center">
+          <el-card class="d-flex card-member flex-column align-items-center">
             <div class="rounded-50% d-flex justify-content-center">
               <img src="@/assets/members/Radit.jpg" alt="" class="img-fluid w-75 card-img" />
             </div>
@@ -249,7 +249,7 @@ feedbacks.value = 512
             </el-row>
           </el-card>
           <!-- member-4 -->
-          <el-card style="width: 300px" class="d-flex card-member flex-column align-items-center">
+          <el-card class="d-flex card-member flex-column align-items-center">
             <div class="rounded-50% d-flex justify-content-center">
               <img src="@/assets/members/Sreynang.jpg" alt="" class="img-fluid w-75 card-img" />
             </div>
@@ -294,7 +294,7 @@ feedbacks.value = 512
             </el-row>
           </el-card>
           <!-- member-5 -->
-          <el-card style="width: 300px" class="d-flex card-member flex-column align-items-center">
+          <el-card class="d-flex card-member flex-column align-items-center">
             <div class="rounded-50% d-flex justify-content-center">
               <img src="@/assets/members/Bour.jpg" alt="" class="img-fluid w-75 card-img" />
             </div>
@@ -337,7 +337,7 @@ feedbacks.value = 512
             </el-row>
           </el-card>
           <!-- member-6 -->
-          <el-card style="width: 300px" class="d-flex card-member flex-column align-items-center">
+          <el-card class="d-flex card-member flex-column align-items-center">
             <div class="rounded-50% d-flex justify-content-center">
               <img src="@/assets/members/Leysreng.jpg" alt="" class="img-fluid w-75 card-img" />
             </div>
@@ -566,9 +566,10 @@ feedbacks.value = 512
   border: none;
   height: 65vh;
   border-radius: 5px;
+  width: 300px;
 }
 
- .card-member:hover {
+.card-member:hover {
   transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
   box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
   transition: box-shadow 0.3s ease-in-out;
@@ -743,9 +744,6 @@ feedbacks.value = 512
     font-size: var(--el-statistic-content-font-weight);
   } */
 
-
-
-
   .bg-card {
     width: 72px;
   }
@@ -786,11 +784,13 @@ feedbacks.value = 512
   }
   .hospital-support-title span {
     font-size: 80px;
-
   }
   .container-team {
     margin-top: 40px;
   }
 }
 
+.tittle h1 {
+  font-size: 120px;
+}
 </style>
