@@ -61,7 +61,7 @@ class RateController extends Controller
      */
     public function show(Rate $rate)
     {
-        //
+        return response()->json(['success' => true, 'data' => new RateResource($rate)]);
     }
 
     /**
@@ -72,7 +72,7 @@ class RateController extends Controller
         $data = $request->validate([
             'user_id' => 'integer',
             'content' => 'required|string',
-            'hospital_id' => 'required',
+            'hospital_id' => 'exists:hospitals,id',
             'star' => 'integer'
         ]);
         $user = Auth::user();
@@ -83,14 +83,14 @@ class RateController extends Controller
             if ($user->hasRole('hospital') && $rate->user_id == $user->id) {
                 $rate->update($data);
                 return response()->json(['success' => true, 'message' => 'Rate has been updated'], 201);
-            }else{
-                return response()->json(['success' => false, 'message' => 'You are not authorized'], 403);
-            };
-            if ($rate->user_id == $user->id) {
+            }elseif ($rate->user_id == $user->id) {
                 $data['user_id'] = $user->id;
                 $rate->update($data);
                 return response()->json(['success' => true, 'message' => 'Rate has been updated'], 201);
-            }
+            }else{
+                return response()->json(['success' => false, 'message' => 'You are not authorized'], 403);
+            };
+
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
         };

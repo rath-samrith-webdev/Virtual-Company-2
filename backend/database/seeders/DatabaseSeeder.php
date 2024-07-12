@@ -10,6 +10,7 @@ use App\Models\Favourite;
 use App\Models\Hospital;
 use App\Models\Rate;
 use App\Models\RateReply;
+use App\Models\Room;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -46,11 +47,15 @@ class DatabaseSeeder extends Seeder
             'latitude'=>'11.566859422611982',
             'longitude'=>'104.89597919278232'
         ]);
+        Room::create([
+            'name'=>'Room 1',
+            'hospital_id'=>1,
+        ]);
         Department::create([
             'hospital_id'=>1,
             'name'=>"Dentist"
         ]);
-        $datDoct=Doctor::create([
+        $dataDoct=Doctor::create([
             'user_id'=>4,
             'hospital_id'=>1,
         ]);
@@ -69,8 +74,8 @@ class DatabaseSeeder extends Seeder
         ]);
         RateReply::create([
             'rate_id'=>1,
-            'user_id'=>2,
-            'content'=>'Could not disagree'
+            'hospital_id'=>1,
+            'content'=>'Thank you for this comment'
         ]);
         $user_favourite = Favourite::create([
             'user_id'=>2,

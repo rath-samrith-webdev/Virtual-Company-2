@@ -36,7 +36,7 @@ class RateReplyController extends Controller
     {
         $data = $request->validate([
             'rate_id' => 'required|integer',
-            'user_id' => 'integer',
+            'hospital_id' => 'integer|exists:hospitals,id',
             'content' => 'required|string',
         ]);
         $user = Auth::user();
@@ -47,14 +47,12 @@ class RateReplyController extends Controller
                 $rate=Rate::where('id',$data['rate_id'])->first();
                 if($rate->id=$data['rate_id']){
                     $data['rate_id']=$rate->id;
-                    $data['user_id']=$rate->user_id;
+                    $data['hospital_id']=$rate->hospital_id;
                     RateReply::create($data);
                     return response()->json(['success' => true,'message'=>'Reply added successfully'],201);
                 }
             }else{
-                $data['user_id']=$user->id;
-                RateReply::create($data);
-                return response()->json(['success' => true,'message'=>'Reply added successfully'],201);
+                return response()->json(['success' => false, 'message'=>'You are not allowed to access this page'],403);
             }
         }catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 422);

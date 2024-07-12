@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('hospital_id')->constrained('hospitals')->onDelete('cascade');
+            $table->text('response')->nullable();
             $table->timestamps();
         });
     }

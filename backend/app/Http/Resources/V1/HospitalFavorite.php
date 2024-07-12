@@ -27,6 +27,8 @@ class HospitalFavorite extends JsonResource
             'province'=>$this->province?$this->province:'Not Added yet',
             'lat'=>$this->latitude,
             'lng'=>$this->longitude,
+            'favourite_by'=>$this->favourites()->get()->count(),
+
         ];
     }
 }

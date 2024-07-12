@@ -4,6 +4,7 @@ export const hospitalAppointmentListStore = defineStore('appointments',{
   state:()=>({
     appointments:[],
     monthlyAppointment:[],
+    appointmentSummary:{},
     message:{},
   }),
   actions:{
@@ -11,6 +12,7 @@ export const hospitalAppointmentListStore = defineStore('appointments',{
       try {
         const {data}= await axiosInstance.get('/appointments/list')
         this.appointments = data.data
+        console.log(data.data)
       }catch(error){
         console.log(error)
       }
@@ -33,6 +35,19 @@ export const hospitalAppointmentListStore = defineStore('appointments',{
       }catch (e){
         console.log(e)
       }
-    }
+    },
+    async fetchAppointmentSummary(){
+      try {
+        const response = await axiosInstance.get('/appointments/summary');
+        console.log(response)
+        if (response.data.success) {
+          this.appointmentSummary = response.data.data;
+        } else {
+          console.error('Failed to fetch appointments for today');
+        }
+      } catch (error) {
+        console.error('Error fetching appointments for today:', error);
+      }
+    },
   }
 })

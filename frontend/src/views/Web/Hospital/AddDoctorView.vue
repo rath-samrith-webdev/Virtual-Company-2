@@ -1,18 +1,21 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import WebLayout from '@/Components/Layouts/WebLayout.vue';
+import NoHospitalSet from '@/Components/Hospitals/NoHospitalSet.vue'
 import axiosInstance from '@/plugins/axios';
 import { useAuthStore } from '@/stores/auth-store'
 const store=useAuthStore()
 const doctors = ref([]);
 const dialogTableVisible = ref(false);
 const editDialogVisible = ref(false);
+const userStore=useAuthStore()
 const formData = ref({
   id: null,
   first_name: '',
   last_name: '',
   name: '',
   email: '',
+  password:'',
   phone: ''
 });
 const isEditing = ref(false);
@@ -28,9 +31,13 @@ async function fetchDoctors() {
 
 const handleSubmit = async () => {
   const doctorData = {
+    first_name: formData.value.first_name,
+    last_name: formData.value.last_name,
     name: formData.value.name,
     email: formData.value.email,
-    phone: formData.value.phone
+    password: formData.value.password,
+    phone: formData.value.phone,
+    hospital_id:userStore.hospital.id
   };
 
   try {
@@ -64,14 +71,15 @@ const deleteDoctor = async (doctorId) => {
 };
 
 onMounted(() => {
-  fetchDoctors();
+  if(userStore.hospital!='No hospital') {
+    fetchDoctors();
+  }
 });
 </script>
 
 <template>
   <WebLayout v-if="store.hospital!='No hospital'">
       <el-button style="margin-bottom:20px;" plain @click="dialogTableVisible = true">Add Doctor</el-button>
-
       <el-dialog v-model="dialogTableVisible" title="Add New Doctor" width="800">
         <el-form :model="formData" label-position="top" label-width="120px">
           <div class="flex">
@@ -95,6 +103,9 @@ onMounted(() => {
           <el-form-item label="Email">
             <el-input v-model="formData.email" />
           </el-form-item>
+          <el-form-item label="Password">
+            <el-input v-model="formData.password" />
+          </el-form-item>
           <el-form-item label="Phone Number">
             <el-input v-model="formData.phone" />
           </el-form-item>
@@ -102,31 +113,34 @@ onMounted(() => {
         <el-button type="primary" @click="handleSubmit">Create</el-button>
       </el-dialog>
       <el-dialog v-model="editDialogVisible" title="Edit Doctor" width="800">
-      <el-form :model="formData" label-position="top" label-width="120px">
-        <div class="flex">
-          <el-col :span="11">
-            <el-form-item label="First name">
-              <el-input v-model="formData.first_name" style="width: 100%"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="2" class="text-center">
-            <span class="text-gray-500">-</span>
-          </el-col>
-          <el-col :span="11">
-            <el-form-item label="Last name">
-              <el-input v-model="formData.last_name" style="width: 100%"/>
-            </el-form-item>
-          </el-col>
-        </div>
-        <el-form-item label="Name">
-          <el-input v-model="formData.name" />
-        </el-form-item>
-        <el-form-item label="Email">
-          <el-input v-model="formData.email" />
-        </el-form-item>
-        <el-form-item label="Phone Number">
-          <el-input v-model="formData.phone" />
-        </el-form-item>
+        <el-form :model="formData" label-position="top" label-width="120px">
+          <div class="flex">
+            <el-col :span="11">
+              <el-form-item label="First name">
+                <el-input v-model="formData.first_name" style="width: 100%"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="2" class="text-center">
+              <span class="text-gray-500">-</span>
+            </el-col>
+            <el-col :span="11">
+              <el-form-item label="Last name">
+                <el-input v-model="formData.last_name" style="width: 100%"/>
+              </el-form-item>
+            </el-col>
+          </div>
+          <el-form-item label="Name">
+            <el-input v-model="formData.name" />
+          </el-form-item>
+          <el-form-item label="Email">
+            <el-input v-model="formData.email" />
+          </el-form-item>
+          <el-form-item label="Password">
+            <el-input v-model="formData.password" />
+          </el-form-item>
+          <el-form-item label="Phone Number">
+            <el-input v-model="formData.phone" />
+          </el-form-item>
         </el-form>
         <el-button type="primary" @click="handleSubmit">Update</el-button>
     </el-dialog>
@@ -154,7 +168,7 @@ onMounted(() => {
       </el-container>
   </WebLayout>
   <WebLayout v-else>
-    <h4>You don't have any hospital</h4>
+    <NoHospitalSet/>
   </WebLayout>
 </template>
 

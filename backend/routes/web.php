@@ -38,14 +38,6 @@ Route::get('/mail', function () {
         dd($e);
     }
 });
-Route::get('/reset',function (){
-    try {
-        Mail::to('rothsamreth@gmail.com')->send(new ResetPasswordMail());
-        dd('send');
-    }catch (Exception $e){
-        dd($e);
-    }
-});
 // Admin routes
 Route::get('/admin/dashboard', function () {
     $hospitals = Hospital::all();
@@ -92,6 +84,7 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         Route::resource('departments', 'DepartmentController');
         Route::resource('rates', 'RateController');
         Route::resource('system-requests', 'SystemRequestController');
+        Route::resource('rooms', 'RoomController');
 
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
         Route::put('/profile-update', [ProfileController::class, 'update'])->name('profile.update');

@@ -16,7 +16,9 @@ class Appointment extends Model
         'hospital_id',
         'appointment_date',
         'appointment_time',
-        'status'
+        'status',
+        'hospital_status',
+        'doctor_status'
     ];
     public function user():BelongsTo
     {

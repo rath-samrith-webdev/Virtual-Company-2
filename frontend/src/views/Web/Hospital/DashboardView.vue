@@ -5,8 +5,10 @@ import { computed, h, onMounted, ref } from 'vue'
 import { Message, Plus, Warning } from '@element-plus/icons-vue/global'
 import { ElNotification } from 'element-plus'
 import { FeedbackList } from '@/stores/feedback-list'
+import NoHospitalSet from '@/Components/Hospitals/NoHospitalSet.vue'
 import { hospitalAppointmentListStore } from '@/stores/hospital-appointment-list'
 import { useAuthStore } from '@/stores/auth-store'
+import axiosInstance from '@/plugins/axios'
 const appointmentStore=hospitalAppointmentListStore()
 const store=FeedbackList()
 const userStore=useAuthStore()
@@ -148,14 +150,27 @@ const handleEdit = (index: number, row: User) => {
   dialogOverflowVisible.value = true
   replyFeedback.value.rate_id = row.id
 }
+const fetchAppointmentSummary = () => {
+  appointmentStore.fetchAppointmentSummary()
+}
 const replyFeedback = ref({
   rate_id: '',
   content: ''
 })
-const sentReply = () => {
+const sentReply = async () => {
   dialogOverflowVisible.value = false
-  if (replyFeedback.value.content === '') {
-    open()
+  const formData= new FormData()
+  formData.append('rate_id', replyFeedback.value.rate_id)
+  formData.append('content', replyFeedback.value.content)
+  try {
+    if (replyFeedback.value.content === '') {
+      open()
+    }else{
+      const {data}=await axiosInstance.post('/feedback-reply/create',formData)
+      console.log(data)
+    }
+  }catch (e){
+    console.log(e)
   }
 }
 function fetchRecent(){
@@ -170,6 +185,7 @@ function fetchMonthlyAppointment(){
 }
 onMounted(() => {
   if(userStore.hospital!='No hospital'){
+    fetchAppointmentSummary()
     fetchRecent()
     fetchFeedback()
     fetchMonthlyAppointment()
@@ -209,7 +225,7 @@ onMounted(() => {
       </el-col>
       <el-col :span="8">
         <div class="statistic-card">
-          <el-statistic :value="693700">
+          <el-statistic :value="appointmentStore.appointmentSummary.pending">
             <template #title>
               <div style="display: inline-flex; font-size: 15px;align-items: center">
                 Pending Appointments
@@ -229,7 +245,7 @@ onMounted(() => {
       </el-col>
       <el-col :span="8">
         <div class="statistic-card">
-          <el-statistic :value="72000" title="New transactions today">
+          <el-statistic :value="appointmentStore.appointmentSummary.confirm" title="New transactions today">
             <template #title>
               <div style="display: inline-flex; font-size: 15px; align-items: center">
                 Confirmed Appointments
@@ -321,14 +337,13 @@ onMounted(() => {
     </el-dialog>
   </WebLayout>
   <WebLayout v-else>
-    <h4>It seemed that you don't have any hospital</h4>
+    <NoHospitalSet/>
   </WebLayout>
 </template>
 <style scoped>
 :global(h2#card-usage ~ .example .example-showcase) {
   background-color: var(--el-fill-color) !important;
 }
-
 .el-statistic {
   --el-statistic-content-font-size: 28px;
 }
