@@ -33,7 +33,7 @@ feedbacks.value = 512
       <div class="d-flex flex-column mt-10">
         <div class="w-50 px-4 d-flex flex-column justify-content-between gap-3">
           <div class="mt-3 tittle">
-            <h3 style="font-size: 40px; font-weight: bold">Welcome to,</h3>
+            <h3 style="font-weight: bold">Welcome to,</h3>
             <h1 class="d-flex" style="font-weight: bold">
               <span class="text-#32B4E3 font-bold">C</span>are
               <span class="text-#32B4E3 font-bold">F</span>inder!
@@ -535,7 +535,7 @@ feedbacks.value = 512
 /* member-building */
 .members-building {
   background-color: #f3f3f4;
-  width: 100%;
+  width: 120%;
   height: 170vh;
 }
 .card-member {
@@ -544,7 +544,8 @@ feedbacks.value = 512
   border: none;
   height: 65vh;
   border-radius: 5px;
-  width: 300px;
+  width: 313px;
+
 }
 /* .card-member:hover {
   transition: 0.3s;
@@ -659,5 +660,8 @@ feedbacks.value = 512
 }
 .tittle h1 {
   font-size: 120px;
+}
+.tittle h3 {
+  font-size: 40px;
 }
 </style>
