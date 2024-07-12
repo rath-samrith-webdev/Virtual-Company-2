@@ -8,6 +8,7 @@ import { FeedbackList } from '@/stores/feedback-list'
 import NoHospitalSet from '@/Components/Hospitals/NoHospitalSet.vue'
 import { hospitalAppointmentListStore } from '@/stores/hospital-appointment-list'
 import { useAuthStore } from '@/stores/auth-store'
+import axiosInstance from '@/plugins/axios'
 const appointmentStore=hospitalAppointmentListStore()
 const store=FeedbackList()
 const userStore=useAuthStore()
@@ -156,10 +157,20 @@ const replyFeedback = ref({
   rate_id: '',
   content: ''
 })
-const sentReply = () => {
+const sentReply = async () => {
   dialogOverflowVisible.value = false
-  if (replyFeedback.value.content === '') {
-    open()
+  const formData= new FormData()
+  formData.append('rate_id', replyFeedback.value.rate_id)
+  formData.append('content', replyFeedback.value.content)
+  try {
+    if (replyFeedback.value.content === '') {
+      open()
+    }else{
+      const {data}=await axiosInstance.post('/feedback-reply/create',formData)
+      console.log(data)
+    }
+  }catch (e){
+    console.log(e)
   }
 }
 function fetchRecent(){

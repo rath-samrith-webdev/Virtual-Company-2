@@ -5,7 +5,9 @@ import axiosInstance from '@/plugins/axios';
 import { onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth-store'
 import NoHospitalSet from '@/Components/Hospitals/NoHospitalSet.vue'
+import { FeedbackList } from '@/stores/feedback-list'
 const store=useAuthStore()
+const feebackList=FeedbackList()
 const showTable = ref(true);
 const tableData = ref([]);
 async function fetchFeedback() {
@@ -18,6 +20,7 @@ async function fetchFeedback() {
     console.error(error)
   }
 }
+const outerVisible=ref(false)
 fetchFeedback()
 onMounted(() => {
   console.log(tableData)
@@ -27,14 +30,10 @@ const textarea = ref('');
 // Function to show details popover
 function showDetails(row: any) {
   // Implement your logic to show details here
+  outerVisible.value = true
+  feebackList.showFeedback(row)
   console.log('Showing details for:', row);
-}
 
-// Handle the warning button click
-function handleWarningClick(event: Event) {
-  event.stopPropagation(); // Prevent event propagation
-  // Implement your logic for the warning button click
-  console.log('Warning button clicked');
 }
 </script>
 
@@ -58,7 +57,6 @@ function handleWarningClick(event: Event) {
             </div>
           </template>
         </el-table-column>
-
         <!-- Content Column -->
         <el-table-column prop="content" label="Content" width="310" />
 
@@ -71,32 +69,40 @@ function handleWarningClick(event: Event) {
 
         <!-- To Column -->
         <el-table-column prop="to" label="To" width="250" />
-
         <!-- Star Column -->
         <el-table-column label="Star" width="180">
           <template #default="scope">
             <el-rate v-model="scope.row.star" disabled text-color="#ff9900" />
           </template>
         </el-table-column>
-
         <!-- Action Column -->
         <el-table-column label="Action">
           <template #default="scope">
-            <el-popover placement="right" width="600" trigger="click">
-              <div class="card-body">
-                <el-input v-model="textarea" style="width: 540px; border: none;" :rows="5" type="textarea"
-                  placeholder="Please input"></el-input>
-                <div class="button">
-                  <el-button type="primary" @click="handleWarningClick">Send</el-button>
-                </div>
-              </div>
-              <template #reference>
-                <el-button size="small">Reply</el-button>
-              </template>
-            </el-popover>
+            <el-button plain @click="showDetails(scope.row.id)">
+              See details
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
+      <el-dialog v-model="outerVisible" title="Feedback Details" width="800">
+        <el-timeline style="max-width: 700px">
+          <el-timeline-item v-for="feed in feebackList.feedbackDetails.replies" :key="feed.id" :timestamp="feed.created_at" placement="top">
+            <el-card>
+              <h4>{{ feed.user.full_name }}</h4>
+              <p>{{ feed.content }}</p>
+              <small>{{feed.created_for}}</small>
+            </el-card>
+          </el-timeline-item>
+        </el-timeline>
+        <template #footer>
+          <div class="dialog-footer">
+            <el-button @click="outerVisible = false">Cancel</el-button>
+            <el-button type="primary" @click="innerVisible = true">
+              Open the inner Dialog
+            </el-button>
+          </div>
+        </template>
+      </el-dialog>
     </div>
   </WebLayout>
   <WebLayout v-else>

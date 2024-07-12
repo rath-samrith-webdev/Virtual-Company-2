@@ -48,6 +48,6 @@ export const hospitalAppointmentListStore = defineStore('appointments',{
       } catch (error) {
         console.error('Error fetching appointments for today:', error);
       }
-    }
+    },
   }
 })

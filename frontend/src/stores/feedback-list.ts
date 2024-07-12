@@ -1,11 +1,13 @@
 import { defineStore } from 'pinia'
 import axiosInstance from '@/plugins/axios'
+import { e } from 'unocss'
 
 export const FeedbackList = defineStore('feedback-list', {
   state: () => ({
     allFeedback: [],
     recentFeedbacks: [],
-    monthlyFeedbacks: []
+    monthlyFeedbacks: [],
+    feedbackDetails:{}
   }),
   actions: {
     async fetchFeedback() {
@@ -39,6 +41,14 @@ export const FeedbackList = defineStore('feedback-list', {
         localStorage.setItem('monthlyFeedbacks', JSON.stringify(this.monthlyFeedbacks))
       } catch (error) {
         console.log(error)
+      }
+    },
+    async showFeedback(id: number) {
+      try {
+        const {data}=await axiosInstance.get(`/feedbacks/show/${id}`)
+        this.feedbackDetails=data.data
+      }catch (e){
+        console.log(e)
       }
     }
   }

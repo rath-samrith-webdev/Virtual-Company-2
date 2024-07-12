@@ -25,7 +25,7 @@
             <p>{{ cardFavorite.hospital.phone_number }}</p>
             <p>{{ cardFavorite.hospital.street_address }}</p>
             <el-rate
-              v-model="cardFavorite.rating"
+              v-model="cardFavorite.hospital.favourite_by"
               disabled
               show-score
               text-color="#ff9900"

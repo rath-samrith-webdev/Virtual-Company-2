@@ -142,7 +142,7 @@ router.beforeEach(async (to, from, next) => {
     })
     simpleAcl.rules = rules()
   } catch (error) {
-    from()
+    //
   }
   if (authRequired && !store.isAuthenticated) {
     next('/landing')

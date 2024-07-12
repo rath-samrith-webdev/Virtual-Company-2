@@ -72,7 +72,7 @@
                 width="300"
                 title="Confirm Appointment"
                 append-to-body>
-                <span>This is the inner Dialog</span>
+                Are you sure?
                 <div class="el-dialog__footer">
                   <el-button @click="innerVisible = false">Cancel</el-button>
                   <el-button type="primary" @click="ConfirmAppointment(scope.row.id)">
@@ -105,6 +105,7 @@ import { onMounted, ref, watch } from 'vue'
 import { hospitalAppointmentListStore } from '@/stores/hospital-appointment-list'
 import { ElNotification } from 'element-plus'
 import { useAuthStore } from '@/stores/auth-store'
+import { Form } from 'vee-validate'
 
 const userStore = useAuthStore()
 const store = hospitalAppointmentListStore()

@@ -3,7 +3,9 @@ import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import axiosInstance from '@/plugins/axios'
 import { ref, onMounted } from 'vue'
 import { hospitalAppointmentListStore } from '@/stores/hospital-appointment-list'
+import { hospitalDetailStore } from '@/stores/hospital-detail'
 const store=hospitalAppointmentListStore()
+const hospital=hospitalDetailStore()
 const appointments = ref([])
 const appointment = ref({
   id: '',
@@ -13,11 +15,14 @@ const appointment = ref({
 })
 const centerDialogVisible= ref(false)
 const innerVisible=ref(false)
+const rooms=[]
 const confirmData=ref({
-  'appointment_id':''
+  'appointment_id':'',
+  'room_name':''
 })
-const alertAppointmentPopup=(id:any)=>{
+const alertAppointmentPopup=(id:any,doc_id:any)=>{
   confirmData.value.appointment_id=id;
+  hospital.fetchHospitalDetail(doc_id)
   innerVisible.value = true
 }
 const confirmAppointment= ()=>{
@@ -35,7 +40,6 @@ async function fetchAppointment() {
     console.error(e)
   }
 }
-
 onMounted(() => {
   fetchAppointment()
 })
@@ -87,7 +91,11 @@ onMounted(() => {
               width="300"
               title="Confirm Appointment"
               append-to-body>
-              <span>This is the inner Dialog</span>
+              <el-form>
+                <el-select v-model="confirmData.room_name">
+                  <el-option v-for="hosp in hospital.hospitalDetail.rooms" :value="hosp.name" :key="hosp">{{hosp.name}}</el-option>
+                </el-select>
+              </el-form>
               <div class="el-dialog__footer">
                 <el-button @click="innerVisible = false">Cancel</el-button>
                 <el-button type="primary" @click="confirmAppointment">
@@ -98,7 +106,7 @@ onMounted(() => {
             <template #footer>
               <div class="dialog-footer">
                 <el-button @click="centerDialogVisible = false">Cancel</el-button>
-                <el-button type="primary" @click="alertAppointmentPopup(scope.row.id)">
+                <el-button type="primary" @click="alertAppointmentPopup(scope.row.id,scope.row.doctor.hospital_id)">
                   Confirm
                 </el-button>
               </div>
