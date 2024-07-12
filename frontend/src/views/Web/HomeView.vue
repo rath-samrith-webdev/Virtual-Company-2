@@ -391,8 +391,8 @@ feedbacks.value = 512
         </div>
       </el-col>
       <el-col :span="7" class="d-flex flex-column justify-start align-items-start mt-5">
-        <div class="hospital-support">
-          <h1 class="text-center hospital-support-title" style="font-size: 90px; font-weight: bold">
+        <div class="title-icon">
+          <h1 class="text-center" style="font-weight: bold">
             <span class="text-#32B4E3 font-bold">H</span>ospital
             <span class="text-#32B4E3 font-bold">S</span>upport
           </h1>
@@ -675,6 +675,9 @@ feedbacks.value = 512
   height: 220px;
   opacity: 1;
 }
+.title-icon h1 {
+  font-size: 90px;
+}
 .tittle h1 {
   font-size: 120px;
 }
@@ -733,6 +736,14 @@ feedbacks.value = 512
   }
   .container-team {
     margin-top: 40px;
+  }
+  .title-icon {
+    margin-left: -120px;
+    width: 400px;
+
+  }
+  .title-icon h1 {
+    font-size: 80px;
   }
 }
 
@@ -795,6 +806,14 @@ feedbacks.value = 512
   }
   .container-team {
     margin-top: 40px;
+  }
+  .title-icon {
+    margin-left: -120px;
+    width: 300px;
+
+  }
+  .title-icon h1 {
+    font-size: 50px;
   }
 
 }
