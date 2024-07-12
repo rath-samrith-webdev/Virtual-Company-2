@@ -24,7 +24,8 @@
             </div>
             <div>
               <p class="text-color-#ffff" style="font-size: 18px">
-                Location: {{ store.hospitalDetail.village }}, {{ store.hospitalDetail.commune }}, {{ store.hospitalDetail.street }},
+                Location: {{ store.hospitalDetail.village }}, {{ store.hospitalDetail.commune }},
+                {{ store.hospitalDetail.street }},
                 {{ store.hospitalDetail.province }}
               </p>
             </div>
@@ -45,10 +46,61 @@
       <!-- comment information-->
       <!-- ======================================================= -->
       <div class="container-information">
-        <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+        <el-tabs v-model="activeName" stretch class="demo-tabs" @tab-click="handleClick">
           <el-tab-pane class="" label="Comments and Feedback" name="first">
             <div class="main-comment">
               <h3 class="mt-4 text-color-#32B4E3">Comments this hospital!</h3>
+              <div class="demo-collapse mt-4">
+                <el-collapse>
+                  <el-collapse-item title="Show All the Comments" name="1">
+                    <div
+                      class="comment-container p-3 mt-3"
+                      v-for="comment in store.hospitalDetail.feedbacks"
+                      :key="comment.id"
+                    >
+                      <div class="comment-left d-flex flex-column p-2">
+                        <div class="demo-type">
+                          <el-avatar v-if="comment.from.profile!='No profile'" :size="70"
+                                     :src="comment.from.profile"></el-avatar>
+                          <el-avatar v-else :size="70"
+                                     src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
+                        </div>
+                      </div>
+                      <div class="comment-right p-2">
+                        <div class="information">
+                          <div>
+                            <p>
+                              <strong>{{ comment.user.full_name }}</strong> . <span>{{ comment.created_at }}</span>
+                            </p>
+                          </div>
+                          <div>
+                            <p>{{ comment.content }}</p>
+                          </div>
+                          <div>
+                            <el-rate
+                              v-model="comment.star"
+                              disabled
+                              show-score
+                              text-color="#ff9900"
+                              score-template="{value} stars"
+                            />
+                          </div>
+                          <div class="mt-2">
+                            <el-badge :value="comment.replies.length" class="item">
+                              <el-button type="primary" @click="showReplies(comment.replies)">
+                                Replies
+                              </el-button>
+                            </el-badge>
+                            <el-button type="warning" @click="editComment(comment)">
+                              Edit
+                            </el-button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </el-collapse-item>
+                </el-collapse>
+              </div>
               <div class="comment-form mt-1">
                 <el-form
                   class="form-comment mt-4"
@@ -72,60 +124,11 @@
                   <el-form-item class="mt-4">
                     <el-button type="warning" class="text-color-#ffff btn-cancel">Cancel</el-button>
                     <el-button type="#ffff" class="text-color-#ffff btn-comment" @click="onSubmit"
-                      >Submit</el-button
+                    >Submit
+                    </el-button
                     >
                   </el-form-item>
                 </el-form>
-              </div>
-              <div class="demo-collapse mt-4">
-                <el-collapse v-model="activeNames" @change="handleChange">
-                  <el-collapse-item title="Show All the Comments" name="1">
-                    <div
-                      class="comment-container p-3 mt-3"
-                      v-for="comment in store.hospitalDetail.feedbacks"
-                      :key="comment.id"
-                    >
-                      <div class="comment-left d-flex flex-column p-2">
-                        <div class="demo-type">
-                          <el-avatar v-if="comment.from.profile!='No profile'" :size="70" :src="comment.from.profile"></el-avatar>
-                          <el-avatar v-else :size="70" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
-                        </div>
-                      </div>
-                      <div class="comment-right p-2">
-                        <div class="information">
-                          <div>
-                            <p>
-                              <strong>{{ comment.user.full_name }}</strong> . <span>{{ comment.created_at }}</span>
-                            </p>
-                          </div>
-                          <div>
-                            <p>{{ comment.content }}</p>
-                          </div>
-                          <div>
-                            <el-rate
-                              v-model="comment.star"
-                              disabled
-                              show-score
-                              text-color="#ff9900"
-                              score-template="{value} stars"
-                            />
-                          </div>
-                          <div class="mt-2">
-                            <el-button
-                              v-for="button in buttons"
-                              :key="button.text"
-                              :type="button.type"
-                              text
-                              bg
-                            >
-                              {{ button.text }}
-                            </el-button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </el-collapse-item>
-                </el-collapse>
               </div>
             </div>
           </el-tab-pane>
@@ -141,9 +144,10 @@
               >
                 <div class="demo-type mt-2">
                   <el-avatar v-if="doctor.profile!='No profile'" :size="100" :src="doctor.profile"></el-avatar>
-                  <el-avatar v-else :size="100" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
+                  <el-avatar v-else :size="100"
+                             src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
                 </div>
-                <h4 class="text-color-#32B4E3">{{ doctor.first_name }} {{doctor.last_name}}</h4>
+                <h4 class="text-color-#32B4E3">{{ doctor.first_name }} {{ doctor.last_name }}</h4>
                 <h6>{{ doctor.role }}</h6>
                 <el-row class="d-flex justify-content-center gap-3 mt-3">
                   <el-tooltip
@@ -220,7 +224,8 @@
                     size="large"
                     class="bg-#32b4e3 text-white hover:bg-#2b9dc8 transition-colors duration-300"
                     @click="selectDate('today')"
-                    >Today</el-button
+                  >Today
+                  </el-button
                   >
                   <el-button
                     size="large"
@@ -289,7 +294,9 @@
                 :key="contact.id"
               >
                 <div class="d-flex">
-                  <el-icon class="text-color-#ffff"><Phone /></el-icon>
+                  <el-icon class="text-color-#ffff">
+                    <Phone />
+                  </el-icon>
                   <h4 class="text-color-#ffff ml-2 font-weight: bold">Contact us</h4>
                 </div>
                 <h6 class="text-color-#ffff mt-3">{{ store.hospitalDetail.phone_number }}</h6>
@@ -300,7 +307,9 @@
                 :key="location.id"
               >
                 <div class="d-flex">
-                  <el-icon class="text-color-#ffff"><Location /></el-icon>
+                  <el-icon class="text-color-#ffff">
+                    <Location />
+                  </el-icon>
                   <h4 class="text-color-#ffff font-weight: bold ml-2">{{ location.title }}</h4>
                 </div>
                 <h6 class="text-color-#ffff mt-3">{{ location.address }}</h6>
@@ -311,7 +320,9 @@
                 :key="hour.id"
               >
                 <div class="d-flex">
-                  <el-icon class="text-color-#ffff"><Clock /></el-icon>
+                  <el-icon class="text-color-#ffff">
+                    <Clock />
+                  </el-icon>
                   <h4 class="text-color-#ffff font-weight: bold ml-2">{{ hour.title }}</h4>
                 </div>
                 <h6 class="text-color-#ffff mt-3">{{ hour.time }}</h6>
@@ -456,9 +467,6 @@ const activeName = ref('first')
 onMounted(() => {
   console.log(route.query.id)
   store.fetchHospitalDetail(route.query.id)
-const activeName = ref('first')
-onMounted(() => {
-  store.fetchHospitalDetail(sessionStorage.getItem('id'))
 })
 //contact hospital
 const contacts = [
@@ -518,12 +526,13 @@ const editActive=ref(false)
 onMounted(() => {
   store.fetchHospitalDetail(route.query.id)
 })
+// Calendar
+
 const calendar = ref<CalendarInstance>()
 const selectDate = (val: CalendarDateType) => {
   if (!calendar.value) return
   calendar.value.selectDate(val)
 }
-
 </script>
 
 <style scoped>
@@ -546,9 +555,7 @@ const selectDate = (val: CalendarDateType) => {
 .comment-container {
   background: linear-gradient(to right, rgba(249, 249, 249, 0.8), rgba(239, 234, 234, 0.2));
   border-radius: 8px;
-  box-shadow:
-    0 4px 6px rgba(0, 0, 0, 0.1),
-    0 2px 4px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
   height: 30vh;
   display: flex;
 }
@@ -614,9 +621,7 @@ const selectDate = (val: CalendarDateType) => {
   width: 100%;
   height: 40vh;
   background: linear-gradient(to right, rgba(249, 249, 249, 0.8));
-  box-shadow:
-    0 4px 6px rgba(167, 167, 167, 0.1),
-    0 2px 4px rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
 }
 
 .main-comment {
@@ -629,8 +634,6 @@ const selectDate = (val: CalendarDateType) => {
   border-radius: 20px;
   height: 8vh;
 }
-.btn-comment,
-.btn-cancel {
 
 .btn-comment, .btn-cancel {
   width: 130px;
@@ -660,9 +663,7 @@ const selectDate = (val: CalendarDateType) => {
 
 .container-information {
   width: 100%;
-  box-shadow:
-    0 4px 6px rgba(167, 167, 167, 0.1),
-    0 2px 4px rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
 }
 
 .demo-tabs .el-tabs__item {
@@ -673,6 +674,7 @@ const selectDate = (val: CalendarDateType) => {
 
 /* Doctor setting */
 .doctor-container {
+  /* height: 40vh; */
   display: flex;
   margin-top: 20px;
 }
@@ -685,18 +687,12 @@ const selectDate = (val: CalendarDateType) => {
   width: 18%;
   height: 40vh;
   border: 2px solid whitesmoke;
-  box-shadow:
-    0 4px 6px rgba(167, 167, 167, 0.1),
-    0 2px 4px rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
 }
 
 .doctor-members:hover {
-  transition:
-    background 0.3s ease-in-out,
-    color 0.3s ease-in-out;
-  box-shadow:
-    0 4px 6px rgba(167, 167, 167, 0.1),
-    0 2px 4px rgba(255, 255, 255, 0.06);
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
   transition: box-shadow 0.3s ease-in-out;
   transition: transform 0.9s ease-in-out;
   transform: translateY(-5px);
@@ -720,18 +716,14 @@ const selectDate = (val: CalendarDateType) => {
   background: #32b4e3;
   display: flex;
   align-items: flex-start;
-  flex-direction: column;
   border-radius: 10px;
-  width: 30%;
+  width: 32%;
+  height: 25vh;
 }
 
 .contact-infor:hover {
-  transition:
-    background 0.3s ease-in-out,
-    color 0.3s ease-in-out;
-  box-shadow:
-    0 4px 6px rgba(167, 167, 167, 0.1),
-    0 2px 4px rgba(255, 255, 255, 0.06);
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
   transition: box-shadow 0.3s ease-in-out;
   transition: transform 0.3s ease-in-out;
   transform: translateY(-5px);
@@ -759,16 +751,6 @@ const selectDate = (val: CalendarDateType) => {
 .custom-rate {
   font-size: 50px;
 }
-}
-.information p {
-  font-size: 18px;
-}
-.comment-container {
-  height: 35vh;
-}
-
-/* =========================responsive=========================== */
-
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   /* //Comments this hospital! */
   .card-container {
@@ -801,8 +783,8 @@ const selectDate = (val: CalendarDateType) => {
     width: 100%;
     font-size: 19px;
   }
-   /* //contact */
-   .contact-infor {
+  /* //contact */
+  .contact-infor {
     width: 100%;
   }
 }
@@ -812,6 +794,9 @@ const selectDate = (val: CalendarDateType) => {
   .card-container {
     flex-direction: column;
     align-items: center;
+  }
+  .title span{
+    font-size: 30px;
   }
   .card-left,
   .card-right {
