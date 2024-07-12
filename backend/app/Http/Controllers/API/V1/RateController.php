@@ -61,7 +61,7 @@ class RateController extends Controller
      */
     public function show(Rate $rate)
     {
-        //
+        return response()->json(['success' => true, 'data' => new RateResource($rate)]);
     }
 
     /**

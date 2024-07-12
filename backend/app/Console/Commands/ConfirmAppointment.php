@@ -26,6 +26,6 @@ class ConfirmAppointment extends Command
      */
     public function handle()
     {
-        Appointment::where('hospital_status','Confirmed')->where('doctor_status','Confirmed')->update(['status'=>'Confirmed']);
+        Appointment::where('hospital_status','Confirmed')->where('doctor_status','Confirmed')->where('status','Pending')->update(['status'=>'Confirmed']);
     }
 }
