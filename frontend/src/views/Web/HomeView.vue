@@ -674,6 +674,9 @@ feedbacks.value = 512
   height: 220px;
   opacity: 1;
 }
+.tittle h1 {
+  font-size: 120px;
+}
 
 /* ==================================================== */
 /* responsive */ /*tablet
@@ -733,16 +736,15 @@ feedbacks.value = 512
 /* ==================================================== */
 @media screen and (max-width: 420px) {
   .landing-title {
-    margin-left: 320px;
+    margin-left: 20px;
   }
   .carefinder {
     font-size: 20px;
     display: flex;
   }
-  /* .title h1 {
-    background: #000;
-    font-size: var(--el-statistic-content-font-weight);
-  } */
+  .tittle h1 {
+    font-size: 65px;
+  }
 
   .bg-card {
     width: 72px;
@@ -788,9 +790,11 @@ feedbacks.value = 512
   .container-team {
     margin-top: 40px;
   }
+  .card-member {
+    /* width: 00px; */
+    background: #000;
 }
 
-.tittle h1 {
-  font-size: 120px;
 }
+
 </style>
