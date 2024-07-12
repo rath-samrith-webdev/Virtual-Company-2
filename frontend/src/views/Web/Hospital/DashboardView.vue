@@ -344,7 +344,6 @@ onMounted(() => {
 :global(h2#card-usage ~ .example .example-showcase) {
   background-color: var(--el-fill-color) !important;
 }
-
 .el-statistic {
   --el-statistic-content-font-size: 28px;
 }
