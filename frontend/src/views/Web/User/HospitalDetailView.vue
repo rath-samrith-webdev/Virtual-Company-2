@@ -2,7 +2,10 @@
   <WebLayout>
     <div class="container">
       <div class="card-header">
-        <h1 class="text-color-#32B4E3 font-size bg-white" style="font-size: 50px; font-weight: bold">
+        <h1
+          class="text-color-#32B4E3 font-size bg-white"
+          style="font-size: 50px; font-weight: bold"
+        >
           Hospital Details
         </h1>
       </div>
@@ -20,11 +23,12 @@
           </div>
           <div class="information mb-4">
             <div>
-              <p class="text-color-#ffff" style="font-size: 18px">Open: Monday-Sunday 24/7</p>
+              <p class="text-color-#ffff"><b>Open:</b> Monday-Sunday 24/7</p>
             </div>
             <div>
-              <p class="text-color-#ffff" style="font-size: 18px">
-                Location: {{ store.hospitalDetail.village }}, {{ store.hospitalDetail.commune }}, {{ store.hospitalDetail.street }},
+              <p class="text-color-#ffff">
+                <b>Location:</b> {{ store.hospitalDetail.village }},
+                {{ store.hospitalDetail.commune }}, {{ store.hospitalDetail.street }},
                 {{ store.hospitalDetail.province }}
               </p>
             </div>
@@ -87,15 +91,24 @@
                     >
                       <div class="comment-left d-flex flex-column p-2">
                         <div class="demo-type">
-                          <el-avatar v-if="comment.from.profile!='No profile'" :size="70" :src="comment.from.profile"></el-avatar>
-                          <el-avatar v-else :size="70" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
+                          <el-avatar
+                            v-if="comment.from.profile != 'No profile'"
+                            :size="70"
+                            :src="comment.from.profile"
+                          ></el-avatar>
+                          <el-avatar
+                            v-else
+                            :size="70"
+                            src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+                          ></el-avatar>
                         </div>
                       </div>
                       <div class="comment-right p-2">
                         <div class="information">
                           <div>
                             <p>
-                              <strong>{{ comment.user.full_name }}</strong> . <span>{{ comment.created_at }}</span>
+                              <strong>{{ comment.user.full_name }}</strong> .
+                              <span>{{ comment.created_at }}</span>
                             </p>
                           </div>
                           <div>
@@ -129,6 +142,9 @@
               </div>
             </div>
           </el-tab-pane>
+
+          <!-- // This is the default tab for the default content pane that will be shown in the default -->
+
           <el-tab-pane label="Hospital Doctors" name="second" class="main-doctor">
             <div class="d-flex align-item-center text-align-center DT">
               <h3 class="mt-4 text-color-#32B4E3">Our Doctor In Hostpital</h3>
@@ -140,10 +156,18 @@
                 :key="doctor.id"
               >
                 <div class="demo-type mt-2">
-                  <el-avatar v-if="doctor.profile!='No profile'" :size="100" :src="doctor.profile"></el-avatar>
-                  <el-avatar v-else :size="100" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
+                  <el-avatar
+                    v-if="doctor.profile != 'No profile'"
+                    :size="100"
+                    :src="doctor.profile"
+                  ></el-avatar>
+                  <el-avatar
+                    v-else
+                    :size="100"
+                    src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+                  ></el-avatar>
                 </div>
-                <h4 class="text-color-#32B4E3">{{ doctor.first_name }} {{doctor.last_name}}</h4>
+                <h4 class="text-color-#32B4E3">{{ doctor.first_name }} {{ doctor.last_name }}</h4>
                 <h6>{{ doctor.role }}</h6>
                 <el-row class="d-flex justify-content-center gap-3 mt-3">
                   <el-tooltip
@@ -182,22 +206,22 @@
               </div>
             </div>
           </el-tab-pane>
+
+          <!-- //Our Department In Hospital! -->
+
           <el-tab-pane label="Hospital Departments" name="third" class="mt-4">
             <h3 class="mt-4 text-color-#32B4E3">Our Department In Hospital!</h3>
-            <el-table :data="store.hospitalDetail.department" height="250" style="width: 100%">
+            <el-table :data="store.hospitalDetail.department">
               <el-table-column prop="id" label="Department ID" width="180" />
               <el-table-column prop="name" label="Department Name" width="880" />
             </el-table>
           </el-tab-pane>
+
           <!-- ======================================================= -->
           <!-- hospital Calendar -->
           <!-- ======================================================= -->
           <el-tab-pane label="Hospital Calendar" name="fourth">
-            <el-calendar
-              ref="calendar"
-              class="mt-4 calendar"
-              style="font-size: 18px; font-weight: bold"
-            >
+            <el-calendar ref="calendar" class="mt-4 calendar">
               <template #header="{ date }">
                 <span class="text-color-#32b4e3">Calendar Hostpital</span>
                 <span class="text-color-#32b4e3">{{ date }}</span>
@@ -239,8 +263,13 @@
                 </el-button-group>
               </template>
               <template #date-cell="{ data }">
-                <div v-for="(item, index) in textContent(data.day)" :key="index" @click="alertMessage(item)">
-                  <el-row v-if="item.user.id==user.user.id">
+                <div
+                  class="calendar"
+                  v-for="(item, index) in textContent(data.day)"
+                  :key="index"
+                  @click="alertMessage(item)"
+                >
+                  <el-row v-if="item.user.id == user.user.id">
                     <el-col class="center">
                       <el-tag type="primary" class="tag">
                         <el-row>
@@ -251,7 +280,7 @@
                       </el-tag>
                     </el-col>
                   </el-row>
-                  <el-row v-else-if="item.status=='Pending'">
+                  <el-row v-else-if="item.status == 'Pending'">
                     <el-col class="center">
                       <el-tag type="warning" class="tag">
                         <el-row>
@@ -278,6 +307,9 @@
               </template>
             </el-calendar>
           </el-tab-pane>
+
+          <!-- //Contact to Us -->
+
           <el-tab-pane label="Hospital Contact" name="five">
             <div class="d-flex align-item-center text-align-center DT">
               <h3 class="mt-4 text-color-#32b4e3">Contact to Us</h3>
@@ -318,14 +350,16 @@
               </div>
             </div>
           </el-tab-pane>
+
+          <!-- //Our Hospital Information Details -->
+
           <el-tab-pane label="Hospital Information " name="six">
-            <div class="block text-center" m="t-4" style="height: 90vh; width: 100%">
+            <div class="block text-center" m="t-4">
               <h3 class="mt-4 text-color-#32b4e3">Our Hospital Information Details</h3>
-              <el-carousel trigger="click" height="80vh">
+              <el-carousel trigger="click">
                 <el-carousel-item
                   v-for="hospitalInfomation in hospitalInfo"
                   :key="hospitalInfomation"
-                  style="height: 600px; width: 100%"
                 >
                   <img
                     :src="hospitalInfomation.image"
@@ -349,26 +383,26 @@ import { hospitalDetailStore } from '@/stores/hospital-detail'
 import type { CalendarDateType, CalendarInstance } from 'element-plus'
 import { useAuthStore } from '@/stores/auth-store'
 import { useRoute } from 'vue-router'
-const store = hospitalDetailStore();
-const user= useAuthStore()
-const route=useRoute()
+const store = hospitalDetailStore()
+const user = useAuthStore()
+const route = useRoute()
 //form
 const form = reactive({
-  hospital_id:store.hospitalDetail.id,
-  user_id:user.user.id,
+  hospital_id: store.hospitalDetail.id,
+  user_id: user.user.id,
   content: '',
-  star: '',
+  star: ''
 })
 const textContent = (date) => {
   return store.appointment.filter((item) => {
-    return date === item.appointment_date;
-  });
-};
-const alertMessage=(message)=>{
+    return date === item.appointment_date
+  })
+}
+const alertMessage = (message) => {
   alert(message)
 }
-const activeName=ref('first')
-onMounted(()=>{
+const activeName = ref('first')
+onMounted(() => {
   store.fetchHospitalDetail(sessionStorage.getItem('id'))
 })
 //btn comment
@@ -433,11 +467,11 @@ const onSubmit = () => {
   const formData = new FormData()
   formData.append('hospital_id', route.query.id)
   formData.append('user_id', user.user.id)
-  formData.append('content',form.content)
+  formData.append('content', form.content)
   formData.append('star', form.star)
   store.submitFeedback(formData)
 }
-onMounted(()=>{
+onMounted(() => {
   store.fetchHospitalDetail(route.query.id)
 })
 // Calendar
@@ -447,10 +481,7 @@ const selectDate = (val: CalendarDateType) => {
   if (!calendar.value) return
   calendar.value.selectDate(val)
 }
-
-
 </script>
-
 
 <style scoped>
 .container {
@@ -472,7 +503,9 @@ const selectDate = (val: CalendarDateType) => {
 .comment-container {
   background: linear-gradient(to right, rgba(249, 249, 249, 0.8), rgba(239, 234, 234, 0.2));
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.06);
   height: 30vh;
   display: flex;
 }
@@ -538,7 +571,9 @@ const selectDate = (val: CalendarDateType) => {
   width: 100%;
   height: 40vh;
   background: linear-gradient(to right, rgba(249, 249, 249, 0.8));
-  box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
+  box-shadow:
+    0 4px 6px rgba(167, 167, 167, 0.1),
+    0 2px 4px rgba(255, 255, 255, 0.06);
 }
 
 .main-comment {
@@ -550,7 +585,8 @@ const selectDate = (val: CalendarDateType) => {
   border-radius: 20px;
   height: 8vh;
 }
-.btn-comment, .btn-cancel {
+.btn-comment,
+.btn-cancel {
   width: 130px;
   height: 5vh;
   border-radius: 5px;
@@ -575,7 +611,9 @@ const selectDate = (val: CalendarDateType) => {
 }
 .container-information {
   width: 100%;
-  box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
+  box-shadow:
+    0 4px 6px rgba(167, 167, 167, 0.1),
+    0 2px 4px rgba(255, 255, 255, 0.06);
 }
 .demo-tabs .el-tabs__item {
   background: #000;
@@ -584,7 +622,6 @@ const selectDate = (val: CalendarDateType) => {
 }
 /* Doctor setting */
 .doctor-container {
-  /* height: 40vh; */
   display: flex;
   margin-top: 20px;
 }
@@ -596,11 +633,17 @@ const selectDate = (val: CalendarDateType) => {
   width: 18%;
   height: 40vh;
   border: 2px solid whitesmoke;
-  box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
+  box-shadow:
+    0 4px 6px rgba(167, 167, 167, 0.1),
+    0 2px 4px rgba(255, 255, 255, 0.06);
 }
 .doctor-members:hover {
-  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
-  box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
+  transition:
+    background 0.3s ease-in-out,
+    color 0.3s ease-in-out;
+  box-shadow:
+    0 4px 6px rgba(167, 167, 167, 0.1),
+    0 2px 4px rgba(255, 255, 255, 0.06);
   transition: box-shadow 0.3s ease-in-out;
   transition: transform 0.9s ease-in-out;
   transform: translateY(-5px);
@@ -621,13 +664,17 @@ const selectDate = (val: CalendarDateType) => {
   background: #32b4e3;
   display: flex;
   align-items: flex-start;
+  flex-direction: column;
   border-radius: 10px;
-  width: 32%;
-  height: 25vh;
+  width: 30%;
 }
 .contact-infor:hover {
-  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
-  box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
+  transition:
+    background 0.3s ease-in-out,
+    color 0.3s ease-in-out;
+  box-shadow:
+    0 4px 6px rgba(167, 167, 167, 0.1),
+    0 2px 4px rgba(255, 255, 255, 0.06);
   transition: box-shadow 0.3s ease-in-out;
   transition: transform 0.3s ease-in-out;
   transform: translateY(-5px);
@@ -650,8 +697,93 @@ const selectDate = (val: CalendarDateType) => {
 }
 .custom-rate {
   font-size: 50px;
-  
+}
+.information p {
+  font-size: 18px;
+}
+.comment-container {
+  height: 35vh;
 }
 
-</style>
+/* =========================responsive=========================== */
 
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  /* //Comments this hospital! */
+  .card-container {
+    height: 100vh;
+  }
+  .title-hospital {
+    font-size: 30px;
+  }
+  .card-left,
+  .card-right {
+    width: 100%;
+    height: 70vh;
+  }
+  .comment-container {
+    height: 34vh;
+  }
+  .card-left,
+  .card-right {
+    width: 50%;
+    height: 70vh;
+  }
+  /* // cards in the Our Doctor In Hostpital */
+  .doctor-members {
+    width: 50%;
+  }
+  /* //calendar */
+  .calendar {
+    margin-top: 15px;
+    margin-left: 20px;
+    width: 100%;
+    font-size: 19px;
+  }
+   /* //contact */
+   .contact-infor {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  /* //Comments this hospital! */
+  .card-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .card-left,
+  .card-right {
+    width: 100%;
+    height: 65vh;
+  }
+  .container-information {
+    margin-top: 50vh;
+  }
+  .comment-container {
+    height: 40vh;
+  }
+  /* // cards in the Our Doctor In Hostpital */
+  .doctor-members {
+    width: 100%;
+  }
+  /* //Our Department In Hospital! */
+
+  .el-button-group {
+    margin-top: 15px;
+    margin-left: 20px;
+  }
+  /* //calendar */
+  .calendar {
+    margin-top: 15px;
+    margin-left: 20px;
+    width: 100%;
+    font-size: 15px;
+  }
+
+  /* //contact */
+  .contact-infor {
+    width: 100%;
+  }
+
+}
+</style>
