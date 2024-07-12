@@ -386,8 +386,8 @@ feedbacks.value = 512
         </div>
       </el-col>
       <el-col :span="7" class="d-flex flex-column justify-start align-items-start mt-5">
-        <div>
-          <h1 class="text-center" style="font-size: 90px; font-weight: bold">
+        <div class="title-icon">
+          <h1 class="text-center" style="font-weight: bold">
             <span class="text-#32B4E3 font-bold">H</span>ospital
             <span class="text-#32B4E3 font-bold">S</span>upport
           </h1>
@@ -657,6 +657,9 @@ feedbacks.value = 512
   width: 220px;
   height: 220px;
   opacity: 1;
+}
+.title-icon h1 {
+  font-size: 90px;
 }
 .tittle h1 {
   font-size: 120px;
