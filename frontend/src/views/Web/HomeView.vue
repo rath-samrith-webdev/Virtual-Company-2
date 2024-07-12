@@ -35,9 +35,9 @@ feedbacks.value = 512
 <template>
   <WebLayout>
     <div class="first-landing d-flex justify-content-center mt-4 ml-20">
-      <div class="d-flex flex-column mt-10">
+      <div class="landing-title d-flex flex-column mt-10">
         <div class="w-50 px-4 d-flex flex-column justify-content-between gap-3">
-          <div class="mt-3">
+          <div class="mt-3 title">
             <h1 style="font-weight: bold">Welcome to,</h1>
             <h1 class="d-flex carefinder" style="font-size: 120px; font-weight: bold">
               <span class="text-#32B4E3 font-bold">C</span>are
@@ -101,12 +101,12 @@ feedbacks.value = 512
       </el-statistic>
     </el-col>
   </el-row>
-  <el-container class="d-flex flex-column align-items-center mt-lg-60 mt-40">
-    <el-row class="d-flex justify-content-center py-4">
+  <el-container class="container-team d-flex flex-column align-items-center mt-lg-60 mt-40">
+    <el-row class="container-team d-flex justify-content-center py-4">
       <h1 class="text-center font-bold">
         <span class="text-#32B4E3 font-bold">O</span>ur
         <span class="text-#32B4E3 font-bold">T</span>eam
-        <p>Ours team build the system Care Finder</p>
+        <p class="team-title">Ours team build the system Care Finder</p>
       </h1>
     </el-row>
     <!-- ======================================================= -->
@@ -386,18 +386,18 @@ feedbacks.value = 512
   <el-container class="px2 d-flex flex-column mt-10">
     <el-row class="d-flex justify-content-around mt-3 gap-3 p-5 hospital-cion-infor">
       <el-col :span="5" class="d-flex flex-column justify-content-between align-items-center mb-3">
-        <div class="text-center">
+        <div class="text-center hospital-image">
           <img class="w-150" src="@/assets/image/hospital-icon.png" alt="image" />
         </div>
       </el-col>
       <el-col :span="7" class="d-flex flex-column justify-start align-items-start mt-5">
-        <div>
-          <h1 class="text-center" style="font-size: 90px; font-weight: bold">
+        <div class="hospital-support">
+          <h1 class="text-center hospital-support-title" style="font-size: 90px; font-weight: bold">
             <span class="text-#32B4E3 font-bold">H</span>ospital
             <span class="text-#32B4E3 font-bold">S</span>upport
           </h1>
-          <el-timeline class="mt-4">
-            <el-timeline-item class="text-start" style="font-size: 18px; font-weight: bold"
+          <el-timeline class="mt-4 hospital-support-paragraph">
+            <el-timeline-item class="text-start paragraph" style="font-size: 18px; font-weight: bold"
               >Bring a good book. Have a book you've.
             </el-timeline-item>
             <el-timeline-item class="text-start" style="font-size: 18px; font-weight: bold"
@@ -424,7 +424,7 @@ feedbacks.value = 512
     class="container-value container-fluid value px-20 d-flex flex-column align-items-center mt-20"
   >
     <div
-      class="container inner d-flex flex-wrap justify-content-center gap-lg-4 align-items-start mt-135"
+      class="card-value container inner d-flex flex-wrap justify-content-center gap-lg-4 align-items-start mt-135"
     >
       <el-card style="width: 280px" class="d-flex card-item flex-column align-items-center">
         <div class="d-flex justify-content-center">
@@ -675,7 +675,7 @@ feedbacks.value = 512
 }
 
 /* ==================================================== */
-/* responsive */
+/* responsive */ /*tablet
 /* ==================================================== */
 
 @media screen and (max-width: 830px) {
@@ -722,9 +722,75 @@ feedbacks.value = 512
   .card-member {
     height: 70vh;
   }
+  .hospital-support {
+    margin-left: -80px;
+  }
 }
 
 /* ==================================================== */
-/* responsive */
+/* responsive */ /*mobile
 /* ==================================================== */
+@media screen and (max-width: 420px) {
+  .landing-title {
+    margin-left: 320px;
+  }
+  .carefinder {
+    font-size: 20px;
+    display: flex;
+  }
+  /* .title h1 {
+    background: #000;
+    font-size: var(--el-statistic-content-font-weight);
+  } */
+
+
+
+
+  .bg-card {
+    width: 72px;
+  }
+  .state {
+    width: 400px;
+    margin-top: 70px;
+  }
+  .el-statistic {
+    --el-statistic-content-font-size: 18px;
+    --el-statistic-title-font-size: 12px;
+  }
+  .team-title {
+    font-size: 18px;
+  }
+  /* member-building */
+  .members-building {
+    background: block;
+    align-items: center;
+    height: 430vh;
+    margin-top: -100px;
+  }
+  .card-member {
+    height: 68vh;
+    width: 500px;
+  }
+  .value {
+    height: 220vh;
+  }
+  .hospital-image img {
+    width: 390px;
+  }
+  .hospital-support {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: -135px;
+  }
+  .hospital-support-title span {
+    font-size: 80px;
+
+  }
+  .container-team {
+    margin-top: 40px;
+  }
+}
+
 </style>
