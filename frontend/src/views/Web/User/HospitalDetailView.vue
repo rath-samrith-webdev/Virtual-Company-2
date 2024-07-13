@@ -382,7 +382,6 @@
         </el-form>
       </div>
     </el-dialog>
-
     <el-dialog v-model="outerVisible" :title="store.hospitalDetail.name" width="800">
       <template #header>
         <div class="my-header flex align-items-center gap-2">
@@ -752,6 +751,9 @@ const selectDate = (val: CalendarDateType) => {
   font-size: 50px;
 }
 @media screen and (min-width: 768px) and (max-width: 1024px) {
+  .modal{
+
+  }
   /* //Comments this hospital! */
   .card-container {
     height: 100vh;
