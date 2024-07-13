@@ -1,5 +1,16 @@
 <?php
 
+use App\Http\Controllers\MailController;
+use App\Mail\ResetPasswordMail;
+use App\Mail\TestMail;
+use App\Models\Appointment;
+use App\Models\Hospital;
+use App\Models\Rate;
+use App\Models\SystemRequest;
+use App\Models\User;
+use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{
     ProfileController,
@@ -20,48 +31,63 @@ use App\Http\Controllers\Admin\{
 Route::get('/', function () {
     return view('auth.login');
 });
-
-
-Route::get('/test-mail',function(){
-
-    $message = "Testing mail";
-
-    \Mail::raw('Hi, welcome!', function ($message) {
-      $message->to('ajayydavex@gmail.com')
-        ->subject('Testing mail');
-    });
-
-    dd('sent');
-
+Route::get('/mail', function () {
+    try {
+        Mail::to('rothsamreth@gmail.com')->send(new TestMail());
+    } catch (Exception $e) {
+        dd($e);
+    }
 });
-
-
-Route::get('/dashboard', function () {
-    return view('front.dashboard');
-})->middleware(['front'])->name('dashboard');
-
-
-require __DIR__.'/front_auth.php';
-
 // Admin routes
 Route::get('/admin/dashboard', function () {
-    return view('dashboard');
+    $hospitals = Hospital::all();
+    $users = User::all();
+    $appointments = Appointment::all();
+    $month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    $stars = [0, 1, 2, 3, 4, 5];
+    $year = Carbon::now()->year;
+    $new_orders_count = [];
+    $new_feedback_count = [];
+    $star_base_count = [];
+    foreach ($month as $key => $value) {
+        $new_orders_count[] = User::whereYear('created_at', $year)
+            ->whereMonth('created_at', $value)->count();
+        $new_feedback_count[] = Rate::whereYear('created_at', $year)
+            ->whereMonth('created_at', $value)->count();
+    }
+    foreach ($stars as $key => $value) {
+        $star_base_count[] = Rate::where('star', $value)->count();
+    }
+    $request = SystemRequest::orderByDesc('id')->take(10)->get();
+    $data = [
+        'label' => ['Hospital', 'User', 'Appointment'],
+        'data' => [$hospitals->count(), $users->count(), $appointments->count()],
+        'monthly_user' => $new_orders_count,
+        'feedbacks' => $new_feedback_count,
+        'star_base' => $star_base_count,
+        'system_requests' => $request
+    ];
+    return view('dashboard', compact('data'));
 })->middleware(['auth'])->name('admin.dashboard');
 
-require __DIR__.'/auth.php';
-
-
-
+require __DIR__ . '/auth.php';
 
 Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
-    ->group(function(){
-        Route::resource('roles','RoleController');
-        Route::resource('permissions','PermissionController');
-        Route::resource('users','UserController');
-        Route::resource('posts','PostController');
+    ->group(function () {
+        Route::resource('roles', 'RoleController');
+        Route::resource('permissions', 'PermissionController');
+        Route::resource('users', 'UserController');
+        Route::resource('posts', 'PostController');
+        Route::resource('hospitals', 'HospitalController');
+        Route::resource('appointments', 'AppointmentController');
+        Route::resource('doctors', 'DoctorController');
+        Route::resource('departments', 'DepartmentController');
+        Route::resource('rates', 'RateController');
+        Route::resource('system-requests', 'SystemRequestController');
+        Route::resource('rooms', 'RoomController');
 
-        Route::get('/profile',[ProfileController::class,'index'])->name('profile');
-        Route::put('/profile-update',[ProfileController::class,'update'])->name('profile.update');
-        Route::get('/mail',[MailSettingController::class,'index'])->name('mail.index');
-        Route::put('/mail-update/{mailsetting}',[MailSettingController::class,'update'])->name('mail.update');
-});
+        Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+        Route::put('/profile-update', [ProfileController::class, 'update'])->name('profile.update');
+        Route::get('/mail', [MailSettingController::class, 'index'])->name('mail.index');
+        Route::put('/mail-update/{mailsetting}', [MailSettingController::class, 'update'])->name('mail.update');
+    });

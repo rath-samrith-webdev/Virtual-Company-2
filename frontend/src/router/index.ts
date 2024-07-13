@@ -3,7 +3,7 @@ import axiosInstance from '@/plugins/axios'
 import { useAuthStore } from '@/stores/auth-store'
 import { createAcl, defineAclRules } from 'vue-simple-acl'
 
-const simpleAcl = createAcl({})
+const simpleAcl = createAcl()
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -22,46 +22,130 @@ const router = createRouter({
       component: () => import('../views/Admin/Auth/LoginView.vue')
     },
     {
-      path: '/',
-      name: 'home',
+      path: '/landing',
+      name: 'landing',
       component: () => import('../views/Web/HomeView.vue')
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('../views/Web/User/ProfileView.vue')
+    },
+    {
+      path: '/hospital/detail',
+      name: 'hospital-detail',
+      component: () => import('../views/Web/User/HospitalDetailView.vue')
     },
     {
       path: '/post',
       name: 'post',
       component: () => import('../views/Web/Post/ListView.vue')
+    },
+    {
+      path: '/',
+      name: '/',
+      component: () => import('../views/Web/User/UserView.vue')
+    },
+    {
+      path: '/about',
+      name: 'about', // Fixed duplicate name
+      component: () => import('../views/Web/AboutView.vue')
+    },
+    {
+      path: '/contact',
+      name: 'contact',
+      component: () => import('../views/Web/ContactView.vue')
+    },
+    {
+      path: '/hospital/dashboard',
+      name: 'dashboard',
+      component: () => import('../views/Web/Hospital/DashboardView.vue')
+    },
+    {
+      path:'/appointment',
+      name:'appointment',
+      component:()=>import('../views/Web/User/AppointmentView.vue')
+    },
+    {
+      path:'/hospital/feedbacks',
+      name:'feedbacks',
+      component:()=>import('../views/Web/Hospital/FeedbackView.vue')
+    },
+    {
+      path:'/hospital/appointments',
+      name:'appointments',
+      component: () => import('../views/Web/Hospital/AppointmentView.vue')
+    },
+    {
+      path: '/map',
+      name: 'map',
+      component: () => import('../views/Web/User/MapView.vue')
+    },
+    {
+      path:'/hospital/doctors',
+      name:'doctors',
+      component:()=>import('../views/Web/Hospital/AddDoctorView.vue')
+    },
+    {
+      path: '/user/hospital',
+      name: 'user-hospital',
+      component: () => import('../views/Web/User/HospitalView.vue')
+    },
+    {
+      path:'/doctor/dashboard',
+      name:'doctor-dashboard',
+      component:()=>import('../views/Web/Doctor/Dashboard.vue')
+    },
+    {
+      path:'/doctor/calendar',
+      name:'doctor-calendar',
+      component:()=>import('../views/Web/Doctor/Calendar.vue')
+    },
+    {
+      path:'/doctor/appointment',
+      name:'doctor-appointment',
+      component:()=>import('../views/Web/Doctor/Appointment.vue')
+    },
+    {
+      path: '/favorite',
+      name: 'favorite',
+      component: () => import('../views/Web/User/FavoriteView.vue')
+    },
+    {
+      path:'/forgot-password',
+      name:'forgot-password',
+      component: () => import('../views/Admin/Auth/ForgotPassword.vue')
+    },
+    {
+      path:'/reset-password',
+      name:'reset-password',
+      component: () => import('../views/Admin/Auth/ResetPassword.vue')
     }
   ]
 })
 
 router.beforeEach(async (to, from, next) => {
-  const publicPages = ['/login']
+  const publicPages = ['/landing', '/login', '/about', '/contact','/forgot-password','/reset-password']
   const authRequired = !publicPages.includes(to.path)
   const store = useAuthStore()
-
   try {
     const { data } = await axiosInstance.get('/me')
-
     store.isAuthenticated = true
     store.user = data.data
-
-    store.permissions = data.data.permissions.map((item: any) => item.name)
-    store.roles = data.data.roles.map((item: any) => item.name)
-
-    const rules = () =>
-      defineAclRules((setRule) => {
-        store.permissions.forEach((permission: string) => {
-          setRule(permission, () => true)
-        })
+    store.hospital=data.hospitals
+    store.permissions = data.permissions.map((item: any) => item.front_name)
+    store.roles = data.roles.map((item: any) => item)
+    const rules = () => defineAclRules((setRule) => {
+      store.permissions.forEach((permission: string) => {
+        setRule(permission, () => true)
       })
-
+    })
     simpleAcl.rules = rules()
   } catch (error) {
-    /* empty */
+    //
   }
-
   if (authRequired && !store.isAuthenticated) {
-    next('/login')
+    next('/landing')
   } else {
     next()
   }
