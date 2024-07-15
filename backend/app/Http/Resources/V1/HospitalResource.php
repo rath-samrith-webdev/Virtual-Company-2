@@ -34,6 +34,7 @@ class HospitalResource extends JsonResource
             'category'=>$this->category,
             'doctors'=>DoctorDetails::collection($this->doctors()->get()),
             'favourite_by'=>$this->favourites()->get()->count(),
+            'average_rating'=>$this->rates()->sum('star')/$this->rates()->count(),
             'rooms'=>$this->rooms()->get()
         ];
     }

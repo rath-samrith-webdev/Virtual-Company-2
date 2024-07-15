@@ -23,6 +23,8 @@ class Hospital extends Model
         'province',
         'latitude',
         'longitude',
+        'open_time',
+        'close_time',
     ];
     public function category(): BelongsTo
     {
