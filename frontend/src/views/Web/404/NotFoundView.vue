@@ -3,28 +3,6 @@ import WebHeaderMenu from '@/Components/WebHeaderMenu.vue'
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import axiosInstance from '@/plugins/axios'
 import { ref, onMounted } from 'vue'
-
-const appointments = ref([])
-const appointment = ref({
-  id: '',
-  patient: '',
-  date: '',
-  status: ''
-})
-
-async function fectAppointment() {
-  try {
-    const { data } = await axiosInstance.get('/appointments/list')
-    appointments.value = data.data
-    console.log(data.data)
-  } catch (e) {
-    console.error(e)
-  }
-}
-
-onMounted(() => {
-  fectAppointment()
-})
 </script>
 
 <template>

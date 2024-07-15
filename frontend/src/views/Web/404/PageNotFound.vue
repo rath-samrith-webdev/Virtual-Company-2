@@ -3,31 +3,10 @@ import WebHeaderMenu from '@/Components/WebHeaderMenu.vue'
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import axiosInstance from '@/plugins/axios'
 import { ref, onMounted } from 'vue'
-
-const appointments = ref([])
-const appointment = ref({
-  id: '',
-  patient: '',
-  date: '',
-  status: ''
-})
-
-async function fectAppointment() {
-  try {
-    const { data } = await axiosInstance.get('/appointments/list')
-    appointments.value = data.data
-    console.log(data.data)
-  } catch (e) {
-    console.error(e)
-  }
-}
-
-onMounted(() => {
-  fectAppointment()
-})
 </script>
 
 <template>
+
   <div class="notFound">
     <div class="img">
       <img
@@ -35,6 +14,7 @@ onMounted(() => {
         alt=""
       />
     </div>
+    <el-button type="primary" plain>Come back</el-button>
     <div class="text">
       <h1>404</h1>
       <p><b>Sorry, the page not found</b></p>
@@ -62,5 +42,9 @@ onMounted(() => {
   margin-top: 50px;
   margin-left: 50px;
   object-fit: cover;
+}
+.el-button {
+  margin-top: 20px;
+  margin-left: 50px;
 }
 </style>
