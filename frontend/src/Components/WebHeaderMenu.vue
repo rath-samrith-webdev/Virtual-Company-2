@@ -12,6 +12,13 @@ function handleLogout() {
   store.user = null
   router.push('/landing')
 }
+function handleCommand(command) {
+  if (command === 'profile') {
+    router.push('/profile')
+  } else if (command === 'logout') {
+    handleLogout()
+  }
+}
 </script>
 <template>
   <header class="nav flex justify-between px-5 bg-white items-center p-4">
@@ -25,12 +32,21 @@ function handleLogout() {
       <router-link
         to="/hospital/dashboard"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+        style="text-decoration: none;"
       >Home
+      </router-link
+      >
+      <router-link
+        to="/myHospital"
+        class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+        style="text-decoration: none;"
+      >Hospital
       </router-link
       >
       <router-link
         to="/hospital/feedbacks"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+        style="text-decoration: none;"
       >Feedbacks
       </router-link
       >
@@ -43,6 +59,7 @@ function handleLogout() {
       <router-link
         to="/hospital/appointments"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+        style="text-decoration: none;"
       >Appointments
       </router-link
       >
@@ -73,9 +90,11 @@ function handleLogout() {
       <router-link
         to="/"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+        style="text-decoration: none;"
       >Home
       </router-link
       >
+
       <router-link
         to="/user/hospital"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
