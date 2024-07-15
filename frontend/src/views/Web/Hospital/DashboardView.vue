@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
-// import Chart from 'chart.js/auto'
+import Chart from 'chart.js/auto'
 import { computed, h, onMounted, ref } from 'vue'
 import { Message, Plus, Warning } from '@element-plus/icons-vue/global'
 import { ElNotification } from 'element-plus'
@@ -9,8 +9,6 @@ import NoHospitalSet from '@/Components/Hospitals/NoHospitalSet.vue'
 import { hospitalAppointmentListStore } from '@/stores/hospital-appointment-list'
 import { useAuthStore } from '@/stores/auth-store'
 import axiosInstance from '@/plugins/axios'
-import { log } from 'util'
-import axios from 'axios'
 const appointmentStore=hospitalAppointmentListStore()
 const store=FeedbackList()
 const userStore=useAuthStore()
