@@ -86,6 +86,9 @@ import FooterLayout from '@/Components/FooterLayout.vue'
   </WebLayout>
 </template>
 <style>
+body {
+  background-color: #f4f9ff;
+}
 .head {
   height: 80vh;
   background-image: url('https://healthnewshub.org/wp-content/uploads/2019/03/doctors-day.jpg');
