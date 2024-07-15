@@ -6,12 +6,13 @@ import axiosInstance from '@/plugins/axios'
 import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
-const route=useRoute()
+const route = useRoute()
 const loginCredential: { email: string, password: string } = {
   email: '',
   password: ''
 }
 const registerCredential: {
+  value(arg0: string, value: any): { data: any }|PromiseLike<{ data: any }>
   first_name: string,
   last_name: string,
   email: string,
@@ -50,32 +51,88 @@ onMounted(() => {
 })
 
 async function LogIn() {
-  try {
-    const { data } = await axiosInstance.post('/login', loginCredential)
-    localStorage.setItem('access_token', data.access_token)
-    if (data.role == 'hospital') {
-      router.push('/hospital/dashboard')
-    } else if (data.role == 'admin') {
-      router.push('/admin/dashboard')
-    } else if(data.role == 'doctor'){
-      router.push('/doctor/dashboard')
-    }else{
-      router.push('/')
+  loginErrors.value = {
+    email: '',
+    password: ''
+  }
+
+  if (!loginCredential.value.email) {
+    loginErrors.value.email = 'Email is required'
+  }
+  if (!loginCredential.value.password) {
+    loginErrors.value.password = 'Password is required'
+  }
+
+  if (!loginErrors.value.email && !loginErrors.value.password) {
+    try {
+      const { data } = await axiosInstance.post('/login', loginCredential.value)
+      localStorage.setItem('access_token', data.access_token)
+      if (data.role == 'hospital') {
+        router.push('/hospital/dashboard')
+      } else if (data.role == 'admin') {
+        router.push('/admin/dashboard')
+      } else if (data.role == 'doctor') {
+        router.push('/doctor/dashboard')
+      } else {
+        router.push('/')
+      }
+    } catch (error) {
+      console.log(error)
+      router.push('/login')
     }
-  } catch (error) {
-    console.log(error)
-    router.push('/login')
   }
 }
 
+
+
 async function Register() {
-  try {
-    const { data } = await axiosInstance.post('/register', registerCredential)
-    console.log(data)
-    router.push('/login')
-  } catch (error) {
-    console.log(error)
-    router.push('/login')
+  registerErrors.value = {
+    first_name: '',
+    last_name: '',
+    email: '',
+    user_type: '',
+    password: '',
+    password_confirmation: ''
+  }
+
+  if (!registerCredential.value.first_name) {
+    registerErrors.value.first_name = 'First name is required'
+  }
+  if (!registerCredential.value.last_name) {
+    registerErrors.value.last_name = 'Last name is required'
+  }
+  if(!registerCredential.value.name){
+    registerCredential.value.name = 'Can not use this name'
+  }
+  if (!registerCredential.value.email) {
+    registerErrors.value.email = 'Email is required'
+  }
+  if (!registerCredential.value.user_type) {
+    registerErrors.value.user_type = 'User type is required'
+  }
+  if (!registerCredential.value.password) {
+    registerErrors.value.password = 'Password is required'
+  }
+  if (!registerCredential.value.password_confirmation) {
+    registerErrors.value.password_confirmation = 'This is password is not match'
+  }
+
+  if (
+    !registerErrors.value.first_name &&
+    !registerErrors.value.last_name &&
+    !registerErrors.value.email &&
+    !registerErrors.value.user_type &&
+    !registerErrors.value.password &&
+    !registerErrors.value.password_confirmation
+  ) {
+    try {
+      const { data } = await axiosInstance.post('/register', registerCredential.value)
+      console.log(data)
+      router.push('/login')
+    } catch (error) {
+      console.log(error)
+      router.push('/login')
+    }
   }
 }
 </script>
@@ -155,6 +212,12 @@ async function Register() {
                 <el-icon :size="15">
                 <UserFilled />
               </el-icon> Last Name</label>
+              <div v-if="registerCredential.first_name.length < 3" class="error-message">
+        First name must be at least 3 characters long.
+      </div>
+              <div v-if="registerCredential.last_name.length < 3" class="error-message">
+        Last name must be at least 3 characters long.
+             </div>
             </div>
           </div>
           <div class="input-field">
@@ -163,6 +226,9 @@ async function Register() {
               <el-icon :size="15">
               <UserFilled />
             </el-icon>  User Name</label>
+            <div v-if="registerCredential.name.length < 5" class="error-message">
+      Username must be at least 5 characters long.
+          </div>
           </div>
           <div class="input-field">
             <input type="email" v-model="registerCredential.email" required />
@@ -170,6 +236,9 @@ async function Register() {
               <el-icon :size="15">
               <Message />
             </el-icon> Email</label>
+            <div v-if="!isValidEmail(registerCredential.email)" class="error-message">
+      Please enter a valid email address.
+          </div>
           </div>
           <div class="d-flex">
             <div class="input-field d-flex gap-1 align-items-center">
@@ -178,6 +247,9 @@ async function Register() {
                 <el-icon :size="15">
                   <Lock />
                 </el-icon>  Password</label>
+                <div v-if="registerCredential.password.length < 8" class="error-message">
+        Password must be at least 8 characters long.
+              </div>
               </div>
               <div class="input-field d-flex align-items-center">
                 <input type="password" v-model="registerCredential.password_confirmation" required />
@@ -185,7 +257,11 @@ async function Register() {
                   <el-icon :size="15">
                     <Lock />
                   </el-icon>  Confirm Password</label>
+                  <div v-if="registerCredential.password !== registerCredential.password_confirmation" class="error-message">
+        Passwords do not match.
+                 </div>
                 </div>
+
               </div>
           <div class="input-field-select">
             <select class="select form-control " v-model="registerCredential.user_type" required>
