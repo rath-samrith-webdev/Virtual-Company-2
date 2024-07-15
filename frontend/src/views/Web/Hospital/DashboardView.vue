@@ -9,6 +9,8 @@ import NoHospitalSet from '@/Components/Hospitals/NoHospitalSet.vue'
 import { hospitalAppointmentListStore } from '@/stores/hospital-appointment-list'
 import { useAuthStore } from '@/stores/auth-store'
 import axiosInstance from '@/plugins/axios'
+import { log } from 'util'
+import axios from 'axios'
 const appointmentStore=hospitalAppointmentListStore()
 const store=FeedbackList()
 const userStore=useAuthStore()
@@ -183,6 +185,11 @@ function fetchFeedback(){
 function fetchMonthlyAppointment(){
   appointmentStore.fetchMonthlyAppointment()
 }
+const dialog=ref(false)
+const setUp=()=>{
+  console.log('Hello')
+  dialog.value = true
+}
 onMounted(() => {
   if(userStore.hospital!='No hospital'){
     fetchAppointmentSummary()
@@ -337,7 +344,7 @@ onMounted(() => {
     </el-dialog>
   </WebLayout>
   <WebLayout v-else>
-    <NoHospitalSet/>
+    <NoHospitalSet :dialog-visible="dialog" @show="setUp" @cancel="dialog=false"/>
   </WebLayout>
 </template>
 <style scoped>
