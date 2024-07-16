@@ -173,7 +173,10 @@ button {
 .card_hospital {
   margin-top: 10px;
   margin-bottom: 10px;
-  background: #32b4e3;
+  background: #ffffff;
+  border: 1px solid orange;
+  border-radius: 10px;
+  color: black;
 }
 .card_contact {
   display: flex;
