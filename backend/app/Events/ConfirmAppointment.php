@@ -31,7 +31,11 @@ class ConfirmAppointment
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('channel-name'),
+            new Channel('appointments'),
         ];
+    }
+    public function BroadcastAs(): string
+    {
+        return 'appointment';
     }
 }

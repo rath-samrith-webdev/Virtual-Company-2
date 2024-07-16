@@ -25,6 +25,8 @@ class ConfirmAppointmentListener implements ShouldQueue
         $appointment = $event->appointment;
         if ($appointment->hospital_status=="Confirmed" && $appointment->doctor_status=="Confirmed") {
             $appointment->update(['status'=>'Confirmed']);
+        }
+        if($appointment->status=="Confirmed"){
             Notifications::create([
                 'type'=>'Appointment Confirmed',
                 'message'=>'Your appointment has been confirmed',
