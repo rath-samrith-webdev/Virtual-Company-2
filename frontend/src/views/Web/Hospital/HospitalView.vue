@@ -10,7 +10,6 @@ import type { UploadProps } from 'element-plus'
 import { hospitalDetailStore } from '@/stores/hospital-detail'
 import { useAuthStore } from '@/stores/auth-store'
 import axiosInstance from '@/plugins/axios'
-import { log } from 'console'
 const details = hospitalDetailStore()
 const userStore = useAuthStore()
 const visible = ref(false)
@@ -104,6 +103,7 @@ const onSubmit = async () => {
   } catch (err) {
     console.log(err)
   }
+  fetchDetail()
 }
 const previewImage = ref('')
 const isUpload = ref(false)
@@ -121,6 +121,7 @@ const getFile = async () => {
   } catch (err) {
     console.log(err)
   }
+  fetchDetail()
 }
 onMounted(() => {
   fetchCategories()
