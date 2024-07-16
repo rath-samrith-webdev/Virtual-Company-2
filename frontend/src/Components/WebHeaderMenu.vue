@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth-store'
 import { useRouter } from 'vue-router'
-import { BellFilled, Notification } from '@element-plus/icons-vue'
+import { BellFilled } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 
 const router = useRouter()
@@ -21,7 +21,7 @@ function handleCommand(command) {
 }
 </script>
 <template>
-  <header class="nav flex justify-between px-5 bg-white items-center p-4">
+  <header class="nav flex justify-between px-5 bg-white align-items-center p-4">
     <!-- Logo -->
     <div class="flex items-center space-x-2">
       <img src="@/assets/logo/care_finder-02.png" alt="" srcset="" width="175">
