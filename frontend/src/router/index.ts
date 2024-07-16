@@ -82,6 +82,11 @@ const router = createRouter({
       component: () => import('../views/Web/User/MapView.vue')
     },
     {
+      path: '/myHospital',
+      name: 'myHospital',
+      component: () => import('../views/Web/Hospital/HospitalView.vue')
+    },
+    {
       path:'/hospital/doctors',
       name:'doctors',
       component:()=>import('../views/Web/Hospital/AddDoctorView.vue')
@@ -132,7 +137,8 @@ const router = createRouter({
       name:'not-found-page',
       component: () => import('../views/Web/404/PageNotFound.vue')
     }
-  ]
+  ],
+  linkExactActiveClass:'active'
 })
 
 router.beforeEach(async (to, from, next) => {

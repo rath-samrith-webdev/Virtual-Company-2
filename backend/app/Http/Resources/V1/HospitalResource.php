@@ -17,12 +17,11 @@ class HospitalResource extends JsonResource
         return [
             'id'=>$this->id,
             'name'=>$this->name,
-            'cover_image'=>$this->cover_image!=null?asset('/images/hospital/hospital-cover/hospital-'.$this->id.'/'.$this->cover_image):'No cover image',
+            'cover_image'=>$this->cover_image?asset('/images/hospital/hospital-cover/hospital-'.$this->id.'/'.$this->cover_image):'No Cover',
             'preview_images'=>PreviewImagesResource::collection($this->previewImage()->get()),
-            'department'=>$this->departments()->get(),
+            'department'=>DepartmentResource::collection($this->departments()->get()),
             'appointment'=>AppointmentResource::collection($this->appointments()->get()),
             'feedbacks'=>RateResource::collection($this->rates()->latest()->get()),
-            'phone_number'=>$this->phone_number?:'No Contact Number',
             'open_time'=>$this->open_time?$this->open_time:'Not set yet',
             'close_time'=>$this->close_time?$this->close_time:'Not set yet',
             'street'=>$this->street?$this->street:'Not Added yet',
@@ -35,6 +34,7 @@ class HospitalResource extends JsonResource
             'category'=>$this->category,
             'doctors'=>DoctorDetails::collection($this->doctors()->get()),
             'favourite_by'=>$this->favourites()->get()->count(),
+            'average_rating'=>$this->rates()->sum('star')/$this->rates()->count(),
             'rooms'=>$this->rooms()->get()
         ];
     }

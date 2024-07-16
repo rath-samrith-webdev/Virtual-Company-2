@@ -44,6 +44,8 @@ class DatabaseSeeder extends Seeder
             'street_address'=>'Str. 128',
             'phone_number'=>'023 992 268',
             'province'=>'Phnom Penh',
+            'open_time'=>'05:00',
+            'close_time'=>'06:00',
             'latitude'=>'11.566859422611982',
             'longitude'=>'104.89597919278232'
         ]);

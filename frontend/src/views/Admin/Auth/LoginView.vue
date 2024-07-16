@@ -14,6 +14,7 @@ const loginCredential: { email: string, password: string } = {
 const registerCredential: {
   first_name: string,
   last_name: string,
+  name:string,
   email: string,
   user_type: string,
   password: string,
@@ -54,17 +55,17 @@ async function LogIn() {
     const { data } = await axiosInstance.post('/login', loginCredential)
     localStorage.setItem('access_token', data.access_token)
     if (data.role == 'hospital') {
-      router.push('/hospital/dashboard')
+      await router.push('/hospital/dashboard')
     } else if (data.role == 'admin') {
-      router.push('/admin/dashboard')
+      await router.push('/admin/dashboard')
     } else if(data.role == 'doctor'){
-      router.push('/doctor/dashboard')
+      await router.push('/doctor/dashboard')
     }else{
-      router.push('/')
+      await router.push('/')
     }
   } catch (error) {
     console.log(error)
-    router.push('/login')
+    await router.push('/login')
   }
 }
 
