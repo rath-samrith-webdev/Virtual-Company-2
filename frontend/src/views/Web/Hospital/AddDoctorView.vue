@@ -20,6 +20,8 @@ async function fetchDoctors() {
   try {
     const { data } = await axiosInstance.get('/doctors/list');
     doctors.value = data.data;
+    console.log(data.data);
+    
   } catch (e) {
     console.error(e);
   }
@@ -135,7 +137,7 @@ onMounted(() => {
         <el-card v-for="(doctor,index) in doctors" :key="index" style="width: 300px" shadow="hover" class="d-flex flex-column align-items-center members-card">
           <div class="rounded-50% d-flex justify-content-center">
             <el-avatar v-if="doctor.profile!=='No profile'" shape="square" :size="250" :src="doctor.profile" />
-            <el-avatar v-if="doctor.profile=='No profile'" shape="square" :size="250" src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png" />
+            <el-avatar v-else shape="square" :size="250" src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png" />
           </div>
           <el-row class="d-flex justify-content-center mt-4">
             <h3 class="text-#FCB22D text-center">{{doctor.first_name}} {{doctor.last_name }}</h3>

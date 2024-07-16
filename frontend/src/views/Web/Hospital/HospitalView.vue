@@ -5,10 +5,13 @@ import AboutTabs from '@/Components/Hospital/AboutTabs.vue'
 import DoctorTabs from '@/Components/Hospital/DoctorTabs.vue'
 import ServiceTab from '@/Components/Hospital/ServiceTab.vue'
 import CardDepartment from '@/Components/Hospital/CardDepartment.vue'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import type { UploadProps } from 'element-plus'
 import axiosInstance from '@/plugins/axios'
+import {useDoctorStore} from '@/stores/doctor-store'
+import axios from "axios";
 const visible=ref(false)
+const store=useDoctorStore()
 const departments:any[]= [
   {
     id:1,
@@ -16,13 +19,7 @@ const departments:any[]= [
     description:'We provide the all kind of treatment from the preventive care to the critical treatment including diagnostic, comprehensive health screenings, as well as antenatal care and child delivery for expectant mothers.'
   }
 ]
-const doctors:any[]= [
-  {
-    id:1,
-    name:'Obstetrics ',
-    description:'We are'
-  }
-]
+
 const newDep=ref({
   name:'',
   details:'',
@@ -30,10 +27,16 @@ const newDep=ref({
 })
 const isEdit=ref(false)
 const removeDoc = (id) => {
-  console.log('removed ',id)
+  store.deleteDoctor(id)
 }
-const updateDoc = (id) => {
-  console.log('updated',id)
+const editData=ref({})
+const updateDoc = (doc) => {
+  isEdit.value = true
+  editData.value=doc
+  console.log(doc); 
+}
+const updateData=()=>{
+  store.updateDoctor(editData.value.id,editData.value)
 }
 const updateDepartment=(id:number)=>{
   console.log('updateDepartment ', id)
@@ -66,6 +69,9 @@ const addDepartment= async()=>{
     console.log(error)
   }
 }
+onMounted(()=>{
+  store.fetchDoctors()
+})
 </script>
 <template>
   <WebLayout>
@@ -112,7 +118,7 @@ const addDepartment= async()=>{
       </el-tab-pane>
       <el-tab-pane label="Doctor">
         <el-row gutter="20">
-          <DoctorTabs v-for="doc in doctors" :key="doc.id" :doctor="doc" @update="updateDoc(doc.id)" @remove="removeDoc(doc.id)" />
+          <DoctorTabs v-for="doc in store.doctors" :key="doc.id" :doctor="doc" @update="updateDoc(doc)" @remove="removeDoc(doc.id)" :isEdit="isEdit" :editData="editData" @updateDoctor="updateData"/>
         </el-row>
       </el-tab-pane>
       <el-tab-pane label="Service">

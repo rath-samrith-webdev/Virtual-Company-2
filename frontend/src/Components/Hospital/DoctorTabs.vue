@@ -1,32 +1,85 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   props: {
     doctor: {
-      type: Object
+      type: Object,
+      required: true
+    },
+    isEdit: {
+      type: Boolean,
+      required: true
+    },
+    editData:{
+      type: Object,
+      required: true
     }
   },
-  emits: ['update','remove'],
+  emits: ['update', 'remove','updateDoctor']
 })
 </script>
+
 <template>
-  <el-col :span="5">
-    <el-card class="doctor">
-      <el-avatar shape="square" style="width: 100%;height: 49%;border-radius: 35px 0 0 0;" src="https://cdn.corporatefinanceinstitute.com/assets/professional-corporation.jpeg"/>
-      <h2 class="text-center"><strong>Dr John Doe</strong></h2>
-      <p class="text-center">Cardiologist</p>
-      <div class="d-flex justify-content-sm-between">
-        <el-button style="background: #32B4E3; color: white;" @click="$emit('update')">Update</el-button>
-        <el-button style="background: #FCB22D; color: white;" @click="$emit('remove')">Remove</el-button>
+  <div class="card-doctor">
+      <div class="">
+        <img v-if="doctor.profile!=='No profile'" shape="square" :size="280" :src="doctor.profile" />
+        <el-avatar v-else style="margin-top:45px; margin-bottom: 35px;" shape="square" :size="200" src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png" />
       </div>
-    </el-card>
-  </el-col>
+      <div class="card-body mt-3">
+      <h4>{{ doctor.name }}</h4>
+      <p>{{ doctor.email }}</p>
+      <button type="button" class="btn btn-info m-3" @click="$emit('update')">Update</button>
+      <button type="button" class="btn btn-warning m-3" @click="$emit('remove')">Remove</button>
+    </div>
+    <el-dialog v-model="isEdit" title="Update Doctor" width="800">
+      <el-form label-position="top">
+        <el-form-item label="Doctor Name">
+          <el-input v-model="editData.first_name" type="text" />
+        </el-form-item>
+        <el-form-item label="Doctor Email">
+          <el-input v-model="editData.email" type="email" />
+        </el-form-item>
+        <el-form-item label="Doctor Image">
+          <el-upload
+            style="width: 100%"
+            class="upload-demo"
+            drag
+            accept="image/*"
+            @change="handlePictureCardPreview"
+          >
+            <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+            <div class="el-upload__text">
+              Drop file here or <em>click to upload</em>
+            </div>
+            <template #tip>
+              <div class="el-upload__tip">
+                jpg/png files with a size less than 500kb
+              </div>
+            </template>
+          </el-upload>
+        </el-form-item>
+        <el-button @click="$emit('updateDoctor')">Submit</el-button>
+      </el-form>
+    </el-dialog>
+  </div>
 </template>
 
 <style scoped>
-.doctor {
-  border: 5px solid #32B4E3;
-  border-radius: 35px 0 25px 0;
+.card-doctor {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  margin: 35px;
+  text-align: center;
+  border: 5px solid #32b4e3;
+  border-radius: 50px 0px 50px 0px;
 }
+
+img {
+  width: 100%;
+  height: auto;
+  border-radius: 45px 0px 0px 0px;
+}
+
 </style>
