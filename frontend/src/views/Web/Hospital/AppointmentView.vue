@@ -105,8 +105,6 @@ import { onMounted, ref, watch } from 'vue'
 import { hospitalAppointmentListStore } from '@/stores/hospital-appointment-list'
 import { ElNotification } from 'element-plus'
 import { useAuthStore } from '@/stores/auth-store'
-import { Form } from 'vee-validate'
-
 const userStore = useAuthStore()
 const store = hospitalAppointmentListStore()
 const showTable = true
@@ -131,6 +129,7 @@ const open2 = (title: string, message: any, type: string) => {
 watch(() => store.message, () => {
   if (store.message.success) {
     open2('Appointment Confirmed', store.message.message, 'success')
+    store.fetchAppointments()
   } else {
     open2('Appointment Confirmed', store.message.message, 'success')
   }
