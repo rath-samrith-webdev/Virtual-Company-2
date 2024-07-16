@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
+import axiosInstance from '@/plugins/axios'
 import { ref, onMounted } from 'vue'
 import { hospitalAppointmentListStore } from '@/stores/hospital-appointment-list'
 import { hospitalDetailStore } from '@/stores/hospital-detail'

@@ -1,5 +1,5 @@
 <template>
-  <WebLayout v-if="userStore.hospital != 'No hospital'">
+  <WebLayout v-if="userStore.hospital!='No hospital'">
     <div>
       <div class="appointment">
         <h1>Customers' Appointment</h1>
@@ -154,16 +154,13 @@ const open2 = (title: string, message: any, type: string) => {
     type: type
   })
 }
-watch(
-  () => store.message,
-  () => {
-    if (store.message.success) {
-      open2('Appointment Confirmed', store.message.message, 'success')
-    } else {
-      open2('Appointment Confirmed', store.message.message, 'success')
-    }
+watch(() => store.message, () => {
+  if (store.message.success) {
+    open2('Appointment Confirmed', store.message.message, 'success')
+  } else {
+    open2('Appointment Confirmed', store.message.message, 'success')
   }
-)
+})
 onMounted(() => {
   if (userStore.hospital != 'No hospital') {
     store.fetchAppointments()

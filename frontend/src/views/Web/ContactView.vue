@@ -3,13 +3,10 @@
     <div class="container-contact">
       <div class="contact-us">
         <div class="text-section">
-          <h1 class="text-color-#32B4E3 mt-20" style="font-size: 80px; font-weight: bold">Contact us</h1>
-          <p style="font-size: 18px;">
+          <h1 class="title">Contact us</h1>
+          <p class="text">
             You can contact to our service and give feedback to website by use form that have in
-            contect us.
-          </p>
-          <p style="font-size: 18px;">
-            Contact to use for build the system and website for your bussiness.
+            contect us. Contact to use for build the system and website for your bussiness.
           </p>
         </div>
         <div class="image-section">
@@ -51,8 +48,8 @@
       </div>
     </div>
     <div class="contact">
-      <h2 class="text-color-#32B4E3 mt-5">Get in Touch with us.</h2>
-      <p>
+      <h2 class="title-1">Get in Touch with us.</h2>
+      <p class="text-1">
         All of these apps can be found on the Google Play Store or Apple App Store and downloaded
         for offline use.
       </p>
@@ -114,22 +111,80 @@ import FooterLayout from '@/Components/FooterLayout.vue'
 
 <style scoped>
 .container-contact {
+  margin-bottom: 0px;
   display: flex;
   align-items: center;
   width: 100%;
   height: 80vh;
-  padding: 100px;
+  padding: 30px;
+  flex-wrap: wrap;
+  /* background: #ce1b1b; */
+}
+.image-section img {
+  width: 100%;
+  height: auto;
+  margin-top: 0px;
+  max-width: 1000px;
+  margin-bottom: 400px;
+  /* background: #000; */
+  
+}
+.title {
+  font-size: 80px;
+  font-weight: bold;
+  color: #32b4e3;
+  margin-top: 70px;
+  margin-left: 40px;
 }
 
-.feedback {
-  width: 50%;
+.text{
+  font-size: 18px;
+  width: 70%;
+  margin-bottom: 20px;
+  text-align: justify;
+  margin-left: 50px;
 }
-
 .contact-us {
   display: flex;
   flex-direction: row;
   gap: 5%;
+  width: 100%;
 }
+.card {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  flex-direction: row;
+  margin-top: 50px;
+  height: auto;
+  gap: 50px;
+  border: none;
+  width: 100%;
+  /* background: #988080; */
+}
+.title-1{
+  /* background: #000; */
+  font-size: 50px;
+  color: #32b4e3;
+  justify-content: center;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 20px;
+}
+.text-1{
+  font-size: 15px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+
+
+
+/* .description {
+  font-size: 18px;
+} */
 
 .form {
   width: 70%;
@@ -137,7 +192,7 @@ import FooterLayout from '@/Components/FooterLayout.vue'
   align-items: center;
   margin: 30px auto auto;
   padding: 10px;
-  background-color: #F0F9FE;
+  background-color: #f0f9fe;
   border-radius: 10px;
 }
 
@@ -147,14 +202,16 @@ import FooterLayout from '@/Components/FooterLayout.vue'
   height: 300px;
   background: white;
 }
-
+/* .text{
+font-size: small;
+}
 .contact p {
   max-width: 50%;
   align-items: center;
   justify-content: center;
   text-align: center;
   margin: auto;
-}
+} */
 
 .containers h4 {
   justify-content: center;
@@ -172,18 +229,12 @@ import FooterLayout from '@/Components/FooterLayout.vue'
   align-items: center;
   gap: 10px;
   box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
-
-
 }
 
 .containers:hover {
   transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
   box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
-  transition: box-shadow 0.3s ease-in-out;
-  transition: transform 0.9s ease-in-out;
   transform: translateY(-5px);
-  transition: box-shadow 0.3s ease-in-out;
-  transition: transform 0.3s ease-in-out;
 }
 
 .card-serves img {
@@ -192,73 +243,82 @@ import FooterLayout from '@/Components/FooterLayout.vue'
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  margin-left: 150px;
-  margin-bottom: -40px;
-  margin-right: 10px;
-
+  margin: 0 auto;
 }
 
 
-.card {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  align-items: center;
-  flex-direction: row;
-  margin-top: 25px;
-  height: 45vh;
-  gap: 50px;
-  border: none;
-  margin-top: 120px;
-  width: 100%;
-}
 
-.text-section h1 {
-  font-size: 2.5em;
-  margin-bottom: 20px;
-}
-
-.contact h2 {
+.subtitle {
   text-align: center;
+  color: #32b4e3;
+  margin-top: 20px;
 }
 
-.text-section {
-  margin-top: 60px;
-}
-
-.contact p {
+.contact-description {
   font-size: 1.2em;
   line-height: 1.5em;
+  text-align: center;
+  margin: auto;
+  max-width: 50%;
 }
 
-.card-section {
-  width: 290px;
-  height: 254px;
-  border-radius: 20px;
-  margin-bottom: 20px;
-  margin-top: 20px;
-  position: relative;
-  transition: 0.9s ease-out;
-  overflow: visible;
+.form-input,
+.form-textarea {
+  font-size: 16px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-.card-button {
-  transform: translate(-50%, 125%);
-  width: 60%;
-  border-radius: 1rem;
-  border: none;
-  color: #fff;
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  opacity: 0;
-  transition: 0.3s ease-out;
+
+@media (max-width: 1440px) {
+  .image-section img {
+    width: 100%;
+    height: auto;
+  }
 }
 
-.text-title {
-  font-size: 1.5em;
-  font-weight: bold;
+@media (max-width: 768px) {
+  .container-contact {
+    flex-direction: column;
+    padding: 50px;
+  }
+
+  .contact-us {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .image-section img {
+    width: 100%;
+    height: auto;
+  }
+
+  .title {
+    font-size: 40px;
+  }
+
+  .description {
+    font-size: 16px;
+  }
+
+  .card-serves {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .containers {
+    width: 100%;
+    height: auto;
+  }
+  .contact-us{
+    background: pink;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+  }
+
+  
 }
 </style>
