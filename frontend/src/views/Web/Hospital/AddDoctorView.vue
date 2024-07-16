@@ -1,17 +1,22 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import WebLayout from '@/Components/Layouts/WebLayout.vue';
+import NoHospitalSet from '@/Components/Hospitals/NoHospitalSet.vue'
 import axiosInstance from '@/plugins/axios';
-
+import { useAuthStore } from '@/stores/auth-store'
+const store = useAuthStore()
 const doctors = ref([]);
 const dialogTableVisible = ref(false);
 const editDialogVisible = ref(false);
+const userStore = useAuthStore()
 const formData = ref({
   id: null,
   first_name: '',
   last_name: '',
   name: '',
+  gender: '',
   email: '',
+  password: '',
   phone: ''
 });
 const isEditing = ref(false);
@@ -28,11 +33,17 @@ async function fetchDoctors() {
 }
 
 const handleSubmit = async () => {
-  const doctorData = {
-    name: formData.value.name,
-    email: formData.value.email,
-    phone: formData.value.phone
-  };
+  const doctorData = new FormData();
+  doctorData.append('first_name', formData.value.first_name);
+  doctorData.append('last_name', formData.value.last_name);
+  doctorData.append('name', formData.value.name);
+  doctorData.append('gender', formData.value.gender);
+  doctorData.append('email', formData.value.email);
+  doctorData.append('password', formData.value.password);
+  doctorData.append('phone', formData.value.phone);
+  doctorData.append('hospital_id', userStore.hospital.id); // Assuming hospital_id is a prop in the user store
+  console.log(doctorData);
+  console.log(formData);
 
   try {
     if (isEditing.value) {
@@ -49,11 +60,10 @@ const handleSubmit = async () => {
     console.error(e);
   }
 };
-
 const editDoctor = (doctor) => {
-  formData.value = { ...doctor };
-  isEditing.value = true;
-  editDialogVisible.value = true;
+  formData.value = { ...doctor }; // Copies all properties of the selected doctor to formData
+  isEditing.value = true; // Sets editing mode to true
+  editDialogVisible.value = true; // Shows the edit dialog
 };
 
 const deleteDoctor = async (doctorId) => {
@@ -66,49 +76,21 @@ const deleteDoctor = async (doctorId) => {
 };
 
 onMounted(() => {
-  fetchDoctors();
+  if (userStore.hospital != 'No hospital') {
+    fetchDoctors();
+  }
 });
 </script>
 
 <template>
-  <WebLayout>
-      <el-button style="margin-bottom:20px;" plain @click="dialogTableVisible = true">Add Doctor</el-button>
-
-      <el-dialog v-model="dialogTableVisible" title="Add New Doctor" width="800">
-        <el-form :model="formData" label-position="top" label-width="120px">
-          <div class="flex">
-            <el-col :span="11">
-              <el-form-item label="First name">
-                <el-input v-model="formData.first_name" style="width: 100%"/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="2" class="text-center">
-              <span class="text-gray-500">-</span>
-            </el-col>
-            <el-col :span="11">
-              <el-form-item label="Last name">
-                <el-input v-model="formData.last_name" style="width: 100%"/>
-              </el-form-item>
-            </el-col>
-          </div>
-          <el-form-item label="Name">
-            <el-input v-model="formData.name" />
-          </el-form-item>
-          <el-form-item label="Email">
-            <el-input v-model="formData.email" />
-          </el-form-item>
-          <el-form-item label="Phone Number">
-            <el-input v-model="formData.phone" />
-          </el-form-item>
-        </el-form>
-        <el-button type="primary" @click="handleSubmit">Create</el-button>
-      </el-dialog>
-      <el-dialog v-model="editDialogVisible" title="Edit Doctor" width="800">
+  <WebLayout v-if="store.hospital != 'No hospital'">
+    <el-button style="margin-bottom:20px;" plain @click="dialogTableVisible = true">Add Doctor</el-button>
+    <el-dialog v-model="dialogTableVisible" title="Add New Doctor" width="800">
       <el-form :model="formData" label-position="top" label-width="120px">
         <div class="flex">
           <el-col :span="11">
             <el-form-item label="First name">
-              <el-input v-model="formData.first_name" style="width: 100%"/>
+              <el-input v-model="formData.first_name" style="width: 100%" />
             </el-form-item>
           </el-col>
           <el-col :span="2" class="text-center">
@@ -116,44 +98,105 @@ onMounted(() => {
           </el-col>
           <el-col :span="11">
             <el-form-item label="Last name">
-              <el-input v-model="formData.last_name" style="width: 100%"/>
+              <el-input v-model="formData.last_name" style="width: 100%" />
             </el-form-item>
           </el-col>
         </div>
         <el-form-item label="Name">
           <el-input v-model="formData.name" />
         </el-form-item>
+        <el-form-item label="Gender">
+          <el-select v-model="formData.gender" placeholder="Select Gender">
+            <el-option label="Male" value="Male"></el-option>
+            <el-option label="Female" value="Female"></el-option>
+            <el-option label="Other" value="Other"></el-option>
+          </el-select>
+        </el-form-item>
+
         <el-form-item label="Email">
           <el-input v-model="formData.email" />
+        </el-form-item>
+        <el-form-item label="Password">
+          <el-input v-model="formData.password" />
         </el-form-item>
         <el-form-item label="Phone Number">
           <el-input v-model="formData.phone" />
         </el-form-item>
-        </el-form>
-        <el-button type="primary" @click="handleSubmit">Update</el-button>
+      </el-form>
+      <el-button type="primary" @click="handleSubmit">Create</el-button>
     </el-dialog>
-      <!-- Your existing doctor card -->
-      <el-container>
-        <el-card v-for="(doctor,index) in doctors" :key="index" style="width: 300px" shadow="hover" class="d-flex flex-column align-items-center members-card">
-          <div class="rounded-50% d-flex justify-content-center">
-            <el-avatar v-if="doctor.profile!=='No profile'" shape="square" :size="250" :src="doctor.profile" />
-            <el-avatar v-else shape="square" :size="250" src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png" />
-          </div>
-          <el-row class="d-flex justify-content-center mt-4">
-            <h3 class="text-#FCB22D text-center">{{doctor.first_name}} {{doctor.last_name }}</h3>
-          </el-row>
-          <el-row class="d-flex justify-content-center mt-2">
-            <span class="font-bold role-team"> {{doctor.email}}</span>
-          </el-row>
-          <el-row class="d-flex justify-content-center mt-2">
-            <span>{{doctor.phone}}</span>
-          </el-row>
-          <div class="button">
-            <el-button @click="editDoctor(doctor)">Edit</el-button>
-            <el-button type="danger" plain @click="() => deleteDoctor(doctor.id)">Delete</el-button>
-          </div>
-        </el-card>
-      </el-container>
+    <el-dialog v-model="editDialogVisible" title="Edit Doctor" width="800">
+      <el-form :model="formData" label-position="top" label-width="120px">
+        <div class="flex">
+          <el-col :span="11">
+            <el-form-item label="First name">
+              <el-input v-model="formData.first_name" style="width: 100%" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="2" class="text-center">
+            <span class="text-gray-500">-</span>
+          </el-col>
+          <el-col :span="11">
+            <el-form-item label="Last name">
+              <el-input v-model="formData.last_name" style="width: 100%" />
+            </el-form-item>
+          </el-col>
+        </div>
+        <el-form-item label="Name">
+          <el-input v-model="formData.name" />
+        </el-form-item>
+        <el-form-item label="Gender">
+          <el-select v-model="formData.gender" placeholder="Select Gender">
+            <el-option label="Male" value="Male"></el-option>
+            <el-option label="Female" value="Female"></el-option>
+            <el-option label="Other" value="Other"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Email">
+          <el-input v-model="formData.email" />
+        </el-form-item>
+        <el-form-item label="Password">
+          <el-input v-model="formData.password" />
+        </el-form-item>
+        <el-form-item label="Phone Number">
+          <el-input v-model="formData.phone" />
+        </el-form-item>
+      </el-form>
+      <el-button type="primary" @click="handleSubmit">Update</el-button>
+    </el-dialog>
+    <!-- Your existing doctor card -->
+    <el-container>
+      <el-card v-for="(doctor, index) in doctors" :key="index" style="width: 300px" shadow="hover"
+        class="d-flex flex-column align-items-center members-card">
+        <div class="rounded-50% d-flex justify-content-center">
+          <el-avatar v-if="doctor.profile !== 'No profile'" shape="square" :size="250" :src="doctor.profile" />
+          <el-avatar v-if="doctor.profile == 'No profile'" shape="square" :size="250"
+            src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png" />
+        </div>
+        <el-row class="d-flex justify-content-center mt-4">
+          <h3 class="text-#FCB22D text-center">{{ doctor.first_name }} {{ doctor.last_name }}</h3>
+        </el-row>
+        <el-row class="d-flex justify-content-center mt-2">
+          <span class="text-#FCB22D text-center">{{ doctor.name }}</span>
+        </el-row>
+        <el-row class="d-flex justify-content-center mt-2">
+          <span class="font-bold role-team"> {{ doctor.gender }}</span>
+        </el-row>
+        <el-row class="d-flex justify-content-center mt-2">
+          <span class="font-bold role-team"> {{ doctor.email }}</span>
+        </el-row>
+        <el-row class="d-flex justify-content-center mt-2">
+          <span>{{ doctor.phone }}</span>
+        </el-row>
+        <div class="button">
+          <el-button @click="editDoctor(doctor)">Edit</el-button>
+          <el-button type="danger" plain @click="() => deleteDoctor(doctor.id)">Delete</el-button>
+        </div>
+      </el-card>
+    </el-container>
+  </WebLayout>
+  <WebLayout v-else>
+    <NoHospitalSet />
   </WebLayout>
 </template>
 
@@ -166,6 +209,7 @@ onMounted(() => {
 }
 
 .members-card {
-  margin-right: 20px; /* Space between each card */
+  margin-right: 20px;
+  /* Space between each card */
 }
 </style>

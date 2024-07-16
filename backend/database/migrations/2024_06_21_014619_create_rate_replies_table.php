@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('rate_replies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('rate_id')->constrained('rates')->onDelete('cascade');
+            $table->foreignId('hospital_id')->constrained('hospitals')->onDelete('cascade');
             $table->text('content')->nullable();
             $table->timestamps();
         });

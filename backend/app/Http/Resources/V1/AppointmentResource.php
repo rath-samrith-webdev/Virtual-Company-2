@@ -22,7 +22,9 @@ class AppointmentResource extends JsonResource
             'title'=>$this->title,
             'appointment_date'=>$this->appointment_date,
             'appointment_time'=>$this->appointment_time,
-            'status'=>$this->status
+            'status'=>$this->status,
+            'hospital_status'=>$this->hospital_status,
+            'doctor_status'=>$this->doctor_status
         ];
     }
 }

@@ -60,4 +60,8 @@ class Hospital extends Model
     {
         return $this->hasMany(Favourite::class);
     }
+    public function rooms():HasMany
+    {
+        return $this->hasMany(Room::class);
+    }
 }

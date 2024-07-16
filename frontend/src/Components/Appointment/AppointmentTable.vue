@@ -123,14 +123,13 @@ const deleteAppointment=async (row:any)=>{
 }
 const onUpdate = async () => {
   dialogEditVisible.value=false
-  const formData={
-    'user_id':formEdit.user_id,
-    'appointment_date':formEdit.date1,
-    'appointment_time':formEdit.date2,
-    'hospital_id':formEdit.hospital_id,
-    'title':formEdit.title,
-    'doctor_id':formEdit.doctor_id
-  }
+  const formData=new FormData()
+  formData.append('user_id',formEdit.user_id);
+  formData.append('appointment_date',formEdit.date1);
+  formData.append('appointment_time',formEdit.date2,);
+  formData.append('hospital_id',formEdit.hospital_id);
+  formData.append('title',formEdit.title);
+  formData.append('doctor_id',formEdit.doctor_id);
   try {
     const { data } = await axiosInstance.put(`/appointments/update/${formEdit.id}`,formData);
     console.log(data)
@@ -144,9 +143,8 @@ const onUpdate = async () => {
   }
 }
 async function cancelAppointment(row){
-  const body={
-    'status':'Canceled'
-  }
+  const body=new FormData()
+  body.append('status','Canceled')
   try {
     const { data } = await axiosInstance.put(`/appointments/update-status/${row.id}`,body);
     if(data.success==true){

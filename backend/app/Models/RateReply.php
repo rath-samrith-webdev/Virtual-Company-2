@@ -11,15 +11,15 @@ class RateReply extends Model
     use HasFactory;
     protected $fillable=[
         'rate_id',
-        'user_id',
+        'hospital_id',
         'content'
     ];
     public function rate(): BelongsTo
     {
         return $this->belongsTo(Rate::class);
     }
-    public function user():BelongsTo
+    public function hospital(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Hospital::class);
     }
 }

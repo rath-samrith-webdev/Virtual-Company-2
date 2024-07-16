@@ -17,10 +17,18 @@ class DoctorController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
         try {
-            return response()->json(['success' => true, 'data' => DoctorDetails::collection(Doctor::all())], 200);
-        } catch (\Exception $exception) {
-            return response()->json(['success' => false, 'message' => $exception->getMessage()]);
+            if ($user->hasRole('admin')){
+                $doctors = Doctor::all();
+            }elseif ($user->hasRole('hospital')){
+                $doctors=$user->hospital->doctors()->get();
+            }else{
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+            return response()->json(['success' => true, 'data' => DoctorDetails::collection($doctors)], 200);
+        }catch (\Exception $e){
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
     }
 

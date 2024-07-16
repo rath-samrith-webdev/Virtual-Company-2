@@ -99,14 +99,13 @@ h1 {
 .card-info h2 {
   font-size: 1.5em;
   margin-bottom: 10px;
-  color: orange;
+  color: rgb(0, 0, 0);
 }
 
 .card-info p {
   font-weight: bold;
   color: #000000;
   text-align: center;
-  /* margin-bottom: 20px; */
 }
 
 .stars {

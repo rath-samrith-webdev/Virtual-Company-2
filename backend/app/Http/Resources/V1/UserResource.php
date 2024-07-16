@@ -19,7 +19,7 @@ class UserResource extends JsonResource
             'first_name'=>$this->first_name,
             'last_name'=>$this->last_name,
             'name'=>$this->name,
-            'gender'=> $this->gender?$this->gender!=null:'No gender',
+            'gender'=> $this->gender?$this->gender:'No gender',
             'date_of_birth'=>$this->date_of_birth?$this->date_of_birth!=null:'No date of birth',
             'profile'=>$this->profile?asset('images/profiles/user-'.$this->first_name.'/'.$this->profile):'No profile',
             'email'=>$this->email,

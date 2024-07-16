@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import { Lock, Message, UserFilled } from '@element-plus/icons-vue/global'
 import axiosInstance from '@/plugins/axios'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
+const route=useRoute()
 const loginCredential: { email: string, password: string } = {
   email: '',
   password: ''
@@ -71,7 +72,6 @@ async function Register() {
   try {
     const { data } = await axiosInstance.post('/register', registerCredential)
     console.log(data)
-    console.log(registerCredential)
     router.push('/login')
   } catch (error) {
     console.log(error)
@@ -87,17 +87,27 @@ async function Register() {
         <form action="" @submit.prevent="LogIn" class="sign-in-form">
           <h2 class="title">Sign in</h2>
           <div class="input-field">
-            <el-icon :size="20">
+            
+            <input type="email" v-model="loginCredential.email" required />
+            <label>
+            <el-icon :size="15">
               <UserFilled />
             </el-icon>
-            <input type="email" v-model="loginCredential.email" placeholder="Email" />
+                Your Email</label>
           </div>
           <div class="input-field">
-            <el-icon :size="20">
+           
+            <input type="password" v-model="loginCredential.password" required />
+              <label>
+                <el-icon :size="15">
               <Lock />
-            </el-icon>
-            <input type="password" v-model="loginCredential.password" placeholder="Password" />
+            </el-icon>  Your Password</label>
           </div>
+          <!-- forgot-password -->
+          <p class="forgot-password text-right">
+              <router-link to="/forgot-password">Forgot Password</router-link>
+          </p>
+
           <p class="social-text">Or Sign in with social platform</p>
           <div class="social-media">
             <a href="#" class="social-icon">
@@ -124,6 +134,7 @@ async function Register() {
           <div class="main-btn">
             <button type="submit" class="btn">Log in</button>
           </div>
+          
           <p class="account-text">
             Don't have an account? <a href="#" id="sign-up-btn2">Sign up</a>
           </p>
@@ -133,44 +144,51 @@ async function Register() {
           <h2 class="title">Sign up</h2>
           <div class="d-flex">
             <div class="input-field d-flex gap-1 align-items-center">
-              <el-icon :size="20">
+              <input type="text" v-model="registerCredential.first_name" required/>
+              <label> <el-icon :size="15">
                 <UserFilled />
-              </el-icon>
-              <input type="text" v-model="registerCredential.first_name" placeholder="First Name" />
+              </el-icon> Frist Name</label>
             </div>
             <div class="input-field d-flex align-items-center">
-              <el-icon :size="20">
+              <input type="text" v-model="registerCredential.last_name" required/>
+              <label>
+                <el-icon :size="15">
                 <UserFilled />
-              </el-icon>
-              <input type="text" v-model="registerCredential.last_name" placeholder="Last Name" />
+              </el-icon> Last Name</label>
             </div>
           </div>
           <div class="input-field">
-            <el-icon :size="20">
+            <input type="text" v-model="registerCredential.name" required/>
+            <label>
+              <el-icon :size="15">
               <UserFilled />
-            </el-icon>
-            <input type="text" v-model="registerCredential.name" placeholder="User name" />
+            </el-icon>  User Name</label>
           </div>
           <div class="input-field">
-            <el-icon :size="20">
+            <input type="email" v-model="registerCredential.email" required />
+            <label>
+              <el-icon :size="15">
               <Message />
-            </el-icon>
-            <input type="email" v-model="registerCredential.email" placeholder="Email" />
+            </el-icon> Email</label>
           </div>
-          <div class="input-field">
-            <el-icon :size="20">
-              <Lock />
-            </el-icon>
-            <input type="password" v-model="registerCredential.password" placeholder="Password" />
-          </div>
-          <div class="input-field">
-            <el-icon :size="20">
-              <Lock />
-            </el-icon>
-            <input type="password" v-model="registerCredential.password_confirmation" placeholder="Confirm Password" />
-          </div>
-          <div class="input-field">
-            <select class="select form-control" v-model="registerCredential.user_type">
+          <div class="d-flex">
+            <div class="input-field d-flex gap-1 align-items-center">
+              <input type="password" v-model="registerCredential.password" required />
+              <label>
+                <el-icon :size="15">
+                  <Lock />
+                </el-icon>  Password</label>
+              </div>
+              <div class="input-field d-flex align-items-center">
+                <input type="password" v-model="registerCredential.password_confirmation" required />
+                <label>
+                  <el-icon :size="15">
+                    <Lock />
+                  </el-icon>  Confirm Password</label>
+                </div>
+              </div>
+          <div class="input-field-select">
+            <select class="select form-control " v-model="registerCredential.user_type" required>
               <option selected value="" hidden>Who are you?</option>
               <option value="user">Normal User</option>
               <option value="hospital">Hospital Owner</option>
@@ -180,22 +198,22 @@ async function Register() {
           <div class="social-media">
             <a href="#" class="social-icon">
               <el-tooltip content="LinkedIn" placement="top-start" effect="dark">
-                <el-avatar><img src="@/assets/image/linkeding.png"></el-avatar>
+                <el-avatar :size="35"><img src="@/assets/image/linkeding.png"></el-avatar>
               </el-tooltip>
             </a>
             <a href="" class="social-icon">
               <el-tooltip content="Facebook" placement="top-start" effect="dark">
-                <el-avatar><img src="@/assets/image/fb_logo.jpg"></el-avatar>
+                <el-avatar :size="35"><img src="@/assets/image/fb_logo.jpg"></el-avatar>
               </el-tooltip>
             </a>
             <a href="" class="social-icon">
               <el-tooltip content="X" placement="top-start" effect="dark">
-                <el-avatar><img src="@/assets/image/x-logo.webp"></el-avatar>
+                <el-avatar :size="35"><img src="@/assets/image/x-logo.webp"></el-avatar>
               </el-tooltip>
             </a>
             <a href="" class="social-icon">
               <el-tooltip content="Google" placement="top-start" effect="dark">
-                <el-avatar><img src="@/assets/image/google.png"></el-avatar>
+                <el-avatar :size="35"><img src="@/assets/image/google.png"></el-avatar>
               </el-tooltip>
             </a>
           </div>
@@ -227,6 +245,7 @@ async function Register() {
               accusantium dolor?
             </p>
             <button class="btn" id="sign-up-btn">Sign up</button>
+
           </div>
           <img src="../assets/signup.svg" alt="" class="image" />
         </div>
@@ -281,6 +300,7 @@ form {
   padding: 0 10px;
 }
 
+
 form.sign-in-form {
   opacity: 1;
   transition: 0.5s ease-in-out;
@@ -300,15 +320,23 @@ form.sign-up-form {
 }
 
 .input-field {
-  width: 100%;
-  height: 45px;
-  background: #f0f0f0;
-  margin: 5px 0;
-  border: 2px solid #32B4E3;
-  border-radius: 10px;
-  display: flex;
   align-items: center;
+  width: 100%;
+  position: relative;
+  border-bottom:1.5px solid rgb(105, 105, 105);
+  margin: 15px 0;
 }
+
+.input-field label{
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translateY(-30%);
+    color: #32B4E3;
+    font-size: 15px;
+    pointer-events: none;
+    transition: 0.15s ease;
+  }
 
 .input-field input, .input-field .select {
   flex: 4;
@@ -319,6 +347,22 @@ form.sign-up-form {
   font-size: 18px;
   font-weight: 500;
   color: #444;
+  background: transparent;
+}
+
+.input-field input:focus~label,
+  .input-field input:valid~label{
+    font-size: 0.8rem;
+    top: 5px;
+    transform: translateY(-120%);
+    border-radius: 8px;
+  }
+
+.input-field-select .select{
+  font-size: 15px;
+  border: none;
+  background: #32B4E3;
+  color: #fff;
 }
 
 .main-btn {
@@ -354,15 +398,16 @@ form.sign-up-form {
 }
 
 .social-icon {
-  height: 45px;
-  width: 45px;
   display: flex;
+  font-size: 0px;
   align-items: center;
   justify-content: center;
   color: #444;
-  border: 1px solid #444;
-  border-radius: 50px;
   margin: 0 5px;
+}
+
+.social-icon img {
+  font-size: 100px;
 }
 
 a {
@@ -516,5 +561,22 @@ i {
   form {
     width: 90%;
   }
+
+  .input-field-select .select{
+  font-size: 12px;
+  }
+
+  .input-field label{
+    font-size: 14px;
+  }
+  .title {
+    font-size: 25px;
+  }
+
+  .btn {
+  height: 35px;
+
+}
+
 }
 </style>

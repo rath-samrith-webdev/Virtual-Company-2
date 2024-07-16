@@ -25,7 +25,7 @@
             <p>{{ cardFavorite.hospital.phone_number }}</p>
             <p>{{ cardFavorite.hospital.street_address }}</p>
             <el-rate
-              v-model="cardFavorite.rating"
+              v-model="cardFavorite.hospital.favourite_by"
               disabled
               show-score
               text-color="#ff9900"
@@ -33,7 +33,7 @@
             />
           </div>
           <div class="card_button m-2">
-            <button type="button" class="btn btn-outline-primary">
+            <button type="button" class="btn btn-outline-primary" @click="seeDetails(cardFavorite.id)">
               <i class="fas fa-info-circle"></i> See Details
             </button>
           </div>
@@ -44,10 +44,10 @@
 </template>
 
 <script>
-import { ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
 import axiosInstance from '@/plugins/axios'
-
+import { hospitalDetailStore } from '@/stores/hospital-detail'
+const details = hospitalDetailStore()
 export default {
   name: 'CardAddress',
   components: {
@@ -79,6 +79,11 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    },
+    seeDetails(id) {
+      details.id = id
+      this.$router.push(`/hospital/detail?id=${id}`)
+      details.fetchHospitalDetail(id)
     }
   },
   mounted() {

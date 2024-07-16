@@ -1,5 +1,5 @@
 <template>
-  <WebLayout>
+  <WebLayout v-if="userStore.hospital!='No hospital'">
     <div>
       <div class="appointment">
         <h1>Customers' Appointment</h1>
@@ -13,9 +13,9 @@
         </el-table-column>
 
         <!-- Name Column -->
-        <el-table-column label="Name" width="180" >
+        <el-table-column label="Name" width="180">
           <template #default="scope">
-            <strong>{{scope.row.user.first_name}} {{scope.row.user.last_name}}</strong>
+            <strong>{{ scope.row.user.first_name }} {{ scope.row.user.last_name }}</strong>
           </template>
         </el-table-column>
 
@@ -35,6 +35,19 @@
               :type="scope.row.status === 'Confirmed' ? 'success' : 'Pending' ? 'warning' : 'danger'"
               disable-transitions
             >{{ scope.row.status }}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="hospital_status" label="Hospital Confirmation" :filters="[
+        { text: 'Confirmed', value: 'Confirmed' },
+        { text: 'Pending', value: 'Pending' },
+        { text: 'Denied', value: 'Denied' },
+      ]" :filter-method="filterTag" filter-placement="bottom-end">
+          <template #default="scope">
+            <el-tag
+              :type="scope.row.hospital_status === 'Confirmed' ? 'success' : 'Pending' ? 'warning' : 'danger'"
+              disable-transitions
+            >{{ scope.row.hospital_status }}
             </el-tag>
           </template>
         </el-table-column>
@@ -59,7 +72,7 @@
                 width="300"
                 title="Confirm Appointment"
                 append-to-body>
-                <span>This is the inner Dialog</span>
+                Are you sure?
                 <div class="el-dialog__footer">
                   <el-button @click="innerVisible = false">Cancel</el-button>
                   <el-button type="primary" @click="ConfirmAppointment(scope.row.id)">
@@ -81,53 +94,63 @@
       </el-table>
     </div>
   </WebLayout>
+  <WebLayout v-else>
+    <NoHospitalSet/>
+  </WebLayout>
 </template>
-
 <script setup lang="ts">
+import NoHospitalSet from '@/Components/Hospitals/NoHospitalSet.vue'
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import { onMounted, ref, watch } from 'vue'
-import {hopsitalAppointmentListStore} from '@/stores/hospital-appointment-list'
-import { string } from 'yup'
+import { hospitalAppointmentListStore } from '@/stores/hospital-appointment-list'
 import { ElNotification } from 'element-plus'
-const store=hopsitalAppointmentListStore()
+import { useAuthStore } from '@/stores/auth-store'
+import { Form } from 'vee-validate'
+
+const userStore = useAuthStore()
+const store = hospitalAppointmentListStore()
 const showTable = true
 const outerVisible = ref(false)
 const innerVisible = ref(false)
-let currentAppointment={}
+let currentAppointment = {}
 // Function to show details popover
-const ConfirmAppointment=(id:any)=>{
+const ConfirmAppointment = (id: any) => {
   innerVisible.value = false
   store.confirmAppointment(id)
 }
-const fetchAppointments=()=> {
+const fetchAppointments = () => {
   store.fetchAppointments()
 }
-const open2 = (title:string,message:any,type:string) => {
+const open2 = (title: string, message: any, type: string) => {
   ElNotification({
-    title:title,
+    title: title,
     message: message,
-    type: type,
+    type: type
   })
 }
-watch(()=>store.message,()=>{
-  if(store.message.success){
-    open2('Appointment Confirmed',store.message.message,'success')
-  }else{
-    open2('Appointment Confirmed',store.message.message,'success')
+watch(() => store.message, () => {
+  if (store.message.success) {
+    open2('Appointment Confirmed', store.message.message, 'success')
+  } else {
+    open2('Appointment Confirmed', store.message.message, 'success')
   }
 })
 onMounted(() => {
-  fetchAppointments()
+  if (userStore.hospital != 'No hospital') {
+    fetchAppointments()
+  }
 })
+
 interface User {
   status: string
 }
+
 const filterTag = (value: string, row: User) => {
   return row.status === value
 }
-const showDetails= (row) => {
+const showDetails = (row) => {
   outerVisible.value = true
-  currentAppointment=row
+  currentAppointment = row
 }
 </script>
 

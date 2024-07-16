@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\RateResource;
 use App\Models\Rate;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -60,7 +61,7 @@ class RateController extends Controller
      */
     public function show(Rate $rate)
     {
-        //
+        return response()->json(['success' => true, 'data' => new RateResource($rate)]);
     }
 
     /**
@@ -71,7 +72,7 @@ class RateController extends Controller
         $data = $request->validate([
             'user_id' => 'integer',
             'content' => 'required|string',
-            'hospital_id' => 'required',
+            'hospital_id' => 'exists:hospitals,id',
             'star' => 'integer'
         ]);
         $user = Auth::user();
@@ -82,14 +83,14 @@ class RateController extends Controller
             if ($user->hasRole('hospital') && $rate->user_id == $user->id) {
                 $rate->update($data);
                 return response()->json(['success' => true, 'message' => 'Rate has been updated'], 201);
-            }else{
-                return response()->json(['success' => false, 'message' => 'You are not authorized'], 403);
-            };
-            if ($rate->user_id == $user->id) {
+            }elseif ($rate->user_id == $user->id) {
                 $data['user_id'] = $user->id;
                 $rate->update($data);
                 return response()->json(['success' => true, 'message' => 'Rate has been updated'], 201);
-            }
+            }else{
+                return response()->json(['success' => false, 'message' => 'You are not authorized'], 403);
+            };
+
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
         };
@@ -133,6 +134,31 @@ class RateController extends Controller
             }
             return response()->json(['success' => true, 'data' => RateResource::collection($feedback)]);
         } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
+        }
+    }
+    public  function monthlyFeedback()
+    {
+        $user = Auth::user();
+        $month=[1,2,3,4,5,6,7,8,9,10,11,12];
+        $data=[];
+        $year = Carbon::now()->year;
+        try {
+            if ($user->hasRole('admin')) {
+                foreach ($month as $key=>$value) {
+                    $data[]=Rate::whereYear('created_at', $year)
+                        ->whereMonth('created_at', $value)->count();
+                }
+                return response()->json(['success' => true, 'message'=>'Request successful','data'=>$data], 200);
+            }elseif ($user->hasRole('hospital')) {
+                foreach ($month as $key=>$value) {
+                    $data[]=$user->hospital->rates()->whereYear('created_at',$year)->whereMonth('created_at', $value)->count();
+                }
+                return response()->json(['success' => true, 'message'=>'Request successful','data'=>$data], 200);
+            }else{
+                return response()->json(['success' => false, 'message'=>'You are not authorized'], 403);
+            }
+        }catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
         }
     }
