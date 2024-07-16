@@ -118,6 +118,33 @@ class AppointmentController extends Controller
         }
     }
 
+    public function cancelAppointment(Request $request, Appointment $appointment)
+    {
+        $data = $request->validate([
+            'status' => 'required|string',
+        ]);
+        $user = Auth::user();
+        try {
+            if ($appointment->status !== 'Canceled' && $appointment->status !== 'Confirmed') {
+                if ($user->hasRole('admin')) {
+                    $appointment->update($data);
+                } elseif ($user->hasRole('hospital')) {
+                    $appointment->update(['hospital_status'=>$data['status']]);
+                } elseif ($user->hasRole('doctor')) {
+                    $appointment->update(['doctor_status'=>$data['status']]);
+                }elseif ($user->id == $appointment->user_id) {
+                    $appointment->update($data);
+                }else {
+                    return response()->json(['success' => false, 'message' => 'Unauthorized'], 500);
+                }
+                return response()->json(['success' => true, 'message' => 'Appointments has been Update successfully','data'=>$appointment], 200);
+            } else {
+                return response()->json(['success' => false, 'message' => 'This Appointment has already been Confirmed'], 200);
+            }
+        } catch (\Exception $exception) {
+            return response()->json(['success' => false, 'message' => $exception->getMessage()], 500);
+        }
+    }
     public function updateAppointments(Request $request, Appointment $appointment)
     {
         $data = $request->validate([
@@ -139,7 +166,7 @@ class AppointmentController extends Controller
                 }
                 return response()->json(['success' => true, 'message' => 'Appointments has been Update successfully','data'=>$appointment], 200);
             } else {
-                return response()->json(['success' => false, 'message' => 'This Appointment has already been canceled'], 200);
+                return response()->json(['success' => false, 'message' => 'This Appointment has already been Confirmed'], 200);
             }
         } catch (\Exception $exception) {
             return response()->json(['success' => false, 'message' => $exception->getMessage()], 500);

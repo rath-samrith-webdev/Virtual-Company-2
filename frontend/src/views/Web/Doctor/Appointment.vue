@@ -20,9 +20,9 @@ const confirmData = ref({
   room_name: ''
 })
 const alertAppointmentPopup = (id: any, doc_id: any) => {
-  centerDialogVisible.value=false
   confirmData.value.appointment_id = id
   hospital.fetchHospitalDetail(doc_id)
+  centerDialogVisible.value = false
   innerVisible.value = true
 }
 const confirmAppointment = () => {
