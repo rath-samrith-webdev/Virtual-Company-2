@@ -19,15 +19,15 @@ class DoctorController extends Controller
     {
         $user = Auth::user();
         try {
-            if ($user->hasRole('admin')){
+            if ($user->hasRole('admin')) {
                 $doctors = Doctor::all();
-            }elseif ($user->hasRole('hospital')){
-                $doctors=$user->hospital->doctors()->get();
-            }else{
+            } elseif ($user->hasRole('hospital')) {
+                $doctors = $user->hospital->doctors()->get();
+            } else {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
             return response()->json(['success' => true, 'data' => DoctorDetails::collection($doctors)], 200);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
     }
@@ -41,9 +41,11 @@ class DoctorController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'name' => 'required',
+            'gender' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
             'hospital_id' => 'required|exists:hospitals,id',
+            'phone' => 'required'
         ]);
         $user = Auth::user();
         $hospital = $user->hospital;
@@ -56,6 +58,7 @@ class DoctorController extends Controller
                         'first_name' => $data['first_name'],
                         'last_name' => $data['last_name'],
                         'name' => $data['name'],
+                        'gender' => $data['gender'],
                         'email' => $data['email'],
                         'password' => bcrypt($data['password']),
                     ]);
@@ -64,6 +67,7 @@ class DoctorController extends Controller
                     $doctor = Doctor::create([
                         'hospital_id' => $data['hospital_id'],
                         'user_id' => $uid,
+                        
                     ]);
                     return response()->json(['success' => true, 'data' => $doctor], 201);
                 } else {
@@ -74,6 +78,7 @@ class DoctorController extends Controller
             return response()->json(['success' => false, 'message' => $exception->getMessage()], 404);
         }
     }
+
 
     /**
      * Display the specified resource.
@@ -99,14 +104,20 @@ class DoctorController extends Controller
     public function update(Request $request, Doctor $doctor)
     {
         $data = $request->validate([
-            'hospital_id' => 'required|exists:hospitals,id',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'name' => 'required',
+            'gender' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
+            'hospital_id' => 'required|exists:hospitals,id',
+            'phone' => 'required'
         ]);
         $user = Auth::user();
         $hospital = $user->hospital;
         try {
             if ($hospital->id == $data['hospital_id']) {
-                $doctor = $doctor->update($data);
+                $doctor = $doctor->user->update($data);
                 return response()->json(['success' => true, 'data' => $doctor], 201);
             } else {
                 return response()->json(['success' => false, 'message' => 'Hospital not found'], 404);
