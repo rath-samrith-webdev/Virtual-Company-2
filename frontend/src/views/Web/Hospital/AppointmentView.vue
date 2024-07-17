@@ -160,7 +160,7 @@ watch(() => store.message, () => {
   if (store.message.success) {
     open2('Appointment Confirmed', store.message.message, 'success')
   } else {
-    open2('Appointment Confirmed', store.message.message, 'success')
+    open2('Appointment Confirmed', store.message.message, 'warning')
   }
 })
 onMounted(() => {

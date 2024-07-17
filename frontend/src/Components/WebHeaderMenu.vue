@@ -3,11 +3,9 @@ import { useAuthStore } from '@/stores/auth-store'
 import { useRouter } from 'vue-router'
 import { BellFilled } from '@element-plus/icons-vue'
 import {onMounted, ref, watch} from 'vue'
-import Pusher from "pusher-js";
 import {NotificationStore} from "@/stores/notification-store";
-const pusher=new Pusher('a60cae368e7908266355', {
-  cluster: 'ap1'
-});
+import {pusherConstance} from "@/pusher/pusher";
+const pusher=pusherConstance;
 const router = useRouter()
 const store = useAuthStore()
 const notifyStore=NotificationStore()

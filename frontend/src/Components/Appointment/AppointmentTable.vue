@@ -107,6 +107,7 @@ const deleteAppointment = async (row: any) => {
   } catch (error) {
     console.log(error)
   }
+  appointment.fetchAppointments()
 }
 const onUpdate = async () => {
   dialogEditVisible.value = false

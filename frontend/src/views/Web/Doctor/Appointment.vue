@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
-import axiosInstance from '@/plugins/axios'
 import { ref, onMounted } from 'vue'
 import { hospitalAppointmentListStore } from '@/stores/hospital-appointment-list'
 import { hospitalDetailStore } from '@/stores/hospital-detail'
@@ -14,7 +13,6 @@ const appointment = ref({
 })
 const centerDialogVisible = ref(false)
 const innerVisible = ref(false)
-const rooms = []
 const confirmData = ref({
   appointment_id: '',
   room_name: ''
