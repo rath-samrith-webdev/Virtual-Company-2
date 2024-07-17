@@ -14,4 +14,7 @@ class Notifications extends Model
         'user_id',
         'type'
     ];
+    protected $dispatchesEvents = [
+        'created' => AppointmentNotification::class,
+    ];
 }

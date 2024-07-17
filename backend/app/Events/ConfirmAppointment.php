@@ -31,12 +31,13 @@ class ConfirmAppointment
     public function broadcastOn(): array
     {
         return [
-            new Channel('appointments'),
+            new PrivateChannel('notification.'.$this->user->id),
         ];
     }
     public function broadcastWith(): array
     {
         return [
+            'message'=>'You have one message',
             'appointment' => $this->appointment,
             'doctor'=>$this->appointment->doctor,
             'hospital'=>$this->appointment->hospital
@@ -44,6 +45,6 @@ class ConfirmAppointment
     }
     public function BroadcastAs(): string
     {
-        return 'appointment';
+        return 'notify.'.$this->user->id;
     }
 }
