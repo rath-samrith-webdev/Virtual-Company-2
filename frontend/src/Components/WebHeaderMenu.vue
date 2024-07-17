@@ -2,23 +2,31 @@
 import { useAuthStore } from '@/stores/auth-store'
 import { useRouter } from 'vue-router'
 import { BellFilled } from '@element-plus/icons-vue'
-import { ref } from 'vue'
-
+import {onMounted, ref, watch} from 'vue'
+import Pusher from "pusher-js";
+import {NotificationStore} from "@/stores/notification-store";
+const pusher=new Pusher('a60cae368e7908266355', {
+  cluster: 'ap1'
+});
 const router = useRouter()
 const store = useAuthStore()
+const notifyStore=NotificationStore()
 const drawer = ref(false)
 function handleLogout() {
   localStorage.removeItem('access_token')
   store.user = null
   router.push('/landing')
 }
-function handleCommand(command) {
-  if (command === 'profile') {
-    router.push('/profile')
-  } else if (command === 'logout') {
-    handleLogout()
+watch(()=>notifyStore,()=>{
+  console.log('new notify')
+})
+onMounted(()=>{
+  if(store.user){
+    pusher.subscribe(`notification.${store.user.id}`).bind(`notify.${store.user.id}`,function(data){
+      alert(JSON.stringify(data))
+    })
   }
-}
+})
 </script>
 <template>
   <header class="nav flex justify-between px-5 bg-white align-items-center p-4">
