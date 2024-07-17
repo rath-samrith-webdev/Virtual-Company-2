@@ -66,4 +66,8 @@ class Hospital extends Model
     {
         return $this->hasMany(Room::class);
     }
+    public function promotions():HasMany
+    {
+        return $this->hasMany(Hospital::class);
+    }
 }

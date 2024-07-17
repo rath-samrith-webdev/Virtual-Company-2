@@ -11,7 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ConfirmAppointment
+class ConfirmAppointment implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -32,6 +32,12 @@ class ConfirmAppointment
     {
         return [
             new Channel('appointments'),
+        ];
+    }
+    public function broadcastWith(): array
+    {
+        return [
+            'appointment' => $this->appointment,
         ];
     }
     public function BroadcastAs(): string
