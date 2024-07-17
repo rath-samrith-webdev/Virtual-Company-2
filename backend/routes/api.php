@@ -12,6 +12,7 @@ use App\Http\Controllers\API\V1\RateReplyController;
 use App\Http\Controllers\API\V1\RoomController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SystemRequestController;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Broadcast::routes(['middleware' => ['auth:sanctum']]);
 
 Route::prefix('v1')->group(function () {
 

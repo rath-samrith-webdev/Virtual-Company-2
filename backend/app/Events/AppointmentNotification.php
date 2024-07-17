@@ -2,7 +2,8 @@
 
 namespace App\Events;
 
-use App\Models\Appointment;
+use App\Models\Notifications;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -11,16 +12,16 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ConfirmAppointment
+class AppointmentNotification implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(public Appointment $appointment)
+    public function __construct(public Notifications $notification)
     {
-        //
+        $this->notification = $notification;
     }
 
     /**
@@ -31,19 +32,18 @@ class ConfirmAppointment
     public function broadcastOn(): array
     {
         return [
-            new Channel('appointments'),
+            new Channel('notification.'.$this->user->id),
         ];
     }
     public function broadcastWith(): array
     {
         return [
-            'appointment' => $this->appointment,
-            'doctor'=>$this->appointment->doctor,
-            'hospital'=>$this->appointment->hospital
+            'message'=>'You have new notifications',
+            'notification'=>$this->notification,
         ];
     }
     public function BroadcastAs(): string
     {
-        return 'appointment';
+        return 'notify.'.$this->user->id;
     }
 }
