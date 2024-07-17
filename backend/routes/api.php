@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\API\V1\AppointmentController;
+use App\Http\Controllers\API\V1\AppointmentNotificationController;
 use App\Http\Controllers\API\V1\CategoryController;
 use App\Http\Controllers\API\V1\DepartmentController;
 use App\Http\Controllers\API\V1\DoctorController;
 use App\Http\Controllers\API\V1\FavouriteController;
 use App\Http\Controllers\API\V1\HospitalController;
+use App\Http\Controllers\API\V1\NotificationsController;
 use App\Http\Controllers\API\V1\PostController;
 use App\Http\Controllers\API\V1\RateController;
 use App\Http\Controllers\API\V1\RateReplyController;
@@ -28,7 +30,6 @@ use Illuminate\Support\Facades\Route;
 Broadcast::routes(['middleware' => ['auth:sanctum']]);
 
 Route::prefix('v1')->group(function () {
-
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/forget-password', [AuthController::class, 'forgetPassword']);
@@ -118,6 +119,10 @@ Route::prefix('v1')->group(function () {
         Route::get('/show/{room}',[RoomController::class,'show']);
         Route::put('/update/{room}',[RoomController::class,'update']);
         Route::delete('/delete/{room}',[RoomController::class,'destroy']);
+    });
+    Route::middleware('auth:sanctum')->prefix('appointment-notify')->group(function (){
+        Route::get('/list',[AppointmentNotificationController::class,'index']);
+        Route::get('/unseen',[AppointmentNotificationController::class,'unread']);
     });
     Route::get('/post/list', [PostController::class, 'index'])->middleware('auth:sanctum');
 });

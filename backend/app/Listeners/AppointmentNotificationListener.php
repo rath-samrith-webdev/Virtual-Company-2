@@ -23,13 +23,6 @@ class AppointmentNotificationListener implements ShouldQueue
     public function handle(ConfirmAppointment $event): void
     {
         $appointment = $event->appointment;
-        if($appointment->status=='Confirmed'){
-            Notifications::create([
-                'type'=>'Appointment Confirmed',
-                'message'=>'Your appointment has been confirmed',
-                'user_id'=>$appointment->user_id
-            ]);
-        }
     }
 
 }

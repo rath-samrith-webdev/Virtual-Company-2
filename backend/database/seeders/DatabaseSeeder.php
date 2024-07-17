@@ -3,11 +3,13 @@
 namespace Database\Seeders;
 
 use App\Models\Appointment;
+use App\Models\AppointmentNotifications;
 use App\Models\Category;
 use App\Models\Department;
 use App\Models\Doctor;
 use App\Models\Favourite;
 use App\Models\Hospital;
+use App\Models\NotificationType;
 use App\Models\Rate;
 use App\Models\RateReply;
 use App\Models\Room;
@@ -78,6 +80,12 @@ class DatabaseSeeder extends Seeder
             'rate_id'=>1,
             'hospital_id'=>1,
             'content'=>'Thank you for this comment'
+        ]);
+        $appointment_notification=AppointmentNotifications::create([
+            'user_id'=>3, //Receiver
+            'appointment_id'=>1,
+            'from'=>2, //Sender
+            'message'=>'A new appointment has been made'
         ]);
         $user_favourite = Favourite::create([
             'user_id'=>2,
