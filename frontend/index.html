@@ -17,21 +17,5 @@
 <body>
 <div id="app"></div>
 <script type="module" src="/src/main.ts"></script>
-<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script>
-    // Enable pusher logging - don't include this in production
-    Pusher.logToConsole = true;
-
-    const pusher = new Pusher('a60cae368e7908266355', {
-        cluster: 'ap1'
-    });
-
-    const channel = pusher.subscribe('appointments');
-    channel.bind('appointment', function (data) {
-        console.log(data)
-        alert(JSON.stringify(data.appointment.id));
-    });
-</script>
 </body>
 </html>
