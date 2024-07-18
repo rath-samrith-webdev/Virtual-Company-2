@@ -16,12 +16,14 @@ function handleLogout() {
   router.push('/landing')
 }
 watch(()=>notifyStore,()=>{
-  console.log('new notify')
+  console.log(notifyStore)
 })
 onMounted(()=>{
   if(store.user){
     pusher.subscribe(`notification.${store.user.id}`).bind(`notify.${store.user.id}`,function(data){
-      alert(JSON.stringify(data))
+      if(data){
+        notifyStore.fetchNotification()
+      }
     })
   }
 })

@@ -9,7 +9,7 @@ export const NotificationStore = defineStore("NotificationStore", {
     actions:{
         async fetchNotification() {
             try {
-                const {data}=await axiosInstance.get(`notifications/list`)
+                const {data}=await axiosInstance.get(`appointment-notify/list`)
                 console.log(data)
             }catch(error){
                 console.log(error)
@@ -17,15 +17,17 @@ export const NotificationStore = defineStore("NotificationStore", {
         },
         async fetchUnseenNotifications() {
             try {
-                const {data}=await axiosInstance.get(`notifications/unseen`)
+                const {data}=await axiosInstance.get(`appointment-notify/unseen`)
                 console.log(data)
             }catch(error){
                 console.log(error)
             }
         },
-        async markAsSeen(){
+        async markAsSeen(id:any){
+            const formData=new FormData()
+            formData.append('read', 'true')
             try {
-                const {data}=await axiosInstance.put(`notifications/markAsSeen`)
+                const {data}=await axiosInstance.put(`appointment-notify/markAsSeen${id}`,formData)
                 console.log(data)
             }catch (error){
                 console.log(error)
