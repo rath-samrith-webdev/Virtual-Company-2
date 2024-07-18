@@ -4,7 +4,6 @@ import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import { Lock, Message, UserFilled } from '@element-plus/icons-vue/global'
 import axiosInstance from '@/plugins/axios'
 import { useRoute, useRouter } from 'vue-router'
-import ResetPassword from './ResetPassword.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -182,7 +181,7 @@ async function Register() {
           </div>
           <div class="d-flex">
             <div class="input-field d-flex gap-1 align-items-center">
-              <input type="password" v-model="registerCredential.password" required/>
+              <input type="password" v-model="registerCredential.password" required />
               <label>
                 <el-icon :size="15">
                   <Lock />
@@ -195,7 +194,9 @@ async function Register() {
                 <el-icon :size="15">
                   <Lock />
                 </el-icon>
-                Confirm Password</label>
+                Confirm Password</label
+              >
+
             </div>
           </div>
           <div class="input-field-select">
