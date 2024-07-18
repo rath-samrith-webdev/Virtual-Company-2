@@ -2,8 +2,10 @@
 
 namespace App\Listeners;
 
+use App\Events\AppointmentNotifier;
 use App\Events\ConfirmAppointment;
 use App\Models\Appointment;
+use App\Models\AppointmentNotifications;
 use App\Models\Notifications;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;

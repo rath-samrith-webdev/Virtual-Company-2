@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Events\AppointmentNotification;
+use App\Events\AppointmentNotifier;
 use App\Events\ConfirmAppointment;
 use App\Listeners\AppointmentNotificationListener;
+use App\Listeners\AppointmentNotifierListener;
 use App\Listeners\ConfirmAppointmentListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -24,8 +26,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         ConfirmAppointment::class=>[
             ConfirmAppointmentListener::class,
-            AppointmentNotificationListener::class,
         ],
+        AppointmentNotifier::class=>[
+            AppointmentNotifierListener::class,
+        ]
     ];
 
     /**

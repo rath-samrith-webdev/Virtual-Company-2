@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\NotificationNotifier;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +14,10 @@ class AppointmentNotifications extends Model
         'user_id',
         'type',
         'message',
-        'from'
+        'from',
+        'is_read'
+    ];
+    protected $dispatchesEvents=[
+        'created'=>NotificationNotifier::class
     ];
 }

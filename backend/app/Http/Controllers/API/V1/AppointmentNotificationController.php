@@ -56,7 +56,32 @@ class AppointmentNotificationController extends Controller
             return response()->json(['error'=>true,"message"=>"Server error"], 500);
         }
     }
-
+    public function markAsSeen(AppointmentNotifications $appointmentNotification)
+    {
+        $user=Auth::user();
+        try {
+            if($user->hasRole('admin')){
+                $appointmentNotification->update(['is_read'=>1]);
+            }elseif($user->hasRole('hospital')){
+                if ($appointmentNotification->user_id==$user->hospital->user_id){
+                    $appointmentNotification->update(['is_read'=>1]);
+                }
+            }elseif ($user->hasRole('doctor')){
+                if($user->doctor->user_id==$appointmentNotification->user_id){
+                    $appointmentNotification->update(['is_read'=>1]);
+                }
+            }else{
+                if($user->id==$appointmentNotification->user_id){
+                    $appointmentNotification->update(['is_read'=>1]);
+                }else{
+                    return response()->json(['success'=>false,'message'=>'Unauthorized'], 401);
+                }
+            }
+            return response()->json(['data'=>$appointmentNotification]);
+        }catch (\Exception $e){
+            return response()->json(['error'=>true,"message"=>"Server error"], 500);
+        }
+    }
     /**
      * Store a newly created resource in storage.
      */

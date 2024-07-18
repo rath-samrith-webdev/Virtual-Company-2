@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Events\AppointmentNotifier;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\AppointmentResource;
 use App\Models\Appointment;

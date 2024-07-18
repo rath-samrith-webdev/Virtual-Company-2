@@ -2,12 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\ConfirmAppointment;
-use App\Models\Notifications;
+use App\Events\NotificationNotifier;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class AppointmentNotificationListener implements ShouldQueue
+class NotificationNotifierListener
 {
     /**
      * Create the event listener.
@@ -20,9 +19,8 @@ class AppointmentNotificationListener implements ShouldQueue
     /**
      * Handle the event.
      */
-    public function handle(ConfirmAppointment $event): void
+    public function handle(NotificationNotifier $event): void
     {
-        $appointment = $event->appointment;
+        //
     }
-
 }

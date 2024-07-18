@@ -123,6 +123,7 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->prefix('appointment-notify')->group(function (){
         Route::get('/list',[AppointmentNotificationController::class,'index']);
         Route::get('/unseen',[AppointmentNotificationController::class,'unread']);
+        Route::put('/markAsSeen/{appointmentNotification}',[AppointmentNotificationController::class,'markAsSeen']);
     });
     Route::get('/post/list', [PostController::class, 'index'])->middleware('auth:sanctum');
 });
