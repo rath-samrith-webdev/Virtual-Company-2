@@ -23,11 +23,11 @@ const loginCredential: { email: string; password: string } = {
 const registerCredential: {
   first_name: string
   last_name: string
+  name: string
   email: string
   user_type: string
   password: string
-  password_confirmation: string
-} = {
+  password_confirmation: string} = {
   first_name: '',
   last_name: '',
   name: '',
