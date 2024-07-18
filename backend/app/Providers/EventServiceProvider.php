@@ -11,7 +11,7 @@ use App\Listeners\AppointmentNotificationListener;
 use App\Listeners\AppointmentNotifierListener;
 use App\Listeners\ConfirmAppointmentListener;
 use App\Listeners\NotificationNotifierListener;
-use App\Listeners\UpdateAppointment;
+use App\Listeners\NotifyToHospital;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -35,7 +35,7 @@ class EventServiceProvider extends ServiceProvider
             NotificationNotifierListener::class,
         ],
         AppointmentPlaced::class=>[
-            UpdateAppointment::class
+            NotifyToHospital::class
         ]
     ];
 

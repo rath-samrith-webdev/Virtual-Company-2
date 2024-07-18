@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\DoctorNotificationResource;
+use App\Http\Resources\V1\HospitalNotificationResource;
+use App\Http\Resources\V1\UserNotificationResource;
 use App\Models\AppointmentNotifications;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,21 +20,19 @@ class AppointmentNotificationController extends Controller
         $user=Auth::user();
         try {
             if(!$user->hasRole('admin')){
+                $data=$user->notifications()->get();
                 if($user->hasRole('hospital')){
-                    $hospital=$user->hospital;
-                    $data=$hospital->user->notifications()->get();
+                    return response()->json(['success'=>true,'message'=>'notification retrieved','data'=>HospitalNotificationResource::collection($data)], 200);
                 }elseif ($user->hasRole('doctor')){
-                    $doctor=$user->doctor;
-                    $data=$doctor->user->notifications()->get();
+                    return response()->json(['success'=>true,'message'=>'notification retrieved','data'=>DoctorNotificationResource::collection($data)], 200);
                 }else{
-                    $data=$user->notifications()->get();
+                    return response()->json(['success'=>true,'message'=>'notification retrieved','data'=>UserNotificationResource::collection($data)], 200);
                 }
-                return response()->json(['success'=>true,'message'=>'notification retrieved','data'=>$data], 200);
             }else{
                 return response()->json(['success'=>true,'data'=>AppointmentNotifications::all()],200);
             }
         }catch (\Exception $e){
-            return response()->json(['error'=>true,"message"=>"Server error"], 500);
+            return response()->json(['error'=>true,"message"=>"Server error",'data'=>$e->getMessage()], 500);
         }
     }
     public function unread()

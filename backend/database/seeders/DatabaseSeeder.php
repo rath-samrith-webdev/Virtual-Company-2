@@ -81,12 +81,6 @@ class DatabaseSeeder extends Seeder
             'hospital_id'=>1,
             'content'=>'Thank you for this comment'
         ]);
-        $appointment_notification=AppointmentNotifications::create([
-            'user_id'=>3, //Receiver
-            'appointment_id'=>1,
-            'from'=>2, //Sender
-            'message'=>'A new appointment has been made'
-        ]);
         $user_favourite = Favourite::create([
             'user_id'=>2,
             'hospital_id'=>1,

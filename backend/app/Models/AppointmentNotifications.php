@@ -25,4 +25,8 @@ class AppointmentNotifications extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function sendFrom():BelongsTo
+    {
+        return $this->belongsTo(User::class,'from');
+    }
 }
