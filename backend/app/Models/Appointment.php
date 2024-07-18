@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\AppointmentPlaced;
 use App\Events\ConfirmAppointment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,6 +23,7 @@ class Appointment extends Model
         'doctor_status'
     ];
     protected $dispatchesEvents = [
+        'created'=>AppointmentPlaced::class,
         'updated'=>ConfirmAppointment::class
     ];
     public function user():BelongsTo

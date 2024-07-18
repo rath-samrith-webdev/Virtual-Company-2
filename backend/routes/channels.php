@@ -17,5 +17,5 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 Broadcast::channel('notification.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+    return (int) $user->id === \App\Models\Appointment::find($id)->user_id;
 });

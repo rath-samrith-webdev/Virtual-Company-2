@@ -8,6 +8,7 @@ use App\Models\Rate;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class RateController extends Controller
 {
@@ -27,6 +28,15 @@ class RateController extends Controller
             }
             return response()->json(['success' => true, 'data' => RateResource::collection($feedback)]);
         } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
+        }
+    }
+    public function mostRated()
+    {
+        try {
+            $rate=DB::table('rates')->groupBy('hospital_id')->sum('star');
+            return response()->json(['success' => true, 'data' => $rate]);
+        }catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
         }
     }

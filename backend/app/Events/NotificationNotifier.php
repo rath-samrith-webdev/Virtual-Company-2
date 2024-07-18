@@ -3,7 +3,6 @@
 namespace App\Events;
 
 use App\Models\AppointmentNotifications;
-use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -13,13 +12,17 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Auth;
 
-class NotificationNotifier  implements ShouldBroadcast
+class NotificationNotifier implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct(public AppointmentNotifications $notifications)
+    /**
+     * Create a new event instance.
+     */
+    public $user;
+    public function __construct(public AppointmentNotifications $notification)
     {
-       //
+       $this->user=Auth::user();
     }
 
     /**
@@ -30,17 +33,17 @@ class NotificationNotifier  implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('notification.'.$this->notifications->user_id),
+            new Channel('notification'),
         ];
     }
-    public function broadcastWith(): array
+    public function BroadcastWith(): array
     {
         return [
-            'message'=>'You have one message',
+            'message'=>'You have one unread message',
         ];
     }
     public function BroadcastAs(): string
     {
-        return 'notify.'.$this->notifications->user_id;
+        return 'notify';
     }
 }

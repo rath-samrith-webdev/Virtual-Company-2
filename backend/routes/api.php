@@ -90,6 +90,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/recent',[RateController::class,'recentFeedback']);
         Route::get('/monthly',[RateController::class,'monthlyFeedback']);
         Route::put('/update/{rate}',[RateController::class,'update']);
+        Route::get('/mostRated',[RateController::class,'mostRated']);
         Route::delete('/delete/{rate}',[RateController::class,'destroy']);
     });
     Route::middleware('auth:sanctum')->prefix('feedback-reply')->group(function () {

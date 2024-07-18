@@ -26,7 +26,7 @@ class AppointmentNotificationController extends Controller
                 }else{
                     $data=$user->notifications()->get();
                 }
-                return response()->json(['success'=>true,'data'=>$data], 200);
+                return response()->json(['success'=>true,'message'=>'notification retrieved','data'=>$data], 200);
             }else{
                 return response()->json(['success'=>true,'data'=>AppointmentNotifications::all()],200);
             }

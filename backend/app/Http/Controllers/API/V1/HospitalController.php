@@ -143,15 +143,15 @@ class HospitalController extends Controller
                 return false;
             }
             $filename = 'hospital-' . $hospital->id . '-' . time() . '.' . $extension;
-            $path=public_path('/') . '/images/hospital/hospital-cover/hospital-' . $hospital->id . '/'.$hospital->cover_image;
-            if(File::exists($path)) {
+            $path = public_path('/') . '/images/hospital/hospital-cover/hospital-' . $hospital->id . '/' . $hospital->cover_image;
+            if (File::exists($path)) {
                 File::delete($path);
             }
             $hospital->update(['cover_image' => $filename]);
             $image->move(public_path('/') . '/images/hospital/hospital-cover/hospital-' . $hospital->id . '/', $filename);
             return response()->json(['success' => true, 'message' => 'Cover image has been uploaded', 'data' => $hospital], 201);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Upload Error','error'=>$e->getMessage()], 500);
+            return response()->json(['success' => false, 'message' => 'Upload Error', 'error' => $e->getMessage()], 500);
         }
 
     }

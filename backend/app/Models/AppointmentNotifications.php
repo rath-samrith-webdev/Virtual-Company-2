@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\NotificationNotifier;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AppointmentNotifications extends Model
 {
@@ -18,6 +19,10 @@ class AppointmentNotifications extends Model
         'is_read'
     ];
     protected $dispatchesEvents=[
-        'created'=>NotificationNotifier::class
+        'created'=>NotificationNotifier::class,
     ];
+    public function user():BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }
