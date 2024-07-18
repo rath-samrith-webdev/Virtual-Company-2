@@ -5,27 +5,32 @@ import { Lock, Message, UserFilled } from '@element-plus/icons-vue/global'
 import axiosInstance from '@/plugins/axios'
 import { useRoute, useRouter } from 'vue-router'
 
+//===========================================
+//validation
+//===========================================
+import { Form, Field, ErrorMessage } from 'vee-validate'
+import { loginSchema } from '@/validation/validation-schema'
+import { singupSchema } from '@/validation/validation-schema'
+
+
 const router = useRouter()
 const route = useRoute()
 
-const loginCredential: {
-   email: string, password: string ;
-} = {
+const loginCredential: { email: string; password: string } = {
   email: '',
   password: ''
 }
 const registerCredential: {
-  name: any
-  value(arg0: string, value: any): { data: any }|PromiseLike<{ data: any }>
-  first_name: string,
-  last_name: string,
-  email: string,
-  user_type: string,
-  password: string,
-  password_confirmation: string } = {
+  first_name: string
+  last_name: string
+  email: string
+  user_type: string
+  password: string
+  password_confirmation: string
+} = {
   first_name: '',
   last_name: '',
-  name:'',
+  name: '',
   email: '',
   password: '',
   user_type: '',
@@ -55,42 +60,41 @@ onMounted(() => {
 })
 
 async function LogIn() {
-     try {
-      const { data } = await axiosInstance.post('/login', loginCredential.value)
-      localStorage.setItem('access_token', data.access_token)
-      if (data.role == 'hospital') {
-        router.push('/hospital/dashboard')
-      } else if (data.role == 'admin') {
-        router.push('/admin/dashboard')
-      } else if (data.role == 'doctor') {
-        router.push('/doctor/dashboard')
-      } else {
-        router.push('/')
-      }
-    } catch (error) {
-      console.log(error)
-      router.push('/login')
+  try {
+    const { data } = await axiosInstance.post('/login', loginCredential.value)
+    localStorage.setItem('access_token', data.access_token)
+    if (data.role == 'hospital') {
+      router.push('/hospital/dashboard')
+    } else if (data.role == 'admin') {
+      router.push('/admin/dashboard')
+    } else if (data.role == 'doctor') {
+      router.push('/doctor/dashboard')
+    } else {
+      router.push('/')
     }
+  } catch (error) {
+    console.log(error)
+    router.push('/login')
   }
+}
 
 async function Register() {
- 
-    try {
-      const { data } = await axiosInstance.post('/register', registerCredential.value)
-      console.log(data)
-      router.push('/login')
-    } catch (error) {
-      console.log(error)
-      router.push('/login')
-    }
+  try {
+    const { data } = await axiosInstance.post('/register', registerCredential.value)
+    console.log(data)
+    router.push('/login')
+  } catch (error) {
+    console.log(error)
+    router.push('/login')
   }
+}
 </script>
 <template>
   <WebLayout>
     <div class="container">
       <div class="signin-signup">
         <!--Login Form-->
-        <form action="" @submit.prevent="LogIn" class="sign-in-form">
+        <!-- <form action="" @submit.prevent="LogIn" class="sign-in-form">
           <h2 class="title">Sign in</h2>
           <div class="input-field">
             <input type="email" v-model="loginCredential.email" required />
@@ -110,7 +114,6 @@ async function Register() {
               Your Password</label
             >
           </div>
-          <!-- forgot-password -->
           <p class="forgot-password text-right">
             <router-link to="/forgot-password">Forgot Password</router-link>
           </p>
@@ -145,9 +148,10 @@ async function Register() {
           <p class="account-text">
             Don't have an account? <a href="#" id="sign-up-btn2">Sign up</a>
           </p>
-        </form>
+        </form> -->
+
         <!--Sign Up Form-->
-        <form action="" @submit.prevent="Register" class="sign-up-form">
+        <!-- <form action="" @submit.prevent="Register" class="sign-up-form">
           <h2 class="title">Sign up</h2>
           <div class="d-flex">
             <div class="input-field d-flex gap-1 align-items-center">
@@ -167,12 +171,6 @@ async function Register() {
                 </el-icon>
                 Last Name</label
               >
-              <div v-if="registerCredential.first_name.length < 3" class="error-message">
-                First name must be at least 3 characters long.
-              </div>
-              <div v-if="registerCredential.last_name.length < 3" class="error-message">
-                Last name must be at least 3 characters long.
-              </div>
             </div>
           </div>
           <div class="input-field">
@@ -183,9 +181,6 @@ async function Register() {
               </el-icon>
               User Name</label
             >
-            <div v-if="registerCredential.name.length < 5" class="error-message">
-              Username must be at least 5 characters long.
-            </div>
           </div>
           <div class="input-field">
             <input type="email" v-model="registerCredential.email" required />
@@ -195,9 +190,6 @@ async function Register() {
               </el-icon>
               Email</label
             >
-            <div v-if="!isValidEmail(registerCredential.email)" class="error-message">
-              Please enter a valid email address.
-            </div>
           </div>
           <div class="d-flex">
             <div class="input-field d-flex gap-1 align-items-center">
@@ -208,9 +200,6 @@ async function Register() {
                 </el-icon>
                 Password</label
               >
-              <div v-if="registerCredential.password.length < 8" class="error-message">
-                Password must be at least 8 characters long.
-              </div>
             </div>
             <div class="input-field d-flex align-items-center">
               <input type="password" v-model="registerCredential.password_confirmation" required />
@@ -220,12 +209,6 @@ async function Register() {
                 </el-icon>
                 Confirm Password</label
               >
-              <div
-                v-if="registerCredential.password !== registerCredential.password_confirmation"
-                class="error-message"
-              >
-                Passwords do not match.
-              </div>
             </div>
           </div>
           <div class="input-field-select">
@@ -264,13 +247,241 @@ async function Register() {
           <p class="account-text">
             Already have an account? <a href="#" id="sign-in-btn2">Sign in</a>
           </p>
-        </form>
+        </form> -->
+        
+
+        <!-- =============================================== -->
+        <!-- Test validtion form login -->
+        <!-- =============================================== -->
+        <Form
+          action="" 
+          @submit.prevent="LogIn" 
+          class="sign-in-form"
+          v-slot="{ errors }"
+          :validation-schema="loginSchema"
+        >
+          <h2 class="title">Sign in</h2>
+          <div class="input-field">
+            <Field 
+              type="email" 
+              name="email"
+              v-model="loginCredential.email"
+              id="email"
+              :style="{ borderColor: errors && errors['email'] ? 'red' : '' }"
+            />
+            <label>
+              <el-icon :size="15">
+                <UserFilled />
+              </el-icon>
+              Your Email</label
+            >
+            <ErrorMessage name="email" class="text-danger" />
+          </div>
+          <div class="input-field">
+            <Field 
+              type="password" 
+              name="password"
+              v-model="loginCredential.password"
+              id="password"
+              :style="{ borderColor: errors && errors['password'] ? 'red' : '' }"  
+            />
+            <ErrorMessage name="password" class="text-danger" />
+            <label>
+              <el-icon :size="15">
+                <Lock />
+              </el-icon>
+              Your Password</label
+            >
+          </div>
+          <p class="forgot-password text-right">
+            <router-link to="/forgot-password">Forgot Password</router-link>
+          </p>
+
+          <p class="social-text">Or Sign in with social platform</p>
+          <div class="social-media">
+            <a href="#" class="social-icon">
+              <el-tooltip content="LinkedIn" placement="top-start" effect="dark">
+                <el-avatar><img src="@/assets/image/linkeding.png" /></el-avatar>
+              </el-tooltip>
+            </a>
+            <a href="" class="social-icon">
+              <el-tooltip content="Facebook" placement="top-start" effect="dark">
+                <el-avatar><img src="@/assets/image/fb_logo.jpg" /></el-avatar>
+              </el-tooltip>
+            </a>
+            <a href="" class="social-icon">
+              <el-tooltip content="X" placement="top-start" effect="dark">
+                <el-avatar><img src="@/assets/image/x-logo.webp" /></el-avatar>
+              </el-tooltip>
+            </a>
+            <a href="" class="social-icon">
+              <el-tooltip content="Google" placement="top-start" effect="dark">
+                <el-avatar><img src="@/assets/image/google.png" /></el-avatar>
+              </el-tooltip>
+            </a>
+          </div>
+          <div class="main-btn">
+            <button type="submit" class="btn">Log in</button>
+          </div>
+
+          <p class="account-text">
+            Don't have an account? <a href="#" id="sign-up-btn2">Sign up</a>
+          </p>
+        </Form>
+        <!-- =============================================== -->
+        <!-- Test validtion form Sign Up -->
+        <!-- =============================================== -->
+        <Form 
+          action="" 
+          @submit.prevent="Register" 
+          class="sign-up-form"
+          v-slot="{ errors }"
+          :validation-schema="singupSchema"
+        >
+          <h2 class="title">Sign up</h2>
+          <div class="d-flex">
+            <div class="input-field d-flex gap-1 align-items-center">
+              <Field 
+                type="text" 
+                v-model="registerCredential.first_name"
+                name="first_name"
+                id="first_name"
+                :style="{ borderColor: errors && errors['first_name'] ? 'red' : '' }"
+              />
+              <label>
+                <el-icon :size="15">
+                  <UserFilled />
+                </el-icon>
+                Frist Name</label
+              >
+             <ErrorMessage name="first_name" class="text-danger" />
+            </div>
+            <div class="input-field d-flex align-items-center">
+              <Field 
+                type="text" 
+                v-model="registerCredential.last_name" 
+                name="last_name"
+                id="last_name"
+                :style="{ borderColor: errors && errors['last_name'] ? 'red' : '' }"
+              />
+              <label>
+                <el-icon :size="15">
+                  <UserFilled />
+                </el-icon>
+                Last Name</label
+              >
+              <ErrorMessage name="last_name" class="text-danger" />
+            </div>
+          </div>
+          <div class="input-field">
+            <Field 
+              type="text" 
+              v-model="registerCredential.name"  
+              name="name"
+              id="name"
+              :style="{ borderColor: errors && errors['name'] ? 'red' : '' }"
+            />
+            <label>
+              <el-icon :size="15">
+                <UserFilled />
+              </el-icon>
+              User Name</label
+            >
+            <ErrorMessage name="name" class="text-danger" />
+          </div>
+          <div class="input-field">
+            <Field 
+              type="email" 
+              v-model="registerCredential.email" 
+              name="email"
+              id="email"
+              :style="{ borderColor: errors && errors['email'] ? 'red' : '' }"
+            />
+            <label>
+              <el-icon :size="15">
+                <Message />
+              </el-icon>
+              Email</label
+            >
+            <ErrorMessage name="email" class="text-danger" />
+          </div>
+          <div class="d-flex">
+            <div class="input-field d-flex gap-1 align-items-center">
+              <Field 
+                type="password" 
+                v-model="registerCredential.password" 
+                name="password"
+                id="password"
+                :style="{ borderColor: errors && errors['password'] ? 'red' : '' }"
+              />
+              <label>
+                <el-icon :size="15">
+                  <Lock />
+                </el-icon>
+                Password</label
+              >
+              <ErrorMessage name="password" class="text-danger" />
+            </div>
+            <div class="input-field d-flex align-items-center">
+              <Field 
+                type="password" 
+                v-model="registerCredential.password_confirmation"
+                name="password_confirmation"
+                id="password_confirmation"
+                :style="{ borderColor: errors && errors['password_confirmation'] ? 'red' : '' }"
+              />
+              <label>
+                <el-icon :size="15">
+                  <Lock />
+                </el-icon>
+                Confirm Password</label
+              >
+              <ErrorMessage name="password_confirmation" class="text-danger" />
+            </div>
+          </div>
+          <div class="input-field-select">
+            <select class="select form-control" v-model="registerCredential.user_type" required>
+              <option selected value="" hidden>Who are you?</option>
+              <option value="user">Normal User</option>
+              <option value="hospital">Hospital Owner</option>
+            </select>
+          </div>
+          <p class="social-text">Or Sign in with social platform</p>
+          <div class="social-media">
+            <a href="#" class="social-icon">
+              <el-tooltip content="LinkedIn" placement="top-start" effect="dark">
+                <el-avatar :size="35"><img src="@/assets/image/linkeding.png" /></el-avatar>
+              </el-tooltip>
+            </a>
+            <a href="" class="social-icon">
+              <el-tooltip content="Facebook" placement="top-start" effect="dark">
+                <el-avatar :size="35"><img src="@/assets/image/fb_logo.jpg" /></el-avatar>
+              </el-tooltip>
+            </a>
+            <a href="" class="social-icon">
+              <el-tooltip content="X" placement="top-start" effect="dark">
+                <el-avatar :size="35"><img src="@/assets/image/x-logo.webp" /></el-avatar>
+              </el-tooltip>
+            </a>
+            <a href="" class="social-icon">
+              <el-tooltip content="Google" placement="top-start" effect="dark">
+                <el-avatar :size="35"><img src="@/assets/image/google.png" /></el-avatar>
+              </el-tooltip>
+            </a>
+          </div>
+          <div class="main-btn">
+            <button type="submit" class="btn">Sign Up</button>
+          </div>
+          <p class="account-text">
+            Already have an account? <a href="#" id="sign-in-btn2">Sign in</a>
+          </p>
+        </Form>
       </div>
       <div class="panels-container">
         <div class="panel left-panel">
           <div class="content">
             <h3>Welcome to CareFinder!</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque accusantium dolor?</p>
+            <p>Provide solution to your hospital, help you to increase you business. Sign up now to use our system.</p>
             <button class="btn" id="sign-in-btn">Sign in</button>
           </div>
           <img src="../assets/signin.svg" alt="" class="image" />
@@ -278,7 +489,7 @@ async function Register() {
         <div class="panel right-panel">
           <div class="content">
             <h3>Welcome Back to CareFinder!</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque accusantium dolor?</p>
+            <p>Provide solution to your hospital, help you to increase you business. Sign in now to use our system.</p>
             <button class="btn" id="sign-up-btn">Sign up</button>
           </div>
           <img src="../assets/signup.svg" alt="" class="image" />
