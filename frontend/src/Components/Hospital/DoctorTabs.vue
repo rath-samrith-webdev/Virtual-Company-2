@@ -21,7 +21,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="card-doctor">
+    <div class="card-doctor">
       <div class="">
         <img v-if="doctor.profile!=='No profile'" shape="square" :size="280" :src="doctor.profile" />
         <el-avatar v-else style="margin-top:45px; margin-bottom: 35px;" shape="square" :size="200" src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png" />
@@ -29,38 +29,48 @@ export default defineComponent({
       <div class="card-body mt-3">
       <h4>{{ doctor.name }}</h4>
       <p>{{ doctor.email }}</p>
-      <button type="button" class="btn btn-info m-3" @click="$emit('update')">Update</button>
-      <button type="button" class="btn btn-warning m-3" @click="$emit('remove')">Remove</button>
+      <button type="button" class="btn btn-info m-3 text-light fw-bolder " @click="$emit('update')">Update</button>
+      <button type="button" class="btn btn-warning m-3 text-light fw-bolder" @click="$emit('remove')">Remove</button>
     </div>
-    <el-dialog v-model="isEdit" title="Update Doctor" width="800">
-      <el-form label-position="top">
-        <el-form-item label="Doctor Name">
-          <el-input v-model="editData.first_name" type="text" />
+  <!-- form update -->
+  <el-dialog v-model="isEdit" title="Edit Doctor" width="800">
+      <el-form :model="editData" label-position="top" label-width="120px">
+        <div class="flex">
+          <el-col :span="11">
+            <el-form-item label="First name">
+              <el-input v-model="editData.first_name" style="width: 100%" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="2" class="text-center">
+            <span class="text-gray-500">-</span>
+          </el-col>
+          <el-col :span="11">
+            <el-form-item label="Last name">
+              <el-input v-model="editData.last_name" style="width: 100%" />
+            </el-form-item>
+          </el-col>
+        </div>
+        <el-form-item label="Name">
+          <el-input v-model="editData.name" />
         </el-form-item>
-        <el-form-item label="Doctor Email">
-          <el-input v-model="editData.email" type="email" />
+        <el-form-item label="Gender">
+          <el-select v-model="editData.gender" placeholder="Select Gender">
+            <el-option label="Male" value="Male"></el-option>
+            <el-option label="Female" value="Female"></el-option>
+            <el-option label="Other" value="Other"></el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="Doctor Image">
-          <el-upload
-            style="width: 100%"
-            class="upload-demo"
-            drag
-            accept="image/*"
-            @change="handlePictureCardPreview"
-          >
-            <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-            <div class="el-upload__text">
-              Drop file here or <em>click to upload</em>
-            </div>
-            <template #tip>
-              <div class="el-upload__tip">
-                jpg/png files with a size less than 500kb
-              </div>
-            </template>
-          </el-upload>
+        <el-form-item label="Email">
+          <el-input v-model="editData.email" />
         </el-form-item>
-        <el-button @click="$emit('updateDoctor')">Submit</el-button>
+        <el-form-item label="Password">
+          <el-input v-model="editData.password" />
+        </el-form-item>
+        <el-form-item label="Phone Number">
+          <el-input v-model="editData.phone" />
+        </el-form-item>
       </el-form>
+      <el-button type="primary" @click="$emit('updateDoctor')">Update</el-button>
     </el-dialog>
   </div>
 </template>

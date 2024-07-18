@@ -29,7 +29,7 @@ export const useDoctorStore = defineStore('doctorStore', {
         const formData = new FormData();
         formData.append('name', updatedData.name);
         formData.append('email', updatedData.email);
-        formData.append('profile', updatedData.profile);
+        // formData.append('profile', updatedData.profile);
 
         const { data } = await axiosInstance.put(`/doctors/update/${doctorId}`, formData, {
           headers: {

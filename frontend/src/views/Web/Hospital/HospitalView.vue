@@ -35,8 +35,8 @@ const updateDoc = (doc) => {
   editData.value=doc
   console.log(doc); 
 }
-const updateData=()=>{
-  store.updateDoctor(editData.value.id,editData.value)
+const updateData=(id)=>{
+  store.updateDoctor(id,editData.value)
 }
 const updateDepartment=(id:number)=>{
   console.log('updateDepartment ', id)
@@ -115,11 +115,6 @@ onMounted(()=>{
           </el-form>
         </el-dialog>
         <CardDepartment v-for="dep in departments" :key="dep.id" :department="dep" @update="updateDepartment(dep.id)" @remove="removeDepartment(dep.id)"/>
-      </el-tab-pane>
-      <el-tab-pane label="Doctor">
-        <el-row gutter="20">
-          <DoctorTabs v-for="doc in store.doctors" :key="doc.id" :doctor="doc" @update="updateDoc(doc)" @remove="removeDoc(doc.id)" :isEdit="isEdit" :editData="editData" @updateDoctor="updateData"/>
-        </el-row>
       </el-tab-pane>
       <el-tab-pane label="Service">
         <ServiceTab @remove="removeService(id)" @update="updateService(id)" />
