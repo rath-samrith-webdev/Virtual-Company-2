@@ -10,7 +10,7 @@ export const NotificationStore = defineStore("NotificationStore", {
         async fetchNotification() {
             try {
                 const {data}=await axiosInstance.get(`appointment-notify/list`)
-                console.log(data)
+                this.notifications=data.data
             }catch(error){
                 console.log(error)
             }
@@ -18,7 +18,7 @@ export const NotificationStore = defineStore("NotificationStore", {
         async fetchUnseenNotifications() {
             try {
                 const {data}=await axiosInstance.get(`appointment-notify/unseen`)
-                console.log(data)
+                this.unseenNotifications=data.data
             }catch(error){
                 console.log(error)
             }

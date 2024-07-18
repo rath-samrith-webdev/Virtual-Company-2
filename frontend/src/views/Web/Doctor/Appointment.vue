@@ -17,6 +17,7 @@ const confirmData = ref({
   appointment_id: '',
   room_name: ''
 })
+let data={}
 const alertAppointmentPopup = (id: any, doc_id: any) => {
   confirmData.value.appointment_id = id
   hospital.fetchHospitalDetail(doc_id)
@@ -27,6 +28,10 @@ const confirmAppointment = () => {
   innerVisible.value = false
   store.confirmAppointment(confirmData.value.appointment_id)
   store.fetchAppointments()
+}
+const showDetails=(row:any)=>{
+  data=row
+  centerDialogVisible.value=true
 }
 
 onMounted(() => {
@@ -39,6 +44,46 @@ onMounted(() => {
     <div class="title">
       <h1>Appointment Today</h1>
     </div>
+    <el-dialog v-model="centerDialogVisible" title="Appointment Detail" width="30%" center>
+      <div class="dialog-body">
+        <p>Patient : {{ data.user.first_name }}</p>
+        <p>Date : {{ data.appointment_date }}</p>
+        <p>Status : {{ data.status }}</p>
+        <p>My response : {{ data.doctor_status }}</p>
+      </div>
+      <el-dialog
+          v-model="innerVisible"
+          width="300"
+          title="Confirm Appointment"
+          append-to-body
+      >
+        <el-form>
+          <el-select v-model="confirmData.room_name">
+            <el-option
+                v-for="hosp in hospital.hospitalDetail.rooms"
+                :value="hosp.name"
+                :key="hosp"
+            >{{ hosp.name }}</el-option
+            >
+          </el-select>
+        </el-form>
+        <div class="el-dialog__footer">
+          <el-button @click="innerVisible = false">Cancel</el-button>
+          <el-button type="primary" @click="confirmAppointment"> Confirm </el-button>
+        </div>
+      </el-dialog>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="centerDialogVisible = false">Cancel</el-button>
+          <el-button
+              type="primary"
+              @click="alertAppointmentPopup(data.id, data.doctor.hospital_id)"
+          >
+            Confirm
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
     <el-table :data="store.appointments" style="width: 100%">
       <el-table-column prop="id" label="ID" width="170">
         <template #default="scope">
@@ -67,47 +112,8 @@ onMounted(() => {
       </el-table-column>
       <el-table-column label="Action">
         <template #default="scope">
-          <el-button plain @click="centerDialogVisible = true">Detail</el-button>
-          <el-dialog v-model="centerDialogVisible" title="Appointment Detail" width="30%" center>
-            <div class="dialog-body">
-              <p>Patient : {{ scope.row.user.first_name }}</p>
-              <p>Date : {{ scope.row.appointment_date }}</p>
-              <p>Status : {{ scope.row.status }}</p>
-              <p>My response : {{ scope.row.doctor_status }}</p>
-            </div>
-            <el-dialog
-              v-model="innerVisible"
-              width="300"
-              title="Confirm Appointment"
-              append-to-body
-            >
-              <el-form>
-                <el-select v-model="confirmData.room_name">
-                  <el-option
-                    v-for="hosp in hospital.hospitalDetail.rooms"
-                    :value="hosp.name"
-                    :key="hosp"
-                    >{{ hosp.name }}</el-option
-                  >
-                </el-select>
-              </el-form>
-              <div class="el-dialog__footer">
-                <el-button @click="innerVisible = false">Cancel</el-button>
-                <el-button type="primary" @click="confirmAppointment"> Confirm </el-button>
-              </div>
-            </el-dialog>
-            <template #footer>
-              <div class="dialog-footer">
-                <el-button @click="centerDialogVisible = false">Cancel</el-button>
-                <el-button
-                  type="primary"
-                  @click="alertAppointmentPopup(scope.row.id, scope.row.doctor.hospital_id)"
-                >
-                  Confirm
-                </el-button>
-              </div>
-            </template>
-          </el-dialog>
+          <el-button plain @click="showDetails(scope.row)">Detail</el-button>
+
         </template>
       </el-table-column>
     </el-table>
