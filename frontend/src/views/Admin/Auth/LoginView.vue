@@ -4,19 +4,16 @@ import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import { Lock, Message, UserFilled } from '@element-plus/icons-vue/global'
 import axiosInstance from '@/plugins/axios'
 import { useRoute, useRouter } from 'vue-router'
+import ResetPassword from './ResetPassword.vue'
 
 const router = useRouter()
 const route = useRoute()
 
-const loginCredential: {
-   email: string, password: string ;
-} = {
+const loginCredential: { email: string, password: string} = {
   email: '',
   password: ''
 }
 const registerCredential: {
-  name: any
-  value(arg0: string, value: any): { data: any }|PromiseLike<{ data: any }>
   first_name: string,
   last_name: string,
   email: string,
@@ -72,9 +69,7 @@ async function LogIn() {
       router.push('/login')
     }
   }
-
 async function Register() {
- 
     try {
       const { data } = await axiosInstance.post('/register', registerCredential.value)
       console.log(data)
@@ -165,14 +160,7 @@ async function Register() {
                 <el-icon :size="15">
                   <UserFilled />
                 </el-icon>
-                Last Name</label
-              >
-              <div v-if="registerCredential.first_name.length < 3" class="error-message">
-                First name must be at least 3 characters long.
-              </div>
-              <div v-if="registerCredential.last_name.length < 3" class="error-message">
-                Last name must be at least 3 characters long.
-              </div>
+                Last Name</label>
             </div>
           </div>
           <div class="input-field">
@@ -181,11 +169,7 @@ async function Register() {
               <el-icon :size="15">
                 <UserFilled />
               </el-icon>
-              User Name</label
-            >
-            <div v-if="registerCredential.name.length < 5" class="error-message">
-              Username must be at least 5 characters long.
-            </div>
+              User Name</label>
           </div>
           <div class="input-field">
             <input type="email" v-model="registerCredential.email" required />
@@ -195,22 +179,15 @@ async function Register() {
               </el-icon>
               Email</label
             >
-            <div v-if="!isValidEmail(registerCredential.email)" class="error-message">
-              Please enter a valid email address.
-            </div>
           </div>
           <div class="d-flex">
             <div class="input-field d-flex gap-1 align-items-center">
-              <input type="password" v-model="registerCredential.password" required />
+              <input type="password" v-model="registerCredential.password" required/>
               <label>
                 <el-icon :size="15">
                   <Lock />
                 </el-icon>
-                Password</label
-              >
-              <div v-if="registerCredential.password.length < 8" class="error-message">
-                Password must be at least 8 characters long.
-              </div>
+                Password</label>
             </div>
             <div class="input-field d-flex align-items-center">
               <input type="password" v-model="registerCredential.password_confirmation" required />
@@ -218,14 +195,7 @@ async function Register() {
                 <el-icon :size="15">
                   <Lock />
                 </el-icon>
-                Confirm Password</label
-              >
-              <div
-                v-if="registerCredential.password !== registerCredential.password_confirmation"
-                class="error-message"
-              >
-                Passwords do not match.
-              </div>
+                Confirm Password</label>
             </div>
           </div>
           <div class="input-field-select">
