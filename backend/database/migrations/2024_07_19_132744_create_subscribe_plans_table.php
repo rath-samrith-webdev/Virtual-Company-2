@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rooms', function (Blueprint $table) {
+        Schema::create('subscribe_plans', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('number_of_bed');
-            $table->foreignId('hospital_id')->constrained('hospitals')->onDelete('cascade');
+            $table->float('price',10,2);
+            $table->string('currency');
+            $table->integer('duration')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rooms');
+        Schema::dropIfExists('subscribe_plans');
     }
 };

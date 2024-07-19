@@ -21,7 +21,8 @@ class Appointment extends Model
         'appointment_end',
         'status',
         'hospital_status',
-        'doctor_status'
+        'doctor_status',
+        'room_id'
     ];
     protected $dispatchesEvents = [
         'created'=>AppointmentPlaced::class,

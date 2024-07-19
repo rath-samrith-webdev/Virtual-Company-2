@@ -9,7 +9,6 @@ use App\Models\Department;
 use App\Models\Doctor;
 use App\Models\Favourite;
 use App\Models\Hospital;
-use App\Models\NotificationType;
 use App\Models\Rate;
 use App\Models\RateReply;
 use App\Models\Room;
@@ -53,6 +52,7 @@ class DatabaseSeeder extends Seeder
         Room::create([
             'name'=>'Room 1',
             'hospital_id'=>1,
+            'number_of_bed'=>2,
         ]);
         Department::create([
             'hospital_id'=>1,
@@ -69,6 +69,7 @@ class DatabaseSeeder extends Seeder
             'user_id'=>2,
             'appointment_date'=>'2022-01-01',
             'appointment_end'=>'2022-01-02',
+            'room_id'=>1,
             'appointment_time'=>'09:00',
         ]);
         Rate::create([

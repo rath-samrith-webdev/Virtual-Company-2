@@ -7,6 +7,7 @@ use App\Http\Controllers\API\V1\DepartmentController;
 use App\Http\Controllers\API\V1\DoctorController;
 use App\Http\Controllers\API\V1\FavouriteController;
 use App\Http\Controllers\API\V1\HospitalController;
+use App\Http\Controllers\API\V1\HospitalServiceController;
 use App\Http\Controllers\API\V1\NotificationsController;
 use App\Http\Controllers\API\V1\PostController;
 use App\Http\Controllers\API\V1\RateController;
@@ -127,5 +128,15 @@ Route::prefix('v1')->group(function () {
         Route::get('/unseen',[AppointmentNotificationController::class,'unread']);
         Route::put('/markAsSeen/{appointmentNotification}',[AppointmentNotificationController::class,'markAsSeen']);
     });
+
+    Route::middleware('auth:sanctum')->prefix('services')->group(function (){
+        Route::get('/list',[HospitalServiceController::class,'index']);
+        Route::post('/create',[HospitalServiceController::class,'store']);
+        Route::get('/show/{hospitalService}',[HospitalServiceController::class,'show']);
+        Route::put('/update/{hospitalService}',[HospitalServiceController::class,'update']);
+        Route::delete('/delete/{hospitalService}',[HospitalServiceController::class,'destroy']);
+    });
+
+    Route::middleware('auth:sanctum')->prefix('subcripe')
     Route::get('/post/list', [PostController::class, 'index'])->middleware('auth:sanctum');
 });
