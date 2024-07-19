@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Events\AppointmentNotifier;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\AppointmentCalendar;
 use App\Http\Resources\V1\AppointmentResource;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
@@ -31,6 +32,27 @@ class AppointmentController extends Controller
             } else {
                 $appointments = $user->appointments()->get();
                 return response()->json(['success' => true, 'data' => AppointmentResource::collection($appointments)], 200);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'error' => ['message' => $e->getMessage()]], 500);
+        }
+    }
+    public function calendar()
+    {
+        $user = Auth::user();
+        try {
+            if ($user->hasRole('admin')) {
+                $appointments = Appointment::all();
+                return response()->json(['success' => true, "data" => AppointmentCalendar::collection($appointments)], 200);
+            } elseif ($user->hasRole('hospital')) {
+                $appointments = $user->hospital->appointments()->get();
+                return response()->json(['success' => true, "data" => AppointmentCalendar::collection($appointments)], 200);
+            } elseif ($user->hasRole('doctor')) {
+                $appointments = $user->doctor->appointments()->get();
+                return response()->json(['success' => true, 'data' => AppointmentCalendar::collection($appointments)], 200);
+            } else {
+                $appointments = $user->appointments()->get();
+                return response()->json(['success' => true, 'data' => AppointmentCalendar::collection($appointments)], 200);
             }
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'error' => ['message' => $e->getMessage()]], 500);
@@ -133,7 +155,8 @@ class AppointmentController extends Controller
                     } elseif ($user->hasRole('doctor')) {
                         $appointment->update(['doctor_status' => $data['status']]);
                     } elseif ($user->id == $appointment->user_id) {
-                        $appointment->update($data);
+                        $appointment->update(
+                            ['doctor_status' => $data['status'],'hospital_status' => $data['status']]);
                     } else {
                         return response()->json(['success' => false, 'message' => 'Unauthorized'], 500);
                     }
@@ -152,6 +175,7 @@ class AppointmentController extends Controller
     {
         $data = $request->validate([
             'status' => 'required|string',
+            'appointment_end'=>'date'
         ]);
         $user = Auth::user();
         try {

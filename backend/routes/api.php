@@ -59,6 +59,7 @@ Route::prefix('v1')->group(function () {
         Route::put('/cancel/{appointment}', [AppointmentController::class, 'cancelAppointment']);
         Route::get('/summary', [AppointmentController::class, 'appointmentSummary']);
         Route::get('/today',[AppointmentController::class, 'appointmentToday' ]);
+        Route::get('/calendar',[AppointmentController::class, 'calendar' ]);
         Route::delete('/delete/{appointment}', [AppointmentController::class, 'destroy']);
     });
     Route::middleware('auth:sanctum')->prefix('categories')->group(function () {

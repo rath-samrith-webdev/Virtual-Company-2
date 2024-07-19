@@ -32,5 +32,21 @@ class AppointmentNotifierListener implements ShouldQueue
                 'from'=>$appointment->hospital->user_id
             ]);
         }
+        if ($appointment->status=='Canceled'){
+            AppointmentNotifications::create([
+                'user_id'=>$appointment->hospital->user_id,
+                'appointment_id'=>$appointment->id,
+                'type'=>'New Appointment Added',
+                'message'=>'An appointment has been canceled',
+                'from'=>$appointment->user_id
+            ]);
+            AppointmentNotifications::create([
+                'user_id'=>$appointment->doctor->user_id,
+                'appointment_id'=>$appointment->id,
+                'type'=>'New Appointment Added',
+                'message'=>'An appointment has been canceled',
+                'from'=>$appointment->user_id
+            ]);
+        }
     }
 }

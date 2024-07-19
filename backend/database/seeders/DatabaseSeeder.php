@@ -26,7 +26,6 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         $this->call(AdminSeeder::class);
-        \App\Models\Post::factory(17)->create();
         $category=Category::create([
             'name'=>'Community',
             'description'=>"In-patient care provided does not require the highly technical specialist support of an acute hospital. In-patient care provided under the supervision of GP's, specialist doctors or nurses, may include a minor injury service and elderly mentally ill beds. Where care is provided by consultants this is usually for elderly patients. Other services such as out-patient clinics, diagnostic and therapy services and day care may also be provided. Would not receive major acute emergency admissions. Would not be expected to undertake in-patient general surgery requiring general anaesthesia"
@@ -69,6 +68,7 @@ class DatabaseSeeder extends Seeder
             'doctor_id'=>1,
             'user_id'=>2,
             'appointment_date'=>'2022-01-01',
+            'appointment_end'=>'2022-01-02',
             'appointment_time'=>'09:00',
         ]);
         Rate::create([

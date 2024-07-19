@@ -18,6 +18,7 @@ class Appointment extends Model
         'hospital_id',
         'appointment_date',
         'appointment_time',
+        'appointment_end',
         'status',
         'hospital_status',
         'doctor_status'

@@ -22,7 +22,7 @@ class HospitalNotificationResource extends JsonResource
             'message'=>$this->message,
             'is_read'=>$this->is_read,
             'created_for'=>Carbon::parse($this->created_at)->diffForHumans(),
-            'created_at'=>Carbon::parse($this->created_at)->toDateTimeString(),
+            'created_at'=>Carbon::parse($this->created_at)->toDateString(),
         ];
     }
 }

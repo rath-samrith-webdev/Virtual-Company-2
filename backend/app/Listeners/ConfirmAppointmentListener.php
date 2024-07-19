@@ -28,5 +28,8 @@ class ConfirmAppointmentListener implements ShouldQueue
         if ($appointment->hospital_status=="Confirmed" && $appointment->doctor_status=="Confirmed") {
             $appointment->update(['status'=>'Confirmed']);
         }
+        if($appointment->hospital_status=="Canceled" && $appointment->doctor_status=="Canceled"){
+            $appointment->update(['status'=>'Canceled']);
+        }
     }
 }
