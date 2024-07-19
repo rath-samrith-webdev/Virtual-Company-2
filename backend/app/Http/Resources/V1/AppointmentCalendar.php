@@ -16,7 +16,7 @@ class AppointmentCalendar extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'hospital'=>$this->hospital->name,
+            'hospital'=>$this->hospital,
             'user'=>AppointmentMaker::make($this->user),
             'doctor'=>DoctorDetails::make($this->doctor),
             'title'=>$this->title,

@@ -39,7 +39,7 @@ class NotifyToHospital implements ShouldQueue
                 'user_id'=>$appointment->doctor->user_id,
                 'appointment_id'=>$appointment->id,
                 'type'=>'New Appointment Added',
-                'message'=>'Added new appointment',
+                'message'=>'You have received an appointment request',
                 'from'=>$appointment->user_id
             ]);
         }

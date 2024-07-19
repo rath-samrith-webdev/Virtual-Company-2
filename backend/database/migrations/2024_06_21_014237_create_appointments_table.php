@@ -23,10 +23,10 @@ return new class extends Migration
             $table->enum('status', ['Pending','Canceled','Missing', 'Confirmed', 'Rejected'])->default('Pending');
             $table->enum('hospital_status', ['Pending','Canceled','Missing', 'Confirmed', 'Rejected'])->default('Pending');
             $table->enum('doctor_status', ['Pending','Canceled','Missing', 'Confirmed', 'Rejected'])->default('Pending');
+            $table->foreignId('room_id')->constrained('rooms')->onDelete('cascade');
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */
