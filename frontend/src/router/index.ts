@@ -141,6 +141,16 @@ const router = createRouter({
       path:'/hospital/calendar',
       name:'hospital-calendar',
       component:() => import('../views/Web/Hospital/CalendarView.vue')
+    },
+    {
+      path:'/doctor/calendar',
+      name:'doctor-calendar',
+      component:() => import('../views/Web/Doctor/CalendarView.vue')
+    },
+    {
+      path:'/calendar',
+      name:'user-calendar',
+      component:() => import('../views/Web/User/CalendarView.vue')
     }
   ],
   linkExactActiveClass:'active'

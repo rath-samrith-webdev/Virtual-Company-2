@@ -38,11 +38,12 @@ const fetchData = async () => {
   await notifyStore.fetchNotification()
   await notifyStore.fetchUnseenNotifications()
   await appointment.fetchCalendarData()
+  await appointment.calendarData()
 }
 onMounted(() => {
-  notifyStore.fetchNotification()
-  notifyStore.fetchUnseenNotifications()
   if (store.user) {
+    notifyStore.fetchNotification()
+    notifyStore.fetchUnseenNotifications()
     pusher.subscribe(`appointment`).bind(`appointment`, function (data) {
       if (data) {
         fetchData()
@@ -72,93 +73,101 @@ onMounted(() => {
     <nav class="flex justify-center space-x-4 ms-lg-4" v-if="store.user && store.roles[0]=='hospital'">
       <router-link
           to="/hospital/dashboard"
-          class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+          class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900"
           style="text-decoration: none;"
       >Home
       </router-link
       >
       <router-link
           to="/myHospital"
-          class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+          class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900"
           style="text-decoration: none;"
       >Hospital
       </router-link
       >
       <router-link
           to="/hospital/feedbacks"
-          class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+          class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900"
           style="text-decoration: none;"
       >Feedbacks
       </router-link
       >
       <router-link
           to="/hospital/doctors"
-          class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+          class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900"
       >Doctors
       </router-link
       >
       <router-link
           to="/hospital/appointments"
-          class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+          class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900"
           style="text-decoration: none;"
       >Appointments
       </router-link
       >
+      <router-link class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900" to="/hospital/calendar">
+        Calendar
+      </router-link>
     </nav>
     <!--Doctor Menu-->
     <nav class="flex justify-center space-x-4 ms-lg-4" v-if="store.user && store.roles[0]=='doctor'">
       <router-link
           to="/doctor/dashboard"
-          class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+          class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900"
       >Home
       </router-link
       >
       <router-link
           to="/doctor/calendar"
-          class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+          class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900"
       >Calendar
       </router-link
       >
       <router-link
           to="/doctor/appointment"
-          class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+          class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900"
       >Appointments
-      </router-link
-      >
+      </router-link>
     </nav>
     <!-- User Menu -->
     <nav class="flex justify-center space-x-4 ms-lg-4" v-if="store.user && store.roles[0]=='user'">
       <router-link
           to="/"
-          class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+          class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900"
           style="text-decoration: none;"
       >Home
       </router-link
       >
       <router-link
           to="/user/hospital"
-          class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+          class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900"
       >Hospital
       </router-link
       >
       <router-link
           to="/favorite"
-          class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+          class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900"
       >Favorites
       </router-link
       >
       <router-link
           to="/map"
-          class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+          class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900"
       >Map
       </router-link
       >
       <router-link
           to="/appointment"
-          class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+          class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900"
       >Appointments
+      </router-link>
+      <router-link
+          to="/calendar"
+          class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900"
+      >Calendar
       </router-link
       >
+
     </nav>
     <!-- Landing Nav -->
     <nav class="pb-4 pt-3 flex justify-center space-x-4 " v-if="!store.user">
@@ -231,10 +240,11 @@ onMounted(() => {
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item>
-              <router-link to="/profile" class="nav-link">Profile</router-link>
+              <router-link to="/profile" class="font-bold px-3 py-2 text-slate-700 nav-link rounded-lg hover:bg-slate-100 hover:text-slate-900">Profile</router-link>
             </el-dropdown-item>
             <el-dropdown-item>
-              <button @click="handleLogout" class="nav-link">Log out</button>
+              <button @click="handleLogout" class="font-bold px-3 py-2 text-slate-700 nav-link rounded-lg hover:bg-slate-100 hover:text-slate-900"
+              >Log out</button>
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -340,8 +350,12 @@ onMounted(() => {
             to="/appointment"
             class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
         >Appointments
-        </router-link
-        >
+        </router-link>
+        <router-link
+            to="/calendar"
+            class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+        >Calendar
+        </router-link>
       </div>
       <div class="d-flex flex-column justify-start" v-if="store.user">
         <el-dropdown v-if="store.user" trigger="click" placement="top-start"
@@ -359,21 +373,21 @@ onMounted(() => {
         </span>
           </el-badge>
           <template v-if="store.roles[0]=='user'" #dropdown>
-            <el-card @click="gotoAppointment" v-for="note in notifyStore.notifications" :key="note.id">
+            <el-card @click="gotoAppointment(note.id)" v-for="note in notifyStore.notifications" :key="note.id">
               <small :class="note.is_read==0?'font-bold':''"><span v-if="note.user">{{ note.user.first_name }}</span>
                 {{ note.message }}</small>
               <small :class="note.is_read==0?'font-bold':''">{{ note.created_at }}</small>
             </el-card>
           </template>
           <template v-if="store.roles[0]=='hospital'" #dropdown>
-            <el-card @click="gotoAppointment" v-for="note in notifyStore.notifications" :key="note.id">
+            <el-card @click="gotoAppointment(note.id)" v-for="note in notifyStore.notifications" :key="note.id">
               <small :class="note.is_read==0?'font-bold':''"><span v-if="note.from">{{ note.from }}</span>
                 {{ note.message }}</small>
               <small :class="note.is_read==0?'font-bold':''">{{ note.created_at }}</small>
             </el-card>
           </template>
           <template v-if="store.roles[0]=='doctor'" #dropdown>
-            <el-card @click="gotoAppointment" v-for="note in notifyStore.notifications" :key="note.id">
+            <el-card @click="gotoAppointment(note.id)" v-for="note in notifyStore.notifications" :key="note.id">
               <small :class="note.is_read==0?'font-bold':''"><span>{{ note.from }}</span> {{ note.message }}</small>
               <small :class="note.is_read==0?'font-bold':''">{{ note.created_at }}</small>
             </el-card>
@@ -385,6 +399,7 @@ onMounted(() => {
         </router-link>
         <button @click="handleLogout" class="nav-link text-start">Log out</button>
       </div>
+      <!--Landing -->
       <div class="d-flex flex-column justify-start" v-if="!store.user">
         <router-link to="/landing"
                      class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"

@@ -24,6 +24,7 @@ export const hospitalAppointmentListStore = defineStore('appointments', {
       try {
         const { data } = await axiosInstance.put(`/appointments/update-status/${id}`, formData)
         this.message = data
+        this.message=data
       } catch (error) {
         console.log(error)
       }
@@ -64,12 +65,14 @@ export const hospitalAppointmentListStore = defineStore('appointments', {
     async fetchCalendarData(){
       try {
         const {data} = await axiosInstance.get('/appointments/calendar')
-        console.log(data)
         this.calendars = data.data
         sessionStorage.setItem('calendarData', JSON.stringify(data.data))
       }catch (error){
         console.log(error)
       }
+    },
+    calendarData(){
+      return JSON.parse(sessionStorage.getItem('calendarData'))
     }
   }
 })

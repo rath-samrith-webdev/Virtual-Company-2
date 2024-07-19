@@ -4,7 +4,7 @@
       <template v-slot:eventContent="arg">
         <div class="d-flex flex-column">
           <b>{{arg.event.start.toLocaleTimeString()}}</b>
-          <b>{{arg.event.extendedProps.doctor.first_name}} {{arg.event.extendedProps.doctor.last_name}}</b>
+          <b>{{arg.event.extendedProps.user.first_name}} {{arg.event.extendedProps.user.last_name}}</b>
         </div>
       </template>
     </FullCalendar>
@@ -18,18 +18,20 @@
       <p><b>Room No:</b></p>
       <p><b>Status:</b> {{ currentAppointment.extendedProps.status }}</p>
       <p><b>Gender:</b> {{ currentAppointment.extendedProps.user.gender }}</p>
-      <el-dialog
-          v-model="innerVisible"
-          width="300"
-          title="Confirm Appointment"
-          append-to-body
-      >
-        Are you sure?
+      <el-dialog v-model="innerVisible" width="300" title="Confirm Appointment" append-to-body>
+        <el-form>
+          <el-date-picker v-model="confirmData.appointment_end"/>
+          <el-select v-model="confirmData.room_name">
+            <el-option
+                v-for="hosp in hospital.hospitalDetail.rooms"
+                :value="hosp.name"
+                :key="hosp"
+            >{{ hosp.name }}</el-option>
+          </el-select>
+        </el-form>
         <div class="el-dialog__footer">
           <el-button @click="innerVisible = false">Cancel</el-button>
-          <el-button type="primary" @click="submitConfirmation">
-            Confirm
-          </el-button>
+          <el-button type="primary" @click="confirmAppointment"> Confirm </el-button>
         </div>
       </el-dialog>
       <template #footer>
@@ -45,30 +47,15 @@
 </template>
 <script lang="ts">
 import {defineComponent, ref, watch} from 'vue'
-import {EventApi, DateSelectArg, EventClickArg} from '@fullcalendar/core'
+import {EventApi, EventClickArg} from '@fullcalendar/core'
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import WebLayout from "@/Components/Layouts/WebLayout.vue";
-import {createEventId} from "@/views/Web/Hospital/event-utils";
 import {hospitalAppointmentListStore} from "@/stores/hospital-appointment-list";
-import {ElNotification} from "element-plus";
+import {hospitalDetailStore} from "@/stores/hospital-detail";
 const store = hospitalAppointmentListStore()
-const open2 = (title: string, message: any, type: string) => {
-  ElNotification({
-    title: title,
-    message: message,
-    type: type
-  })
-}
-watch(store.message, () => {
-  if (store.message.success) {
-    open2('Appointment Confirmed', store.message.message, 'success')
-  } else {
-    open2('Appointment Confirmed', store.message.message, 'warning')
-  }
-})
 export default defineComponent({
   components: {
     WebLayout,
@@ -81,11 +68,17 @@ export default defineComponent({
     return {
       outerVisible: ref(false),
       innerVisible: ref(false),
+      hospital: hospitalDetailStore(),
       id: '',
       appointment: [],
       currentAppointment: {
         appointment_date: undefined
       },
+      confirmData : ref({
+        appointment_id: '',
+        appointment_end:'',
+        room_name: ''
+      }),
       calendarOptions: {
         plugins: [
           dayGridPlugin,
@@ -104,7 +97,6 @@ export default defineComponent({
         selectMirror: true,
         dayMaxEvents: true,
         weekends: true,
-        select: this.handleDateSelect,
         eventClick: this.handleEventClick,
         eventsSet: this.handleEvents
         /* you can update a remote database when these fire:
@@ -120,23 +112,8 @@ export default defineComponent({
     handleWeekendsToggle() {
       this.calendarOptions.weekends = !this.calendarOptions.weekends // update a property
     },
-    handleDateSelect(selectInfo: DateSelectArg) {
-      let title = prompt('Please enter a new title for your event')
-      let calendarApi = selectInfo.view.calendar
-      calendarApi.unselect() // clear date selection
-      if (title) {
-        calendarApi.addEvent({
-          id: createEventId(),
-          title,
-          start: selectInfo.startStr,
-          end: selectInfo.endStr,
-          allDay: selectInfo.allDay
-        })
-      }
-    },
     handleEventClick(clickInfo: EventClickArg) {
       this.outerVisible = true
-      console.log(clickInfo.event.extendedProps);
       this.id = clickInfo.event.id
       this.currentAppointment = clickInfo.event
     },
@@ -144,7 +121,7 @@ export default defineComponent({
       this.currentEvents = events
     },
     ConfirmAppointment() {
-      console.log('submit', this.id)
+      this.hospital.fetchHospitalDetail(this.currentAppointment.extendedProps.hospital.id)
       this.outerVisible = false
       this.innerVisible = true
     },
@@ -153,7 +130,6 @@ export default defineComponent({
       store.confirmAppointment(this.id)
       store.fetchAppointments()
     },
-
   },
 })
 </script>

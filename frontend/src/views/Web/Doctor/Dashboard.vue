@@ -45,15 +45,35 @@ const fetchAppointmentSummary = async () => {
     console.error('Error fetching appointments for today:', error);
   }
 };
+let data={}
+const showDetails = (row:any) => {
+  centerDialogVisible.value = true
+  data=row
+}
 
 onMounted(() => {
   fetchAppointmentsToday();
   fetchAppointmentSummary()
 });
 </script>
-
 <template>
   <WebLayout>
+    <el-dialog v-model="centerDialogVisible" title="Appointment Detail" width="30%" center>
+      <div class="dialog-body">
+        <p>Patient : {{ data.user.first_name }}</p>
+        <p>Date : {{ data.appointment_date }}</p>
+        <p>Status : {{ data.status }}</p>
+        <p>My response : {{ data.doctor_status }}</p>
+      </div>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="centerDialogVisible = false">Cancel</el-button>
+          <el-button type="primary" @click="centerDialogVisible = false">
+            Confirm
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
     <div class="container">
       <el-card style="width: 350px; height: 35vh; align-items: center; text-align: center; justify-content: center; ">
         <el-image style="width: 130px;" :src="urls[0]" lazy />
@@ -101,23 +121,7 @@ onMounted(() => {
           </el-table-column>
           <el-table-column label="Action">
             <template #default="scope">
-              <el-button plain @click="centerDialogVisible = true">Detail</el-button>
-              <el-dialog v-model="centerDialogVisible" title="Appointment Detail" width="30%" center>
-                <div class="dialog-body">
-                  <p>Patient : {{ scope.row.user.first_name }}</p>
-                  <p>Date : {{ scope.row.appointment_date }}</p>
-                  <p>Status : {{ scope.row.status }}</p>
-                  <p>My response : {{ scope.row.doctor_status }}</p>
-                </div>
-                <template #footer>
-                  <div class="dialog-footer">
-                    <el-button @click="centerDialogVisible = false">Cancel</el-button>
-                    <el-button type="primary" @click="centerDialogVisible = false">
-                      Confirm
-                    </el-button>
-                  </div>
-                </template>
-              </el-dialog>
+              <el-button plain @click="showDetails(scope.row)">Detail</el-button>
             </template>
           </el-table-column>
         </el-table>
