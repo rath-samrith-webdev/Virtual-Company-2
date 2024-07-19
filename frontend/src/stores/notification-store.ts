@@ -27,7 +27,7 @@ export const NotificationStore = defineStore("NotificationStore", {
             const formData=new FormData()
             formData.append('read', 'true')
             try {
-                const {data}=await axiosInstance.put(`appointment-notify/markAsSeen${id}`,formData)
+                const {data}=await axiosInstance.put(`appointment-notify/markAsSeen/${id}`,formData)
                 console.log(data)
             }catch (error){
                 console.log(error)

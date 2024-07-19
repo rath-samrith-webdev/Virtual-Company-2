@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
 import axiosInstance from '@/plugins/axios'
-import { data } from '@maptiler/sdk'
 export const hospitalAppointmentListStore = defineStore('appointments', {
   state: () => ({
     appointments: [],
+    calendars:[],
     monthlyAppointment: [],
     appointmentSummary: {},
     message: {}
@@ -13,6 +13,7 @@ export const hospitalAppointmentListStore = defineStore('appointments', {
       try {
         const { data } = await axiosInstance.get('/appointments/list')
         this.appointments = data.data
+        console.log(data)
       } catch (error) {
         console.log(error)
       }
@@ -55,7 +56,18 @@ export const hospitalAppointmentListStore = defineStore('appointments', {
       try {
         const { data } = await axiosInstance.put(`/appointments/cancel/${id}`, formData)
         this.message = data
+        console.log(data)
       } catch (error) {
+        console.log(error)
+      }
+    },
+    async fetchCalendarData(){
+      try {
+        const {data} = await axiosInstance.get('/appointments/calendar')
+        console.log(data)
+        this.calendars = data.data
+        sessionStorage.setItem('calendarData', JSON.stringify(data.data))
+      }catch (error){
         console.log(error)
       }
     }

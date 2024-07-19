@@ -20,10 +20,24 @@ function handleLogout() {
   router.push('/landing')
 }
 
-const gotoAppointment = () => {
+const gotoAppointment = (id: any) => {
+  notifyStore.markAsSeen(id)
+  console.log(id)
   if (store.roles[0] == 'user') {
     router.push('/appointment')
+  } else if (store.roles[0] == 'hospital') {
+    router.push('/hospital/appointments')
+  } else if (store.roles[0] == 'doctor') {
+    router.push('/doctor/appointment')
+  } else {
+    router.push('/not-found')
   }
+}
+const fetchData = async () => {
+  await appointment.fetchAppointments()
+  await notifyStore.fetchNotification()
+  await notifyStore.fetchUnseenNotifications()
+  await appointment.fetchCalendarData()
 }
 onMounted(() => {
   notifyStore.fetchNotification()
@@ -31,18 +45,17 @@ onMounted(() => {
   if (store.user) {
     pusher.subscribe(`appointment`).bind(`appointment`, function (data) {
       if (data) {
-        appointment.fetchAppointments()
+        fetchData()
       }
     })
     pusher.subscribe(`appointment-placed`).bind(`appointment-placed`, function (data) {
       if (data) {
-        appointment.fetchAppointments()
-        notifyStore.fetchNotification()
+        fetchData()
       }
     })
     pusher.subscribe(`notification`).bind(`notify`, function (data) {
       if (data) {
-        notifyStore.fetchNotification()
+        fetchData()
       }
     })
   }
@@ -158,23 +171,49 @@ onMounted(() => {
     <div class="d-flex gap-2 align-items-center min-w-20 justify-between ">
       <router-link v-if="!store.user" to="/login" class="btn py-1 rounded font-semibold text-white log-in ">Get Started
       </router-link>
-      <el-dropdown trigger="click" max-height="500px" placement="bottom-end" class="notification">
-        <el-badge v-if="notifyStore.notifications.length>0" :value="notifyStore.unseenNotifications.length"
+      <el-dropdown v-if="store.user" trigger="click" max-height="500px" placement="bottom-end" class="notification">
+        <el-badge v-if="store.user"
+                  :value="notifyStore.unseenNotifications.length"
                   :offset="[-30, 3]" :max="99"
                   class="item">
         <span class="el-dropdown-link">
           <el-icon :size="30"><BellFilled/></el-icon>
         </span>
         </el-badge>
-        <span v-else class="el-dropdown-link">
-          <el-icon :size="30"><BellFilled/></el-icon>
-        </span>
-        <template #dropdown>
+        <template v-if="store.roles[0]=='user'" #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item class="d-flex justify-content-around h-25 align-items-center gap-2" v-for="note in notifyStore.notifications" :key="note.id" @click="gotoAppointment">
+            <el-dropdown-item class="d-flex justify-content-around h-25 align-items-center gap-2"
+                              v-for="note in notifyStore.notifications" :key="note.id"
+                              @click="gotoAppointment(note.id)">
+              <el-avatar></el-avatar>
+              <div class="d-flex flex-column">
+                <small :class="note.is_read==0?'font-bold':''">{{note.user.fist_name}} {{ note.message }}</small>
+                <small :class="note.is_read==0?'font-bold':''">{{ note.created_at }}</small>
+              </div>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+        <template v-if="store.roles[0]=='doctor'" #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item class="d-flex justify-content-around h-25 align-items-center gap-2"
+                              v-for="note in notifyStore.notifications" :key="note.id"
+                              @click="gotoAppointment(note.id)">
               <el-avatar></el-avatar>
               <div class="d-flex flex-column">
                 <small :class="note.is_read==0?'font-bold':''">{{ note.message }}</small>
+                <small :class="note.is_read==0?'font-bold':''">{{ note.created_at }}</small>
+              </div>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+        <template v-if="store.roles[0]=='hospital'" #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item class="d-flex justify-content-start h-25 align-items-center gap-2"
+                              v-for="note in notifyStore.notifications" :key="note.id"
+                              @click="gotoAppointment(note.id)">
+              <el-avatar></el-avatar>
+              <div class="d-flex flex-column">
+                <small :class="note.is_read==0?'font-bold':''">{{note.from}} {{ note.message }}</small>
                 <small :class="note.is_read==0?'font-bold':''">{{ note.created_at }}</small>
               </div>
             </el-dropdown-item>
@@ -305,7 +344,7 @@ onMounted(() => {
         >
       </div>
       <div class="d-flex flex-column justify-start" v-if="store.user">
-        <el-dropdown trigger="click" placement="top-start"
+        <el-dropdown v-if="store.user" trigger="click" placement="top-start"
                      class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900">
           <el-badge v-if="notifyStore.notifications.length>0 " :value="notifyStore.unseenNotifications.length" :max="99"
                     class="item">
@@ -319,9 +358,25 @@ onMounted(() => {
           Notifications
         </span>
           </el-badge>
-          <template #dropdown>
-            <el-card @click="gotoAppointment" v-for="note in notifyStore.notifications" :key="note.id"><small
-                :class="note.is_read==0?'font-bold':''">{{ note.message }}</small></el-card>
+          <template v-if="store.roles[0]=='user'" #dropdown>
+            <el-card @click="gotoAppointment" v-for="note in notifyStore.notifications" :key="note.id">
+              <small :class="note.is_read==0?'font-bold':''"><span v-if="note.user">{{ note.user.first_name }}</span>
+                {{ note.message }}</small>
+              <small :class="note.is_read==0?'font-bold':''">{{ note.created_at }}</small>
+            </el-card>
+          </template>
+          <template v-if="store.roles[0]=='hospital'" #dropdown>
+            <el-card @click="gotoAppointment" v-for="note in notifyStore.notifications" :key="note.id">
+              <small :class="note.is_read==0?'font-bold':''"><span v-if="note.from">{{ note.from }}</span>
+                {{ note.message }}</small>
+              <small :class="note.is_read==0?'font-bold':''">{{ note.created_at }}</small>
+            </el-card>
+          </template>
+          <template v-if="store.roles[0]=='doctor'" #dropdown>
+            <el-card @click="gotoAppointment" v-for="note in notifyStore.notifications" :key="note.id">
+              <small :class="note.is_read==0?'font-bold':''"><span>{{ note.from }}</span> {{ note.message }}</small>
+              <small :class="note.is_read==0?'font-bold':''">{{ note.created_at }}</small>
+            </el-card>
           </template>
         </el-dropdown>
         <router-link to="/profile"

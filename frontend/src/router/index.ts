@@ -136,6 +136,11 @@ const router = createRouter({
       path:'/not-found-page',
       name:'not-found-page',
       component: () => import('../views/Web/404/PageNotFound.vue')
+    },
+    {
+      path:'/hospital/calendar',
+      name:'hospital-calendar',
+      component:() => import('../views/Web/Hospital/CalendarView.vue')
     }
   ],
   linkExactActiveClass:'active'

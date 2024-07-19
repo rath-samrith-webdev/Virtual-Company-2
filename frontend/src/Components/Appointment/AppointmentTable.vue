@@ -130,9 +130,8 @@ const onUpdate = async () => {
     console.log(error)
   }
 }
-async function cancelAppointment(row) {
+function cancelAppointment(row) {
   appointment.cancelAppointment(row.id)
-  appointment.fetchAppointments()
   if (appointment.message.success == true) {
     open2('Appointment', appointment.message.message, 'success')
   } else {
