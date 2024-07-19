@@ -12,13 +12,10 @@ import { Form, Field, ErrorMessage } from 'vee-validate'
 import { loginSchema } from '@/validation/validation-schema'
 import { singupSchema } from '@/validation/validation-schema'
 
-
 const router = useRouter()
 const route = useRoute()
 
-
-
-const loginCredential: { email: string, password: string} = {
+const loginCredential: { email: string; password: string } = {
   email: '',
   password: ''
 }
@@ -29,10 +26,11 @@ const registerCredential: {
   email: string
   user_type: string
   password: string
-  password_confirmation: string} = {
+  password_confirmation: string
+} = {
   first_name: '',
   last_name: '',
-  name:'',
+  name: '',
   email: '',
   password: '',
   user_type: '',
@@ -62,33 +60,33 @@ onMounted(() => {
 })
 
 async function LogIn() {
-     try {
-      const { data } = await axiosInstance.post('/login', loginCredential.value)
-      localStorage.setItem('access_token', data.access_token)
-      if (data.role == 'hospital') {
-        router.push('/hospital/dashboard')
-      } else if (data.role == 'admin') {
-        router.push('/admin/dashboard')
-      } else if (data.role == 'doctor') {
-        router.push('/doctor/dashboard')
-      } else {
-        router.push('/')
-      }
-    } catch (error) {
-      console.log(error)
-      router.push('/login')
+  try {
+    const { data } = await axiosInstance.post('/login', loginCredential.value)
+    localStorage.setItem('access_token', data.access_token)
+    if (data.role == 'hospital') {
+      router.push('/hospital/dashboard')
+    } else if (data.role == 'admin') {
+      router.push('/admin/dashboard')
+    } else if (data.role == 'doctor') {
+      router.push('/doctor/dashboard')
+    } else {
+      router.push('/')
     }
+  } catch (error) {
+    console.log(error)
+    router.push('/login')
   }
+}
 async function Register() {
-    try {
-      const { data } = await axiosInstance.post('/register', registerCredential.value)
-      console.log(data)
-      router.push('/login')
-    } catch (error) {
-      console.log(error)
-      router.push('/login')
-    }
+  try {
+    const { data } = await axiosInstance.post('/register', registerCredential.value)
+    console.log(data)
+    router.push('/login')
+  } catch (error) {
+    console.log(error)
+    router.push('/login')
   }
+}
 </script>
 <template>
   <WebLayout>
@@ -246,50 +244,49 @@ async function Register() {
             Already have an account? <a href="#" id="sign-in-btn2">Sign in</a>
           </p>
         </form> -->
-      
+
         <!-- =============================================== -->
         <!-- Test validtion form login -->
         <!-- =============================================== -->
         <Form
-          action="" 
-          @submit.prevent="LogIn" 
+          action=""
+          @submit.prevent="LogIn"
           class="sign-in-form"
           v-slot="{ errors }"
-          :validation-schema="loginSchema"
-        >
+          :validation-schema="loginSchema">
           <h2 class="title">Sign in</h2>
           <div class="input-field">
-            <Field 
-              type="email" 
+            <Field class="input" type="email"
               name="email"
               v-model="loginCredential.email"
               id="email"
-              :style="{ borderColor: errors && errors['email'] ? 'red' : '' }"
-            />
-            <label>
-              <el-icon :size="15">
-                <UserFilled />
-              </el-icon>
-              Your Email</label
-            >
-            <ErrorMessage name="email" class="text-danger" />
+              :style="{ borderColor: errors && errors['email'] ? 'red' : '' }"/>
+              <label>
+                <el-icon :size="15">
+                  <UserFilled />
+                </el-icon>
+                Your Email</label>
+          </div>
+          <div class="error-text"> 
+              <ErrorMessage name="email" class="text-danger" />
           </div>
           <div class="input-field">
-            <Field 
-              type="password" 
+            <Field class="input"
+              type="password"
               name="password"
               v-model="loginCredential.password"
               id="password"
-              :style="{ borderColor: errors && errors['password'] ? 'red' : '' }"  
-            />
-            <ErrorMessage name="password" class="text-danger" />
+              :style="{ borderColor: errors && errors['password'] ? 'red' : '' }"/>
             <label>
               <el-icon :size="15">
                 <Lock />
-              </el-icon>
-              Your Password</label
-            >
-          </div>
+                </el-icon>
+                Your Password</label>
+                </div>
+                <div class="error-text gap1 aline: left">
+                  <ErrorMessage name="password" class="text-danger"/>
+                </div>
+                
           <p class="forgot-password text-right">
             <router-link to="/forgot-password">Forgot Password</router-link>
           </p>
@@ -328,18 +325,17 @@ async function Register() {
         <!-- =============================================== -->
         <!-- Test validtion form Sign Up -->
         <!-- =============================================== -->
-        <Form 
-          action="" 
-          @submit.prevent="Register" 
+        <Form
+          action=""
+          @submit.prevent="Register"
           class="sign-up-form"
           v-slot="{ errors }"
-          :validation-schema="singupSchema"
-        >
+          :validation-schema="singupSchema">
           <h2 class="title">Sign up</h2>
-          <div class="d-flex">
+          <div class="input-fields">
             <div class="input-field d-flex gap-1 align-items-center">
-              <Field 
-                type="text" 
+              <Field
+                type="text"
                 v-model="registerCredential.first_name"
                 name="first_name"
                 id="first_name"
@@ -349,14 +345,15 @@ async function Register() {
                 <el-icon :size="15">
                   <UserFilled />
                 </el-icon>
-                Frist Name</label
-              >
-             <ErrorMessage name="first_name" class="text-danger" />
-            </div>
+                Frist Name</label>
+              <div class="error-text">
+                <ErrorMessage name="first_name" class="text-danger" />
+              </div>
+              </div>
             <div class="input-field d-flex align-items-center">
-              <Field 
-                type="text" 
-                v-model="registerCredential.last_name" 
+              <Field
+                type="text"
+                v-model="registerCredential.last_name"
                 name="last_name"
                 id="last_name"
                 :style="{ borderColor: errors && errors['last_name'] ? 'red' : '' }"
@@ -365,15 +362,16 @@ async function Register() {
                 <el-icon :size="15">
                   <UserFilled />
                 </el-icon>
-                Last Name</label
-              >
-              <ErrorMessage name="last_name" class="text-danger" />
-            </div>
+                Last Name</label>
+              <div class="error-text">
+                <ErrorMessage name="last_name" class="text-danger" />
+              </div>
+              </div>
           </div>
           <div class="input-field">
-            <Field 
-              type="text" 
-              v-model="registerCredential.name"  
+            <Field
+              type="text"
+              v-model="registerCredential.name"
               name="name"
               id="name"
               :style="{ borderColor: errors && errors['name'] ? 'red' : '' }"
@@ -382,14 +380,15 @@ async function Register() {
               <el-icon :size="15">
                 <UserFilled />
               </el-icon>
-              User Name</label
-            >
-            <ErrorMessage name="name" class="text-danger" />
-          </div>
+              User Name</label>
+            <div class="error-text">
+              <ErrorMessage name="name" class="text-danger" />
+            </div>
+            </div>
           <div class="input-field">
-            <Field 
-              type="email" 
-              v-model="registerCredential.email" 
+            <Field
+              type="email"
+              v-model="registerCredential.email"
               name="email"
               id="email"
               :style="{ borderColor: errors && errors['email'] ? 'red' : '' }"
@@ -398,15 +397,16 @@ async function Register() {
               <el-icon :size="15">
                 <Message />
               </el-icon>
-              Email</label
-            >
-            <ErrorMessage name="email" class="text-danger" />
-          </div>
-          <div class="d-flex">
+              Email</label>
+              <div class="error-text">
+                <ErrorMessage name="email" class="text-danger" />
+              </div>
+            </div>
+          <div class="input-fields">
             <div class="input-field d-flex gap-1 align-items-center">
               <Field 
-                type="password" 
-                v-model="registerCredential.password" 
+                type="password"
+                v-model="registerCredential.password"
                 name="password"
                 id="password"
                 :style="{ borderColor: errors && errors['password'] ? 'red' : '' }"
@@ -415,13 +415,14 @@ async function Register() {
                 <el-icon :size="15">
                   <Lock />
                 </el-icon>
-                Password</label
-              >
-              <ErrorMessage name="password" class="text-danger" />
-            </div>
+                Password</label>
+                <div class="error-text">
+                  <ErrorMessage name="password" class="text-danger" />
+                </div>
+                </div>
             <div class="input-field d-flex align-items-center">
-              <Field 
-                type="password" 
+              <Field
+                type="password"
                 v-model="registerCredential.password_confirmation"
                 name="password_confirmation"
                 id="password_confirmation"
@@ -431,10 +432,11 @@ async function Register() {
                 <el-icon :size="15">
                   <Lock />
                 </el-icon>
-                Confirm Password</label
-              >
-              <ErrorMessage name="password_confirmation" class="text-danger" />
-            </div>
+                Confirm Password</label>
+                <div class="error-text">
+                  <ErrorMessage name="password_confirmation" class="text-danger" />
+                </div>
+              </div>
           </div>
           <div class="input-field-select">
             <select class="select form-control" v-model="registerCredential.user_type" required>
@@ -497,6 +499,7 @@ async function Register() {
 </template>
 
 <style scoped>
+
 .container {
   position: relative;
   width: 70vw;
@@ -518,6 +521,13 @@ async function Register() {
   z-index: 6;
   transform: translateX(100%);
   transition: 1s ease-in-out;
+}
+
+.input-fields {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 0.4rem;
 }
 
 .signin-signup {
@@ -546,7 +556,15 @@ form.sign-in-form {
   opacity: 1;
   transition: 0.5s ease-in-out;
   transition-delay: 1s;
+
 }
+
+
+.error-text {
+  text-align: left;
+  font-size: 0.875rem;
+}
+
 
 form.sign-up-form {
   opacity: 0;
@@ -561,23 +579,31 @@ form.sign-up-form {
 }
 
 .input-field {
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
   width: 100%;
   position: relative;
-  border-bottom: 1.5px solid rgb(105, 105, 105);
+  border-bottom: 0.8px solid rgb(105, 105, 105);
   margin: 15px 0;
 }
 
 .input-field label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
   position: absolute;
   top: 50%;
   left: 0%;
-  transform: translateY(-30%);
+  transform: translateY(-55%);
   color: #32b4e3;
   font-size: 15px;
   pointer-events: none;
   transition: 0.15s ease;
 }
+
 
 .input-field input,
 .input-field .select {
@@ -593,9 +619,9 @@ form.sign-up-form {
 }
 
 .input-field input:focus ~ label,
-.input-field input:valid ~ label {
+.input-field Field:not(:placeholder-shown) ~ label {
   font-size: 0.8rem;
-  top: 5px;
+  top: 0px;
   transform: translateY(-120%);
   border-radius: 8px;
 }
@@ -606,6 +632,7 @@ form.sign-up-form {
   background: #32b4e3;
   color: #fff;
 }
+
 
 .main-btn {
   display: flex;
