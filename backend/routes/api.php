@@ -13,6 +13,7 @@ use App\Http\Controllers\API\V1\PostController;
 use App\Http\Controllers\API\V1\RateController;
 use App\Http\Controllers\API\V1\RateReplyController;
 use App\Http\Controllers\API\V1\RoomController;
+use App\Http\Controllers\API\V1\SubscribePaymentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SystemRequestController;
 use Illuminate\Support\Facades\Broadcast;
@@ -137,6 +138,9 @@ Route::prefix('v1')->group(function () {
         Route::delete('/delete/{hospitalService}',[HospitalServiceController::class,'destroy']);
     });
 
-    Route::middleware('auth:sanctum')->prefix('subcripe')
+    Route::middleware('auth:sanctum')->prefix('subscription')->group(function (){
+        Route::post('/payment',[SubscribePaymentController::class,'store']);
+        Route::get('/list',[SubscribePaymentController::class,'index']);
+    });
     Route::get('/post/list', [PostController::class, 'index'])->middleware('auth:sanctum');
 });

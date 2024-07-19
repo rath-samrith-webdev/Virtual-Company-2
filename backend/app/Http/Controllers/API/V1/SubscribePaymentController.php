@@ -5,7 +5,8 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Controllers\Controller;
 use App\Models\SubscribePayment;
 use Illuminate\Http\Request;
-use Stripe\Stripe;
+use Illuminate\Support\Facades\Auth;
+use Stripe;
 
 class SubscribePaymentController extends Controller
 {
@@ -22,7 +23,45 @@ class SubscribePaymentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data=$request->validate([
+            'number'=>'required|regex:/^\d+$/',
+            'exp_month'=>'required|regex:/^\d+$/',
+            'exp_year'=>'required|regex:/^\d+$/',
+            'cvc'=>'required|regex:/^\d+$/',
+            'amount'=>'required|regex:/^\d+$/',
+            'currency'=>'required|string',
+        ]);
+        $user=Auth::user();
+        try {
+            if(!$user->hasRole('admin')){
+                if ($user->hasRole('hospital')){
+                    $stripe=new \Stripe\StripeClient(env('STRIPE_SK'));
+                    \Stripe\Stripe::setApiKey(env('STRIPE_SK'));
+                    $response=$stripe->paymentIntents->create([
+                        'amount' => $data['amount']*100,
+                        'currency' => $data['currency'],
+                        'payment_method' => 'pm_card_visa',
+                        'payment_method_types' => ['card'],
+                    ]);
+                    $confirm=$stripe->paymentIntents->confirm(
+                        $response->id, [
+                        'payment_method' => 'pm_card_visa',
+                        'return_url' => 'http://localhost:8000/subscribe',
+                    ]);
+                    $pay=SubscribePayment::create([
+                        'name'=>$user->first_name. ' '. $user->last_name,
+                        'payment_id'=>$response->id,
+                        'payment_method' => 'pm_card_visa',
+                        'payment_types' => 'card',
+                        'user_id'=>$user->id,
+                        'amount'=>$data['amount'],
+                    ]);
+                    return response()->json(['success'=>true,'message'=>'payment successful','data'=>$pay],200);
+                }
+            }
+        }catch (\Exception $e){
+            return response()->json(['success'=>false,'message'=>$e->getMessage()]);
+        }
     }
 
     /**
