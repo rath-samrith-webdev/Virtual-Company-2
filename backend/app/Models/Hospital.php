@@ -25,6 +25,8 @@ class Hospital extends Model
         'longitude',
         'open_time',
         'close_time',
+        'mission',
+        'vision'
     ];
     public function category(): BelongsTo
     {

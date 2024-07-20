@@ -18,19 +18,20 @@ class AppointmentController extends Controller
      */
     public function index()
     {
+        $now=Carbon::now()->year;
         $user = Auth::user();
         try {
             if ($user->hasRole('admin')) {
-                $appointments = Appointment::all();
+                $appointments = Appointment::all()->orderBy('id','DESC');
                 return response()->json(['success' => true, "data" => AppointmentResource::collection($appointments)], 200);
             } elseif ($user->hasRole('hospital')) {
-                $appointments = $user->hospital->appointments()->get();
+                $appointments = $user->hospital->appointments()->orderBy('id','DESC')->get();
                 return response()->json(['success' => true, "data" => AppointmentResource::collection($appointments)], 200);
             } elseif ($user->hasRole('doctor')) {
-                $appointments = $user->doctor->appointments()->get();
+                $appointments = $user->doctor->appointments()->orderBy('id','DESC')->get();
                 return response()->json(['success' => true, 'data' => AppointmentResource::collection($appointments)], 200);
             } else {
-                $appointments = $user->appointments()->get();
+                $appointments = $user->appointments()->orderBy('id','DESC')->get();
                 return response()->json(['success' => true, 'data' => AppointmentResource::collection($appointments)], 200);
             }
         } catch (\Exception $e) {

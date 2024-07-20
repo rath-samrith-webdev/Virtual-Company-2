@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\HospitalPromotions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class HospitalPromotionController extends Controller
 {
@@ -50,12 +51,20 @@ class HospitalPromotionController extends Controller
             'start_date'=>'required|date',
             'end_date'=>'required|date|after:start_date',
         ]);
+        $image=$request->file('image');
+        $extension=$image->getClientOriginalExtension();
+        $filename=time().'.'.$extension;
         $user=Auth::user();
         try {
             if(!$user->hasRole('admin')){
                 if($user->hasRole('hospital')){
                     $data['hospital_id']=$user->hospital->id;
+                    $data['image']=$filename;
+                    $promotion=HospitalPromotions::create($data);
+                    $image->move(public_path('/').'images/hospital'.$promotion->hospital_id.'/promotion'.$promotion->id, $filename);
                     return response()->json(['success'=>true,'message'=>'Promotion created successfully','data'=>$data],200);
+                }else{
+                    return response()->json(['success'=>false,'message'=>'You are unauthorized'],433);
                 }
             }else{
                 return response()->json(['success'=>false,'message'=>'You are unauthorized'],433);
@@ -86,7 +95,36 @@ class HospitalPromotionController extends Controller
      */
     public function update(Request $request, HospitalPromotions $hospitalPromotion)
     {
-        //
+        $data=$request->validate([
+            'hospital_id'=>'exists:App\Models\Hospital,id',
+            'title'=>'required|string',
+            'image'=>'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'description'=>'required|string',
+            'start_date'=>'required|date',
+            'end_date'=>'required|date|after:start_date',
+        ]);
+        $image=$request->file('image');
+        $extension=$image->getClientOriginalExtension();
+        $filename=time().'.'.$extension;
+        $user=Auth::user();
+        try {
+            if(!$user->hasRole('admin')){
+                if($user->hasRole('hospital')){
+                    $data['hospital_id']=$user->hospital->id;
+                    $data['image']=$filename;
+                    if(File::exists(public_path('/').'images/hospital'.$hospitalPromotion->hospital_id.'/promotion'.$hospitalPromotion->id.'/'.$hospitalPromotion->image)){
+                        File::delete(public_path('/').'images/hospital'.$hospitalPromotion->hospital_id.'/promotion'.$hospitalPromotion->id.'/'.$hospitalPromotion->image);
+                    }
+                    $hospitalPromotion->update($data);
+                    $image->move(public_path('/').'images/hospital'.$hospitalPromotion->hospital_id.'/promotion'.$hospitalPromotion->id, $filename);
+                    return response()->json(['success'=>true,'message'=>'Promotion updated successfully','data'=>$data],200);
+                }else{
+                    return response()->json(['success'=>false,'message'=>'You are unauthorized'],433);
+                }
+            }
+        }catch (\Exception $e){
+            return response()->json(['success'=>false,'message'=>$e->getMessage()],433);
+        }
     }
 
     /**
@@ -94,6 +132,25 @@ class HospitalPromotionController extends Controller
      */
     public function destroy(HospitalPromotions $hospitalPromotion)
     {
-        //
+        $user=Auth::user();
+        try {
+            if(!$user->hasRole('admin')){
+                if($user->hasRole('hospital')){
+                    if($user->hospital->id==$hospitalPromotion->hospital_id){
+                        if(File::exists(public_path('/').'images/hospital'.$hospitalPromotion->hospital_id.'/promotion'.$hospitalPromotion->id.'/'.$hospitalPromotion->image)){
+                            File::deleteDirectory(public_path('/').'images/hospital'.$hospitalPromotion->hospital_id.'/promotion'.$hospitalPromotion->id);
+                        }
+                        $hospitalPromotion->delete();
+                        return response()->json(['success'=>true,'message'=>'Promotion deleted successfully'],200);
+                    }else{
+                        return response()->json(['success'=>false,'message'=>'You are unauthorized'],433);
+                    }
+                }
+            }else {
+                return response()->json(['success' => false, 'message' => 'You are unauthorized'], 433);
+            }
+        }catch (\Exception $e){
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 433);
+        }
     }
 }

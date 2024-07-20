@@ -35,11 +35,20 @@ class HospitalController extends Controller
             'province' => 'string',
             'latitude' => 'string',
             'longitude' => 'string',
+            'open_time' => 'date:format:H:i',
+            'close_time' => 'date:format:H:i',
+            'mission'=>'string',
+            'vision'=>'string'
         ]);
         $data['user_id'] = $uid;
+        $existHospital=Hospital::where('user_id',$uid)->first();
         try {
-            $hospital = Hospital::create($data);
-            return response()->json(['success' => true, 'data' => HospitalResource::make($hospital)], 201);
+            if(!$existHospital){
+                $hospital = Hospital::create($data);
+                return response()->json(['success' => true, 'data' => HospitalResource::make($hospital)], 201);
+            }else{
+                return response()->json(['success' => false, 'message' => 'Hospital already exist'], 201);
+            }
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }

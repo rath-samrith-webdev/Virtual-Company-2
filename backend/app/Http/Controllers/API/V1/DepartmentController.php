@@ -7,6 +7,7 @@ use App\Models\Department;
 use App\Http\Resources\V1\DepartmentResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class DepartmentController extends Controller
 {
@@ -84,16 +85,29 @@ class DepartmentController extends Controller
     {
         $data=$request->validate([
             'name'=>'required|string',
-            'details'=>'required|string'
+            'details'=>'required|string',
+            'image'=>'image|mimes:jpeg,jpg,png'
         ]);
         $user=Auth::user();
         $hospital=$user->hospital;
+        $image=$request->file('image');
+        $ext=$image->getClientOriginalExtension();
+        $filename=time().'.'.$ext;
         try {
-            if($department->hospital_id==$hospital->id){
-                $department->update($data);
-                return response()->json(['success' => true,'data'=>$department],200);
-            }else{
-                return response()->json(['success' => false,'message'=>'Hospital not found'],500);
+            if(!$user->hasRole('admin')){
+                if ($user->hasRole('hospital')) {
+                    if($department->hospital_id==$hospital->id){
+                        if(File::exists(public_path('/').'images/hospital'.$department->hospital_id.'/department'.$department->id.'/'.$department->image)){
+                            File::delete(public_path('/').'images/hospital'.$department->hospital_id.'/department'.$department->id.'/'.$department->image);
+                        }
+                        $data['image']=$filename;
+                        $department->update($data);
+                        $image->move(public_path('/').'images/hospital'.$department->hospital_id.'/department'.$department->id, $filename);
+                        return response()->json(['success' => true,'data'=>$department],200);
+                    }else{
+                        return response()->json(['success' => false,'message'=>'You are not authorized'],443);
+                    }
+                }
             }
         }catch (\Exception $e){
             return response()->json(['success' => false, 'message' => $e->getMessage()],500);
@@ -109,11 +123,20 @@ class DepartmentController extends Controller
         $user=Auth::user();
         $hospital=$user->hospital;
         try {
-            if($department->hospital_id==$hospital->id){
-                $department->delete();
-                return response()->json(['success' => true,'data'=>$department],200);
-            }else{
-                return response()->json(['success' => false,'message'=>'Hospital not found'],500);
+            if(!$user->hasRole('admin')){
+                if ($user->hasRole('hospital')) {
+                    if($department->hospital_id==$hospital->id){
+                        if(File::exists(public_path('/').'images/hospital'.$department->hospital_id.'/department'.$department->id.'/'.$department->image)){
+                            File::deleteDirectory(public_path('/').'images/hospital'.$department->hospital_id.'/department'.$department->id);
+                        }
+                        $department->delete();
+                        return response()->json(['success' => true,'message'=>'Department successfully removed'],200);
+                    }else{
+                        return response()->json(['success' => false,'message'=>'You are not authorized'],443);
+                    }
+                }else{
+                    return response()->json(['success' => false,'message'=>'You are not authorized'],443);
+                }
             }
         }catch (\Exception $e){
             return response()->json(['success' => false, 'message' => $e->getMessage()],500);

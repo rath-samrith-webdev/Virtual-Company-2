@@ -9,8 +9,8 @@ use App\Http\Controllers\API\V1\FavouriteController;
 use App\Http\Controllers\API\V1\HospitalController;
 use App\Http\Controllers\API\V1\HospitalPromotionController;
 use App\Http\Controllers\API\V1\HospitalServiceController;
-use App\Http\Controllers\API\V1\NotificationsController;
 use App\Http\Controllers\API\V1\PostController;
+use App\Http\Controllers\API\V1\PreviewImageController;
 use App\Http\Controllers\API\V1\RateController;
 use App\Http\Controllers\API\V1\RateReplyController;
 use App\Http\Controllers\API\V1\RoomController;
@@ -58,6 +58,20 @@ Route::prefix('v1')->group(function () {
             Route::get('/show/{hospitalPromotion}', [HospitalPromotionController::class, 'show']);
             Route::put('/update/{hospitalPromotion}', [HospitalPromotionController::class, 'update']);
             Route::delete('/delete/{hospitalPromotion}', [HospitalPromotionController::class, 'destroy']);
+        });
+        Route::prefix('services')->group(function (){
+            Route::get('/list',[HospitalServiceController::class,'index']);
+            Route::post('/create',[HospitalServiceController::class,'store']);
+            Route::get('/show/{hospitalService}',[HospitalServiceController::class,'show']);
+            Route::put('/update/{hospitalService}',[HospitalServiceController::class,'update']);
+            Route::delete('/delete/{hospitalService}',[HospitalServiceController::class,'destroy']);
+        });
+        Route::prefix('previewImages')->group(function () {
+            Route::get('/list',[PreviewImageController::class,'index']);
+            Route::post('/create',[PreviewImageController::class,'store']);
+            Route::get('/show/{previewImage}',[PreviewImageController::class,'show']);
+            Route::put('/update/{previewImage}',[PreviewImageController::class,'update']);
+            Route::delete('/delete/{previewImage}',[PreviewImageController::class,'destroy']);
         });
     });
     Route::middleware('auth:sanctum')->prefix('appointments')->group(function () {
@@ -137,14 +151,6 @@ Route::prefix('v1')->group(function () {
         Route::get('/list',[AppointmentNotificationController::class,'index']);
         Route::get('/unseen',[AppointmentNotificationController::class,'unread']);
         Route::put('/markAsSeen/{appointmentNotification}',[AppointmentNotificationController::class,'markAsSeen']);
-    });
-
-    Route::middleware('auth:sanctum')->prefix('services')->group(function (){
-        Route::get('/list',[HospitalServiceController::class,'index']);
-        Route::post('/create',[HospitalServiceController::class,'store']);
-        Route::get('/show/{hospitalService}',[HospitalServiceController::class,'show']);
-        Route::put('/update/{hospitalService}',[HospitalServiceController::class,'update']);
-        Route::delete('/delete/{hospitalService}',[HospitalServiceController::class,'destroy']);
     });
 
     Route::middleware('auth:sanctum')->prefix('subscription')->group(function (){
