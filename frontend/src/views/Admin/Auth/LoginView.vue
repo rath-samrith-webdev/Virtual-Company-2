@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { onMounted, watch } from 'vue'
+import { onMounted } from 'vue'
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import { Lock, Message, UserFilled } from '@element-plus/icons-vue/global'
 import axiosInstance from '@/plugins/axios'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const route=useRoute()
 const loginCredential: { email: string, password: string } = {
   email: '',
   password: ''
@@ -72,11 +71,13 @@ async function LogIn() {
 async function Register() {
   try {
     const { data } = await axiosInstance.post('/register', registerCredential)
+    if(data.success){
+      location.reload()
+    }
     console.log(data)
-    router.push('/login')
   } catch (error) {
     console.log(error)
-    router.push('/login')
+    await router.push('/login')
   }
 }
 </script>
