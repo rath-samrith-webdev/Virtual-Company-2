@@ -42,6 +42,16 @@
                 <span class="mx-3">Role</span>
             </a>
         @endcanany
+        <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.subscription-plans.index') ? 'active' : '' }}"
+           href="{{ route('admin.subscribePlans.index') }}">
+            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.5 6.5a2 2 0 11-4 0 2 2 0 014 0zm-9 7a2 2 0 110-4 2 2 0 010 4z"/>
+            </svg>
+
+            <span class="mx-3">Subscription Plan</span>
+        </a>
         @canany('Permission access','Permission add','Permission edit','Permission delete')
             <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.permissions.index') ? 'active' : '' }}"
                href="{{ route('admin.permissions.index') }}">

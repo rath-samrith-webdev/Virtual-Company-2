@@ -12,6 +12,7 @@ class HospitalPromotions extends Model
     protected $fillable=[
         'hospital_id',
         'title',
+        'image',
         'description',
         'start_date',
         'end_date'

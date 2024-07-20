@@ -12,6 +12,7 @@ use App\Models\Hospital;
 use App\Models\Rate;
 use App\Models\RateReply;
 use App\Models\Room;
+use App\Models\SubscribePlan;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -61,6 +62,12 @@ class DatabaseSeeder extends Seeder
         $dataDoct=Doctor::create([
             'user_id'=>4,
             'hospital_id'=>1,
+        ]);
+        SubscribePlan::create([
+           'name'=>'Free plan',
+           'price'=>0,
+           'currency'=>'USD',
+           'duration'=>7
         ]);
         Appointment::create([
             'title'=>'Appointment',

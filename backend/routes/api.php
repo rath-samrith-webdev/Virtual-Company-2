@@ -7,6 +7,7 @@ use App\Http\Controllers\API\V1\DepartmentController;
 use App\Http\Controllers\API\V1\DoctorController;
 use App\Http\Controllers\API\V1\FavouriteController;
 use App\Http\Controllers\API\V1\HospitalController;
+use App\Http\Controllers\API\V1\HospitalPromotionController;
 use App\Http\Controllers\API\V1\HospitalServiceController;
 use App\Http\Controllers\API\V1\NotificationsController;
 use App\Http\Controllers\API\V1\PostController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\API\V1\RateController;
 use App\Http\Controllers\API\V1\RateReplyController;
 use App\Http\Controllers\API\V1\RoomController;
 use App\Http\Controllers\API\V1\SubscribePaymentController;
+use App\Http\Controllers\API\V1\SubscribePlanController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SystemRequestController;
 use Illuminate\Support\Facades\Broadcast;
@@ -50,6 +52,13 @@ Route::prefix('v1')->group(function () {
         Route::delete('/delete/{hospital}', [HospitalController::class, 'destroy']);
         Route::post('/upload', [HospitalController::class, 'uploadPreviewImage']);
         Route::post('/uploadCover', [HospitalController::class, 'uploadCover']);
+        Route::prefix('promotions')->group(function () {
+            Route::get('/list', [HospitalPromotionController::class, 'index']);
+            Route::post('/create', [HospitalPromotionController::class, 'store']);
+            Route::get('/show/{hospitalPromotion}', [HospitalPromotionController::class, 'show']);
+            Route::put('/update/{hospitalPromotion}', [HospitalPromotionController::class, 'update']);
+            Route::delete('/delete/{hospitalPromotion}', [HospitalPromotionController::class, 'destroy']);
+        });
     });
     Route::middleware('auth:sanctum')->prefix('appointments')->group(function () {
         Route::get('/list', [AppointmentController::class, 'index']);
@@ -141,6 +150,9 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->prefix('subscription')->group(function (){
         Route::post('/payment',[SubscribePaymentController::class,'store']);
         Route::get('/list',[SubscribePaymentController::class,'index']);
+    });
+    Route::middleware('auth:sanctum')->prefix('subscribePlan')->group(function (){
+        Route::get('/list',[SubscribePlanController::class,'index']);
     });
     Route::get('/post/list', [PostController::class, 'index'])->middleware('auth:sanctum');
 });

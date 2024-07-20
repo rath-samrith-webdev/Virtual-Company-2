@@ -13,7 +13,7 @@ class SubscribePlanController extends Controller
      */
     public function index()
     {
-        //
+        return SubscribePlan::all();
     }
 
     /**

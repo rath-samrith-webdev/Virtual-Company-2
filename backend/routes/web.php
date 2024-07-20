@@ -85,6 +85,7 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         Route::resource('rates', 'RateController');
         Route::resource('system-requests', 'SystemRequestController');
         Route::resource('rooms', 'RoomController');
+        Route::resource('subscribePlans', 'SubscribePlanController');
 
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
         Route::put('/profile-update', [ProfileController::class, 'update'])->name('profile.update');
