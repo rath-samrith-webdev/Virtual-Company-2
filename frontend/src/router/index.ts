@@ -42,11 +42,6 @@ const router = createRouter({
       component: () => import('../views/Web/Post/ListView.vue')
     },
     {
-      path: '/',
-      name: '/',
-      component: () => import('../views/Web/User/UserView.vue')
-    },
-    {
       path: '/about',
       name: 'about', // Fixed duplicate name
       component: () => import('../views/Web/AboutView.vue')
@@ -92,7 +87,7 @@ const router = createRouter({
       component:()=>import('../views/Web/Hospital/AddDoctorView.vue')
     },
     {
-      path: '/user/hospital',
+      path: '/',
       name: 'user-hospital',
       component: () => import('../views/Web/User/HospitalView.vue')
     },

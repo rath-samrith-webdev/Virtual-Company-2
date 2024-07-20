@@ -218,12 +218,10 @@ export default {
 <style>
 h1 {
   width: 99%;
-  height: 70px;
   margin-left: auto;
-  background: #32b4e3;
+  /* background: #dff6ff; */
   text-align: center;
-  color: white;
-}
+  color: hsl(0, 0%, 0%)}
 
 .search_form {
   width: 100%;
@@ -231,6 +229,7 @@ h1 {
   justify-content: space-between;
   align-items: center;
   margin-left: auto;
+  margin-bottom: auto;
 }
 
 .card_hospital {
