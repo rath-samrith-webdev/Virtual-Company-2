@@ -20,6 +20,7 @@ class AppointmentNotifications extends Model
     ];
     protected $dispatchesEvents=[
         'created'=>NotificationNotifier::class,
+        'update'=>NotificationNotifier::class,
     ];
     public function user():BelongsTo
     {

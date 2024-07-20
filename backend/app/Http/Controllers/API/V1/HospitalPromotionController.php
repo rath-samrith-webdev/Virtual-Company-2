@@ -54,6 +54,7 @@ class HospitalPromotionController extends Controller
         try {
             if(!$user->hasRole('admin')){
                 if($user->hasRole('hospital')){
+                    $data['hospital_id']=$user->hospital->id;
                     return response()->json(['success'=>true,'message'=>'Promotion created successfully','data'=>$data],200);
                 }
             }else{
