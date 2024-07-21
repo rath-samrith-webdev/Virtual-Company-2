@@ -19,7 +19,6 @@ export const hospitalDetailStore = defineStore('hospitalDetail', {
     async submitFeedback(feedback: { hospital_id:any ,content:any ,user_id:string ,star:string}) {
       try {
         const { data } = await axiosInstance.post(`/feedbacks/create`, feedback)
-        this.hospitalDetail.feedbacks.push(feedback)
         console.log(data)
       }catch (error){
         console.log(error)

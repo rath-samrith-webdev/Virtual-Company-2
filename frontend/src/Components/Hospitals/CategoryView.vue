@@ -9,8 +9,8 @@
           class="card"
           @click="setCurrentSlide(index)"
         >
-          <img :src="item.image" :alt="item.title" class="card-img" />
-          <div class="card-title">{{ item.title }}</div>
+          <img src="https://cdn-icons-png.flaticon.com/256/5961/5961654.png" :alt="item.title" class="card-img" />
+          <div class="card-title">{{ item.name }}</div>
         </div>
       </div>
       <i id="right" class="fa-solid fa-angle-right" @click="scrollCarousel(1)"></i>
@@ -18,38 +18,13 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import axiosInstance from "@/plugins/axios.js";
 export default {
   data() {
     return {
       currentSlide: 0,
-      carouselItems: [
-        {
-          image: 'https://cdn-icons-png.freepik.com/256/6069/6069863.png?semt=ais_hybrid',
-          title: 'Breast cancer'
-        },
-        {
-          image: 'https://icon-library.com/images/dentist-icon/dentist-icon-18.jpg',
-          title: 'Dental Hospital'
-        },
-        {
-          image: 'https://mentalhealthcommission.ca/wp-content/uploads/2021/09/MHCC-Early_Childhood-icon-light_blue.png',
-          title: 'Children hospital'
-        },
-        {
-          image: 'https://cdn.pixabay.com/photo/2017/09/30/18/58/lungs-2803208_1280.png',
-          title: 'Lung Hospital '
-        },
-        {
-          image: 'https://cdn1.iconfinder.com/data/icons/medical-health-care-2-2/380/Waiting_Room-512.png',
-          title: 'Elderly Hospital'
-        }
-        ,
-        {
-          image: 'https://cdn-icons-png.flaticon.com/256/5961/5961654.png',
-          title: 'General Consulting Hospital'
-        }
-      ]
+      carouselItems: []
     };
   },
   methods: {
@@ -60,7 +35,19 @@ export default {
     },
     setCurrentSlide(index) {
       this.currentSlide = index;
+    },
+    async fetchCategory(){
+      try {
+        const {data} = await axiosInstance.get('/categories/list')
+        this.carouselItems = data.data
+        console.log(data.data)
+      }catch(error){
+        console.log(error)
+      }
     }
+  },
+  mounted() {
+    this.fetchCategory()
   }
 };
 </script>

@@ -6,7 +6,8 @@ export const FeedbackList = defineStore('feedback-list', {
     allFeedback: [],
     recentFeedbacks: [],
     monthlyFeedbacks: [],
-    feedbackDetails:{}
+    feedbackDetails:{},
+    mostRated:[],
   }),
   actions: {
     async fetchFeedback() {
@@ -48,6 +49,15 @@ export const FeedbackList = defineStore('feedback-list', {
         this.feedbackDetails=data.data
       }catch (e){
         console.log(e)
+      }
+    },
+    async fetchMostRated(){
+      try{
+        const {data}=await axiosInstance.get('/feedbacks/mostRated')
+        this.mostRated=data.data
+        console.log(data.data)
+      }catch (error){
+        console.log(error)
       }
     }
   }

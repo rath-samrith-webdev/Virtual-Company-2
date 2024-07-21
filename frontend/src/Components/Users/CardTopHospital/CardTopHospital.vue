@@ -5,22 +5,28 @@
     <div class="marquee-wrapper" style="user-select: none">
       <div class="marquee-content scrollingX">
         <div
-          v-for="card in cards.concat(cards)"
-          :key="card.id + 'duplicate'"
-          class="card-testimonial"
+            v-for="card in cards.concat(cards)"
+            :key="card.hospital.id + 'duplicate'"
+            class="card-testimonial"
+            @click="seeDetails(card.hospital.id)"
         >
           <article>
             <picture>
-              <source media="(min-width: 768px)" srcset="" />
-              <img :src="card.img" alt="" />
+              <source media="(min-width: 768px)"
+                      srcset="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1"/>
+              <img v-if="card.hospital.cover_image!=='No cover'" :src="card.hospital.cover_image" alt=""/>
+              <img v-else src="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1"
+                   alt=""/>
             </picture>
-            <h4>{{ card.title }}</h4>
+            <h4>{{ card.hospital.name }}</h4>
             <article class="short-description">
-              <p>{{ card.text }}</p>
+              <p>{{ card.hospital.open_time }} to {{ card.hospital.close_time }}</p>
+              <p>{{ card.hospital.province }}</p>
               <el-rate
-                v-model="value"
-                :texts="['oops', 'disappointed', 'normal', 'good', 'great']"
-                show-text
+                  v-model="card.total_star"
+                  disabled
+                  :texts="['oops', 'disappointed', 'normal', 'good', 'great']"
+                  show-text
               />
             </article>
           </article>
@@ -30,52 +36,26 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import {defineComponent} from "vue";
+import {hospitalDetailStore} from "@/stores/hospital-detail";
+
+export default defineComponent({
   name: 'CardTopHospital',
+  methods: {
+    seeDetails(id) {
+      this.$router.push(`/hospital/detail?id=${id}`)
+      this.details.fetchHospitalDetail(id)
+    }
+  },
   data() {
     return {
-      cards: [
-        {
-          id: 1,
-          title: 'Orchid Hospital',
-          text: 'This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.',
-          img: 'https://eacnews.asia/uploads/images/1707375287_1d95c21b958defc06a96.jpg',
-          stars: 5
-        },
-        {
-          id: 2,
-          title: 'Rose Hospital',
-          text: 'This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.',
-          img: 'https://www.diariolaregion.cl/wp-content/uploads/2024/04/DSC01023.jpg',
-          stars: 4
-        },
-        {
-          id: 3,
-          title: 'Lily Hospital',
-          text: 'This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.',
-          img: 'https://www.khmertimeskh.com/wp-content/uploads/2022/02/photo_2022-02-02_17-41-10.jpg',
-          stars: 3
-        },
-        {
-          id: 4,
-          title: 'Tulip Hospital',
-          text: 'This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.',
-          img: 'https://cambodianess.com/uploads/images/1640765322z6c2p-chkhgee007005-20211229-cbmfn0a001.jpg',
-          stars: 4
-        },
-        {
-          id: 5,
-          title: 'Sunflower Hospital',
-          text: 'This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.',
-          img: 'https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg',
-          stars: 5
-        }
-      ],
+      details: hospitalDetailStore(),
       value: 4
     }
-  }
-}
+  },
+  props: ['cards']
+})
 </script>
 
 <style scoped>
@@ -103,7 +83,7 @@ body {
   padding: 10px;
   width: 100%;
   max-width: 100%;
-  
+
 }
 
 .marquee-wrapper .marquee-content {
