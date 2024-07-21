@@ -126,18 +126,25 @@ const router = createRouter({
       name:'not-found',
       component: () => import('../views/Web/404/NotFoundView.vue')
 
-    },
+    }
+    ,
     {
       path:'/not-found-page',
       name:'not-found-page',
       component: () => import('../views/Web/404/PageNotFound.vue')
+    }
+    ,
+    {
+      path:'/upload/promotion',
+      name:'upload/promotion',
+      component: () => import('../views/Web/Hospital/UploadPromotion.vue')
     }
   ],
   linkExactActiveClass:'active'
 })
 
 router.beforeEach(async (to, from, next) => {
-  const publicPages = ['/landing', '/login', '/about', '/contact','/forgot-password','/reset-password','/not-found','/not-found-page']
+  const publicPages = ['/landing', '/login', '/about', '/contact','/forgot-password','/reset-password','/not-found','/not-found-page','/upload/promotion']
   const authRequired = !publicPages.includes(to.path)
   const store = useAuthStore()
   try {
