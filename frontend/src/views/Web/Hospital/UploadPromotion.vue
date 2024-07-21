@@ -21,10 +21,15 @@
     <el-dialog v-model="centerDialogVisible" width="400" center>
       <div class="image-pro">
         <img
-          src="https://i.pinimg.com/564x/ce/08/60/ce0860643f75ab5410f57518799a7a88.jpg"
+          :src="
+            imageUrl || 'https://t4.ftcdn.net/jpg/01/64/16/59/360_F_164165971_ELxPPwdwHYEhg4vZ3F4Ej7OmZVzqq4Ov.jpg'
+          "
           alt=""
           width="100%"
+          height="250vh"
+          @click="triggerFileInput"
         />
+        <input type="file" ref="fileInput" style="display: none" @change="onFileChange" />
       </div>
       <div>
         <div class="mt-4">
@@ -71,7 +76,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import dayjs from 'dayjs'
 
@@ -80,6 +85,8 @@ const title = ref('')
 const description = ref('')
 const startDate = ref('')
 const endDate = ref('')
+const imageUrl = ref('')
+const fileInput = ref(null)
 
 const tableData = ref([
   {
@@ -126,6 +133,22 @@ const onAddItem = () => {
   description.value = ''
   startDate.value = ''
   endDate.value = ''
+  imageUrl.value = ''
+}
+
+const triggerFileInput = () => {
+  fileInput.value.click()
+}
+
+const onFileChange = (event: Event) => {
+  const file = (event.target as HTMLInputElement).files?.[0]
+  if (file) {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      imageUrl.value = e.target?.result as string
+    }
+    reader.readAsDataURL(file)
+  }
 }
 </script>
 
@@ -142,7 +165,9 @@ const onAddItem = () => {
 .date .date-end {
   width: 50%;
 }
-.image-pro img{
+.image-pro img {
   margin-top: 10px;
+  cursor: pointer;
+ 
 }
 </style>
