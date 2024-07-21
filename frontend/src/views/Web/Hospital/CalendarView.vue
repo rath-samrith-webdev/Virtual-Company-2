@@ -83,6 +83,7 @@ export default defineComponent({
       innerVisible: ref(false),
       id: '',
       appointment: [],
+      appointmentStore:store.calendars,
       currentAppointment: {
         appointment_date: undefined
       },
@@ -104,7 +105,6 @@ export default defineComponent({
         selectMirror: true,
         dayMaxEvents: true,
         weekends: true,
-        select: this.handleDateSelect,
         eventClick: this.handleEventClick,
         eventsSet: this.handleEvents
         /* you can update a remote database when these fire:
@@ -119,20 +119,6 @@ export default defineComponent({
   methods: {
     handleWeekendsToggle() {
       this.calendarOptions.weekends = !this.calendarOptions.weekends // update a property
-    },
-    handleDateSelect(selectInfo: DateSelectArg) {
-      let title = prompt('Please enter a new title for your event')
-      let calendarApi = selectInfo.view.calendar
-      calendarApi.unselect() // clear date selection
-      if (title) {
-        calendarApi.addEvent({
-          id: createEventId(),
-          title,
-          start: selectInfo.startStr,
-          end: selectInfo.endStr,
-          allDay: selectInfo.allDay
-        })
-      }
     },
     handleEventClick(clickInfo: EventClickArg) {
       this.outerVisible = true

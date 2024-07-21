@@ -375,7 +375,7 @@ watch(
         <p><b>Phone Number:</b> {{ currentAppointment.user.phone_number }}</p>
         <p><b>Date:</b> {{ currentAppointment.appointment_date }}</p>
         <p><b>Time:</b> {{ currentAppointment.appointment_time }}</p>
-        <p><b>Room No:</b> {{ currentAppointment.user.time }}</p>
+        <p><b>Room No:</b> {{ currentAppointment.room.name }}</p>
         <p><b>Status:</b> {{ currentAppointment.status }}</p>
         <p><b>Gender:</b> {{ currentAppointment.user.gender }}</p>
       </div>
