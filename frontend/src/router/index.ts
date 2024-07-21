@@ -154,6 +154,12 @@ const router = createRouter({
       name:'upload/promotion',
       component: () => import('../views/Web/Hospital/UploadPromotion.vue')
     }
+    ,
+    {
+      path:'/hospital/service',
+      name:'service-hospital',
+      component: () => import('../views/Web/Hospital/ServiceHospital.vue')
+    }
   ],
   linkExactActiveClass:'active'
 })
