@@ -13,19 +13,19 @@
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" class="px-6 py-3">
-                                Plan Name
+                                Payment Id
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Price
+                                Plan Name
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Duration
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Added
+                                Amount
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Action
+                                Added
                             </th>
                         </tr>
                         </thead>
@@ -34,13 +34,16 @@
                             @foreach($data as $user)
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <td class="px-6 py-4">
-                                        {{ $user->name }}
+                                        {{ $user->payment_id }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        {{$user->price}}
+                                        {{$user->subscribePlan->name}}
                                     </td>
                                     <td class="px-6 py-4">
                                         {{$user->duration}}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{$user->amount}}
                                     </td>
                                     <td class="px-6 py-4">
                                 <span
@@ -51,23 +54,6 @@
                                             d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z"/>
                                     </svg>
                                      {{\Carbon\Carbon::parse($user->created_at)->diffForHumans()}}</span>
-                                    </td>
-                                    <td class="py-4 px-4 border-b justify-start border-grey-light text-right">
-                                        @can('Room edit')
-                                            <a href="{{route('admin.subscribePlans.edit',$user->id)}}"
-                                               class="text-grey-lighter font-bold py-1 rounded text-xs bg-green hover:bg-green-dark text-blue-400">Edit</a>
-                                        @endcan
-                                        @can('Room delete')
-                                            <form action="{{ route('admin.subscribePlans.destroy', $user->id) }}"
-                                                  method="POST" class="inline">
-                                                @csrf
-                                                @method('delete')
-                                                <button
-                                                    class="text-grey-lighter font-bold py-1 px-3 rounded text-xs bg-blue hover:bg-blue-dark text-red-400">
-                                                    Delete
-                                                </button>
-                                            </form>
-                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach

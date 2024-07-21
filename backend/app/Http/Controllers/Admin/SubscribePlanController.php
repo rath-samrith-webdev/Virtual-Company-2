@@ -79,7 +79,17 @@ class SubscribePlanController extends Controller
      */
     public function update(Request $request, SubscribePlan $subscribePlan)
     {
-        //
+        $data=$request->validate([
+            'name'=>'required|string',
+            'price'=>'required|string',
+            'duration'=>'required|integer',
+        ]);
+        try {
+            $subscribePlan->update($data);
+            return redirect()->route('admin.subscribePlans.index')->with('success','Subscribed successfully');
+        }catch (\Exception $exception){
+            return redirect()->back()->with('error',$exception->getMessage());
+        }
     }
 
     /**

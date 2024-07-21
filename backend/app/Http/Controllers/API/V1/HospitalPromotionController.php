@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\PromotionResource;
 use App\Models\HospitalPromotions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,13 +19,24 @@ class HospitalPromotionController extends Controller
         $user=Auth::user();
         try {
             if (!$user->hasRole('admin')) {
-                if($user->hasRole('hosptal')){
+                if($user->hasRole('hospital')){
                     $data=$user->hospital->promotions()->get();
-                    return response()->json(['success'=>true,'message'=>'Retrieved successful','data'=>$data],200);
+                    return response()->json(['success'=>true,'message'=>'Retrieved successful','data'=>PromotionResource::collection($data)],200);
+                }else{
+                    return response()->json(['success'=>false,'message'=>'You are not authorized'],403);
                 }
             }else{
                 return response()->json(['success'=>false,'message'=>'You are unauthorized'],433);
             }
+        }catch (\Exception $e){
+            return response()->json(['success'=>false,'message'=>$e->getMessage()],433);
+        }
+    }
+    public function promotionlist()
+    {
+        $data=HospitalPromotions::all();
+        try {
+            return response()->json(['success'=>true,'message'=>'Retrieved successful','data'=>PromotionResource::collection($data)],200);
         }catch (\Exception $e){
             return response()->json(['success'=>false,'message'=>$e->getMessage()],433);
         }
@@ -61,7 +73,7 @@ class HospitalPromotionController extends Controller
                     $data['hospital_id']=$user->hospital->id;
                     $data['image']=$filename;
                     $promotion=HospitalPromotions::create($data);
-                    $image->move(public_path('/').'images/hospital'.$promotion->hospital_id.'/promotion'.$promotion->id, $filename);
+                    $image->move(public_path('/').'images/hospital'.$promotion->hospital_id.'/promotions/promotion'.$promotion->id, $filename);
                     return response()->json(['success'=>true,'message'=>'Promotion created successfully','data'=>$data],200);
                 }else{
                     return response()->json(['success'=>false,'message'=>'You are unauthorized'],433);
@@ -112,11 +124,11 @@ class HospitalPromotionController extends Controller
                 if($user->hasRole('hospital')){
                     $data['hospital_id']=$user->hospital->id;
                     $data['image']=$filename;
-                    if(File::exists(public_path('/').'images/hospital'.$hospitalPromotion->hospital_id.'/promotion'.$hospitalPromotion->id.'/'.$hospitalPromotion->image)){
-                        File::delete(public_path('/').'images/hospital'.$hospitalPromotion->hospital_id.'/promotion'.$hospitalPromotion->id.'/'.$hospitalPromotion->image);
+                    if(File::exists(public_path('/').'images/hospital'.$hospitalPromotion->hospital_id.'/promotions/promotion'.$hospitalPromotion->id.'/'.$hospitalPromotion->image)){
+                        File::deleteDirectory(public_path('/').'images/hospital'.$hospitalPromotion->hospital_id.'/promotions/promotion'.$hospitalPromotion->id);
                     }
                     $hospitalPromotion->update($data);
-                    $image->move(public_path('/').'images/hospital'.$hospitalPromotion->hospital_id.'/promotion'.$hospitalPromotion->id, $filename);
+                    $image->move(public_path('/').'images/hospital'.$hospitalPromotion->hospital_id.'/promotions/promotion'.$hospitalPromotion->id, $filename);
                     return response()->json(['success'=>true,'message'=>'Promotion updated successfully','data'=>$data],200);
                 }else{
                     return response()->json(['success'=>false,'message'=>'You are unauthorized'],433);
@@ -137,8 +149,8 @@ class HospitalPromotionController extends Controller
             if(!$user->hasRole('admin')){
                 if($user->hasRole('hospital')){
                     if($user->hospital->id==$hospitalPromotion->hospital_id){
-                        if(File::exists(public_path('/').'images/hospital'.$hospitalPromotion->hospital_id.'/promotion'.$hospitalPromotion->id.'/'.$hospitalPromotion->image)){
-                            File::deleteDirectory(public_path('/').'images/hospital'.$hospitalPromotion->hospital_id.'/promotion'.$hospitalPromotion->id);
+                        if(File::exists(public_path('/').'images/hospital'.$hospitalPromotion->hospital_id.'/promotions/promotion'.$hospitalPromotion->id.'/'.$hospitalPromotion->image)){
+                            File::deleteDirectory(public_path('/').'images/hospital'.$hospitalPromotion->hospital_id.'/promotions/promotion'.$hospitalPromotion->id);
                         }
                         $hospitalPromotion->delete();
                         return response()->json(['success'=>true,'message'=>'Promotion deleted successfully'],200);

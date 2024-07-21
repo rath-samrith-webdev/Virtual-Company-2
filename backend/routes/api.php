@@ -53,7 +53,8 @@ Route::prefix('v1')->group(function () {
         Route::post('/upload', [HospitalController::class, 'uploadPreviewImage']);
         Route::post('/uploadCover', [HospitalController::class, 'uploadCover']);
         Route::prefix('promotions')->group(function () {
-            Route::get('/list', [HospitalPromotionController::class, 'index']);
+            Route::get('/all', [HospitalPromotionController::class, 'index']);
+            Route::get('/list', [HospitalPromotionController::class, 'promotionlist']);
             Route::post('/create', [HospitalPromotionController::class, 'store']);
             Route::get('/show/{hospitalPromotion}', [HospitalPromotionController::class, 'show']);
             Route::put('/update/{hospitalPromotion}', [HospitalPromotionController::class, 'update']);

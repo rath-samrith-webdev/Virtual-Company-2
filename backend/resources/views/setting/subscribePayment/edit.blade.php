@@ -14,14 +14,14 @@
                   </div>
                 <div class="flex flex-col space-y-2">
                     <label for="email" class="text-gray-700 select-none font-medium">Price</label>
-                    <input id="email" type="text" name="price" value="{{ old('email',$subscribePlan->price) }}"
+                    <input id="email" type="text" name="email" value="{{ old('email',$subscribePlan->price) }}"
                       placeholder="Enter email" class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200"
                     />
                 </div>
 
                 <div class="flex flex-col space-y-2">
                     <label for="password" class="text-gray-700 select-none font-medium">Duration (Day)</label>
-                    <input id="password" type="text" name="duration" value="{{ old('password',$subscribePlan->duration) }}"
+                    <input id="password" type="text" name="password" value="{{ old('password',$subscribePlan->duration) }}"
                       placeholder="Enter password" class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200"
                     />
                 </div>

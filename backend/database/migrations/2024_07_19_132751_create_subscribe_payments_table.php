@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('payment_id');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('subscribe_plan_id')->constrained('subscribe_plans')->onDelete('cascade');
             $table->string('name');
             $table->string('payment_type')->nullable();
             $table->string('payer_email')->nullable();

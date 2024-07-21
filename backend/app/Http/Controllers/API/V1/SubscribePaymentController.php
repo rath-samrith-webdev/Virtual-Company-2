@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\SubscribePayment;
+use App\Models\SubscribePlan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Stripe;
@@ -30,13 +31,16 @@ class SubscribePaymentController extends Controller
             'cvc'=>'required|regex:/^\d+$/',
             'amount'=>'required|regex:/^\d+$/',
             'currency'=>'required|string',
+            'subscribe_plan_id'=>'required|exists:subscribe_plans,id',
         ]);
         $user=Auth::user();
+        $plan=SubscribePlan::find($data['subscribe_plan_id']);
         try {
             if(!$user->hasRole('admin')){
                 if ($user->hasRole('hospital')){
                     $stripe=new \Stripe\StripeClient(env('STRIPE_SK'));
                     \Stripe\Stripe::setApiKey(env('STRIPE_SK'));
+                    $data['amount']=$plan->price;
                     $response=$stripe->paymentIntents->create([
                         'amount' => $data['amount']*100,
                         'currency' => $data['currency'],
@@ -55,6 +59,7 @@ class SubscribePaymentController extends Controller
                         'payment_types' => 'card',
                         'user_id'=>$user->id,
                         'amount'=>$data['amount'],
+                        'subscribe_plan_id'=>$data['subscribe_plan_id'],
                     ]);
                     return response()->json(['success'=>true,'message'=>'payment successful','data'=>$pay],200);
                 }

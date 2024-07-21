@@ -48,10 +48,6 @@ class Hospital extends Model
     {
         return $this->hasMany(PreviewImage::class);
     }
-    public function previewVideo():HasMany
-    {
-        return $this->hasMany(PreviewVideo::class);
-    }
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -70,6 +66,6 @@ class Hospital extends Model
     }
     public function promotions():HasMany
     {
-        return $this->hasMany(Hospital::class);
+        return $this->hasMany(HospitalPromotions::class);
     }
 }
