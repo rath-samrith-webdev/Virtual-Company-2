@@ -15,7 +15,21 @@ class HospitalServiceController extends Controller
      */
     public function index()
     {
-        return HospitalService::all();
+        $user=Auth::user();
+        try {
+            if(!$user->hasRole('admin')){
+                if ($user->hasRole('hospital')){
+                    $data=HospitalService::all();
+                    return response()->json(['success'=>true,'message'=>'Data retrieved successfully','data'=>$data],200);
+                }else{
+                    return response()->json(['success'=>false,'message'=>'Unauthorized'],401);
+                }
+            }else{
+                return response()->json(['success'=>false,'message'=>'Unauthorize'],200);
+            }
+        }catch (\Exception $e){
+            return response()->json(['success'=>false,'message'=>$e->getMessage()],401);
+        }
     }
 
     /**
