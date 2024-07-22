@@ -12,8 +12,6 @@
       <el-table-column prop="title" label="Title" width="120" />
       <el-table-column prop="start_date" label="Start Date" width="150" />
       <el-table-column prop="end_date" label="End Date" width="120" />
-      <el-table-column prop="address" label="Address" width="600" />
-      <el-table-column prop="zip" label="Zip" width="120" />
       <el-table-column fixed="right" label="Operations" min-width="120">
         <template #default="scope">
           <el-button type="primary" size="small" @click="deleteRow(scope.$index,scope.row.id)">
