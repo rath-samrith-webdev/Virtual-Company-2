@@ -78,13 +78,12 @@ onMounted(()=>{
     <el-tabs type="border-card" stretch class="demo-tabs">
       <el-tab-pane>
         <template #label>
-        <span class="custom-tabs-label">
-          <el-icon><calendar /></el-icon>
-          <span>Information</span>
+        <span class="custom-tabs-label " >
+          <span class="fw-bold ">Information</span>
         </span>
         </template>
         <div style="height: 55%">
-          <el-avatar shape="square" style="width: 100%; height: 100%;"  :fit="'cover'" src="https://teacarchitect.com/wp-content/uploads/2021/09/Royal-Phnom-Penh-Hospital.jpg"/>
+          <el-avatar shape="square" style="width: 100%; height: 100%; margin-top:-350px;"  :fit="'cover'" src="https://teacarchitect.com/wp-content/uploads/2021/09/Royal-Phnom-Penh-Hospital.jpg"/>
         </div>
         <AboutTabs @edit-hospital="isEdit=true" :isEdit="isEdit" @save-hospital="isEdit=false"/>
       </el-tab-pane>
