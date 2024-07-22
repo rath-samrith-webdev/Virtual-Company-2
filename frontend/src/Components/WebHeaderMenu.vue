@@ -53,6 +53,7 @@ function handleCommand(command) {
       <router-link
         to="/hospital/doctors"
         class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+        style="text-decoration: none;"
       >Doctors
       </router-link
       >
