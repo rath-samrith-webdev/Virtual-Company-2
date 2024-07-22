@@ -379,7 +379,7 @@ watch(
         <p><b>Status:</b> {{ currentAppointment.status }}</p>
         <p><b>Gender:</b> {{ currentAppointment.user.gender }}</p>
       </div>
-      <template #header="{ close, titleId, titleClass }">
+      <template #header="{ titleId, titleClass }">
         <div class="my-header">
           <h2 :id="titleId" :class="titleClass">Appointment Details</h2>
         </div>

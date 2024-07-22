@@ -1,172 +1,3 @@
-<template>
-  <WebLayout>
-    <FullCalendar :options="calendarOptions"/>
-    <!-- Update Appointment form   -->
-    <el-dialog v-model="dialogEditVisible" title="Edit appointment" width="800">
-      <el-form :model="formEdit" label-position="top" label-width="auto" style="max-width: 800px">
-        <el-input type="hidden" v-model="formEdit.user_id" />
-        <el-input type="hidden" v-model="formEdit.id" />
-        <el-form-item>
-          <el-col :span="11">
-            <el-form-item label="First name">
-              <el-input v-model="formEdit.first_name" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="2" class="text-center">
-            <span class="text-gray-500">-</span>
-          </el-col>
-          <el-col :span="11">
-            <el-form-item label="Last name">
-              <el-input v-model="formEdit.last_name" />
-            </el-form-item>
-          </el-col>
-        </el-form-item>
-        <el-form-item label="Appointment Title">
-          <el-input v-model="formEdit.title" />
-        </el-form-item>
-        <el-form-item label="Select a hospital">
-          <el-select v-model="formEdit.hospital_id" placeholder="Select Hospital">
-            <el-option
-                @click="getDoctors(form.hospital_id)"
-                v-for="item in hospital"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="Select a Doctor">
-          <el-select v-model="formEdit.doctor_id" placeholder="Select Doctor">
-            <el-option
-                v-for="item in docData"
-                :key="item.id"
-                :label="item.first_name + ' ' + item.last_name"
-                :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="Activity time">
-          <el-col :span="11">
-            <el-date-picker
-                v-model="formEdit.date1"
-                type="date"
-                placeholder="Pick a date"
-                format="YYYY/MM/DD"
-                value-format="YYYY-MM-DD"
-                style="width: 100%"
-            />
-          </el-col>
-          <el-col :span="2" class="text-center">
-            <span class="text-gray-500">-</span>
-          </el-col>
-          <el-col :span="11">
-            <el-time-picker
-                v-model="formEdit.date2"
-                placeholder="Pick a time"
-                style="width: 100%"
-                value-format="HH:mm"
-            />
-          </el-col>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="onUpdate">Update</el-button>
-          <el-button>Cancel</el-button>
-        </el-form-item>
-      </el-form>
-    </el-dialog>
-    <!-- Appointment Creation Data-->
-    <el-dialog v-model="dialogTableVisible" title="Make an appointment" width="800">
-      <el-form :model="form" label-position="top" label-width="auto" style="max-width: 800px">
-        <el-input hidden v-model="form.user_id"/>
-        <el-form-item>
-          <el-col :span="11">
-            <el-form-item label="First name">
-              <el-input v-model="form.first_name"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="2" class="text-center">
-            <span class="text-gray-500">-</span>
-          </el-col>
-          <el-col :span="11">
-            <el-form-item label="Last name">
-              <el-input v-model="form.last_name"/>
-            </el-form-item>
-          </el-col>
-        </el-form-item>
-        <el-form-item label="Appointment Title">
-          <el-input v-model="form.title"/>
-        </el-form-item>
-        <el-form-item label="Select a hospital">
-          <el-select v-model="form.hospital_id" placeholder="Please select a hospital">
-            <el-option
-                @click="getDoctors(form.hospital_id)"
-                v-for="item in hospital"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="Select a Doctor">
-          <el-select v-model="form.doctor_id" placeholder="Please select a doctor">
-            <el-option
-                v-for="item in docData"
-                :key="item.id"
-                :label="item.first_name + ' ' + item.last_name"
-                :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="Activity time">
-          <el-col :span="11">
-            <el-date-picker
-                v-model="form.date1"
-                type="date"
-                placeholder="Pick a date"
-                format="YYYY/MM/DD"
-                value-format="YYYY-MM-DD"
-                style="width: 100%"
-            />
-          </el-col>
-          <el-col :span="2" class="text-center">
-            <span class="text-gray-500">-</span>
-          </el-col>
-          <el-col :span="11">
-            <el-time-picker
-                v-model="form.date2"
-                placeholder="Pick a time"
-                style="width: 100%"
-                value-format="HH:mm"
-            />
-          </el-col>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="onSubmit">Create</el-button>
-          <el-button>Cancel</el-button>
-        </el-form-item>
-      </el-form>
-    </el-dialog>
-    <el-dialog v-model="outerVisible" title="Appointment Details" width="600">
-      <p><b>Name:</b> {{ currentAppointment.extendedProps.user.first_name }}</p>
-      <p><b>Doctor:</b> {{ currentAppointment.extendedProps.doctor.first_name }}</p>
-      <p><b>Hospital:</b> {{ currentAppointment.extendedProps.hospital.name }}</p>
-      <p><b>Phone Number:</b> {{ currentAppointment.extendedProps.user.phone_number }}</p>
-      <p><b>Date:</b> {{ currentAppointment.start?.toISOString().split('T')[0] }}</p>
-      <p><b>Time:</b> {{ currentAppointment.extendedProps.appointment_time }}</p>
-      <p><b>Room No:</b></p>
-      <p><b>Status:</b> {{ currentAppointment.extendedProps.status }}</p>
-      <p><b>Gender:</b> {{ currentAppointment.extendedProps.user.gender }}</p>
-      <template #footer>
-        <div class="dialog-footer d-flex justify-content-center align-items-center">
-          <el-button @click="openEditDialog(currentAppointment)">Update</el-button>
-          <el-button @click="outerVisible = false">Cancel</el-button>
-          <el-button @click="outerVisible = false">Remove</el-button>
-          <el-button @click="outerVisible = false">Close</el-button>
-        </div>
-      </template>
-    </el-dialog>
-  </WebLayout>
-</template>
 <script lang="ts">
 import {defineComponent, reactive, ref} from 'vue'
 import {EventApi, DateSelectArg, EventClickArg} from '@fullcalendar/core'
@@ -252,7 +83,7 @@ export default defineComponent({
           right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
         initialView: 'dayGridMonth',
-        initialEvents: store.calendarData(),
+        initialEvents: store.calendars,
         editable: true,
         selectable: true,
         selectMirror: true,
@@ -360,14 +191,190 @@ export default defineComponent({
       this.currentEvents = events
     },
     fetchData() {
-      this.events = store.calendarData()
+      this.events = store.calendars
     },
-    updateAppointment(form) {
-      console.log(form)
+    cancelAppointment(id) {
+      this.outerVisible = false
+      store.cancelAppointment(id)
+      store.fetchCalendarData()
+    },
+    removeAppointment(id) {
+      this.outerVisible = false
+      store.removeAppointment(id)
+      store.fetchAppointments()
     }
   },
 })
 </script>
+<template>
+  <WebLayout>
+    <FullCalendar :options="calendarOptions"/>
+    <!-- Update Appointment form   -->
+    <el-dialog v-model="dialogEditVisible" title="Edit appointment" width="800">
+      <el-form :model="formEdit" label-position="top" label-width="auto" style="max-width: 800px">
+        <el-input type="hidden" v-model="formEdit.user_id" />
+        <el-input type="hidden" v-model="formEdit.id" />
+        <el-form-item>
+          <el-col :span="11">
+            <el-form-item label="First name">
+              <el-input v-model="formEdit.first_name" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="2" class="text-center">
+            <span class="text-gray-500">-</span>
+          </el-col>
+          <el-col :span="11">
+            <el-form-item label="Last name">
+              <el-input v-model="formEdit.last_name" />
+            </el-form-item>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="Appointment Title">
+          <el-input v-model="formEdit.title" />
+        </el-form-item>
+        <el-form-item label="Select a hospital">
+          <el-select v-model="formEdit.hospital_id" placeholder="Select Hospital">
+            <el-option
+                @click="getDoctors(form.hospital_id)"
+                v-for="item in hospital"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Select a Doctor">
+          <el-select v-model="formEdit.doctor_id" placeholder="Select Doctor">
+            <el-option
+                v-for="item in docData"
+                :key="item.id"
+                :label="item.first_name + ' ' + item.last_name"
+                :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Appointment time">
+          <el-col :span="11">
+            <el-date-picker
+                v-model="formEdit.date1"
+                type="date"
+                placeholder="Pick a date"
+                format="YYYY/MM/DD"
+                value-format="YYYY-MM-DD"
+                style="width: 100%"
+            />
+          </el-col>
+          <el-col :span="2" class="text-center">
+            <span class="text-gray-500">-</span>
+          </el-col>
+          <el-col :span="11">
+            <el-time-picker
+                v-model="formEdit.date2"
+                placeholder="Pick a time"
+                style="width: 100%"
+                value-format="HH:mm"
+            />
+          </el-col>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onUpdate">Update</el-button>
+          <el-button>Cancel</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+    <!-- Appointment Creation Data-->
+    <el-dialog v-model="dialogTableVisible" title="Make an appointment" width="800">
+      <el-form :model="form" label-position="top" label-width="auto" style="max-width: 800px">
+        <el-input hidden v-model="form.user_id"/>
+        <el-form-item>
+          <el-col :span="11">
+            <el-form-item label="First name">
+              <el-input v-model="form.first_name"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="2" class="text-center">
+            <span class="text-gray-500">-</span>
+          </el-col>
+          <el-col :span="11">
+            <el-form-item label="Last name">
+              <el-input v-model="form.last_name"/>
+            </el-form-item>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="Appointment Title">
+          <el-input v-model="form.title"/>
+        </el-form-item>
+        <el-form-item label="Select a hospital">
+          <el-select v-model="form.hospital_id" placeholder="Please select a hospital">
+            <el-option
+                @click="getDoctors(form.hospital_id)"
+                v-for="item in hospital"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Select a Doctor">
+          <el-select v-model="form.doctor_id" placeholder="Please select a doctor">
+            <el-option
+                v-for="item in docData"
+                :key="item.id"
+                :label="item.first_name + ' ' + item.last_name"
+                :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Activity time">
+          <el-col :span="11">
+            <el-date-picker
+                v-model="form.date1"
+                type="date"
+                placeholder="Pick a date"
+                format="YYYY/MM/DD"
+                value-format="YYYY-MM-DD"
+                style="width: 100%"
+            />
+          </el-col>
+          <el-col :span="2" class="text-center">
+            <span class="text-gray-500">-</span>
+          </el-col>
+          <el-col :span="11">
+            <el-time-picker
+                v-model="form.date2"
+                placeholder="Pick a time"
+                style="width: 100%"
+                value-format="HH:mm"
+            />
+          </el-col>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">Create</el-button>
+          <el-button>Cancel</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+    <el-dialog v-model="outerVisible" title="Appointment Details" width="600">
+      <p><b>Name:</b> {{ currentAppointment.extendedProps.user.first_name }}</p>
+      <p><b>Doctor:</b> {{ currentAppointment.extendedProps.doctor.first_name }}</p>
+      <p><b>Hospital:</b> {{ currentAppointment.extendedProps.hospital.name }}</p>
+      <p><b>Phone Number:</b> {{ currentAppointment.extendedProps.user.phone_number }}</p>
+      <p><b>Date:</b> {{ currentAppointment.start?.toISOString().split('T')[0] }}</p>
+      <p><b>Time:</b> {{ currentAppointment.extendedProps.appointment_time }}</p>
+      <p><b>Room No: {{ currentAppointment.extendedProps.room.name }}</b></p>
+      <p><b>Status:</b> {{ currentAppointment.extendedProps.status }}</p>
+      <p><b>Gender:</b> {{ currentAppointment.extendedProps.user.gender }}</p>
+      <template #footer>
+        <div class="dialog-footer d-flex justify-content-center align-items-center">
+          <el-button @click="openEditDialog(currentAppointment)">Update</el-button>
+          <el-button @click="cancelAppointment(currentAppointment.id)">Cancel</el-button>
+          <el-button @click="removeAppointment(currentAppointment.id)">Remove</el-button>
+          <el-button @click="outerVisible = false">Close</el-button>
+        </div>
+      </template>
+    </el-dialog>
+  </WebLayout>
+</template>
 <style scoped>
 
 </style>

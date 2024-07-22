@@ -16,8 +16,8 @@ let dialogOverflowVisible = ref(false)
 const data = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
   datasets: [{
-    label: 'Total Feedback',
-    data:JSON.parse(localStorage.getItem('monthlyFeedbacks')),
+    label: 'Total Appointment',
+    data:appointmentStore.monthlyAppointment,
     fill: true,
     backgroundColor: [
       'rgba(255, 99, 132, 0.2)',
@@ -44,7 +44,7 @@ const data2 = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
   datasets: [{
     label: 'Total Feedback',
-    data:JSON.parse(localStorage.getItem('appointments')),
+    data:store.monthlyFeedbacks,
     fill: true,
     backgroundColor: [
       'rgba(255, 99, 132, 0.2)',

@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import {useAuthStore} from '@/stores/auth-store'
-import {useRoute, useRouter} from 'vue-router'
+import { useRouter} from 'vue-router'
 import {BellFilled} from '@element-plus/icons-vue'
-import {onMounted, ref, watch} from 'vue'
+import {onMounted, ref} from 'vue'
 import {NotificationStore} from "@/stores/notification-store";
 import {pusherConstance} from "@/pusher/pusher";
 import {hospitalAppointmentListStore} from "@/stores/hospital-appointment-list";
+import {FeedbackList} from "@/stores/feedback-list";
 
 const pusher = pusherConstance;
 const router = useRouter()
 const store = useAuthStore()
 const notifyStore = NotificationStore()
 const appointment = hospitalAppointmentListStore()
+const feedback=FeedbackList()
 const drawer = ref(false)
 
 function handleLogout() {
@@ -38,9 +40,11 @@ const fetchData = async () => {
   await notifyStore.fetchNotification()
   await notifyStore.fetchUnseenNotifications()
   await appointment.fetchCalendarData()
-  await appointment.calendarData()
 }
 onMounted(() => {
+  appointment.fetchCalendarData()
+  appointment.fetchMonthlyAppointment()
+  feedback.fetchMonthlyFeedbacks()
   if (store.user) {
     notifyStore.fetchNotification()
     notifyStore.fetchUnseenNotifications()
@@ -107,6 +111,9 @@ onMounted(() => {
       >
       <router-link class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900" to="/hospital/calendar">
         Calendar
+      </router-link>
+      <router-link class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900" to="/upload/promotion">
+        My promotions
       </router-link>
     </nav>
     <!--Doctor Menu-->

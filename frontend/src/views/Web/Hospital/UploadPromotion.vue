@@ -3,11 +3,15 @@
     <el-button class="mt-4" style="width: 20%" plain @click="centerDialogVisible = true">
       Add Item
     </el-button>
-    <el-table :data="tableData" style="width: 100%" max-height="250">
-      <el-table-column fixed prop="date" label="Date" width="150" />
-      <el-table-column prop="name" label="Name" width="120" />
-      <el-table-column prop="state" label="State" width="120" />
-      <el-table-column prop="city" label="City" width="120" />
+    <el-table :data="store.promotions" style="width: 100%" max-height="250">
+      <el-table-column prop="image" label="Image" width="120">
+        <template #default="scope">
+          <el-image :src="scope.row.image" fit="cover" :preview-src-list="imageUrl"/>
+        </template>
+      </el-table-column>
+      <el-table-column prop="title" label="Title" width="120" />
+      <el-table-column prop="start_date" label="Start Date" width="150" />
+      <el-table-column prop="end_date" label="End Date" width="120" />
       <el-table-column prop="address" label="Address" width="600" />
       <el-table-column prop="zip" label="Zip" width="120" />
       <el-table-column fixed="right" label="Operations" min-width="120">
@@ -68,7 +72,7 @@
       <template #footer>
         <div class="dialog-footer">
           <el-button @click="centerDialogVisible = false">Cancel</el-button>
-          <el-button type="primary" @click="onAddItem">Confirm</el-button>
+          <el-button type="primary" @click="onAddItem">Upload</el-button>
         </div>
       </template>
     </el-dialog>
@@ -76,9 +80,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import {onMounted, ref} from 'vue'
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import dayjs from 'dayjs'
+import {promotionStore} from "@/stores/promotion-store";
 
 const centerDialogVisible = ref(false)
 const title = ref('')
@@ -87,33 +92,7 @@ const startDate = ref('')
 const endDate = ref('')
 const imageUrl = ref('')
 const fileInput = ref(null)
-
-const tableData = ref([
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036'
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036'
-  },
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036'
-  }
-])
+const store = promotionStore()
 
 const deleteRow = (index: number) => {
   tableData.value.splice(index, 1)
@@ -139,6 +118,9 @@ const onAddItem = () => {
 const triggerFileInput = () => {
   fileInput.value.click()
 }
+onMounted(()=>{
+  store.fetchPromotions()
+})
 
 const onFileChange = (event: Event) => {
   const file = (event.target as HTMLInputElement).files?.[0]

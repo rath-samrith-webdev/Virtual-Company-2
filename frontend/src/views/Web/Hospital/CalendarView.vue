@@ -99,7 +99,7 @@ export default defineComponent({
           right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
         initialView: 'dayGridMonth',
-        initialEvents: JSON.parse(sessionStorage.getItem('calendarData')),
+        initialEvents: store.calendars,
         editable: true,
         selectable: true,
         selectMirror: true,
