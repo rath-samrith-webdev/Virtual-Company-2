@@ -15,23 +15,27 @@
       <p><b>Phone Number:</b> {{ currentAppointment.extendedProps.user.phone_number }}</p>
       <p><b>Date:</b> {{ currentAppointment.start?.toISOString().split('T')[0] }}</p>
       <p><b>Time:</b> {{ currentAppointment.extendedProps.appointment_time }}</p>
-      <p><b>Room No:</b></p>
+      <p><b>Room No: {{currentAppointment.extendedProps.room?.name}}</b></p>
       <p><b>Status:</b> {{ currentAppointment.extendedProps.status }}</p>
       <p><b>Gender:</b> {{ currentAppointment.extendedProps.user.gender }}</p>
       <el-dialog v-model="innerVisible" width="300" title="Confirm Appointment" append-to-body>
-        <el-form>
-          <el-date-picker v-model="confirmData.appointment_end"/>
-          <el-select v-model="confirmData.room_name">
-            <el-option
-                v-for="hosp in hospital.hospitalDetail.rooms"
-                :value="hosp.name"
-                :key="hosp"
-            >{{ hosp.name }}</el-option>
-          </el-select>
+        <el-form label-position="top">
+          <el-form-item label="Appointment End Date">
+            <el-date-picker v-model="confirmData.appointment_end" value-format="YYYY-MM-DD" class="w-100"/>
+          </el-form-item>
+          <el-form-item label="Select a room">
+            <el-select v-model="confirmData.room_name">
+              <el-option
+                  v-for="hosp in hospital.hospitalDetail.rooms"
+                  :value="hosp.name"
+                  :key="hosp"
+              >{{ hosp.name }}</el-option>
+            </el-select>
+          </el-form-item>
         </el-form>
         <div class="el-dialog__footer">
           <el-button @click="innerVisible = false">Cancel</el-button>
-          <el-button type="primary" @click="confirmAppointment"> Confirm </el-button>
+          <el-button type="primary" @click="submitConfirmation"> Confirm </el-button>
         </div>
       </el-dialog>
       <template #footer>

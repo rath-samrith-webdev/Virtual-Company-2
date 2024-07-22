@@ -16,7 +16,7 @@
       <el-table-column prop="zip" label="Zip" width="120" />
       <el-table-column fixed="right" label="Operations" min-width="120">
         <template #default="scope">
-          <el-button type="primary" size="small" @click="deleteRow(scope.$index)">
+          <el-button type="primary" size="small" @click="deleteRow(scope.$index,scope.row.id)">
             Remove
           </el-button>
         </template>
@@ -38,21 +38,22 @@
       <div>
         <div class="mt-4">
           <p>Title</p>
-          <el-input v-model="title" placeholder="Please input" clearable />
+          <el-input v-model="form.title" placeholder="Please input" clearable />
         </div>
         <div class="mt-4">
           <p>Description</p>
-          <el-input v-model="description" placeholder="Please input" clearable />
+          <el-input v-model="form.description" placeholder="Please input" clearable />
         </div>
         <div class="date">
           <div class="date-start mt-4">
             <p>Start date</p>
             <el-col :span="11">
               <el-date-picker
-                v-model="startDate"
+                v-model="form.start_date"
                 type="date"
                 placeholder="Pick a date"
                 style="width: 180px"
+                value-format="YYYY-MM-DD"
               />
             </el-col>
           </div>
@@ -60,10 +61,11 @@
             <p>End date</p>
             <el-col :span="11">
               <el-date-picker
-                v-model="endDate"
+                v-model="form.end_date"
                 type="date"
                 placeholder="Pick a date"
                 style="width: 170px"
+                value-format="YYYY-MM-DD"
               />
             </el-col>
           </div>
@@ -82,36 +84,33 @@
 <script lang="ts" setup>
 import {onMounted, ref} from 'vue'
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
-import dayjs from 'dayjs'
 import {promotionStore} from "@/stores/promotion-store";
 
 const centerDialogVisible = ref(false)
-const title = ref('')
-const description = ref('')
-const startDate = ref('')
-const endDate = ref('')
-const imageUrl = ref('')
 const fileInput = ref(null)
+const imageUrl=ref('')
+const form=ref({
+  title:'',
+  description:'',
+  start_date:'',
+  end_date:'',
+  image:''
+})
 const store = promotionStore()
-
-const deleteRow = (index: number) => {
-  tableData.value.splice(index, 1)
+const deleteRow = (index: number,id:any) => {
+  store.deletePromotion(id)
+  store.promotions.splice(index, 1)
 }
 
 const onAddItem = () => {
-  tableData.value.push({
-    date: dayjs(startDate.value).format('YYYY-MM-DD'),
-    name: title.value,
-    state: 'California',
-    city: 'Los Angeles',
-    address: description.value,
-    zip: 'CA 90036'
-  })
+  store.addPromotion(form.value)
+  store.fetchPromotions()
   centerDialogVisible.value = false
-  title.value = ''
-  description.value = ''
-  startDate.value = ''
-  endDate.value = ''
+  form.value.title = ''
+  form.value.description = ''
+  form.value.start_date = ''
+  form.value.end_date = ''
+  form.value.image = ''
   imageUrl.value = ''
 }
 
@@ -124,6 +123,7 @@ onMounted(()=>{
 
 const onFileChange = (event: Event) => {
   const file = (event.target as HTMLInputElement).files?.[0]
+  form.value.image=file
   if (file) {
     const reader = new FileReader()
     reader.onload = (e) => {

@@ -368,7 +368,7 @@ export default defineComponent({
       <p><b>Phone Number:</b> {{ currentAppointment.extendedProps.user.phone_number }}</p>
       <p><b>Date:</b> {{ currentAppointment.start?.toISOString().split('T')[0] }}</p>
       <p><b>Time:</b> {{ currentAppointment.extendedProps.appointment_time }}</p>
-      <p><b>Room No: {{ currentAppointment.extendedProps.room.name }}</b></p>
+      <p><b>Room No: {{ currentAppointment.extendedProps.room?.name }}</b></p>
       <p><b>Status:</b> {{ currentAppointment.extendedProps.status }}</p>
       <p><b>Gender:</b> {{ currentAppointment.extendedProps.user.gender }}</p>
       <template #footer>

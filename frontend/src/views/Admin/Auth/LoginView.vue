@@ -64,7 +64,7 @@ async function LogIn() {
     }
   } catch (error) {
     console.log(error)
-    await router.push('/login')
+    await location.reload()
   }
 }
 
