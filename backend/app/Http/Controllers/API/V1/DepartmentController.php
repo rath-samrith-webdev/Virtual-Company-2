@@ -51,13 +51,13 @@ class DepartmentController extends Controller
             if($user->hasRole('admin')){
                 $data['image']=$filename;
                 $department=Department::create($data);
-                $image->move(public_path('/').'images/hospital'.$department->hospital_id.'/department'.$department->id, $filename);
+                $image->move(public_path('/').'images/hospital'.$department->hospital_id.'/departments/department'.$department->id, $filename);
                 return response()->json(['success' => true,'data'=>$department],201);
             }elseif ($user->hasRole('hospital')) {
                 $data['hospital_id']=$hospital_id;
                 $data['image']=$filename;
                 $department=Department::create($data);
-                $image->move(public_path('/').'images/hospital'.$department->hospital_id.'/department'.$department->id, $filename);
+                $image->move(public_path('/').'images/hospital'.$department->hospital_id.'/departments/department'.$department->id, $filename);
                 return response()->json(['success' => true,'data'=>$department],201);
             }else{
                 return response()->json(['success'=>false,'message'=>'You have no access'],443);
@@ -98,7 +98,7 @@ class DepartmentController extends Controller
                 if ($user->hasRole('hospital')) {
                     if($department->hospital_id==$hospital->id){
                         if(File::exists(public_path('/').'images/hospital'.$department->hospital_id.'/department'.$department->id.'/'.$department->image)){
-                            File::delete(public_path('/').'images/hospital'.$department->hospital_id.'/department'.$department->id.'/'.$department->image);
+                            File::deleteDirectory(public_path('/').'images/hospital'.$department->hospital_id.'/departments/department'.$department->id);
                         }
                         $data['image']=$filename;
                         $department->update($data);
