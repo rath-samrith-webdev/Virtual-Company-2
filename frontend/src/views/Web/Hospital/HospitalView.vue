@@ -1,24 +1,19 @@
 <script setup lang="ts">
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
-import { Calendar, UploadFilled } from '@element-plus/icons-vue'
+import {UploadFilled } from '@element-plus/icons-vue'
 import AboutTabs from '@/Components/Hospital/AboutTabs.vue'
-import DoctorTabs from '@/Components/Hospital/DoctorTabs.vue'
 import ServiceTab from '@/Components/Hospital/ServiceTab.vue'
 import CardDepartment from '@/Components/Hospital/CardDepartment.vue'
 import { onMounted, ref } from 'vue'
 import type { UploadProps } from 'element-plus'
 import axiosInstance from '@/plugins/axios'
 import {useDoctorStore} from '@/stores/doctor-store'
-import axios from "axios";
+import {hospitalDetailStore} from "@/stores/hospital-detail";
+import {useAuthStore} from "@/stores/auth-store";
 const visible=ref(false)
 const store=useDoctorStore()
-const departments:any[]= [
-  {
-    id:1,
-    name:'Obstetrics & Gynecology department',
-    description:'We provide the all kind of treatment from the preventive care to the critical treatment including diagnostic, comprehensive health screenings, as well as antenatal care and child delivery for expectant mothers.'
-  }
-]
+const details = hospitalDetailStore()
+const userStore = useAuthStore()
 
 const newDep=ref({
   name:'',
@@ -26,18 +21,6 @@ const newDep=ref({
   image:'null'
 })
 const isEdit=ref(false)
-const removeDoc = (id) => {
-  store.deleteDoctor(id)
-}
-const editData=ref({})
-const updateDoc = (doc) => {
-  isEdit.value = true
-  editData.value=doc
-  console.log(doc);
-}
-const updateData=(id)=>{
-  store.updateDoctor(id,editData.value)
-}
 const updateDepartment=(id:number)=>{
   console.log('updateDepartment ', id)
 }
@@ -69,8 +52,31 @@ const addDepartment= async()=>{
     console.log(error)
   }
 }
+let formData = ref({})
+const fetchDetail = () => {
+  details.fetchHospitalDetail(userStore.hospital.id)
+  formData.value = details.hospitalDetail
+}
+const previewImage = ref('')
+const selectFile = () => {
+  document.getElementById('hospital-cover').click()
+}
+const getFile = async () => {
+  let file = document.getElementById('hospital-cover').files[0]
+  try {
+    const { data } = await axiosInstance.post('/hospitals/uploadCover', {
+      image: file,
+      hospital_id: userStore.hospital.id
+    })
+    console.log(data)
+  } catch (err) {
+    console.log(err)
+  }
+  fetchDetail()
+}
 onMounted(()=>{
   store.fetchDoctors()
+  fetchDetail()
 })
 </script>
 <template>
@@ -82,10 +88,27 @@ onMounted(()=>{
           <span class="fw-bold ">Information</span>
         </span>
         </template>
-        <div style="height: 55%">
-          <el-avatar shape="square" style="width: 100%; height: 100%; margin-top:-350px;"  :fit="'cover'" src="https://teacarchitect.com/wp-content/uploads/2021/09/Royal-Phnom-Penh-Hospital.jpg"/>
+        <div style="height: 500px">
+          <el-avatar
+              @click="selectFile"
+              shape="square"
+              style="width: 100%; height: 100%"
+              :fit="'cover'"
+              :src="details.hospitalDetail.cover_image"
+              v-if="details.hospitalDetail.cover_image !== 'No Cover'"
+          />
+          <el-avatar
+              v-else
+              @click="selectFile"
+              shape="square"
+              style="width: 100%; height: 100%"
+              :fit="'cover'"
+              :src="previewImage"
+          >
+          </el-avatar>
+          <input hidden type="file" id="hospital-cover" @change="getFile" />
         </div>
-        <AboutTabs @edit-hospital="isEdit=true" :isEdit="isEdit" @save-hospital="isEdit=false"/>
+        <AboutTabs :hospital="details.hospitalDetail" @edit-hospital="isEdit=true" :isEdit="isEdit" @save-hospital="isEdit=false"/>
       </el-tab-pane>
       <el-tab-pane label="Department">
         <el-button @click="visible=true">Add New Department</el-button>
@@ -113,7 +136,7 @@ onMounted(()=>{
             <el-button @click="addDepartment">Submit</el-button>
           </el-form>
         </el-dialog>
-        <CardDepartment v-for="dep in departments" :key="dep.id" :department="dep" @update="updateDepartment(dep.id)" @remove="removeDepartment(dep.id)"/>
+        <CardDepartment v-for="dep in details.hospitalDetail.department" :key="dep.id" :department="dep" @update="updateDepartment(dep.id)" @remove="removeDepartment(dep.id)"/>
       </el-tab-pane>
       <el-tab-pane label="Service">
         <ServiceTab @remove="removeService(id)" @update="updateService(id)" />

@@ -27,7 +27,7 @@ export default defineComponent({
           <h4 class="text-start ml-5">Hospital Name: </h4>
         </div>
         <div class="flex-1" style=" margin-left:-7%;" v-if="!isEdit">
-          <h5 class="ml-4 mt-1" >Rolyal Phnom Penh</h5>
+          <h5 class="ml-4 mt-1" >{{ hospital.name }}</h5>
         </div>
         <el-form-item v-show="isEdit" class="flex-1">
           <el-input type="text"/>
@@ -39,7 +39,7 @@ export default defineComponent({
           <h4 class="text-start ml-5 ">Working Hours:</h4>
         </div>
         <div class="flex-1" style=" margin-left:-7%;"  v-if="!isEdit">
-          <h5 class="ml-4 mt-1" > <span style="color: teal; padding-right:5px;">Open </span> 24h/7day</h5>
+          <h5 class="ml-4 mt-1" > <span style="color: teal; padding-right:5px;">Open </span> {{hospital.open_time}}</h5>
         </div>
         <el-form-item v-show="isEdit" class="flex-1">
           <el-input type="text"/>
@@ -51,7 +51,7 @@ export default defineComponent({
           <h4 class="text-start ml-5">Phone Number: </h4>
         </div>
         <div class="flex-1" style=" margin-left:-7%;" v-if="!isEdit">
-          <h5 class="ml-4 mt-1"  >+855 (0)23 991 222 / +855 (0)99 991 222</h5>
+          <h5 class="ml-4 mt-1"  >{{ hospital.phone_number }}</h5>
         </div>
         <el-form-item v-show="isEdit" class="flex-1">
           <el-input type="text"/>
@@ -63,7 +63,7 @@ export default defineComponent({
           <h4 class="text-start ml-5">Address: </h4>
         </div>
         <div class="flex-1"  style=" margin-left:-7%;" v-if="!isEdit">
-          <h5 class="ml-4 mt-1" >Phnom Penh Medical Services Co., Ltd. # No. 888, Russian Federation Blvd (110). Sangkat Toeuk Thla, Khan Sen Sok, Phnom Penh, Cambodia.</h5>
+          <h5 class="ml-4 mt-1" >{{hospital.village}}, {{hospital.commune}}, {{hospital.district}}, {{hospital.province}}</h5>
         </div>
         <el-form-item v-show="isEdit" class="flex-1">
           <el-input type="text"/>
