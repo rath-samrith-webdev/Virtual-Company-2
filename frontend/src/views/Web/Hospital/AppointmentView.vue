@@ -4,7 +4,13 @@
       <div class="appointment">
         <h1>Customers' Appointment</h1>
       </div>
-      <el-table v-if="showTable" :data="store.appointments" height="450" style="width: 100%" class="mt-3">
+      <el-table
+        v-if="showTable"
+        :data="store.appointments"
+        height="450"
+        style="width: 100%"
+        class="mt-3"
+      >
         <!-- Profile Column -->
         <el-table-column label="Profile" width="120">
           <template #default="scope">
@@ -25,38 +31,56 @@
         <!-- Age Column -->
         <el-table-column prop="hospital" label="Hospital" />
         <!--Status Column-->
-        <el-table-column prop="status" label="Status" :filters="[
-        { text: 'Confirmed', value: 'Confirmed' },
-        { text: 'Pending', value: 'Pending' },
-        { text: 'Denied', value: 'Denied' },
-      ]" :filter-method="filterTag" filter-placement="bottom-end">
+        <el-table-column
+          prop="status"
+          label="Status"
+          :filters="[
+            { text: 'Confirmed', value: 'Confirmed' },
+            { text: 'Pending', value: 'Pending' },
+            { text: 'Denied', value: 'Denied' }
+          ]"
+          :filter-method="filterTag"
+          filter-placement="bottom-end"
+        >
           <template #default="scope">
             <el-tag
-              :type="scope.row.status === 'Confirmed' ? 'success' : 'Pending' ? 'warning' : 'danger'"
+              :type="
+                scope.row.status === 'Confirmed' ? 'success' : 'Pending' ? 'warning' : 'danger'
+              "
               disable-transitions
-            >{{ scope.row.status }}
+              >{{ scope.row.status }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="hospital_status" label="Hospital Confirmation" :filters="[
-        { text: 'Confirmed', value: 'Confirmed' },
-        { text: 'Pending', value: 'Pending' },
-        { text: 'Denied', value: 'Denied' },
-      ]" :filter-method="filterTag" filter-placement="bottom-end">
+        <el-table-column
+          prop="hospital_status"
+          label="Hospital Confirmation"
+          :filters="[
+            { text: 'Confirmed', value: 'Confirmed' },
+            { text: 'Pending', value: 'Pending' },
+            { text: 'Denied', value: 'Denied' }
+          ]"
+          :filter-method="filterTag"
+          filter-placement="bottom-end"
+        >
           <template #default="scope">
             <el-tag
-              :type="scope.row.hospital_status === 'Confirmed' ? 'success' : 'Pending' ? 'warning' : 'danger'"
+              :type="
+                scope.row.hospital_status === 'Confirmed'
+                  ? 'success'
+                  : 'Pending'
+                    ? 'warning'
+                    : 'danger'
+              "
               disable-transitions
-            >{{ scope.row.hospital_status }}
+              >{{ scope.row.hospital_status }}
             </el-tag>
           </template>
         </el-table-column>
         <!-- Tag Column -->
         <el-table-column label="Action">
           <template #default="scope">
-            <el-button plain @click="showDetails(scope.row)">
-              Details
-            </el-button>
+            <el-button plain @click="showDetails(scope.row)"> Details </el-button>
             <el-dialog v-model="outerVisible" title="Appointment Details" width="600">
               <p><b>Name:</b> {{ currentAppointment.user.first_name }}</p>
               <p><b>Doctor:</b> {{ currentAppointment.doctor.first_name }}</p>
@@ -71,11 +95,12 @@
                 v-model="innerVisible"
                 width="300"
                 title="Confirm Appointment"
-                append-to-body>
+                append-to-body
+              >
                 Are you sure?
                 <div class="el-dialog__footer">
                   <el-button @click="innerVisible = false">Cancel</el-button>
-                  <el-button type="primary" @click="ConfirmAppointment(scope.row.id)">
+                  <el-button type="primary" @click="submitConfirmation(scope.row.id)">
                     Confirm
                   </el-button>
                 </div>
@@ -83,7 +108,7 @@
               <template #footer>
                 <div class="dialog-footer">
                   <el-button @click="outerVisible = false">Cancel</el-button>
-                  <el-button type="primary" @click="innerVisible = true">
+                  <el-button type="primary" @click="ConfirmAppointment">
                     Confirm Appointment
                   </el-button>
                 </div>
@@ -95,7 +120,7 @@
     </div>
   </WebLayout>
   <WebLayout v-else>
-    <NoHospitalSet/>
+    <NoHospitalSet />
   </WebLayout>
 </template>
 <script setup lang="ts">
@@ -105,7 +130,6 @@ import { onMounted, ref, watch } from 'vue'
 import { hospitalAppointmentListStore } from '@/stores/hospital-appointment-list'
 import { ElNotification } from 'element-plus'
 import { useAuthStore } from '@/stores/auth-store'
-import { Form } from 'vee-validate'
 
 const userStore = useAuthStore()
 const store = hospitalAppointmentListStore()
@@ -114,11 +138,13 @@ const outerVisible = ref(false)
 const innerVisible = ref(false)
 let currentAppointment = {}
 // Function to show details popover
-const ConfirmAppointment = (id: any) => {
+const ConfirmAppointment = () => {
+  outerVisible.value = false
+  innerVisible.value = true
+}
+const submitConfirmation = (id:any) => {
   innerVisible.value = false
   store.confirmAppointment(id)
-}
-const fetchAppointments = () => {
   store.fetchAppointments()
 }
 const open2 = (title: string, message: any, type: string) => {
@@ -137,7 +163,7 @@ watch(() => store.message, () => {
 })
 onMounted(() => {
   if (userStore.hospital != 'No hospital') {
-    fetchAppointments()
+    store.fetchAppointments()
   }
 })
 

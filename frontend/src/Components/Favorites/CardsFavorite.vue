@@ -2,15 +2,15 @@
   <div>
     <div class="card_favorite">
       <div class="wrapper" v-for="cardFavorite in cardFavorites" :key="cardFavorite.id">
-        <div class="single-card">
+        <div class="single-card card">
           <div class="img-area">
             <img
-              v-if="cardFavorite.cover_image === 'No cover'"
-              :src="cardFavorite.cover_image"
+              v-if="cardFavorite.cover_image !== 'No Cover'"
+              :src="cardFavorite.hospital.cover_image"
               class="card-img-top"
               alt="..."
             />
-            <h4 v-if="cardFavorite.cover_image !== 'No cover'">
+            <h4 v-if="cardFavorite.cover_image === 'No Cover'">
               <img
                 src="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1"
                 alt=""
@@ -33,7 +33,11 @@
             />
           </div>
           <div class="card_button m-2">
-            <button type="button" class="btn btn-outline-primary" @click="seeDetails(cardFavorite.id)">
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              @click="seeDetails(cardFavorite.id)"
+            >
               <i class="fas fa-info-circle"></i> See Details
             </button>
           </div>

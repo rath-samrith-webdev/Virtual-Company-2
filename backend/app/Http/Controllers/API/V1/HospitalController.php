@@ -69,6 +69,8 @@ class HospitalController extends Controller
             'province' => 'string',
             'latitude' => 'string',
             'longitude' => 'string',
+            'open_time' => 'required|date_format:H:i',
+            'close_time' => 'required|date_format:H:i',
         ]);
         try {
             if ($hospital->user_id == $uid) {

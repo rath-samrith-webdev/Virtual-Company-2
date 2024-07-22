@@ -4,44 +4,35 @@ import axiosInstance from '@/plugins/axios'
 import { ref, onMounted } from 'vue'
 import { hospitalAppointmentListStore } from '@/stores/hospital-appointment-list'
 import { hospitalDetailStore } from '@/stores/hospital-detail'
-const store=hospitalAppointmentListStore()
-const hospital=hospitalDetailStore()
-const appointments = ref([])
+const store = hospitalAppointmentListStore()
+const hospital = hospitalDetailStore()
 const appointment = ref({
   id: '',
   patient: '',
   date: '',
   status: ''
 })
-const centerDialogVisible= ref(false)
-const innerVisible=ref(false)
-const rooms=[]
-const confirmData=ref({
-  'appointment_id':'',
-  'room_name':''
+const centerDialogVisible = ref(false)
+const innerVisible = ref(false)
+const rooms = []
+const confirmData = ref({
+  appointment_id: '',
+  room_name: ''
 })
-const alertAppointmentPopup=(id:any,doc_id:any)=>{
-  confirmData.value.appointment_id=id;
+const alertAppointmentPopup = (id: any, doc_id: any) => {
+  confirmData.value.appointment_id = id
   hospital.fetchHospitalDetail(doc_id)
+  centerDialogVisible.value = false
   innerVisible.value = true
 }
-const confirmAppointment= ()=>{
+const confirmAppointment = () => {
   innerVisible.value = false
   store.confirmAppointment(confirmData.value.appointment_id)
+  store.fetchAppointments()
 }
 
-async function fetchAppointment() {
-  try {
-    const { data } = await axiosInstance.get('/appointments/list')
-    appointments.value = data.data
-    console.log(data.data)
-
-  } catch (e) {
-    console.error(e)
-  }
-}
 onMounted(() => {
-  fetchAppointment()
+  store.fetchAppointments()
 })
 </script>
 
@@ -50,7 +41,7 @@ onMounted(() => {
     <div class="title">
       <h1>Appointment Today</h1>
     </div>
-    <el-table :data="appointments" style="width: 100%">
+    <el-table :data="store.appointments" style="width: 100%">
       <el-table-column prop="id" label="ID" width="170">
         <template #default="scope">
           <p>{{ scope.row.id }}</p>
@@ -90,23 +81,30 @@ onMounted(() => {
               v-model="innerVisible"
               width="300"
               title="Confirm Appointment"
-              append-to-body>
+              append-to-body
+            >
               <el-form>
                 <el-select v-model="confirmData.room_name">
-                  <el-option v-for="hosp in hospital.hospitalDetail.rooms" :value="hosp.name" :key="hosp">{{hosp.name}}</el-option>
+                  <el-option
+                    v-for="hosp in hospital.hospitalDetail.rooms"
+                    :value="hosp.name"
+                    :key="hosp"
+                    >{{ hosp.name }}</el-option
+                  >
                 </el-select>
               </el-form>
               <div class="el-dialog__footer">
                 <el-button @click="innerVisible = false">Cancel</el-button>
-                <el-button type="primary" @click="confirmAppointment">
-                  Confirm
-                </el-button>
+                <el-button type="primary" @click="confirmAppointment"> Confirm </el-button>
               </div>
             </el-dialog>
             <template #footer>
               <div class="dialog-footer">
                 <el-button @click="centerDialogVisible = false">Cancel</el-button>
-                <el-button type="primary" @click="alertAppointmentPopup(scope.row.id,scope.row.doctor.hospital_id)">
+                <el-button
+                  type="primary"
+                  @click="alertAppointmentPopup(scope.row.id, scope.row.doctor.hospital_id)"
+                >
                   Confirm
                 </el-button>
               </div>

@@ -183,6 +183,11 @@ function fetchFeedback(){
 function fetchMonthlyAppointment(){
   appointmentStore.fetchMonthlyAppointment()
 }
+const dialog=ref(false)
+const setUp=()=>{
+  console.log('Hello')
+  dialog.value = true
+}
 onMounted(() => {
   if(userStore.hospital!='No hospital'){
     fetchAppointmentSummary()
@@ -337,7 +342,7 @@ onMounted(() => {
     </el-dialog>
   </WebLayout>
   <WebLayout v-else>
-    <NoHospitalSet/>
+    <NoHospitalSet :dialog-visible="dialog" @show="setUp" @cancel="dialog=false"/>
   </WebLayout>
 </template>
 <style scoped>

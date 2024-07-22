@@ -57,14 +57,14 @@
         <div class="single-card">
           <div class="img-area">
             <img
-              v-if="card.cover_image !== 'No cover'"
-              src="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1"
+              v-if="card.cover_image !== 'No Cover'"
+              :src="card.cover_image"
               alt="Placeholder"
               width="400px"
             />
             <img
-              v-if="card.cover_image == 'No cover'"
-              :src="card.cover_image"
+              v-if="card.cover_image == 'No Cover'"
+              src="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1"
               class="card-img-top"
               alt="Hospital cover image"
             />

@@ -23,6 +23,8 @@ class Hospital extends Model
         'province',
         'latitude',
         'longitude',
+        'open_time',
+        'close_time',
     ];
     public function category(): BelongsTo
     {
@@ -63,5 +65,9 @@ class Hospital extends Model
     public function rooms():HasMany
     {
         return $this->hasMany(Room::class);
+    }
+    public function promotions():HasMany
+    {
+        return $this->hasMany(Hospital::class);
     }
 }
