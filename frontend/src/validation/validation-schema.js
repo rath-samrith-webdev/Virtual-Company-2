@@ -10,7 +10,7 @@ export const loginSchema = yup.object({
   password: yup
     .string()
     .required('Password is required!')
-    .min(9, 'Password must be at least 9 characters!')
+    .min(8, 'Password must be at least 8 characters!')
 })
 
 //signup validation
@@ -31,7 +31,7 @@ export const singupSchema = yup.object({
   password: yup
     .string()
     .required('Input your password')
-    .min(9, 'Password must be at least 9 characters!'),
+    .min(8, 'Password must be at least 8 characters!'),
   password_confirmation: yup
     .string()
     .required('Password must be match!')
