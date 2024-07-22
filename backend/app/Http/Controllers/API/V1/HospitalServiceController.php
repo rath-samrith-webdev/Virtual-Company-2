@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\HospitalServiceResource;
 use App\Models\HospitalService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,12 +21,12 @@ class HospitalServiceController extends Controller
             if(!$user->hasRole('admin')){
                 if ($user->hasRole('hospital')){
                     $data=HospitalService::all();
-                    return response()->json(['success'=>true,'message'=>'Data retrieved successfully','data'=>$data],200);
+                    return response()->json(['success'=>true,'message'=>'Data retrieved successfully','data'=>HospitalServiceResource::collection($data)],200);
                 }else{
                     return response()->json(['success'=>false,'message'=>'Unauthorized'],401);
                 }
             }else{
-                return response()->json(['success'=>false,'message'=>'Unauthorize'],200);
+                return response()->json(['success'=>false,'message'=>'Unauthorized'],200);
             }
         }catch (\Exception $e){
             return response()->json(['success'=>false,'message'=>$e->getMessage()],401);
