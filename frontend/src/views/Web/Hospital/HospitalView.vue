@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
-import { Picture } from '@element-plus/icons-vue'
+import { Calendar, UploadFilled } from '@element-plus/icons-vue'
 import AboutTabs from '@/Components/Hospital/AboutTabs.vue'
 import DoctorTabs from '@/Components/Hospital/DoctorTabs.vue'
 import ServiceTab from '@/Components/Hospital/ServiceTab.vue'
 import CardDepartment from '@/Components/Hospital/CardDepartment.vue'
-import { onMounted, ref } from 'vue'
+import {onMounted, ref} from 'vue'
 import type { UploadProps } from 'element-plus'
-import { hospitalDetailStore } from '@/stores/hospital-detail'
-import { useAuthStore } from '@/stores/auth-store'
 import axiosInstance from '@/plugins/axios'
+import {useDoctorStore} from '@/stores/doctor-store'
+import {useAuthStore} from "@/stores/auth-store";
+import {hospitalDetailStore} from "@/stores/hospital-detail";
+const visible=ref(false)
+const store=useDoctorStore()
 const details = hospitalDetailStore()
 const userStore = useAuthStore()
-const visible = ref(false)
 const departments: any[] = [
   {
     id: 1,
@@ -21,24 +23,24 @@ const departments: any[] = [
       'We provide the all kind of treatment from the preventive care to the critical treatment including diagnostic, comprehensive health screenings, as well as antenatal care and child delivery for expectant mothers.'
   }
 ]
-const doctors: any[] = [
-  {
-    id: 1,
-    name: 'Obstetrics ',
-    description: 'We are'
-  }
-]
-const newDep = ref({
-  name: '',
-  details: '',
-  image: null
+
+const newDep=ref({
+  name:'',
+  details:'',
+  image:'null'
 })
-const isEdit = ref(false)
-const removeDoc = (id: any) => {
-  console.log('removed ', id)
+const isEdit=ref(false)
+const removeDoc = (id:any) => {
+  store.deleteDoctor(id)
 }
-const updateDoc = (id: any) => {
-  console.log('updated', id)
+const editData=ref({})
+const updateDoc = (doc:any) => {
+  isEdit.value = true
+  editData.value=doc
+  console.log(doc);
+}
+const updateData=(id:any)=>{
+  store.updateDoctor(id,editData)
 }
 const updateDepartment = (id: number) => {
   console.log('updateDepartment ', id)
@@ -58,19 +60,22 @@ const updateService = (id: number) => {
   console.log('updateService ', id)
 }
 const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
-  newDep.value.image = uploadFile.raw
+  newDep.value.image=uploadFile.raw;
   console.log(uploadFile.raw)
 }
-const addDepartment = async () => {
+const addDepartment= async()=>{
   console.log(newDep.value)
   try {
     const newDepartment = newDep.value
-    const { data } = await axiosInstance.post('/departments/create', newDepartment)
+    const {data}=await axiosInstance.post('/departments/create',newDepartment)
     console.log(data)
-  } catch (error) {
+  }catch(error){
     console.log(error)
   }
 }
+onMounted(()=>{
+  store.fetchDoctors()
+})
 let categories: any[] = []
 const fetchCategories = async () => {
   try {
@@ -133,11 +138,13 @@ onMounted(() => {
     <el-tabs type="border-card" stretch class="demo-tabs">
       <el-tab-pane>
         <template #label>
-          <span class="custom-tabs-label">
-            <el-icon><calendar /></el-icon>
-            <span>Information</span>
-          </span>
+        <span class="custom-tabs-label " >
+          <span class="fw-bold ">Information</span>
+        </span>
         </template>
+        <div style="height: 55%">
+          <el-avatar shape="square" style="width: 100%; height: 100%; margin-top:-350px;"  :fit="'cover'" src="https://teacarchitect.com/wp-content/uploads/2021/09/Royal-Phnom-Penh-Hospital.jpg"/>
+        </div>
         <div style="height: 500px">
           <el-avatar
             @click="selectFile"
@@ -251,7 +258,9 @@ onMounted(() => {
                 <el-icon class="el-icon--upload"><upload-filled /></el-icon>
                 <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
                 <template #tip>
-                  <div class="el-upload__tip">jpg/png files with a size less than 500kb</div>
+                  <div class="el-upload__tip">
+                    jpg/png files with a size less than 500kb
+                  </div>
                 </template>
               </el-upload>
             </el-form-item>

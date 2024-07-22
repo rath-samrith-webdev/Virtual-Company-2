@@ -18,9 +18,7 @@
       <div class="card-serves">
         <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG_iapAWWXQiv3oWF18K46528qui-W1Yl4X5KKOjth6boedVbnt6u8nVT_U3Uu6s9_c3U&usqp=CAU"
-          class="rounded-circle"
-          alt="..."
-        />
+          class="rounded-circle" alt="..." />
         <div class="containers rounded mt5">
           <h4>Email</h4>
           <p>leysreng.ol@gmail.com</p>
@@ -36,11 +34,7 @@
         </div>
       </div>
       <div class="card-serves">
-        <img
-          src="https://www.freeiconspng.com/uploads/phone-png-3.png"
-          class="rounded-circle bg-white"
-          alt="..."
-        />
+        <img src="https://www.freeiconspng.com/uploads/phone-png-3.png" class="rounded-circle bg-white" alt="..." />
         <div class="containers rounded mt5">
           <h4>Phone Number</h4>
           <p>+855 701 9077</p>
@@ -58,43 +52,29 @@
       <form class="max-w-md-0 mx-auto mt-20">
         <div class="relative mb-6">
           <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <svg
-              class="w-4 h-4 text-gray-500 dark:text-gray-400"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 20 16"
-            >
+            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor" viewBox="0 0 20 16">
+              <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z" />
               <path
-                d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"
-              />
-              <path
-                d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"
-              />
+                d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z" />
             </svg>
           </div>
-          <input
-            type="email"
-            style="font-size: 16px;"
-            id="email-address-icon"
+          <input type="email" style="font-size: 16px;" id="email-address-icon"
             class="bg-gray-10 border border-gray-100 text-gray-500 text-sm rounded-lg focus:ring-blue-100 focus:border-blue-100 block w-full pl-10 p-2.5 h-15 dark:bg-gray-700 dark:border-gray-100 dark:placeholder-gray-100 dark:focus:ring-blue-100 dark:focus:border-blue-500"
-            placeholder="Please input your email!"
-          />
+            placeholder="Please input your email!" />
         </div>
         <div class="relative">
-          <textarea
-            id="message"
-            style="font-size: 16px;"
-            rows="4"
+          <textarea id="message" style="font-size: 16px;" rows="4"
             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-10 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-55"
-            placeholder="Please enter your feedback..."
-          ></textarea>
+            placeholder="Please enter your feedback..."></textarea>
         </div>
         <div class="flex justify-end mt-4">
-          <button
-            type="button"
-            class="text-white bg-#32B4E3 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:border-blue-500 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
+          <button type="button"
+            class="text-white bg-#32B4E3 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:border-blue-500 dark:hover:bg-blue-700 dark:focus:ring-blue-800 border-b border-gray-500">
+            Submit
+          </button>
+          <button type="button"
+            class="text-white bg-#32B4E3 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:border-blue-500 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
             Submit
           </button>
         </div>
@@ -120,6 +100,7 @@ import FooterLayout from '@/Components/FooterLayout.vue'
   flex-wrap: wrap;
   /* background: #ce1b1b; */
 }
+
 .image-section img {
   width: 100%;
   height: auto;
@@ -127,29 +108,32 @@ import FooterLayout from '@/Components/FooterLayout.vue'
   max-width: 1000px;
   margin-bottom: 400px;
   /* background: #000; */
-  
+
 }
+
 .title {
-  font-size: 80px;
+  font-size: 65px;
   font-weight: bold;
   color: #32b4e3;
   margin-top: 70px;
   margin-left: 40px;
 }
 
-.text{
+.text {
   font-size: 18px;
   width: 70%;
   margin-bottom: 20px;
   text-align: justify;
   margin-left: 50px;
 }
+
 .contact-us {
   display: flex;
   flex-direction: row;
   gap: 5%;
   width: 100%;
 }
+
 .card {
   display: flex;
   justify-content: center;
@@ -163,7 +147,8 @@ import FooterLayout from '@/Components/FooterLayout.vue'
   width: 100%;
   /* background: #988080; */
 }
-.title-1{
+
+.title-1 {
   /* background: #000; */
   font-size: 50px;
   color: #32b4e3;
@@ -172,7 +157,8 @@ import FooterLayout from '@/Components/FooterLayout.vue'
   font-weight: bold;
   margin-top: 20px;
 }
-.text-1{
+
+.text-1 {
   font-size: 15px;
   align-items: center;
   justify-content: center;
@@ -188,11 +174,11 @@ import FooterLayout from '@/Components/FooterLayout.vue'
 
 .form {
   width: 70%;
-  height: 450px;
+  height: 460px;
   align-items: center;
   margin: 30px auto auto;
   padding: 10px;
-  background-color: #f0f9fe;
+  background-color: #f5f8fa;
   border-radius: 10px;
 }
 
@@ -200,8 +186,9 @@ import FooterLayout from '@/Components/FooterLayout.vue'
   margin-top: 20px;
   width: 100%;
   height: 300px;
-  background: white;
+  background: rgb(255, 255, 255);
 }
+
 /* .text{
 font-size: small;
 }
@@ -283,20 +270,51 @@ font-size: small;
   .container-contact {
     flex-direction: column;
     padding: 50px;
+    height: 70vh;
+    /* background: pink; */
   }
 
   .contact-us {
-    flex-direction: column;
-    align-items: center;
+    /* background: rgb(44, 39, 40); */
+    width: 100%;
+    margin-bottom: 40px;
+    gap: 50px;
+    display: flex;
+    flex-direction: row;
+    height: 40vh;
+  }
+
+  .text-section {
+    background: olivedrab;
+    margin-bottom: 800px;
+    margin-top: 0;
   }
 
   .image-section img {
+    margin-top: 40px;
     width: 100%;
     height: auto;
   }
 
   .title {
-    font-size: 40px;
+    font-size: 20px;
+  }
+
+  .title-1 {
+    font-size: 30px;
+  }
+
+  .text {
+    margin-left: 5px;
+    width: 185px;
+    /* background: palegoldenrod; */
+    font-size: 10px;
+  }
+
+  .text-1 {
+    font-size: 13px;
+    width: 90%;
+    margin: auto;
   }
 
   .description {
@@ -312,13 +330,18 @@ font-size: small;
     width: 100%;
     height: auto;
   }
-  .contact-us{
+
+  .card-serves {
     background: pink;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
+    margin-top: 0px;
+    width: 90%;
   }
 
-  
+  .form {
+    width: 90%;
+  }
+
+
+
 }
 </style>
