@@ -1,30 +1,23 @@
 <script lang="ts">
 import { Avatar, Clock, Location, Phone } from '@element-plus/icons-vue'
-import { defineComponent } from 'vue'
+import {defineComponent} from 'vue'
 export default defineComponent({
   components: { Location, Phone, Clock, Avatar },
-  props: {
-    hospital: {
-      type: Object,
-      required: true
+  props:{
+    hospital:{
+      type:Object
     },
-    isEdit: {
-      type: Boolean
+    isEdit:{
+      type:Boolean,
     }
   },
   emits: ['edit-hospital','save-hospital'],
 })
 </script>
 <template>
-  <div class="pt-3">
-    <el-button v-show="!isEdit" @click="$emit('edit-hospital')">Edit</el-button>
-    <el-button v-show="isEdit" @click="$emit('save-hospital')">Save</el-button>
-  </div>
-  <div class="d-flex justify-content-around">
-    <p>
-      Royal Phnom Penh hospital International hospital affiliated with Bangkok Hospital. Boasts top facilities,
-      Expensive.
-    </p>
+  <div class="m-3">
+    <button class="btn btn-info text-light fw-bold  " v-show="!isEdit" @click="$emit('edit-hospital')">Update</button>
+    <button class="btn btn-info text-light fw-bold  " v-show="isEdit" @click="$emit('save-hospital')">Save</button>
   </div>
   <div class="form p-4 h-75 border border-3 border-info " style="border-radius:10px ; " >
     <el-form>
