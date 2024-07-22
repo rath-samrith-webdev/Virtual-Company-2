@@ -21,10 +21,10 @@ class HospitalPromotionController extends Controller
             if (!$user->hasRole('admin')) {
                 if($user->hasRole('hospital')){
                     $data=$user->hospital->promotions()->get();
-                    return response()->json(['success'=>true,'message'=>'Retrieved successful','data'=>PromotionResource::collection($data)],200);
                 }else{
-                    return response()->json(['success'=>false,'message'=>'You are not authorized'],403);
+                    $data=HospitalPromotions::all();
                 }
+                return response()->json(['success'=>true,'message'=>'Retrieved successful','data'=>PromotionResource::collection($data)],200);
             }else{
                 return response()->json(['success'=>false,'message'=>'You are unauthorized'],433);
             }

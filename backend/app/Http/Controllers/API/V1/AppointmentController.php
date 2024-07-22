@@ -176,7 +176,8 @@ class AppointmentController extends Controller
     {
         $data = $request->validate([
             'status' => 'required|string',
-            'appointment_end'=>'date'
+            'appointment_end'=>'date',
+            'room_id'=>'integer'
         ]);
         $user = Auth::user();
         try {
