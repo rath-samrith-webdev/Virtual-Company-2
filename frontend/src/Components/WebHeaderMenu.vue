@@ -43,11 +43,14 @@ const fetchData = async () => {
 }
 onMounted(() => {
   appointment.fetchCalendarData()
-  appointment.fetchMonthlyAppointment()
-  feedback.fetchMonthlyFeedbacks()
+
   if (store.user) {
     notifyStore.fetchNotification()
     notifyStore.fetchUnseenNotifications()
+    if(store.roles[0]=='hospital'){
+      appointment.fetchMonthlyAppointment()
+      feedback.fetchMonthlyFeedbacks()
+    }
     pusher.subscribe(`appointment`).bind(`appointment`, function (data) {
       if (data) {
         fetchData()

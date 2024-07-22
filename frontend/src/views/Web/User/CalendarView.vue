@@ -208,7 +208,14 @@ export default defineComponent({
 </script>
 <template>
   <WebLayout>
-    <FullCalendar :options="calendarOptions"/>
+    <FullCalendar :options="calendarOptions">
+      <template v-slot:eventContent="arg">
+        <div class="d-flex flex-column bg-danger-500">
+          <b>{{arg.event.start.toLocaleTimeString()}}</b>
+          <b>{{arg.event.title}}</b>
+        </div>
+      </template>
+    </FullCalendar>
     <!-- Update Appointment form   -->
     <el-dialog v-model="dialogEditVisible" title="Edit appointment" width="800">
       <el-form :model="formEdit" label-position="top" label-width="auto" style="max-width: 800px">
