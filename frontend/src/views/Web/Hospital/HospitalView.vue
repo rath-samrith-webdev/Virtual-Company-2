@@ -26,8 +26,9 @@ const updateDepartment=(id:number)=>{
 }
 const removeDepartment = async (id:number)=>{
   try{
-    const {data}=await axiosInstance.get(`/departments/delete/${id}`)
+    const {data}=await axiosInstance.delete(`/departments/delete/${id}`)
     console.log(data)
+    fetchDetail()
   }catch(e){
     console.error(e)
   }

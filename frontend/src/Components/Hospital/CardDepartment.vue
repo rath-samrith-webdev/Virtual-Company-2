@@ -26,8 +26,8 @@ export default defineComponent({
       <h4>{{ department.name }}</h4>
       <p>{{ department.description?department.description:'No description' }}</p>
       <div class="d-flex justify-content-sm-between mt-3">
-      <button class="btn btn-info text-light fw-bold " @click="$emit('update', service)">Update</button>
-      <button class="btn btn-warning text-light fw-bold  " @click="$emit('remove', service)">Remove</button>
+      <button class="btn btn-info text-light fw-bold " @click="$emit('update')">Update</button>
+      <button class="btn btn-warning text-light fw-bold  " @click="$emit('remove')">Remove</button>
     </div>
     </div>
     <!-- <el-menu>

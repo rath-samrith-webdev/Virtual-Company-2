@@ -12,6 +12,7 @@ export const hospitalDetailStore = defineStore('hospitalDetail', {
         const { data } = await axiosInstance.get(`/hospitals/show/${id}`)
         this.hospitalDetail = data.data
         this.appointment=data.data.appointment
+        console.log(data.data)
       } catch (err) {
         console.log(err)
       }
