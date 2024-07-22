@@ -26,7 +26,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'profile'
+        'profile',
+        'verify_status',
+        'gender',
+        'phone'
     ];
 
     /**
@@ -47,28 +50,39 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function appointments():HasMany
+
+    public function appointments(): HasMany
     {
         return $this->hasMany(Appointment::class);
     }
-    public function hospital():HasOne
+
+    public function hospital(): HasOne
     {
         return $this->hasOne(Hospital::class);
     }
-    public function rates():HasMany
+
+    public function rates(): HasMany
     {
         return $this->hasMany(Rate::class);
     }
-    public function RateReplies():HasMany
+
+    public function RateReplies(): HasMany
     {
         return $this->hasMany(RateReply::class);
     }
-    public function favorites():HasMany
+
+    public function favorites(): HasMany
     {
         return $this->hasMany(Favourite::class);
     }
-    public function doctor():HasOne
+
+    public function doctor(): HasOne
     {
         return $this->hasOne(Doctor::class);
+    }
+
+    public function notifications(): HasMany
+    {
+        return $this->hasMany(AppointmentNotifications::class);
     }
 }

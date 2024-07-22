@@ -1,133 +1,143 @@
 <template>
   <div>
     <h1>Top Hospitals</h1>
-    <el-carousel :interval="4000" type="card" height="200px">
-      <el-carousel-item v-for="(card, index) in cards" :key="index">
-        <div class="card-content">
-          <img :src="card.img" alt="Hospital Image" class="card-img" />
-          <div class="card-info">
-            <h2>{{ card.h1 }}</h2>
-            <p>{{ card.text }}</p>
-            <div class="stars">
-              <span v-for="n in card.stars" :key="`star-${n}`" class="star">★</span>
-              <span v-for="n in 5 - card.stars" :key="`empty-${n}`" class="star empty">★</span>
-            </div>
-          </div>
+
+    <div class="marquee-wrapper" style="user-select: none">
+      <div class="marquee-content scrollingX">
+        <div
+            v-for="card in cards.concat(cards)"
+            :key="card.hospital.id + 'duplicate'"
+            class="card-testimonial"
+            @click="seeDetails(card.hospital.id)"
+        >
+          <article>
+            <picture>
+              <source media="(min-width: 768px)"
+                      srcset="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1"/>
+              <img v-if="card.hospital.cover_image!=='No cover'" :src="card.hospital.cover_image" alt=""/>
+              <img v-else src="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1"
+                   alt=""/>
+            </picture>
+            <h4>{{ card.hospital.name }}</h4>
+            <article class="short-description">
+              <p>{{ card.hospital.open_time }} to {{ card.hospital.close_time }}</p>
+              <p>{{ card.hospital.province }}</p>
+              <el-rate
+                  v-model="card.total_star"
+                  disabled
+                  :texts="['oops', 'disappointed', 'normal', 'good', 'great']"
+                  show-text
+              />
+            </article>
+          </article>
         </div>
-      </el-carousel-item>
-    </el-carousel>
+      </div>
+    </div>
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import {defineComponent} from "vue";
+import {hospitalDetailStore} from "@/stores/hospital-detail";
+
+export default defineComponent({
   name: 'CardTopHospital',
+  methods: {
+    seeDetails(id) {
+      this.$router.push(`/hospital/detail?id=${id}`)
+      this.details.fetchHospitalDetail(id)
+    }
+  },
   data() {
     return {
-      cards: [
-        {
-          h1: 'Orchid Hospital',
-          title: 'Card 1',
-          text: 'This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.',
-          img: 'https://eacnews.asia/uploads/images/1707375287_1d95c21b958defc06a96.jpg',
-          stars: 5
-        },
-        {
-          h1: 'Orchid Hospital',
-          title: 'Card 2',
-          text: 'This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.',
-          img: 'https://www.diariolaregion.cl/wp-content/uploads/2024/04/DSC01023.jpg',
-          stars: 4
-        },
-        {
-          h1: 'Orchid Hospital',
-          title: 'Card 3',
-          text: 'This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.',
-          img: 'https://www.khmertimeskh.com/wp-content/uploads/2022/02/photo_2022-02-02_17-41-10.jpg',
-          stars: 3
-        },
-        {
-          h1: 'Orchid Hospital',
-          title: 'Card 4',
-          text: 'This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.',
-          img: 'https://cambodianess.com/uploads/images/1640765322z6c2p-chkhgee007005-20211229-cbmfn0a001.jpg',
-          stars: 4
-        },
-      ]
+      details: hospitalDetailStore(),
+      value: 4
     }
-  }
-}
+  },
+  props: ['cards']
+})
 </script>
 
 <style scoped>
-.el-carousel {
-  margin-top: 70px;
-  background:  white;
-}
-
 h1 {
   color: rgb(0, 0, 0);
-  margin-top: 150px;
   text-align: center;
+  margin-bottom: 30px;
+  margin-top: 50px;
 }
 
-.card-content {
-  border-radius: 8px;
-  height: 350px;
-  background: #ffffff;
-  
-}
-
-.card-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 20px;
-}
-
-.card-info {
-  /* width: 50%; */
-  display: flex;
-  flex-direction: column;
+body {
   align-items: center;
-  padding: 20px;
-  justify-content: center;
-  box-sizing: border-box;
-}
-
-.card-info h2 {
-  font-size: 1.5em;
-  margin-bottom: 10px;
-  color: rgb(0, 0, 0);
-}
-
-.card-info p {
-  font-weight: bold;
-  color: #000000;
-  text-align: center;
-}
-
-.stars {
+  background: #e3e3e3;
   display: flex;
+  height: 100vh;
   justify-content: center;
 }
 
-.star {
-  color: gold;
-  margin: 0 2px;
+.marquee-wrapper {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  gap: 1rem;
+  border-radius: 1rem;
+  padding: 10px;
+  width: 100%;
+  max-width: 100%;
+
 }
 
-.star.empty {
-  color: #ddd;
+.marquee-wrapper .marquee-content {
+  display: flex;
+  flex-shrink: 0;
+  gap: 1rem;
+  animation: scroll 25s linear infinite;
 }
 
-.el-carousel__item {
-  background-color: #efefef;
-  
-}
-
-.el-carousel__item p {
+.marquee-wrapper .marquee-content .card-testimonial {
+  max-width: 300px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px #37c0ff85;
   text-align: center;
+  padding: 1rem;
+  border-radius: 1rem;
+  color: #000000;
+}
+
+.marquee-wrapper .marquee-content .card-testimonial article picture {
+  position: relative;
+  min-width: 200px;
+}
+
+.marquee-wrapper .marquee-content .card-testimonial article picture img {
+  width: 100%;
+  height: 200px;
+  border-radius: 0.5rem;
+  object-fit: cover;
+  object-position: 50% 15%;
+}
+
+.marquee-wrapper .marquee-content .card-testimonial article h4 {
+  font-size: 20px;
+  text-transform: capitalize;
+  margin-block: 1rem;
+}
+
+.marquee-wrapper .marquee-content .card-testimonial article article.short-description p {
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 1.2rem;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% / 2 - 1rem));
+  }
+}
+
+.marquee-wrapper:hover .marquee-content {
+  animation-play-state: paused;
 }
 </style>

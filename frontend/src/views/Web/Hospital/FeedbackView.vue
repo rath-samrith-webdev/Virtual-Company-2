@@ -94,14 +94,6 @@ function showDetails(row: any) {
             </el-card>
           </el-timeline-item>
         </el-timeline>
-        <template #footer>
-          <div class="dialog-footer">
-            <el-button @click="outerVisible = false">Cancel</el-button>
-            <el-button type="primary" @click="innerVisible = true">
-              Open the inner Dialog
-            </el-button>
-          </div>
-        </template>
       </el-dialog>
     </div>
   </WebLayout>

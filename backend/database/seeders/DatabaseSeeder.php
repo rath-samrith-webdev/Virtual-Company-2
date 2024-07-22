@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Appointment;
+use App\Models\AppointmentNotifications;
 use App\Models\Category;
 use App\Models\Department;
 use App\Models\Doctor;
@@ -11,6 +12,7 @@ use App\Models\Hospital;
 use App\Models\Rate;
 use App\Models\RateReply;
 use App\Models\Room;
+use App\Models\SubscribePlan;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -24,7 +26,6 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         $this->call(AdminSeeder::class);
-        \App\Models\Post::factory(17)->create();
         $category=Category::create([
             'name'=>'Community',
             'description'=>"In-patient care provided does not require the highly technical specialist support of an acute hospital. In-patient care provided under the supervision of GP's, specialist doctors or nurses, may include a minor injury service and elderly mentally ill beds. Where care is provided by consultants this is usually for elderly patients. Other services such as out-patient clinics, diagnostic and therapy services and day care may also be provided. Would not receive major acute emergency admissions. Would not be expected to undertake in-patient general surgery requiring general anaesthesia"
@@ -52,6 +53,7 @@ class DatabaseSeeder extends Seeder
         Room::create([
             'name'=>'Room 1',
             'hospital_id'=>1,
+            'number_of_bed'=>2,
         ]);
         Department::create([
             'hospital_id'=>1,
@@ -61,12 +63,20 @@ class DatabaseSeeder extends Seeder
             'user_id'=>4,
             'hospital_id'=>1,
         ]);
+        SubscribePlan::create([
+           'name'=>'Free plan',
+           'price'=>0,
+           'currency'=>'USD',
+           'duration'=>7
+        ]);
         Appointment::create([
             'title'=>'Appointment',
             'hospital_id'=>1,
             'doctor_id'=>1,
             'user_id'=>2,
             'appointment_date'=>'2022-01-01',
+            'appointment_end'=>'2022-01-02',
+            'room_id'=>1,
             'appointment_time'=>'09:00',
         ]);
         Rate::create([

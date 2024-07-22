@@ -100,7 +100,7 @@
                 Are you sure?
                 <div class="el-dialog__footer">
                   <el-button @click="innerVisible = false">Cancel</el-button>
-                  <el-button type="primary" @click="submitConfirmation(scope.row.id)">
+                  <el-button type="primary" @click="submitConfirmation">
                     Confirm
                   </el-button>
                 </div>
@@ -137,15 +137,17 @@ const showTable = true
 const outerVisible = ref(false)
 const innerVisible = ref(false)
 let currentAppointment = {}
+let id:any=''
 // Function to show details popover
 const ConfirmAppointment = () => {
   outerVisible.value = false
   innerVisible.value = true
 }
-const submitConfirmation = (id:any) => {
+const submitConfirmation = () => {
   innerVisible.value = false
   store.confirmAppointment(id)
   store.fetchAppointments()
+  console.log('submit',id)
 }
 const open2 = (title: string, message: any, type: string) => {
   ElNotification({
@@ -158,7 +160,7 @@ watch(() => store.message, () => {
   if (store.message.success) {
     open2('Appointment Confirmed', store.message.message, 'success')
   } else {
-    open2('Appointment Confirmed', store.message.message, 'success')
+    open2('Appointment Confirmed', store.message.message, 'warning')
   }
 })
 onMounted(() => {
@@ -177,6 +179,7 @@ const filterTag = (value: string, row: User) => {
 const showDetails = (row) => {
   outerVisible.value = true
   currentAppointment = row
+  id=row.id
 }
 </script>
 

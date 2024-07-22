@@ -16,7 +16,7 @@ class PreviewImagesResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'path'=>asset('images/hospital/hospital-'.$this->hospital->id.'/'.$this->image_name)
+            'path'=>asset('images/hospital'.$this->hospital_id.'/preview/preview'.$this->id.'/'.$this->image_name)
         ];
     }
 }

@@ -42,11 +42,6 @@ const router = createRouter({
       component: () => import('../views/Web/Post/ListView.vue')
     },
     {
-      path: '/',
-      name: '/',
-      component: () => import('../views/Web/User/UserView.vue')
-    },
-    {
       path: '/about',
       name: 'about', // Fixed duplicate name
       component: () => import('../views/Web/AboutView.vue')
@@ -92,7 +87,7 @@ const router = createRouter({
       component:()=>import('../views/Web/Hospital/AddDoctorView.vue')
     },
     {
-      path: '/user/hospital',
+      path: '/',
       name: 'user-hospital',
       component: () => import('../views/Web/User/HospitalView.vue')
     },
@@ -100,11 +95,6 @@ const router = createRouter({
       path:'/doctor/dashboard',
       name:'doctor-dashboard',
       component:()=>import('../views/Web/Doctor/Dashboard.vue')
-    },
-    {
-      path:'/doctor/calendar',
-      name:'doctor-calendar',
-      component:()=>import('../views/Web/Doctor/Calendar.vue')
     },
     {
       path:'/doctor/appointment',
@@ -131,11 +121,39 @@ const router = createRouter({
       name:'not-found',
       component: () => import('../views/Web/404/NotFoundView.vue')
 
-    },
+    }
+    ,
     {
       path:'/not-found-page',
       name:'not-found-page',
       component: () => import('../views/Web/404/PageNotFound.vue')
+    },
+    {
+      path:'/hospital/calendar',
+      name:'hospital-calendar',
+      component:() => import('../views/Web/Hospital/CalendarView.vue')
+    },
+    {
+      path:'/doctor/calendar',
+      name:'doctor-calendar',
+      component:() => import('../views/Web/Doctor/CalendarView.vue')
+    },
+    {
+      path:'/calendar',
+      name:'user-calendar',
+      component:() => import('../views/Web/User/CalendarView.vue')
+    }
+    ,
+    {
+      path:'/upload/promotion',
+      name:'upload/promotion',
+      component: () => import('../views/Web/Hospital/UploadPromotion.vue')
+    }
+    ,
+    {
+      path:'/hospital/service',
+      name:'service-hospital',
+      component: () => import('../views/Web/Hospital/ServiceHospital.vue')
     }
   ],
   linkExactActiveClass:'active'

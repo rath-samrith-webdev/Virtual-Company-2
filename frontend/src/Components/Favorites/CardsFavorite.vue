@@ -5,18 +5,17 @@
         <div class="single-card card">
           <div class="img-area">
             <img
-              v-if="cardFavorite.cover_image !== 'No Cover'"
-              :src="cardFavorite.hospital.cover_image"
-              class="card-img-top"
-              alt="..."
-            />
-            <h4 v-if="cardFavorite.cover_image === 'No Cover'">
-              <img
-                src="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1"
-                alt=""
+                v-if="cardFavorite.hospital.cover_image !== 'No Cover'"
+                :src="cardFavorite.hospital.cover_image"
+                alt="Placeholder"
                 width="400px"
-              />
-            </h4>
+            />
+            <img
+                v-if="cardFavorite.hospital.cover_image === 'No Cover'"
+                src="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1"
+                class="card-img-top"
+                alt="Hospital cover image"
+            />
           </div>
           <div class="info">
             <h5>{{ cardFavorite.hospital.name }}</h5>

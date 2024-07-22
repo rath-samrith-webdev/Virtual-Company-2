@@ -5,7 +5,6 @@ export default defineComponent({
   props: {
     title: {
       type: String,
-      required: true
     }
   },
   emits: ['update', 'remove'],

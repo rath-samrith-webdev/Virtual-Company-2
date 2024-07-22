@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('hospital_id')->constrained('hospitals')->onDelete('cascade');
             $table->string('title');
+            $table->string('image')->nullable();
             $table->string('description');
             $table->date('start_date');
             $table->date('end_date');

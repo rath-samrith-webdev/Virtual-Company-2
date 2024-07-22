@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\HospitalResource;
 use App\Http\Resources\V1\RateResource;
+use App\Http\Resources\V1\TopRatedHospital;
+use App\Models\Hospital;
 use App\Models\Rate;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class RateController extends Controller
 {
@@ -27,6 +31,20 @@ class RateController extends Controller
             }
             return response()->json(['success' => true, 'data' => RateResource::collection($feedback)]);
         } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
+        }
+    }
+    public function mostRated()
+    {
+        try {
+            $rates=DB::table('rates')->select(DB::raw('AVG(star) as total, hospital_id'))->groupBy('hospital_id')->orderBy('total','DESC')->get();
+            $data=array();
+            foreach ($rates as $rate) {
+                $data['hospital']=HospitalResource::make(Hospital::where('id',$rate->hospital_id)->first());
+                $data['total_star']=round($rate->total);
+            }
+            return response()->json(['success' => true, 'data' => array($data)]);
+        }catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
         }
     }
