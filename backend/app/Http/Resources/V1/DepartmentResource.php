@@ -18,7 +18,7 @@ class DepartmentResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->details,
-            'image' => $this->image ? asset('images/hospital/department'.$this->id .'/'. $this->image) : 'No profile',
+            'image' => $this->image ? asset('images/hospital/departments/department'.$this->id .'/'. $this->image) : 'No profile',
         ];
     }
 }
