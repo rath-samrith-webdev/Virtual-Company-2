@@ -41,7 +41,7 @@
           <div class="rate mb-4">
             <el-rate
               size="large"
-              v-model="store.hospitalDetail.favourite_by"
+              v-model="store.hospitalDetail.average_rating"
               disabled
               show-score
               text-color="#ff9900"
