@@ -11,6 +11,7 @@ import {useDoctorStore} from '@/stores/doctor-store'
 import {hospitalDetailStore} from "@/stores/hospital-detail";
 import {useAuthStore} from "@/stores/auth-store";
 import NoHospitalSet from '@/Components/Hospitals/NoHospitalSet.vue'
+import {put} from "axios";
 const visible=ref(false)
 const store=useDoctorStore()
 const details = hospitalDetailStore()
@@ -21,14 +22,23 @@ const newDep=ref({
   details:'',
   image:'null'
 })
-const isEdit=ref(false)
-const updateDepartment=(id:number)=>{
-  console.log('updateDepartment ', id)
+const editData=ref({
+  name:'',
+  details:'',
+  image:'null'
+})
+const id=ref('')
+const editVisible=ref(false)
+const updateDepartment=(dep:any)=>{
+  editVisible.value=true
+  id.value=dep.id
+  editData.value=dep
 }
 const removeDepartment = async (id:number)=>{
   try{
-    const {data}=await axiosInstance.get(`/departments/delete/${id}`)
+    const {data}=await axiosInstance.delete(`/departments/delete/${id}`)
     console.log(data)
+    fetchDetail()
   }catch(e){
     console.error(e)
   }
@@ -41,6 +51,7 @@ const updateService = (id:number)=>{
 }
 const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
   newDep.value.image=uploadFile.raw;
+  editData.value.image=uploadFile.raw;
   console.log(uploadFile.raw)
 }
 const addDepartment= async()=>{
@@ -49,6 +60,16 @@ const addDepartment= async()=>{
     const newDepartment = newDep.value
     const {data}=await axiosInstance.post('/departments/create',newDepartment)
     console.log(data)
+  }catch(error){
+    console.log(error)
+  }
+}
+const updateDep=async ()=>{
+  try {
+    const newDepartment = editData.value
+    const {data}=await axiosInstance.post(`/departments/update/${id.value}`,newDepartment)
+    fetchDetail()
+    console.log(data.success)
   }catch(error){
     console.log(error)
   }
@@ -137,7 +158,31 @@ onMounted(()=>{
             <el-button @click="addDepartment">Submit</el-button>
           </el-form>
         </el-dialog>
-        <CardDepartment v-for="dep in details.hospitalDetail.department" :key="dep.id" :department="dep" @update="updateDepartment(dep.id)" @remove="removeDepartment(dep.id)"/>
+        <el-dialog v-model="editVisible" title="Add new department" width="800">
+          <el-form label-position="top">
+            <el-form-item label="Department Name">
+              <el-input v-model="editData.name" type="text"/>
+            </el-form-item>
+            <el-form-item label="Department Description">
+              <el-input v-model="editData.details" type="textarea"/>
+            </el-form-item>
+            <el-form-item label="Department Image">
+              <el-upload style="width: 100%" class="upload-demo" drag accept="image/*" @change="handlePictureCardPreview">
+                <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+                <div class="el-upload__text">
+                  Drop file here or <em>click to upload</em>
+                </div>
+                <template #tip>
+                  <div class="el-upload__tip">
+                    jpg/png files with a size less than 500kb
+                  </div>
+                </template>
+              </el-upload>
+            </el-form-item>
+            <el-button @click="updateDep">Submit</el-button>
+          </el-form>
+        </el-dialog>
+        <CardDepartment v-for="dep in details.hospitalDetail.department" :key="dep.id" :department="dep" @update="updateDepartment(dep)" @remove="removeDepartment(dep.id)"/>
       </el-tab-pane>
       <el-tab-pane label="Service">
         <ServiceTab @remove="removeService(id)" @update="updateService(id)" />

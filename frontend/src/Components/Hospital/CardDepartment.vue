@@ -30,13 +30,5 @@ export default defineComponent({
         <button class="btn btn-warning text-light fw-bold  " @click="$emit('remove', service)">Remove</button>
     </div>
     </div>
-    <!-- <el-menu>
-      <el-sub-menu>
-        <template #title>Manage</template>
-        <el-menu-item index="1-1" class="primary" @click="$emit('update')">Update</el-menu-item>
-        <el-menu-item index="1-2" class="danger" @click="$emit('remove')">Remove</el-menu-item>
-      </el-sub-menu>
-    </el-menu> -->
-
   </div>
 </template>

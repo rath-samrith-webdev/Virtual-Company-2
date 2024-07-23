@@ -1,42 +1,44 @@
 <template>
   <div>
     <h1>Top Hospitals</h1>
-
-    <div class="marquee-wrapper" style="user-select: none">
-      <div class="marquee-content scrollingX">
-        <div
-          v-for="card in cards.concat(cards)"
-          :key="card.hospital.id + 'duplicate'"
-          class="card-testimonial w-100"
-          @click="seeDetails(card.hospital.id)"
-        >
-          <article>
-            <picture>
-              <source media="(min-width: 768px)"
-                      :srcset="card.hospital.cover_image!='No cover'?card.hospital.cover_image:'https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1'" />
-              <img v-if="card.hospital.cover_image!=='No cover'" :src="card.hospital.cover_image" alt="" />
-            </picture>
-            <h4>{{ card.hospital.name }}</h4>
-            <article class="short-description">
-              <p>Open {{ card.hospital.open_time }} to {{ card.hospital.close_time }}</p>
-              <p>{{ card.hospital.province }}</p>
-              <el-rate
-                v-model="card.total_star"
-                disabled
-                :texts="['oops', 'disappointed', 'normal', 'good', 'great']"
-                show-text
-              />
+    <el-scrollbar>
+      <div class="marquee-wrapper" style="user-select: none">
+        <div class="marquee-content scrollingX">
+          <div
+              v-for="card in cards"
+              :key="card.hospital.id + 'duplicate'"
+              class="card-testimonial w-100"
+              @click="seeDetails(card.hospital.id)"
+          >
+            <article>
+              <picture>
+                <source media="(min-width: 768px)"
+                        :srcset="card.hospital.cover_image!='No cover'?card.hospital.cover_image:'https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1'"/>
+                <img v-if="card.hospital.cover_image!=='No cover'" :src="card.hospital.cover_image" alt=""/>
+              </picture>
+              <h4>{{ card.hospital.name }}</h4>
+              <article class="short-description">
+                <p>Open {{ card.hospital.open_time }} to {{ card.hospital.close_time }}</p>
+                <p>{{ card.hospital.province }}</p>
+                <el-rate
+                    v-model="card.total_star"
+                    disabled
+                    :texts="['oops', 'disappointed', 'normal', 'good', 'great']"
+                    show-text
+                />
+              </article>
             </article>
-          </article>
+          </div>
         </div>
       </div>
-    </div>
+    </el-scrollbar>
   </div>
+
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { hospitalDetailStore } from '@/stores/hospital-detail'
+import {defineComponent} from 'vue'
+import {hospitalDetailStore} from '@/stores/hospital-detail'
 
 export default defineComponent({
   name: 'CardTopHospital',
@@ -88,7 +90,6 @@ body {
   display: flex;
   flex-shrink: 0;
   gap: 1rem;
-  animation: scroll 25s linear infinite;
 }
 
 .marquee-wrapper .marquee-content .card-testimonial {
@@ -124,15 +125,6 @@ body {
   font-size: 14px;
   line-height: 20px;
   margin-bottom: 1.2rem;
-}
-
-@keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(calc(-100% / 2 - 1rem));
-  }
 }
 
 .marquee-wrapper:hover .marquee-content {
