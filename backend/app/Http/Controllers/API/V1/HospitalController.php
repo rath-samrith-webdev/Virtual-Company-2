@@ -35,8 +35,8 @@ class HospitalController extends Controller
             'province' => 'string',
             'latitude' => 'string',
             'longitude' => 'string',
-            'open_time' => 'date:format:H:i',
-            'close_time' => 'date:format:H:i',
+            'open_time' => 'date_format:H:i',
+            'close_time' => 'date_format:H:i',
             'mission'=>'string',
             'vision'=>'string'
         ]);

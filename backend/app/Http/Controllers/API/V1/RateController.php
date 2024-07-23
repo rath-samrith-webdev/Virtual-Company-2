@@ -39,11 +39,13 @@ class RateController extends Controller
         try {
             $rates=DB::table('rates')->select(DB::raw('AVG(star) as total, hospital_id'))->groupBy('hospital_id')->orderBy('total','DESC')->get();
             $data=array();
+            $newData=[];
             foreach ($rates as $rate) {
-                $data['hospital']=HospitalResource::make(Hospital::where('id',$rate->hospital_id)->first());
-                $data['total_star']=round($rate->total);
+                $newData['hospital']=HospitalResource::make(Hospital::where('id',$rate->hospital_id)->first());
+                $newData['total_star']=round($rate->total);;
+                $data[]=$newData;
             }
-            return response()->json(['success' => true, 'data' => array($data)]);
+            return response()->json(['success' => true, 'data' => $data]);
         }catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
         }

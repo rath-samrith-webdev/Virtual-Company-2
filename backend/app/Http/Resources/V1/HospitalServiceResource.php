@@ -17,7 +17,7 @@ class HospitalServiceResource extends JsonResource
         return [
             'id'=>$this->id,
             'name'=>$this->name,
-            'image'=>$this->image?asset('/images/hospital'.$hospitalService->hospital_id.'/service'.$hospitalService->id.'/'.$hospitalService->image):'No image',
+            'image'=>$this->image?asset('/images/hospital'.$this->hospital_id.'/service'.$this->id.'/'.$this->image):'No image',
             'details'=>$this->details
         ];
     }
