@@ -31,6 +31,7 @@ class HospitalController extends Controller
             'category_id' => 'required|exists:categories,id',
             'street_address' => 'string',
             'village' => 'string',
+            'commune'=>'string',
             'district' => 'string',
             'province' => 'string',
             'latitude' => 'string',
