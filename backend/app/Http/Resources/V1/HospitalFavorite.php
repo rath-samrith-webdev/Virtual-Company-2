@@ -29,7 +29,6 @@ class HospitalFavorite extends JsonResource
             'lng'=>$this->longitude,
             'favourite_by'=>$this->favourites()->get()->count(),
             'average_rating'=>$this->rates()->get()->avg('star'),
-
         ];
     }
 }
