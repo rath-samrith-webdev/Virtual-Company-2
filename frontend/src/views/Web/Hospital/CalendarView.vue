@@ -1,5 +1,5 @@
 <template>
-  <WebLayout>
+  <WebLayout v-if="user.hospital!='No hospital'">
     <FullCalendar :options="calendarOptions">
       <template v-slot:eventContent="arg">
         <div class="d-flex flex-column">
@@ -42,6 +42,9 @@
       </template>
     </el-dialog>
   </WebLayout>
+  <WebLayout v-else>
+    <NoHospitalSet/>
+  </WebLayout>
 </template>
 <script lang="ts">
 import {defineComponent, ref, watch} from 'vue'
@@ -51,10 +54,12 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import WebLayout from "@/Components/Layouts/WebLayout.vue";
-import {createEventId} from "@/views/Web/Hospital/event-utils";
 import {hospitalAppointmentListStore} from "@/stores/hospital-appointment-list";
 import {ElNotification} from "element-plus";
+import {useAuthStore} from "@/stores/auth-store";
+import NoHospitalSet from "@/Components/Hospitals/NoHospitalSet.vue";
 const store = hospitalAppointmentListStore()
+const userStore=useAuthStore()
 const open2 = (title: string, message: any, type: string) => {
   ElNotification({
     title: title,
@@ -71,6 +76,7 @@ watch(store.message, () => {
 })
 export default defineComponent({
   components: {
+    NoHospitalSet,
     WebLayout,
     FullCalendar,
   },
@@ -84,6 +90,7 @@ export default defineComponent({
       id: '',
       appointment: [],
       appointmentStore:store.calendars,
+      user:userStore,
       currentAppointment: {
         appointment_date: undefined
       },

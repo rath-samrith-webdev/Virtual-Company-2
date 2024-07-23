@@ -102,6 +102,7 @@ onMounted(() => {
       <router-link
           to="/hospital/doctors"
           class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900"
+          style="text-decoration: none;"
       >Doctors
       </router-link
       >
@@ -112,10 +113,10 @@ onMounted(() => {
       >Appointments
       </router-link
       >
-      <router-link class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900" to="/hospital/calendar">
+      <router-link class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900" to="/hospital/calendar" style="text-decoration: none;">
         Calendar
       </router-link>
-      <router-link class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900" to="/upload/promotion">
+      <router-link class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900" to="/upload/promotion" style="text-decoration: none;">
         My promotions
       </router-link>
     </nav>
@@ -124,6 +125,7 @@ onMounted(() => {
       <router-link
           to="/doctor/dashboard"
           class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900"
+          style="text-decoration: none;"
       >Home
       </router-link
       >
@@ -136,6 +138,7 @@ onMounted(() => {
       <router-link
           to="/doctor/appointment"
           class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900"
+          style="text-decoration: none;"
       >Appointments
       </router-link>
     </nav>
@@ -151,23 +154,27 @@ onMounted(() => {
       <router-link
           to="/favorite"
           class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900"
+          style="text-decoration: none;"
       >Favorites
       </router-link
       >
       <router-link
           to="/map"
           class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900"
+          style="text-decoration: none;"
       >Map
       </router-link
       >
       <router-link
           to="/appointment"
           class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900"
+          style="text-decoration: none;"
       >Appointments
       </router-link>
       <router-link
           to="/calendar"
           class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900"
+          style="text-decoration: none;"
       >Calendar
       </router-link
       >
@@ -274,6 +281,7 @@ onMounted(() => {
         <router-link
             to="/hospital/dashboard"
             class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+            style="text-decoration: none;"
         >Home
         </router-link
         >
@@ -287,18 +295,21 @@ onMounted(() => {
         <router-link
             to="/hospital/feedbacks"
             class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+            style="text-decoration: none;"
         >Feedbacks
         </router-link
         >
         <router-link
             to="/hospital/doctors"
             class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+            style="text-decoration: none;"
         >Doctors
         </router-link
         >
         <router-link
             to="/hospital/appointments"
             class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+            style="text-decoration: none;"
         >Appointments
         </router-link
         >
@@ -308,6 +319,7 @@ onMounted(() => {
         <router-link
             to="/doctor/dashboard"
             class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+            style="text-decoration: none;"
         >Home
         </router-link
         >
@@ -320,6 +332,7 @@ onMounted(() => {
         <router-link
             to="/doctor/appointment"
             class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+            style="text-decoration: none;"
         >Appointments
         </router-link
         >
@@ -329,35 +342,41 @@ onMounted(() => {
         <router-link
             to="/"
             class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+            style="text-decoration: none;"
         >Home
         </router-link
         >
         <router-link
             to="/user/hospital"
             class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+            style="text-decoration: none;"
         >Hospital
         </router-link
         >
         <router-link
             to="/favorite"
             class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+            style="text-decoration: none;"
         >Favorites
         </router-link
         >
         <router-link
             to="/map"
             class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+            style="text-decoration: none;"
         >Map
         </router-link
         >
         <router-link
             to="/appointment"
             class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+            style="text-decoration: none;"
         >Appointments
         </router-link>
         <router-link
             to="/calendar"
             class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900"
+            style="text-decoration: none;"
         >Calendar
         </router-link>
       </div>
@@ -398,7 +417,7 @@ onMounted(() => {
           </template>
         </el-dropdown>
         <router-link to="/profile"
-                     class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900">
+                     class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900" style="text-decoration: none;">
           Profile
         </router-link>
         <button @click="handleLogout" class="nav-link text-start">Log out</button>

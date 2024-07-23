@@ -1,5 +1,5 @@
 <template>
-  <WebLayout>
+  <WebLayout v-if="userStore.hospital!='No hospital'">
     <el-button class="mt-4" style="width: 20%" plain @click="centerDialogVisible = true">
       Add Item
     </el-button>
@@ -77,16 +77,21 @@
       </template>
     </el-dialog>
   </WebLayout>
+  <WebLayout v-else>
+    <NoHospitalSet/>
+  </WebLayout>
 </template>
-
 <script lang="ts" setup>
 import {onMounted, ref} from 'vue'
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import {promotionStore} from "@/stores/promotion-store";
+import NoHospitalSet from "@/Components/Hospitals/NoHospitalSet.vue";
+import {useAuthStore} from "@/stores/auth-store";
 
 const centerDialogVisible = ref(false)
 const fileInput = ref(null)
 const imageUrl=ref('')
+const userStore=useAuthStore()
 const form=ref({
   title:'',
   description:'',
