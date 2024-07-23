@@ -99,7 +99,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/list', [DepartmentController::class, 'index']);
         Route::post('/create', [DepartmentController::class, 'store']);
         Route::get('/show/{department}', [DepartmentController::class, 'show']);
-        Route::put('/update/{department}', [DepartmentController::class, 'update']);
+        Route::post('/update/{department}', [DepartmentController::class, 'update']);
         Route::delete('/delete/{department}', [DepartmentController::class, 'destroy']);
     });
 

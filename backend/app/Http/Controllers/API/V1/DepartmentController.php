@@ -97,12 +97,12 @@ class DepartmentController extends Controller
             if(!$user->hasRole('admin')){
                 if ($user->hasRole('hospital')) {
                     if($department->hospital_id==$hospital->id){
-                        if(File::exists(public_path('/').'images/hospital'.$department->hospital_id.'/department'.$department->id.'/'.$department->image)){
+                        if(File::exists(public_path('/').'images/hospital'.$department->hospital_id.'/departments/department'.$department->id.'/'.$department->image)){
                             File::deleteDirectory(public_path('/').'images/hospital'.$department->hospital_id.'/departments/department'.$department->id);
                         }
                         $data['image']=$filename;
                         $department->update($data);
-                        $image->move(public_path('/').'images/hospital'.$department->hospital_id.'/department'.$department->id, $filename);
+                        $image->move(public_path('/').'images/hospital'.$department->hospital_id.'/departments/department'.$department->id, $filename);
                         return response()->json(['success' => true,'data'=>$department],200);
                     }else{
                         return response()->json(['success' => false,'message'=>'You are not authorized'],443);

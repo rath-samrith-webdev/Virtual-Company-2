@@ -17,7 +17,7 @@ class DepartmentResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'description' => $this->details,
+            'details' => $this->details,
             'image' => $this->image ? asset('images/hospital'.$this->hospital_id.'/departments/department'.$this->id .'/'. $this->image) : 'No profile',
         ];
     }
