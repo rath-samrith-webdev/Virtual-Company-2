@@ -7,7 +7,7 @@
         <div
           v-for="card in cards.concat(cards)"
           :key="card.hospital.id + 'duplicate'"
-          class="card-testimonial"
+          class="card-testimonial w-100"
           @click="seeDetails(card.hospital.id)"
         >
           <article>
@@ -18,7 +18,7 @@
             </picture>
             <h4>{{ card.hospital.name }}</h4>
             <article class="short-description">
-              <p>{{ card.hospital.open_time }} to {{ card.hospital.close_time }}</p>
+              <p>Open {{ card.hospital.open_time }} to {{ card.hospital.close_time }}</p>
               <p>{{ card.hospital.province }}</p>
               <el-rate
                 v-model="card.total_star"

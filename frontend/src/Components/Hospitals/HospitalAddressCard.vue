@@ -79,7 +79,7 @@
             <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ card.province }}</p>
             <p class="card-text"><i class="fas fa-phone-alt"></i> {{ card.phone_number }}</p>
             <p class="card-text">{{ card.street_address }}</p>
-            <el-rate v-model="card.average_rating" disabled text-color="#ff9900" />
+            <el-rate v-model="card.average_rating" disabled text-color="#ff9900" show-score score-template="{value} points" />
             <div class="card_button mt-2">
               <button type="button" @click="seeDetails(card.id)" class="btn btn-outline-primary">
                 <i class="fas fa-info-circle"></i> See Details
