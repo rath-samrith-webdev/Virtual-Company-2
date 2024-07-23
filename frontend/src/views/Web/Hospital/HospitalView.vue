@@ -10,6 +10,7 @@ import axiosInstance from '@/plugins/axios'
 import {useDoctorStore} from '@/stores/doctor-store'
 import {hospitalDetailStore} from "@/stores/hospital-detail";
 import {useAuthStore} from "@/stores/auth-store";
+import NoHospitalSet from '@/Components/Hospitals/NoHospitalSet.vue'
 const visible=ref(false)
 const store=useDoctorStore()
 const details = hospitalDetailStore()
@@ -80,7 +81,7 @@ onMounted(()=>{
 })
 </script>
 <template>
-  <WebLayout>
+  <WebLayout v-if="userStore.hospital!='No hospital'">
     <el-tabs type="border-card" stretch class="demo-tabs">
       <el-tab-pane>
         <template #label>
@@ -142,6 +143,9 @@ onMounted(()=>{
         <ServiceTab @remove="removeService(id)" @update="updateService(id)" />
       </el-tab-pane>
     </el-tabs>
+  </WebLayout>
+  <WebLayout v-else>
+    <NoHospitalSet/>
   </WebLayout>
 </template>
 <style>

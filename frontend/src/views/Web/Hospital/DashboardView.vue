@@ -188,8 +188,19 @@ const setUp=()=>{
   console.log('Hello')
   dialog.value = true
 }
+let categories=[]
+const fetchCategory =async ()=>{
+  try {
+    const {data} = await axiosInstance.get('/categories/list')
+    categories=data.data
+    console.log(data.data)
+  }catch(error){
+    console.log(error)
+  }
+}
 onMounted(() => {
   if(userStore.hospital!='No hospital'){
+    fetchCategory()
     fetchAppointmentSummary()
     fetchRecent()
     fetchFeedback()
@@ -342,7 +353,7 @@ onMounted(() => {
     </el-dialog>
   </WebLayout>
   <WebLayout v-else>
-    <NoHospitalSet :dialog-visible="dialog" @show="setUp" @cancel="dialog=false"/>
+    <NoHospitalSet/>
   </WebLayout>
 </template>
 <style scoped>
