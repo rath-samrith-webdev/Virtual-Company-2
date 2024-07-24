@@ -145,7 +145,7 @@ const router = createRouter({
     }
     ,
     {
-      path:'/upload/promotion',
+      path:'/hospital/promotion',
       name:'upload/promotion',
       component: () => import('../views/Web/Hospital/UploadPromotion.vue')
     }

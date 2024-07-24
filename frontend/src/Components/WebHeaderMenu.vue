@@ -116,7 +116,7 @@ onMounted(() => {
       <router-link class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900" to="/hospital/calendar" style="text-decoration: none;">
         Calendar
       </router-link>
-      <router-link class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900" to="/upload/promotion" style="text-decoration: none;">
+      <router-link class="font-bold px-3 py-2 text-slate-700  rounded-lg hover:bg-slate-100 hover:text-slate-900" to="/hospital/promotion" style="text-decoration: none;">
         My promotions
       </router-link>
     </nav>
