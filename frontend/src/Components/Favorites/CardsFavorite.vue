@@ -32,7 +32,7 @@
             />
           </div>
           <div class="card_button m-2 flex justify-between">
-            <el-button @click="Remove(cardFavorite.id)">Remove</el-button>
+            <el-button @click="removeFavorites(cardFavorite.id)">Remove</el-button>
             <el-button @click="seeDetails(cardFavorite.id)">See detail</el-button>
           </div>
         </div>
@@ -42,15 +42,11 @@
 </template>
 
 <script>
-import { Search } from '@element-plus/icons-vue'
 import axiosInstance from '@/plugins/axios'
 import { hospitalDetailStore } from '@/stores/hospital-detail'
 const details = hospitalDetailStore()
 export default {
   name: 'CardAddress',
-  components: {
-    Search
-  },
   data() {
     return {
       selectedOptions: [],
@@ -87,6 +83,7 @@ export default {
       try {
         const { data } = await axiosInstance.delete(`/favourites/delete/${id}`)
         console.log(data)
+        await this.userFavorite()
       } catch (error) {
         console.log(error)
       }
