@@ -92,6 +92,7 @@ const onSubmit = async () => {
   try {
     const { data } = await axiosInstance.post('/appointments/create', formData)
     console.log(data)
+    await appointment.fetchAppointments()
   } catch (error) {
     console.log(error)
   }

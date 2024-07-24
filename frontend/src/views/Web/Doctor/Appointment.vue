@@ -17,7 +17,6 @@ const centerDialogVisible = ref(false)
 const innerVisible = ref(false)
 const confirmData = ref({
   appointment_id: '',
-  appointment_end: '',
   room_id: ''
 })
 let data = {}
@@ -30,7 +29,6 @@ const alertAppointmentPopup = (id: any, doc_id: any) => {
 const confirmAppointment = async () => {
   innerVisible.value = false
   const formData = new FormData()
-  formData.append('appointment_end', confirmData.value.appointment_end)
   formData.append('room_id', confirmData.value.room_id)
   formData.append('status', 'Confirmed')
   try{
@@ -67,9 +65,6 @@ onMounted(() => {
           append-to-body
       >
         <el-form label-position="top">
-          <el-form-item label="Appointment End Date">
-            <el-date-picker v-model="confirmData.appointment_end" class="w-100" value-format="YYYY-MM-DD"/>
-          </el-form-item>
           <el-form-item label="Please assign a room">
             <el-select v-model="confirmData.room_id">
               <el-option
