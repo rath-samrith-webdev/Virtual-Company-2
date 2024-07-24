@@ -78,6 +78,7 @@ async function fetchDoctors(hospital_id: any, docData: any[]) {
     console.log(error)
   }
 }
+
 const onSubmit = async () => {
   dialogTableVisible.value = false
   const formData = {
@@ -95,6 +96,7 @@ const onSubmit = async () => {
     console.log(error)
   }
 }
+
 const deleteAppointment = async (row: any) => {
   const id = row.id
   try {
@@ -109,6 +111,7 @@ const deleteAppointment = async (row: any) => {
   }
   appointment.fetchAppointments()
 }
+
 const onUpdate = async () => {
   dialogEditVisible.value = false
   const formData = new FormData()

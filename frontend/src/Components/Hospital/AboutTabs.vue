@@ -3,10 +3,10 @@ import {Avatar, Clock, Location, Phone} from '@element-plus/icons-vue'
 import {defineComponent} from 'vue'
 
 export default defineComponent({
-  components: {Location, Phone, Clock, Avatar},
-  props: {
-    hospital: {
-      type: Object
+  components: { Location, Phone, Clock, Avatar },
+  props:{
+    hospital:{
+      type:Object
     },
   },
   emits: ['edit-hospital'],

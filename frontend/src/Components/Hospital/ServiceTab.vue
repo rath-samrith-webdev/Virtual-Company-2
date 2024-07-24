@@ -1,83 +1,283 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  props: {
-    title: {
-      type: String,
-    }
-  },
-  emits: ['update', 'remove'],
-  data() {
-    return {
-      services: [
-        {
-          id: 1,
-          name: 'General Check-up',
-          image: 'https://cdn-icons-png.flaticon.com/512/2764/2764537.png'
-        },
-        {
-          id: 2,
-          name: 'Emergency & Trauma',
-          image: 'https://cdn-icons-png.freepik.com/512/4434/4434351.png'
-        },
-        {
-          id: 3,
-          name: 'Heart',
-          image: 'https://cdn-icons-png.freepik.com/512/1216/1216774.png'
-        },
-        {
-          id: 4,
-          name: 'GI center',
-          image:'https://icons.veryicon.com/png/o/healthcate-medical/department/gastroenterology-department.png'
-            
-        },
-        {
-          id: 5,
-          name: 'Bone',
-          image: 'https://cdn-icons-png.flaticon.com/512/1263/1263506.png'
-        },
-        {
-          id: 6,
-          name: 'Urology',
-          image: 'https://cdn-icons-png.flaticon.com/512/6642/6642814.png'
-        },
-        {
-          id: 7,
-          name: 'Children',
-          image: 'https://cdn-icons-png.flaticon.com/256/13024/13024944.png'
-        },
-        {
-          id: 8,
-          name: 'ICU',
-          image: 'https://cdn-icons-png.flaticon.com/512/9733/9733765.png'
-        },
-        {
-          id: 9,
-          name: 'Women',
-          image: 'https://cdn-icons-png.flaticon.com/512/4721/4721796.png'
-        }
-      ]
-    }
-  }
-})
-</script>
-
 <template>
-  <div class="group-card mt-5 mb-5 container d-flex flex-wrap justify-content-evenly">
-    <div class="card card-service p-2 m-5 border border-info border-4 rounded-3"  style="width: 21rem" v-for="(service, index) in services" :key="index">
-      <img :src="service.image" class="card-img-top w-75 align-self-center mb-2" alt="..." />
-      <div class="card-body">
-        <h3 class="card-title text-center">{{ service.name }}</h3>
-        <div class="d-flex justify-content-sm-between mt-3">
-          <button class="btn btn-info text-light fw-bold " @click="$emit('update', service)">Update</button>
-          <button class="btn btn-warning text-light fw-bold  " @click="$emit('remove', service)">Remove</button>
+  <div class="add-service-container">
+    <el-button plain @click="showAddServiceDialog" class="add-service-button">
+      Add Service
+    </el-button>
+
+    <el-dialog
+      v-model="centerDialogVisible"
+      title="Add Service"
+      width="500px"
+      class="add-service-dialog"
+      center
+    >
+      <div class="dialog-content">
+        <div class="image-container">
+          <img
+            :src="imageUrl || 'https://via.placeholder.com/100'"
+            alt="Service Image"
+            class="service-image"
+            style="width: 100%; height: 50vh"
+          />
+          <input class="input" type="file" @change="handleFileChange" />
+          <input type="file" ref="fileInput" @change="handleFileChange" style="display: none" />
         </div>
+        <el-input
+          v-model="newServiceTitle"
+          placeholder="Service Title"
+          class="service-title-input"
+        />
+      </div>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="centerDialogVisible = false" class="cancel-button">Cancel</el-button>
+          <el-button type="primary" @click="saveService" class="confirm-button">
+            Confirm
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
+  </div>
+  <div class="equal-height">
+    <div class="items" v-for="service in services" :key="service.id">
+      <img :src="service.image" />
+      <h6>{{ service.name }}</h6>
+      <div>
+        <el-button type="danger" @click="removeService(service.id)">Delete</el-button>
+        <el-button type="primary" @click="showEditServiceDialog(service)">Edit</el-button>
       </div>
     </div>
   </div>
 </template>
 
-<style>
-/* Add your styles here */
+<script lang="ts">
+import axiosInstance from '@/plugins/axios'
+import { defineComponent, ref, onMounted } from 'vue'
+
+export default defineComponent({
+  setup(_, { emit }) {
+    const centerDialogVisible = ref(false)
+    const newServiceTitle = ref('')
+    const services = ref<any[]>([])
+    const newServiceImage = ref<File | null>(null)
+    const imageUrl = ref<string | null>(null)
+    const isEditing = ref(false)
+    const currentServiceId = ref<number | null>(null)
+
+    // Fetch services
+    async function fetchServices() {
+      try {
+        const response = await axiosInstance.get('/hospitals/services/list')
+        services.value = response.data.data
+      } catch (error) {
+        console.error('Failed to fetch services:', error)
+      }
+    }
+
+    // Handle file change
+    const handleFileChange = (event: Event) => {
+      const target = event.target as HTMLInputElement
+      if (target.files && target.files.length > 0) {
+        newServiceImage.value = target.files[0]
+        imageUrl.value = URL.createObjectURL(newServiceImage.value)
+      }
+    }
+
+    // Add service
+    const addService = async () => {
+      try {
+        const formData = new FormData()
+        formData.append('name', newServiceTitle.value)
+        if (newServiceImage.value) {
+          formData.append('image', newServiceImage.value)
+        }
+
+        const { data } = await axiosInstance.post('/hospitals/services/create', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        services.value.push(data.data)
+        resetForm()
+      } catch (error) {
+        console.error('Failed to add service:', error)
+      }
+    }
+
+    // Edit service
+    const editService = async () => {
+      try {
+        const formData = new FormData()
+        formData.append('name', newServiceTitle.value)
+        if (newServiceImage.value) {
+          formData.append('image', newServiceImage.value)
+        }
+
+        const { data } = await axiosInstance.put(
+          `/hospitals/services/update/${currentServiceId.value}`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+        )
+        const index = services.value.findIndex((service) => service.id === currentServiceId.value)
+        if (index !== -1) {
+          services.value[index] = { ...services.value[index], ...data.data }
+          services.value = [...services.value] // Ensure reactivity
+        }
+        resetForm()
+        open2('services', data.message, 'success') // Display success message
+      } catch (error) {
+        console.error('Failed to update service:', error)
+        open2('service', 'Failed to update service', 'warning') // Display error message
+      }
+    }
+
+    const saveService = () => {
+      if (isEditing.value) {
+        editService()
+      } else {
+        addService()
+      }
+    }
+
+    const showEditServiceDialog = (service: any) => {
+      newServiceTitle.value = service.name
+      imageUrl.value = service.image
+      currentServiceId.value = service.id
+      newServiceImage.value = null // Reset the image file to allow user to upload a new one
+      isEditing.value = true
+      centerDialogVisible.value = true
+    }
+
+    // Remove service
+    const removeService = async (id: number) => {
+      try {
+        const response = await axiosInstance.delete(`/hospitals/services/delete/${id}`)
+        if (response.data.success) {
+          services.value = services.value.filter((service) => service.id !== id)
+          emit('remove', id)
+        } else {
+          console.error('Failed to delete service:', response.data.message)
+        }
+      } catch (error) {
+        console.error('Error removing service:', error)
+      }
+    }
+
+    // Show add service dialog
+    const showAddServiceDialog = () => {
+      resetForm()
+      isEditing.value = false
+      centerDialogVisible.value = true
+    }
+
+    // Reset form
+    const resetForm = () => {
+      newServiceTitle.value = ''
+      newServiceImage.value = null
+      imageUrl.value = null
+      currentServiceId.value = null
+      centerDialogVisible.value = false
+    }
+
+    // Fetch services on component mount
+    onMounted(() => {
+      fetchServices()
+    })
+
+    return {
+      centerDialogVisible,
+      newServiceTitle,
+      newServiceImage,
+      imageUrl,
+      services,
+      removeService,
+      handleFileChange,
+      saveService,
+      showAddServiceDialog,
+      showEditServiceDialog
+    }
+  }
+})
+</script>
+
+<style scoped>
+.add-service-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+.add-service-button {
+  background-color: #409eff;
+  color: white;
+  border-color: #409eff;
+}
+.add-service-dialog {
+  background-color: #f2f2f2;
+}
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.service-image {
+  width: 100%;
+  object-fit: cover;
+}
+.image-container .service-image img {
+  width: 100%;
+  object-fit: cover;
+}
+.select-image-button {
+  margin-top: 10px;
+}
+.service-title-input {
+  flex-grow: 1;
+}
+.dialog-footer {
+  justify-content: flex-end;
+  gap: 10px;
+}
+.cancel-button {
+  background-color: #f2f2f2;
+  color: #606266;
+  border-color: #dcdfe6;
+}
+.confirm-button {
+  background-color: #409eff;
+  color: white;
+  border-color: #409eff;
+}
+.image-service {
+  background: #409eff;
+  display: flex;
+}
+.equal-height {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+.items {
+  width: 15%;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 2px 5px rgba(192, 177, 252, 0.556);
+}
+.items img {
+  width: 100%;
+  height: 70%;
+  object-fit: cover;
+}
 </style>

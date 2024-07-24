@@ -265,7 +265,7 @@ onMounted(() => {
           </el-col>
           <el-col :span="12">
             <el-form-item label="Vision">
-              <el-input type="textarea" v-model="submissionFrom.vision"/>
+              <el-input type="textarea" v-model="submissionFrom.mission"/>
             </el-form-item>
           </el-col>
         </el-form-item>
