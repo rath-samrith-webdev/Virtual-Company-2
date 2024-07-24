@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
-import {UploadFilled } from '@element-plus/icons-vue'
+import { Calendar, UploadFilled } from '@element-plus/icons-vue'
 import AboutTabs from '@/Components/Hospital/AboutTabs.vue'
 import ServiceTab from '@/Components/Hospital/ServiceTab.vue'
 import CardDepartment from '@/Components/Hospital/CardDepartment.vue'
@@ -26,8 +26,9 @@ const updateDepartment=(id:number)=>{
 }
 const removeDepartment = async (id:number)=>{
   try{
-    const {data}=await axiosInstance.get(`/departments/delete/${id}`)
+    const {data}=await axiosInstance.delete(`/departments/delete/${id}`)
     console.log(data)
+    fetchDetail()
   }catch(e){
     console.error(e)
   }

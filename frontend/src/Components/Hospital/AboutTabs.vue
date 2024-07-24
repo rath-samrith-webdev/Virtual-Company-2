@@ -60,7 +60,7 @@ export default defineComponent({
           <el-icon :size="30"><Phone /></el-icon>
           <h4 class="text-start ml-5">Phone Number:</h4>
         </div>
-        <div class="flex-1" style="margin-left: -7%" v-if="!isEdit">
+        <div class="flex-1" style=" margin-left:-7%;" v-if="!isEdit">
           <h5 class="ml-4 mt-1">{{ hospital.phone_number }}</h5>
         </div>
         <el-form-item v-show="isEdit" class="flex-1">
