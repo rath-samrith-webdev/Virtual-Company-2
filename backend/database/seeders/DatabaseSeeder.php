@@ -75,7 +75,6 @@ class DatabaseSeeder extends Seeder
             'doctor_id'=>1,
             'user_id'=>2,
             'appointment_date'=>'2022-01-01',
-            'appointment_end'=>'2022-01-02',
             'room_id'=>1,
             'appointment_time'=>'09:00',
         ]);

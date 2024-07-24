@@ -176,7 +176,6 @@ class AppointmentController extends Controller
     {
         $data = $request->validate([
             'status' => 'required|string',
-            'appointment_end'=>'date',
             'room_id'=>'integer'
         ]);
         $user = Auth::user();
@@ -188,7 +187,7 @@ class AppointmentController extends Controller
                     } elseif ($user->hasRole('hospital')) {
                         $appointment->update(['hospital_status'=>$data['status']]);
                     } elseif ($user->hasRole('doctor')) {
-                        $appointment->update(['doctor_status'=>$data['status']]);
+                        $appointment->update(['doctor_status'=>$data['status'],'room_id'=>$data['room_id']]);
                     }elseif ($user->id == $appointment->user_id) {
                         $appointment->update($data);
                     }else {

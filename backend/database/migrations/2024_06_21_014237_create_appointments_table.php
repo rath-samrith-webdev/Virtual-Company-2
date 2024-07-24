@@ -18,12 +18,11 @@ return new class extends Migration
             $table->foreignId('hospital_id')->constrained('hospitals')->onDelete('cascade');
             $table->foreignId('doctor_id')->constrained('doctors')->onDelete('cascade');
             $table->date('appointment_date');
-            $table->date('appointment_end')->nullable();
             $table->time('appointment_time');
             $table->enum('status', ['Pending','Canceled','Missing', 'Confirmed', 'Rejected'])->default('Pending');
             $table->enum('hospital_status', ['Pending','Canceled','Missing', 'Confirmed', 'Rejected'])->default('Pending');
             $table->enum('doctor_status', ['Pending','Canceled','Missing', 'Confirmed', 'Rejected'])->default('Pending');
-            $table->bigInteger('room_id')->unsigned()->nullable();
+            $table->bigInteger('room_id')->nullable();
             $table->timestamps();
         });
     }
