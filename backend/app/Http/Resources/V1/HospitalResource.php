@@ -36,7 +36,9 @@ class HospitalResource extends JsonResource
             'favourite_by'=>$this->favourites()->get()->count(),
             'average_rating'=>$this->rates()->sum('star')>0?round($this->rates()->sum('star')/$this->rates()->count()):'0',
             'rooms'=>$this->rooms()->get(),
-            'phone_number'=>$this->phone_number
+            'phone_number'=>$this->phone_number,
+            'vision'=>$this->vision?$this->vision:'Not set yet',
+            'mission'=>$this->mission?$this->mission:'Not set yet',
         ];
     }
 }
