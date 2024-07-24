@@ -18,24 +18,27 @@
                       placeholder="Enter email" class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200"
                     />
                 </div>
-
                 <div class="flex flex-col space-y-2">
                     <label for="password" class="text-gray-700 select-none font-medium">Password</label>
                     <input id="password" type="text" name="password" value="{{ old('password') }}"
                       placeholder="Enter password" class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200"
                     />
                 </div>
-
                 <div class="flex flex-col space-y-2">
                     <label for="password_confirmation" class="text-gray-700 select-none font-medium">Confirm Password</label>
-                    <input id="password_confirmation" type="text" name="password_confirmation" placeholder="Re-enter password" class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200"
-                    />
+                    <input id="password_confirmation" type="text" name="password_confirmation" placeholder="Re-enter password" class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200"/>
                 </div>
-
+                    <div class="flex flex-col space-y-2">
+                        <label for="verify_status" class="text-gray-700 select-none font-medium">Verify Status</label>
+                        <select class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200" id="verify_status" name="verify_status">
+                            <option @if($user->verify_status==0) selected @endif value="0">Not verified</option>
+                            <option @if($user->verify_status==1) selected @endif value="1">Verified</option>
+                        </select>
+                    </div>
                 <h3 class="text-xl my-4 text-gray-600">Role</h3>
                 <div class="grid grid-cols-3 gap-4">
                   @foreach($roles as $role)
-                      <div class="flex flex-col justify-cente">
+                      <div class="flex flex-col justify-center">
                           <div class="flex flex-col">
                               <label class="inline-flex items-center mt-3">
                                   <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" name="roles[]" value="{{$role->id}}"

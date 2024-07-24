@@ -1,17 +1,22 @@
 <template>
   <WebLayout>
+    <HospitalDiscount></HospitalDiscount>
+    <CardTopHospital :cards="store.mostRated"></CardTopHospital>
+    <CategoryView></CategoryView>
     <HospitalAddressCard></HospitalAddressCard>
-    <HospitalInformation></HospitalInformation>
-    <HospitalService></HospitalService>
-    <HospitalVideo></HospitalVideo>
   </WebLayout>
 </template>
 <script setup lang="ts">
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import HospitalAddressCard from '@/Components/Hospitals/HospitalAddressCard.vue'
-import HospitalInformation from '@/Components/Hospitals/HospitalInformation.vue';
-import HospitalService from '@/Components/Hospitals/HospitalService.vue';
-import HospitalVideo from '@/Components/Hospitals/HospitalVideo.vue';
+import CardTopHospital from '@/Components/Users/CardTopHospital/CardTopHospital.vue';
+import CategoryView from '@/Components/Hospitals/CategoryView.vue';
+import HospitalDiscount from '@/Components/Hospitals/HospitalDiscount.vue';
+import {FeedbackList} from "@/stores/feedback-list";
+import {onMounted} from "vue";
+const store=FeedbackList()
+onMounted(()=>{
+  store.fetchMostRated()
+})
 </script>
-
 <style scoped></style>

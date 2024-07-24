@@ -17,7 +17,7 @@ class HospitalFavorite extends JsonResource
         return [
             'id'=>$this->id,
             'name'=>$this->name,
-            'cover_image'=>$this->cover_image?asset('/images/hospital/hospital-cover/hospital-'.$this->id.'/'.$this->cover_image):'No Cover Image',
+            'cover_image'=>$this->cover_image?asset('/images/hospital'.$this->id.'/hospital-cover/hospital-'.$this->id.'/'.$this->cover_image):'No Cover',
             'open_time'=>$this->open_time?$this->open_time:'Not set yet',
             'close_time'=>$this->close_time?$this->close_time:'Not set yet',
             'street'=>$this->street?$this->street:'Not Added yet',
@@ -28,7 +28,7 @@ class HospitalFavorite extends JsonResource
             'lat'=>$this->latitude,
             'lng'=>$this->longitude,
             'favourite_by'=>$this->favourites()->get()->count(),
-
+            'average_rating'=>$this->rates()->get()->avg('star'),
         ];
     }
 }

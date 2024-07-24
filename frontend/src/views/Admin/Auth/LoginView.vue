@@ -1,32 +1,42 @@
 <script setup lang="ts">
-import { onMounted, watch } from 'vue'
+import {onMounted, watch} from 'vue'
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
-import { Lock, Message, UserFilled } from '@element-plus/icons-vue/global'
+import {Lock, Message, UserFilled} from '@element-plus/icons-vue/global'
 import axiosInstance from '@/plugins/axios'
-import { useRoute, useRouter } from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
+
+//===========================================
+//validation
+//===========================================
+import {Form, Field, ErrorMessage} from 'vee-validate'
+import {loginSchema} from '@/validation/validation-schema'
+import {singupSchema} from '@/validation/validation-schema'
 
 const router = useRouter()
-const route=useRoute()
-const loginCredential: { email: string, password: string } = {
+const route = useRoute()
+
+const loginCredential: { email: string; password: string } = {
   email: '',
   password: ''
 }
 const registerCredential: {
-  first_name: string,
-  last_name: string,
-  email: string,
-  user_type: string,
-  password: string,
+  first_name: string
+  last_name: string
+  name: string
+  email: string
+  user_type: string
+  password: string
   password_confirmation: string
 } = {
   first_name: '',
   last_name: '',
-  name:'',
+  name: '',
   email: '',
   password: '',
   user_type: '',
   password_confirmation: ''
 }
+
 onMounted(() => {
   {
     const sign_in_btn = document.querySelector('#sign-in-btn')
@@ -51,31 +61,33 @@ onMounted(() => {
 
 async function LogIn() {
   try {
-    const { data } = await axiosInstance.post('/login', loginCredential)
+    const {data} = await axiosInstance.post('/login', loginCredential)
     localStorage.setItem('access_token', data.access_token)
     if (data.role == 'hospital') {
       router.push('/hospital/dashboard')
     } else if (data.role == 'admin') {
       router.push('/admin/dashboard')
-    } else if(data.role == 'doctor'){
+    } else if (data.role == 'doctor') {
       router.push('/doctor/dashboard')
-    }else{
+    } else {
       router.push('/')
     }
   } catch (error) {
     console.log(error)
-    router.push('/login')
+    await location.reload()
   }
 }
 
 async function Register() {
   try {
-    const { data } = await axiosInstance.post('/register', registerCredential)
+    const {data} = await axiosInstance.post('/register', registerCredential)
+    if (data.success) {
+      location.reload()
+    }
     console.log(data)
-    router.push('/login')
   } catch (error) {
     console.log(error)
-    router.push('/login')
+    await router.push('/login')
   }
 }
 </script>
@@ -87,54 +99,54 @@ async function Register() {
         <form action="" @submit.prevent="LogIn" class="sign-in-form">
           <h2 class="title">Sign in</h2>
           <div class="input-field">
-            
-            <input type="email" v-model="loginCredential.email" required />
+            <input type="email" v-model="loginCredential.email" required/>
             <label>
-            <el-icon :size="15">
-              <UserFilled />
-            </el-icon>
-                Your Email</label>
+              <el-icon :size="15">
+                <UserFilled/>
+              </el-icon>
+              Your Email</label
+            >
           </div>
           <div class="input-field">
-           
-            <input type="password" v-model="loginCredential.password" required />
-              <label>
-                <el-icon :size="15">
-              <Lock />
-            </el-icon>  Your Password</label>
+            <input type="password" v-model="loginCredential.password" required/>
+            <label>
+              <el-icon :size="15">
+                <Lock/>
+              </el-icon>
+              Your Password</label
+            >
           </div>
-          <!-- forgot-password -->
           <p class="forgot-password text-right">
-              <router-link to="/forgot-password">Forgot Password</router-link>
+            <router-link to="/forgot-password">Forgot Password</router-link>
           </p>
 
           <p class="social-text">Or Sign in with social platform</p>
           <div class="social-media">
             <a href="#" class="social-icon">
               <el-tooltip content="LinkedIn" placement="top-start" effect="dark">
-                <el-avatar><img src="@/assets/image/linkeding.png"></el-avatar>
+                <el-avatar><img src="@/assets/image/linkeding.png"/></el-avatar>
               </el-tooltip>
             </a>
             <a href="" class="social-icon">
               <el-tooltip content="Facebook" placement="top-start" effect="dark">
-                <el-avatar><img src="@/assets/image/fb_logo.jpg"></el-avatar>
+                <el-avatar><img src="@/assets/image/fb_logo.jpg"/></el-avatar>
               </el-tooltip>
             </a>
             <a href="" class="social-icon">
               <el-tooltip content="X" placement="top-start" effect="dark">
-                <el-avatar><img src="@/assets/image/x-logo.webp"></el-avatar>
+                <el-avatar><img src="@/assets/image/x-logo.webp"/></el-avatar>
               </el-tooltip>
             </a>
             <a href="" class="social-icon">
               <el-tooltip content="Google" placement="top-start" effect="dark">
-                <el-avatar><img src="@/assets/image/google.png"></el-avatar>
+                <el-avatar><img src="@/assets/image/google.png"/></el-avatar>
               </el-tooltip>
             </a>
           </div>
           <div class="main-btn">
             <button type="submit" class="btn">Log in</button>
           </div>
-          
+
           <p class="account-text">
             Don't have an account? <a href="#" id="sign-up-btn2">Sign up</a>
           </p>
@@ -145,50 +157,61 @@ async function Register() {
           <div class="d-flex">
             <div class="input-field d-flex gap-1 align-items-center">
               <input type="text" v-model="registerCredential.first_name" required/>
-              <label> <el-icon :size="15">
-                <UserFilled />
-              </el-icon> Frist Name</label>
+              <label>
+                <el-icon :size="15">
+                  <UserFilled/>
+                </el-icon>
+                Frist Name</label
+              >
             </div>
             <div class="input-field d-flex align-items-center">
               <input type="text" v-model="registerCredential.last_name" required/>
               <label>
                 <el-icon :size="15">
-                <UserFilled />
-              </el-icon> Last Name</label>
+                  <UserFilled/>
+                </el-icon>
+                Last Name</label>
             </div>
           </div>
           <div class="input-field">
             <input type="text" v-model="registerCredential.name" required/>
             <label>
               <el-icon :size="15">
-              <UserFilled />
-            </el-icon>  User Name</label>
+                <UserFilled/>
+              </el-icon>
+              User Name</label>
           </div>
           <div class="input-field">
-            <input type="email" v-model="registerCredential.email" required />
+            <input type="email" v-model="registerCredential.email" required/>
             <label>
               <el-icon :size="15">
-              <Message />
-            </el-icon> Email</label>
+                <Message/>
+              </el-icon>
+              Email</label
+            >
           </div>
           <div class="d-flex">
             <div class="input-field d-flex gap-1 align-items-center">
-              <input type="password" v-model="registerCredential.password" required />
+              <input type="password" v-model="registerCredential.password" required/>
               <label>
                 <el-icon :size="15">
-                  <Lock />
-                </el-icon>  Password</label>
-              </div>
-              <div class="input-field d-flex align-items-center">
-                <input type="password" v-model="registerCredential.password_confirmation" required />
-                <label>
-                  <el-icon :size="15">
-                    <Lock />
-                  </el-icon>  Confirm Password</label>
-                </div>
-              </div>
+                  <Lock/>
+                </el-icon>
+                Password</label>
+            </div>
+            <div class="input-field d-flex align-items-center">
+              <input type="password" v-model="registerCredential.password_confirmation" required/>
+              <label>
+                <el-icon :size="15">
+                  <Lock/>
+                </el-icon>
+                Confirm Password</label
+              >
+
+            </div>
+          </div>
           <div class="input-field-select">
-            <select class="select form-control " v-model="registerCredential.user_type" required>
+            <select class="select form-control" v-model="registerCredential.user_type" required>
               <option selected value="" hidden>Who are you?</option>
               <option value="user">Normal User</option>
               <option value="hospital">Hospital Owner</option>
@@ -198,22 +221,22 @@ async function Register() {
           <div class="social-media">
             <a href="#" class="social-icon">
               <el-tooltip content="LinkedIn" placement="top-start" effect="dark">
-                <el-avatar :size="35"><img src="@/assets/image/linkeding.png"></el-avatar>
+                <el-avatar :size="35"><img src="@/assets/image/linkeding.png"/></el-avatar>
               </el-tooltip>
             </a>
             <a href="" class="social-icon">
               <el-tooltip content="Facebook" placement="top-start" effect="dark">
-                <el-avatar :size="35"><img src="@/assets/image/fb_logo.jpg"></el-avatar>
+                <el-avatar :size="35"><img src="@/assets/image/fb_logo.jpg"/></el-avatar>
               </el-tooltip>
             </a>
             <a href="" class="social-icon">
               <el-tooltip content="X" placement="top-start" effect="dark">
-                <el-avatar :size="35"><img src="@/assets/image/x-logo.webp"></el-avatar>
+                <el-avatar :size="35"><img src="@/assets/image/x-logo.webp"/></el-avatar>
               </el-tooltip>
             </a>
             <a href="" class="social-icon">
               <el-tooltip content="Google" placement="top-start" effect="dark">
-                <el-avatar :size="35"><img src="@/assets/image/google.png"></el-avatar>
+                <el-avatar :size="35"><img src="@/assets/image/google.png"/></el-avatar>
               </el-tooltip>
             </a>
           </div>
@@ -224,30 +247,254 @@ async function Register() {
             Already have an account? <a href="#" id="sign-in-btn2">Sign in</a>
           </p>
         </form>
+
+        <!-- =============================================== -->
+        <!-- Test validtion form login -->
+        <!-- =============================================== -->
+        <!--        <Form-->
+        <!--          action=""-->
+        <!--          @submit.prevent="LogIn"-->
+        <!--          class="sign-in-form"-->
+        <!--          v-slot="{ errors }"-->
+        <!--          :validation-schema="loginSchema">-->
+        <!--          <h2 class="title">Sign in</h2>-->
+        <!--          <div class="input-field">-->
+        <!--            <Field class="input" type="email"-->
+        <!--              name="email"-->
+        <!--              v-model="loginCredential.email"-->
+        <!--              id="email"-->
+        <!--              :style="{ borderColor: errors && errors['email'] ? 'red' : '' }"/>-->
+        <!--              <label>-->
+        <!--                <el-icon :size="15">-->
+        <!--                  <UserFilled />-->
+        <!--                </el-icon>-->
+        <!--                Your Email</label>-->
+        <!--          </div>-->
+        <!--          <div class="error-text">-->
+        <!--              <ErrorMessage name="email" class="text-danger" />-->
+        <!--          </div>-->
+        <!--          <div class="input-field">-->
+        <!--            <Field class="input"-->
+        <!--              type="password"-->
+        <!--              name="password"-->
+        <!--              v-model="loginCredential.password"-->
+        <!--              id="password"-->
+        <!--              :style="{ borderColor: errors && errors['password'] ? 'red' : '' }"/>-->
+        <!--            <label>-->
+        <!--              <el-icon :size="15">-->
+        <!--                <Lock />-->
+        <!--                </el-icon>-->
+        <!--                Your Password</label>-->
+        <!--                </div>-->
+        <!--                <div class="error-text gap1 aline: left">-->
+        <!--                  <ErrorMessage name="password" class="text-danger"/>-->
+        <!--                </div>-->
+
+        <!--          <p class="forgot-password text-right">-->
+        <!--            <router-link to="/forgot-password">Forgot Password</router-link>-->
+        <!--          </p>-->
+
+        <!--          <p class="social-text">Or Sign in with social platform</p>-->
+        <!--          <div class="social-media">-->
+        <!--            <a href="#" class="social-icon">-->
+        <!--              <el-tooltip content="LinkedIn" placement="top-start" effect="dark">-->
+        <!--                <el-avatar><img src="@/assets/image/linkeding.png" /></el-avatar>-->
+        <!--              </el-tooltip>-->
+        <!--            </a>-->
+        <!--            <a href="" class="social-icon">-->
+        <!--              <el-tooltip content="Facebook" placement="top-start" effect="dark">-->
+        <!--                <el-avatar><img src="@/assets/image/fb_logo.jpg" /></el-avatar>-->
+        <!--              </el-tooltip>-->
+        <!--            </a>-->
+        <!--            <a href="" class="social-icon">-->
+        <!--              <el-tooltip content="X" placement="top-start" effect="dark">-->
+        <!--                <el-avatar><img src="@/assets/image/x-logo.webp" /></el-avatar>-->
+        <!--              </el-tooltip>-->
+        <!--            </a>-->
+        <!--            <a href="" class="social-icon">-->
+        <!--              <el-tooltip content="Google" placement="top-start" effect="dark">-->
+        <!--                <el-avatar><img src="@/assets/image/google.png" /></el-avatar>-->
+        <!--              </el-tooltip>-->
+        <!--            </a>-->
+        <!--          </div>-->
+        <!--          <div class="main-btn">-->
+        <!--            <button type="submit" class="btn">Log in</button>-->
+        <!--          </div>-->
+
+        <!--          <p class="account-text">-->
+        <!--            Don't have an account? <a href="#" id="sign-up-btn2">Sign up</a>-->
+        <!--          </p>-->
+        <!--        </Form>-->
+        <!--        &lt;!&ndash; =============================================== &ndash;&gt;-->
+        <!--        &lt;!&ndash; Test validtion form Sign Up &ndash;&gt;-->
+        <!--        &lt;!&ndash; =============================================== &ndash;&gt;-->
+        <!--        <Form-->
+        <!--          action=""-->
+        <!--          @submit.prevent="Register"-->
+        <!--          class="sign-up-form"-->
+        <!--          v-slot="{ errors }"-->
+        <!--          :validation-schema="singupSchema">-->
+        <!--          <h2 class="title">Sign up</h2>-->
+        <!--          <div class="input-fields">-->
+        <!--            <div class="input-field d-flex gap-1 align-items-center">-->
+        <!--              <Field-->
+        <!--                type="text"-->
+        <!--                v-model="registerCredential.first_name"-->
+        <!--                name="first_name"-->
+        <!--                id="first_name"-->
+        <!--                :style="{ borderColor: errors && errors['first_name'] ? 'red' : '' }"-->
+        <!--              />-->
+        <!--              <label>-->
+        <!--                <el-icon :size="15">-->
+        <!--                  <UserFilled />-->
+        <!--                </el-icon>-->
+        <!--                Frist Name</label>-->
+        <!--              <div class="error-text">-->
+        <!--                <ErrorMessage name="first_name" class="text-danger" />-->
+        <!--              </div>-->
+        <!--              </div>-->
+        <!--            <div class="input-field d-flex align-items-center">-->
+        <!--              <Field-->
+        <!--                type="text"-->
+        <!--                v-model="registerCredential.last_name"-->
+        <!--                name="last_name"-->
+        <!--                id="last_name"-->
+        <!--                :style="{ borderColor: errors && errors['last_name'] ? 'red' : '' }"-->
+        <!--              />-->
+        <!--              <label>-->
+        <!--                <el-icon :size="15">-->
+        <!--                  <UserFilled />-->
+        <!--                </el-icon>-->
+        <!--                Last Name</label>-->
+        <!--              <div class="error-text">-->
+        <!--                <ErrorMessage name="last_name" class="text-danger" />-->
+        <!--              </div>-->
+        <!--              </div>-->
+        <!--          </div>-->
+        <!--          <div class="input-field">-->
+        <!--            <Field-->
+        <!--              type="text"-->
+        <!--              v-model="registerCredential.name"-->
+        <!--              name="name"-->
+        <!--              id="name"-->
+        <!--              :style="{ borderColor: errors && errors['name'] ? 'red' : '' }"-->
+        <!--            />-->
+        <!--            <label>-->
+        <!--              <el-icon :size="15">-->
+        <!--                <UserFilled />-->
+        <!--              </el-icon>-->
+        <!--              User Name</label>-->
+        <!--            <div class="error-text">-->
+        <!--              <ErrorMessage name="name" class="text-danger" />-->
+        <!--            </div>-->
+        <!--            </div>-->
+        <!--          <div class="input-field">-->
+        <!--            <Field-->
+        <!--              type="email"-->
+        <!--              v-model="registerCredential.email"-->
+        <!--              name="email"-->
+        <!--              id="email"-->
+        <!--              :style="{ borderColor: errors && errors['email'] ? 'red' : '' }"-->
+        <!--            />-->
+        <!--            <label>-->
+        <!--              <el-icon :size="15">-->
+        <!--                <Message />-->
+        <!--              </el-icon>-->
+        <!--              Email</label>-->
+        <!--              <div class="error-text">-->
+        <!--                <ErrorMessage name="email" class="text-danger" />-->
+        <!--              </div>-->
+        <!--            </div>-->
+        <!--          <div class="input-fields">-->
+        <!--            <div class="input-field d-flex gap-1 align-items-center">-->
+        <!--              <Field-->
+        <!--                type="password"-->
+        <!--                v-model="registerCredential.password"-->
+        <!--                name="password"-->
+        <!--                id="password"-->
+        <!--                :style="{ borderColor: errors && errors['password'] ? 'red' : '' }"-->
+        <!--              />-->
+        <!--              <label>-->
+        <!--                <el-icon :size="15">-->
+        <!--                  <Lock />-->
+        <!--                </el-icon>-->
+        <!--                Password</label>-->
+        <!--                <div class="error-text">-->
+        <!--                  <ErrorMessage name="password" class="text-danger" />-->
+        <!--                </div>-->
+        <!--                </div>-->
+        <!--            <div class="input-field d-flex align-items-center">-->
+        <!--              <Field-->
+        <!--                type="password"-->
+        <!--                v-model="registerCredential.password_confirmation"-->
+        <!--                name="password_confirmation"-->
+        <!--                id="password_confirmation"-->
+        <!--                :style="{ borderColor: errors && errors['password_confirmation'] ? 'red' : '' }"-->
+        <!--              />-->
+        <!--              <label>-->
+        <!--                <el-icon :size="15">-->
+        <!--                  <Lock />-->
+        <!--                </el-icon>-->
+        <!--                Confirm Password</label>-->
+        <!--                <div class="error-text">-->
+        <!--                  <ErrorMessage name="password_confirmation" class="text-danger" />-->
+        <!--                </div>-->
+        <!--              </div>-->
+        <!--          </div>-->
+        <!--          <div class="input-field-select">-->
+        <!--            <select class="select form-control" v-model="registerCredential.user_type" required>-->
+        <!--              <option selected value="" hidden>Who are you?</option>-->
+        <!--              <option value="user">Normal User</option>-->
+        <!--              <option value="hospital">Hospital Owner</option>-->
+        <!--            </select>-->
+        <!--          </div>-->
+        <!--          <p class="social-text">Or Sign in with social platform</p>-->
+        <!--          <div class="social-media">-->
+        <!--            <a href="#" class="social-icon">-->
+        <!--              <el-tooltip content="LinkedIn" placement="top-start" effect="dark">-->
+        <!--                <el-avatar :size="35"><img src="@/assets/image/linkeding.png" /></el-avatar>-->
+        <!--              </el-tooltip>-->
+        <!--            </a>-->
+        <!--            <a href="" class="social-icon">-->
+        <!--              <el-tooltip content="Facebook" placement="top-start" effect="dark">-->
+        <!--                <el-avatar :size="35"><img src="@/assets/image/fb_logo.jpg" /></el-avatar>-->
+        <!--              </el-tooltip>-->
+        <!--            </a>-->
+        <!--            <a href="" class="social-icon">-->
+        <!--              <el-tooltip content="X" placement="top-start" effect="dark">-->
+        <!--                <el-avatar :size="35"><img src="@/assets/image/x-logo.webp" /></el-avatar>-->
+        <!--              </el-tooltip>-->
+        <!--            </a>-->
+        <!--            <a href="" class="social-icon">-->
+        <!--              <el-tooltip content="Google" placement="top-start" effect="dark">-->
+        <!--                <el-avatar :size="35"><img src="@/assets/image/google.png" /></el-avatar>-->
+        <!--              </el-tooltip>-->
+        <!--            </a>-->
+        <!--          </div>-->
+        <!--          <div class="main-btn">-->
+        <!--            <button type="submit" class="btn">Sign Up</button>-->
+        <!--          </div>-->
+        <!--          <p class="account-text">-->
+        <!--            Already have an account? <a href="#" id="sign-in-btn2">Sign in</a>-->
+        <!--          </p>-->
+        <!--        </Form>-->
       </div>
       <div class="panels-container">
         <div class="panel left-panel">
           <div class="content">
             <h3>Welcome to CareFinder!</h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque
-              accusantium dolor?
-            </p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque accusantium dolor?</p>
             <button class="btn" id="sign-in-btn">Sign in</button>
           </div>
-          <img src="../assets/signin.svg" alt="" class="image" />
+          <img src="../assets/signin.svg" alt="" class="image"/>
         </div>
         <div class="panel right-panel">
           <div class="content">
             <h3>Welcome Back to CareFinder!</h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque
-              accusantium dolor?
-            </p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque accusantium dolor?</p>
             <button class="btn" id="sign-up-btn">Sign up</button>
-
           </div>
-          <img src="../assets/signup.svg" alt="" class="image" />
+          <img src="../assets/signup.svg" alt="" class="image"/>
         </div>
       </div>
     </div>
@@ -255,6 +502,7 @@ async function Register() {
 </template>
 
 <style scoped>
+
 .container {
   position: relative;
   width: 70vw;
@@ -266,16 +514,23 @@ async function Register() {
 }
 
 .container::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: -50%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(-45deg, #32B4E3, #027fb1);
+  background: linear-gradient(-45deg, #32b4e3, #027fb1);
   z-index: 6;
   transform: translateX(100%);
   transition: 1s ease-in-out;
+}
+
+.input-fields {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 0.4rem;
 }
 
 .signin-signup {
@@ -300,12 +555,19 @@ form {
   padding: 0 10px;
 }
 
-
 form.sign-in-form {
   opacity: 1;
   transition: 0.5s ease-in-out;
   transition-delay: 1s;
+
 }
+
+
+.error-text {
+  text-align: left;
+  font-size: 0.875rem;
+}
+
 
 form.sign-up-form {
   opacity: 0;
@@ -315,30 +577,39 @@ form.sign-up-form {
 
 .title {
   font-size: 35px;
-  color: #32B4E3;
+  color: #32b4e3;
   margin-bottom: 10px;
 }
 
 .input-field {
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
   width: 100%;
   position: relative;
-  border-bottom:1.5px solid rgb(105, 105, 105);
+  border-bottom: 0.8px solid rgb(105, 105, 105);
   margin: 15px 0;
 }
 
-.input-field label{
-    position: absolute;
-    top: 50%;
-    left: 0%;
-    transform: translateY(-30%);
-    color: #32B4E3;
-    font-size: 15px;
-    pointer-events: none;
-    transition: 0.15s ease;
-  }
+.input-field label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translateY(-55%);
+  color: #32b4e3;
+  font-size: 15px;
+  pointer-events: none;
+  transition: 0.15s ease;
+}
 
-.input-field input, .input-field .select {
+
+.input-field input,
+.input-field .select {
   flex: 4;
   background: none;
   border: none;
@@ -350,20 +621,21 @@ form.sign-up-form {
   background: transparent;
 }
 
-.input-field input:focus~label,
-  .input-field input:valid~label{
-    font-size: 0.8rem;
-    top: 5px;
-    transform: translateY(-120%);
-    border-radius: 8px;
-  }
+.input-field input:focus ~ label,
+.input-field Field:not(:placeholder-shown) ~ label {
+  font-size: 0.8rem;
+  top: 0px;
+  transform: translateY(-120%);
+  border-radius: 8px;
+}
 
-.input-field-select .select{
+.input-field-select .select {
   font-size: 15px;
   border: none;
-  background: #32B4E3;
+  background: #32b4e3;
   color: #fff;
 }
+
 
 .main-btn {
   display: flex;
@@ -375,7 +647,7 @@ form.sign-up-form {
   height: 50px;
   border: none;
   border-radius: 50px;
-  background: #FCB22C;
+  background: #fcb22c;
   color: #fff;
   font-weight: 600;
   margin: 10px 0;
@@ -419,8 +691,8 @@ i {
 }
 
 .social-icon:hover {
-  color: #32B4E3;
-  border-color: #32B4E3;
+  color: #32b4e3;
+  border-color: #32b4e3;
 }
 
 .panels-container {
@@ -562,21 +834,20 @@ i {
     width: 90%;
   }
 
-  .input-field-select .select{
-  font-size: 12px;
+  .input-field-select .select {
+    font-size: 12px;
   }
 
-  .input-field label{
+  .input-field label {
     font-size: 14px;
   }
+
   .title {
     font-size: 25px;
   }
 
   .btn {
-  height: 35px;
-
-}
-
+    height: 35px;
+  }
 }
 </style>

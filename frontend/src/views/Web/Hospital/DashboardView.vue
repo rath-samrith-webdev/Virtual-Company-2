@@ -16,8 +16,8 @@ let dialogOverflowVisible = ref(false)
 const data = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
   datasets: [{
-    label: 'Total Feedback',
-    data:JSON.parse(localStorage.getItem('monthlyFeedbacks')),
+    label: 'Total Appointment',
+    data:appointmentStore.monthlyAppointment,
     fill: true,
     backgroundColor: [
       'rgba(255, 99, 132, 0.2)',
@@ -44,7 +44,7 @@ const data2 = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
   datasets: [{
     label: 'Total Feedback',
-    data:JSON.parse(localStorage.getItem('appointments')),
+    data:store.monthlyFeedbacks,
     fill: true,
     backgroundColor: [
       'rgba(255, 99, 132, 0.2)',
@@ -183,8 +183,24 @@ function fetchFeedback(){
 function fetchMonthlyAppointment(){
   appointmentStore.fetchMonthlyAppointment()
 }
+const dialog=ref(false)
+const setUp=()=>{
+  console.log('Hello')
+  dialog.value = true
+}
+let categories=[]
+const fetchCategory =async ()=>{
+  try {
+    const {data} = await axiosInstance.get('/categories/list')
+    categories=data.data
+    console.log(data.data)
+  }catch(error){
+    console.log(error)
+  }
+}
 onMounted(() => {
   if(userStore.hospital!='No hospital'){
+    fetchCategory()
     fetchAppointmentSummary()
     fetchRecent()
     fetchFeedback()

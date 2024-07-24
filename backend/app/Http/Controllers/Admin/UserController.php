@@ -107,6 +107,7 @@ class UserController extends Controller
         $validated = $request->validate([
             'name'=>'required',
             'email' => 'required|email|unique:users,email,'.$user->id.',id',
+            'verify_status'=>'required|in:0,1',
         ]);
 
         if($request->password != null){
@@ -115,9 +116,7 @@ class UserController extends Controller
             ]);
             $validated['password'] = bcrypt($request->password);
         }
-
         $user->update($validated);
-
         $user->syncRoles($request->roles);
         return redirect()->back()->withSuccess('User updated !!!');
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Controllers\Controller;
 use App\Models\UserAddress;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserAddressController extends Controller
 {
@@ -13,7 +14,7 @@ class UserAddressController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(['success' => true, 'data' => UserAddress::all()]);
     }
 
     /**

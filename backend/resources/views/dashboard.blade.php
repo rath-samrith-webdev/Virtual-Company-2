@@ -2,8 +2,28 @@
     <div>
         <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
             @if(auth()->id()===1)
+                <div class="container flex gap-2 mx-auto  px-6 py-8">
+                    <div class="card bg-white p-2 item-between flex-1">
+                        <div class="card-title flex justify-center text-centers">
+                            <h4>This Year Revenue</h4>
+                        </div>
+                        <h4 class="text-center">{{$data['yearlyRevenue']}} $</h4>
+                    </div>
+                    <div class="card bg-white p-2 flex-1">
+                        <div class="card-title flex justify-center text-centers">
+                            <h4>New user</h4>
+                        </div>
+                        <h4 class="text-center">{{$data['newMonthly']}}</h4>
+                    </div>
+                    <div class="card bg-white p-2 flex-1">
+                        <div class="card-title flex justify-center text-centers">
+                            <h4>Total Hospitals</h4>
+                        </div>
+                        <h4 class="text-center">{{$data['totalHospital']}}</h4>
+                    </div>
+                </div>
                 <div class="container mx-auto  px-6 py-8">
-                    <div class="flex flex-wrap mt-6">
+                    <div class="flex justify-center flex-wrap mt-6">
                         <div class="w-full lg:w-1/2 pr-0 lg:pr-2">
                             <p class="text-xl pb-3 flex items-center">
                                 <i class="fas fa-plus mr-3"></i> Data Reports
@@ -14,7 +34,7 @@
                         </div>
                         <div class="w-full lg:w-1/2 pl-0 lg:pl-2 mt-12 lg:mt-0">
                             <p class="text-xl pb-3 flex items-center">
-                                <i class="fas fa-account mr-3"></i>New Users Chart
+                                <i class="fas fa-account mr-3"></i>Monthly User
                             </p>
                             <div class="p-6 rounded bg-white">
                                 <canvas id="chartTwo" width="400" height="200"></canvas>

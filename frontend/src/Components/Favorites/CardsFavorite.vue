@@ -2,21 +2,20 @@
   <div>
     <div class="card_favorite">
       <div class="wrapper" v-for="cardFavorite in cardFavorites" :key="cardFavorite.id">
-        <div class="single-card">
+        <div class="single-card card">
           <div class="img-area">
             <img
-              v-if="cardFavorite.cover_image === 'No cover'"
-              :src="cardFavorite.cover_image"
-              class="card-img-top"
-              alt="..."
+              v-if="cardFavorite.hospital.cover_image !== 'No Cover'"
+              :src="cardFavorite.hospital.cover_image"
+              alt="Placeholder"
+              width="400px"
             />
-            <h4 v-if="cardFavorite.cover_image !== 'No cover'">
-              <img
-                src="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1"
-                alt=""
-                width="400px"
-              />
-            </h4>
+            <img
+              v-if="cardFavorite.hospital.cover_image === 'No Cover'"
+              src="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1"
+              class="card-img-top"
+              alt="Hospital cover image"
+            />
           </div>
           <div class="info">
             <h5>{{ cardFavorite.hospital.name }}</h5>
@@ -25,17 +24,16 @@
             <p>{{ cardFavorite.hospital.phone_number }}</p>
             <p>{{ cardFavorite.hospital.street_address }}</p>
             <el-rate
-              v-model="cardFavorite.hospital.favourite_by"
+              v-model="cardFavorite.hospital.average_rating"
               disabled
               show-score
               text-color="#ff9900"
               score-template="{value} points"
             />
           </div>
-          <div class="card_button m-2">
-            <button type="button" class="btn btn-outline-primary" @click="seeDetails(cardFavorite.id)">
-              <i class="fas fa-info-circle"></i> See Details
-            </button>
+          <div class="card_button m-2 flex justify-between">
+            <el-button @click="Remove(cardFavorite.id)">Remove</el-button>
+            <el-button @click="seeDetails(cardFavorite.id)">See detail</el-button>
           </div>
         </div>
       </div>
@@ -84,6 +82,14 @@ export default {
       details.id = id
       this.$router.push(`/hospital/detail?id=${id}`)
       details.fetchHospitalDetail(id)
+    },
+    async removeFavorites(id) {
+      try {
+        const { data } = await axiosInstance.delete(`/favourites/delete/${id}`)
+        console.log(data)
+      } catch (error) {
+        console.log(error)
+      }
     }
   },
   mounted() {

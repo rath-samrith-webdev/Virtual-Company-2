@@ -146,6 +146,11 @@ class AdminSeeder extends Seeder
         $permission = Permission::create(['name' => 'RateReply create' ,'front_name'=>'rate_reply_create']);
         $permission = Permission::create(['name' => 'RateReply delete' ,'front_name'=>'rate_reply_delete']);
 
+        $permission = Permission::create(['name' => 'Subscribe-plan access','front_name'=>'subscribe-plan_access']);
+        $permission = Permission::create(['name' => 'Subscribe-plan edit' ,'front_name'=>'subscribe-plan_edit']);
+        $permission = Permission::create(['name' => 'Subscribe-plan create' ,'front_name'=>'subscribe-plan_create']);
+        $permission = Permission::create(['name' => 'Subscribe-plan delete' ,'front_name'=>'subscribe-plan_delete']);
+
         $admin->assignRole($admin_role);
         $user->assignRole($user_role);
         $hospital->assignRole($hospital_role);
