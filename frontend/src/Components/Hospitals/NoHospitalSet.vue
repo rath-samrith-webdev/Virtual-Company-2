@@ -59,7 +59,6 @@ export default defineComponent({
     setLatLng(commune:any) {
       this.submissionFrom.latitude = commune.geodata.lat
       this.submissionFrom.longitude = commune.geodata.lat
-      this.filterVillage(commune.id)
     }
   },
   mounted() {
