@@ -88,9 +88,9 @@ class HospitalServiceController extends Controller
             $user=Auth::user();
             $data=$request->validate([
                 'name'=>'required',
-                'description'=>'required',
-                'image'=>'required|image|mimes:jpeg,png,jpg,gif,svg',
-                'hospital_id'=>'required|exists:App\Models\Hospital,id',
+                'description'=>'string',
+                'image'=>'image|mimes:jpeg,png,jpg,gif,svg',
+                'hospital_id'=>'exists:App\Models\Hospital,id',
             ]);
             $hospital_id=$user->hospital->id;
             $image=$request->file('image');

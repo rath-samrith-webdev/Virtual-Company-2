@@ -64,7 +64,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/list',[HospitalServiceController::class,'index']);
             Route::post('/create',[HospitalServiceController::class,'store']);
             Route::get('/show/{hospitalService}',[HospitalServiceController::class,'show']);
-            Route::put('/update/{hospitalService}',[HospitalServiceController::class,'update']);
+            Route::post('/update/{hospitalService}',[HospitalServiceController::class,'update']);
             Route::delete('/delete/{hospitalService}',[HospitalServiceController::class,'destroy']);
         });
         Route::prefix('previewImages')->group(function () {
