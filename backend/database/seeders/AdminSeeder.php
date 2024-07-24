@@ -29,29 +29,33 @@ class AdminSeeder extends Seeder
         ]);
 
         $user = User::create([
-            'first_name'=>"Test",
-            'last_name'=>"User",
-            'name'=>'User',
-            'email'=>'user@gmail.com',
-            'password'=>bcrypt('password')
+            'first_name'=>"James",
+            'last_name'=>"Thomas",
+            'name'=>'@james_thomas',
+            'email'=>'jamesthomas@gmail.com',
+            'password'=>bcrypt('j')
         ]);
         $hospital=User::create([
-            'first_name'=>"Hospital",
-            'last_name'=>"User",
-            'name'=>'Hospital',
-            'email'=>'hospital@gmail.com',
+            'first_name'=>"Richard",
+            'last_name'=>"Anderson",
+            'name'=>'@richard_anderson',
+            'email'=>'richardanderson.angkor@gmail.com',
+            'password'=>bcrypt('password'),
+        ]);
+        $hospital=User::create([
+            'first_name'=>"James",
+            'last_name'=>"Christ",
+            'name'=>'@james_christ',
+            'email'=>'jameschirst.hospital@gmail.com',
             'password'=>bcrypt('password'),
         ]);
         $doctor=User::create([
-            'first_name'=>"Doctor",
-            'last_name'=>"User",
-            'name'=>'Doctor',
+            'first_name'=>"Lucas",
+            'last_name'=>"Trauman",
+            'name'=>'@lucas_trauman',
             'email'=>'doctor@gmail.com',
             'password'=>bcrypt('password'),
         ]);
-
-
-
         $admin_role = Role::create(['name' => 'admin']);
         $user_role = Role::create(['name' => 'user']);
         $hospital_role = Role::create(['name' => 'hospital']);
