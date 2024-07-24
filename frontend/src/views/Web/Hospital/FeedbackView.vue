@@ -1,18 +1,24 @@
 <script setup lang="ts">
-import WebLayout from '@/Components/Layouts/WebLayout.vue';;
-import { ref } from 'vue';
+import WebLayout from '@/Components/Layouts/WebLayout.vue';
+
+;
+import {h, ref} from 'vue';
 import axiosInstance from '@/plugins/axios';
-import { onMounted } from 'vue'
-import { useAuthStore } from '@/stores/auth-store'
+import {onMounted} from 'vue'
+import {useAuthStore} from '@/stores/auth-store'
 import NoHospitalSet from '@/Components/Hospitals/NoHospitalSet.vue'
-import { FeedbackList } from '@/stores/feedback-list'
-const store=useAuthStore()
-const feebackList=FeedbackList()
+import {FeedbackList} from '@/stores/feedback-list'
+import {ElNotification} from "element-plus";
+import {DeleteFilled} from "@element-plus/icons-vue";
+
+const store = useAuthStore()
+const feedbackList = FeedbackList()
 const showTable = ref(true);
 const tableData = ref([]);
+
 async function fetchFeedback() {
   try {
-    const { data } = await axiosInstance.get('/feedbacks/list')
+    const {data} = await axiosInstance.get('/feedbacks/list')
     data.data.forEach((feedback) => {
       tableData.value.push(feedback)
     })
@@ -20,20 +26,66 @@ async function fetchFeedback() {
     console.error(error)
   }
 }
-const outerVisible=ref(false)
+
+const replyForm = ref(false)
+const outerVisible = ref(false)
+const openReplyFrom = () => {
+  outerVisible.value = false
+  replyForm.value = true
+}
+const replyFeedback = ref({
+  rate_id: '',
+  content: ''
+})
+const open = (title: string, type: string, message: string) => {
+  ElNotification({
+    title: title,
+    type: type,
+    message: message
+  })
+}
+const sendReply = async () => {
+  const formData = new FormData()
+  formData.append('rate_id', replyFeedback.value.rate_id)
+  formData.append('content', replyFeedback.value.content)
+  try {
+    if (replyFeedback.value.content === '') {
+      replyForm.value = true
+      open('Reply content', 'warning', 'Content Required')
+    } else {
+      replyForm.value = false
+      const {data} = await axiosInstance.post('/feedback-reply/create', formData)
+      open('Reply content', 'success', data.message)
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
 fetchFeedback()
 onMounted(() => {
   console.log(tableData)
 })
-const textarea = ref('');
+const removeReply = async (id: any) => {
+  try {
+    const {data} = await axiosInstance.delete(`/feedback-reply/delete/${id.id}`)
+    await feedbackList.showFeedback(id.rate_id)
+    if (data.success) {
+      open('Reply content', 'success', data.message)
+    } else {
+      open('Reply content', 'warning', data.message)
+    }
+  } catch (e) {
+    console.error(e)
+  }
+}
 
 // Function to show details popover
 function showDetails(row: any) {
   // Implement your logic to show details here
   outerVisible.value = true
-  feebackList.showFeedback(row)
+  feedbackList.showFeedback(row)
+  replyFeedback.value.rate_id = row
   console.log('Showing details for:', row);
-
 }
 </script>
 
@@ -58,7 +110,7 @@ function showDetails(row: any) {
           </template>
         </el-table-column>
         <!-- Content Column -->
-        <el-table-column prop="content" label="Content" width="310" />
+        <el-table-column prop="content" label="Content" width="310"/>
 
         <!-- From Column -->
         <el-table-column prop="from" label="From" width="250">
@@ -68,11 +120,11 @@ function showDetails(row: any) {
         </el-table-column>
 
         <!-- To Column -->
-        <el-table-column prop="to" label="To" width="250" />
+        <el-table-column prop="to" label="To" width="250"/>
         <!-- Star Column -->
         <el-table-column label="Star" width="180">
           <template #default="scope">
-            <el-rate v-model="scope.row.star" disabled text-color="#ff9900" />
+            <el-rate v-model="scope.row.star" disabled text-color="#ff9900"/>
           </template>
         </el-table-column>
         <!-- Action Column -->
@@ -85,15 +137,35 @@ function showDetails(row: any) {
         </el-table-column>
       </el-table>
       <el-dialog v-model="outerVisible" title="Feedback Details" width="800">
-        <el-timeline style="max-width: 700px">
-          <el-timeline-item v-for="feed in feebackList.feedbackDetails.replies" :key="feed.id" :timestamp="feed.created_at" placement="top">
-            <el-card>
-              <h4>{{ feed.user.full_name }}</h4>
-              <p>{{ feed.content }}</p>
-              <small>{{feed.created_for}}</small>
-            </el-card>
-          </el-timeline-item>
-        </el-timeline>
+        <el-button @click="openReplyFrom">Reply</el-button>
+        <el-main>
+          <div class="d-flex justify-content-between" v-for="feed in feedbackList.feedbackDetails.replies"
+               :key="feed.id">
+            <div>
+              <h5>{{ feed.user.name }}</h5>
+              <h6><b>Content:</b> {{ feed.content }}</h6>
+              <small><b>Replied:</b> {{ feed.created_for }}</small>
+            </div>
+            <div>
+              <el-tag @click="removeReply(feed)">
+                <el-icon>
+                  <DeleteFilled/>
+                </el-icon>
+              </el-tag>
+            </div>
+          </div>
+        </el-main>
+      </el-dialog>
+      <el-dialog v-model="replyForm" title="Reply Feedback" width="500">
+        <el-form label-position="top">
+          <el-input type="hidden" v-model="replyFeedback.rate_id"/>
+          <el-form-item label="Reply content">
+            <el-input type="textarea" v-model="replyFeedback.content"/>
+          </el-form-item>
+          <el-button-group>
+            <el-button @click="sendReply">Sent</el-button>
+          </el-button-group>
+        </el-form>
       </el-dialog>
     </div>
   </WebLayout>

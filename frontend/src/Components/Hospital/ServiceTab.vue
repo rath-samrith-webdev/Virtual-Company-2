@@ -5,32 +5,32 @@
     </el-button>
 
     <el-dialog
-      v-model="centerDialogVisible"
-      title="Add Service"
-      width="500px"
-      class="add-service-dialog"
-      center
+        v-model="centerDialogVisible"
+        :title="formTitle"
+        width="500px"
+        class="add-service-dialog"
+        center
     >
       <div class="dialog-content">
         <div class="image-container">
           <img
-            :src="imageUrl || 'https://via.placeholder.com/100'"
-            alt="Service Image"
-            class="service-image"
-            style="width: 100%; height: 50vh"
+              :src="imageUrl || 'https://via.placeholder.com/100'"
+              alt="Service Image"
+              class="service-image"
+              style="width: 100%; height: 50vh"
           />
-          <input class="input" type="file" @change="handleFileChange" />
-          <input type="file" ref="fileInput" @change="handleFileChange" style="display: none" />
+          <input class="input" type="file" @change="handleFileChange"/>
+          <input type="file" ref="fileInput" @change="handleFileChange" style="display: none"/>
         </div>
         <el-input
-          v-model="newServiceTitle"
-          placeholder="Service Title"
-          class="service-title-input"
+            v-model="newServiceTitle"
+            placeholder="Service Title"
+            class="service-title-input"
         />
       </div>
       <template #footer>
         <div class="dialog-footer">
-          <el-button @click="centerDialogVisible = false" class="cancel-button">Cancel</el-button>
+          <el-button @click="editVisible = false" class="cancel-button">Cancel</el-button>
           <el-button type="primary" @click="saveService" class="confirm-button">
             Confirm
           </el-button>
@@ -40,7 +40,7 @@
   </div>
   <div class="equal-height">
     <div class="items" v-for="service in services" :key="service.id">
-      <img :src="service.image" />
+      <img :src="service.image" alt=""/>
       <h6>{{ service.name }}</h6>
       <div>
         <el-button type="danger" @click="removeService(service.id)">Delete</el-button>
@@ -52,10 +52,11 @@
 
 <script lang="ts">
 import axiosInstance from '@/plugins/axios'
-import { defineComponent, ref, onMounted } from 'vue'
+import {defineComponent, ref, onMounted} from 'vue'
+import {ElNotification} from "element-plus";
 
 export default defineComponent({
-  setup(_, { emit }) {
+  setup(_, {emit}) {
     const centerDialogVisible = ref(false)
     const newServiceTitle = ref('')
     const services = ref<any[]>([])
@@ -63,6 +64,7 @@ export default defineComponent({
     const imageUrl = ref<string | null>(null)
     const isEditing = ref(false)
     const currentServiceId = ref<number | null>(null)
+    const formTitle = ref('Add Service')
 
     // Fetch services
     async function fetchServices() {
@@ -74,6 +76,13 @@ export default defineComponent({
       }
     }
 
+    const open2 = (title: string, message: any, type: string) => {
+      ElNotification({
+        title: title,
+        message: message,
+        type: type
+      })
+    }
     // Handle file change
     const handleFileChange = (event: Event) => {
       const target = event.target as HTMLInputElement
@@ -86,50 +95,33 @@ export default defineComponent({
     // Add service
     const addService = async () => {
       try {
-        const formData = new FormData()
-        formData.append('name', newServiceTitle.value)
-        if (newServiceImage.value) {
-          formData.append('image', newServiceImage.value)
-        }
-
-        const { data } = await axiosInstance.post('/hospitals/services/create', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+        const {data} = await axiosInstance.post('/hospitals/services/create', {
+          name: newServiceTitle.value,
+          image: newServiceImage.value,
         })
         services.value.push(data.data)
+        await fetchServices()
         resetForm()
       } catch (error) {
         console.error('Failed to add service:', error)
       }
     }
-
     // Edit service
     const editService = async () => {
       try {
-        const formData = new FormData()
-        formData.append('name', newServiceTitle.value)
-        if (newServiceImage.value) {
-          formData.append('image', newServiceImage.value)
-        }
-
-        const { data } = await axiosInstance.put(
-          `/hospitals/services/update/${currentServiceId.value}`,
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          }
-        )
+        const {data} = await axiosInstance.post(`/hospitals/services/update/${currentServiceId.value}`, {
+          name: newServiceTitle.value,
+          image: newServiceImage.value,
+        })
         const index = services.value.findIndex((service) => service.id === currentServiceId.value)
         if (index !== -1) {
-          services.value[index] = { ...services.value[index], ...data.data }
+          services.value[index] = {...services.value[index], ...data.data}
           services.value = [...services.value] // Ensure reactivity
         }
         resetForm()
         open2('services', data.message, 'success') // Display success message
-      } catch (error) {
+      } catch
+          (error) {
         console.error('Failed to update service:', error)
         open2('service', 'Failed to update service', 'warning') // Display error message
       }
@@ -144,15 +136,16 @@ export default defineComponent({
     }
 
     const showEditServiceDialog = (service: any) => {
+      isEditing.value = true
+      formTitle.value = 'Edit Service'
+      centerDialogVisible.value = true
       newServiceTitle.value = service.name
       imageUrl.value = service.image
       currentServiceId.value = service.id
       newServiceImage.value = null // Reset the image file to allow user to upload a new one
-      isEditing.value = true
-      centerDialogVisible.value = true
     }
 
-    // Remove service
+// Remove service
     const removeService = async (id: number) => {
       try {
         const response = await axiosInstance.delete(`/hospitals/services/delete/${id}`)
@@ -167,14 +160,15 @@ export default defineComponent({
       }
     }
 
-    // Show add service dialog
+// Show add service dialog
     const showAddServiceDialog = () => {
       resetForm()
-      isEditing.value = false
+      formTitle.value = 'Add Service'
       centerDialogVisible.value = true
+      isEditing.value = false
     }
 
-    // Reset form
+// Reset form
     const resetForm = () => {
       newServiceTitle.value = ''
       newServiceImage.value = null
@@ -183,7 +177,7 @@ export default defineComponent({
       centerDialogVisible.value = false
     }
 
-    // Fetch services on component mount
+// Fetch services on component mount
     onMounted(() => {
       fetchServices()
     })
@@ -198,7 +192,8 @@ export default defineComponent({
       handleFileChange,
       saveService,
       showAddServiceDialog,
-      showEditServiceDialog
+      showEditServiceDialog,
+      formTitle
     }
   }
 })
@@ -210,20 +205,24 @@ export default defineComponent({
   justify-content: flex-end;
   margin-bottom: 20px;
 }
+
 .add-service-button {
   background-color: #409eff;
   color: white;
   border-color: #409eff;
 }
+
 .add-service-dialog {
   background-color: #f2f2f2;
 }
+
 .dialog-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
 }
+
 .image-container {
   display: flex;
   flex-direction: column;
@@ -234,47 +233,57 @@ export default defineComponent({
   width: 100%;
   object-fit: cover;
 }
+
 .image-container .service-image img {
   width: 100%;
   object-fit: cover;
 }
+
 .select-image-button {
   margin-top: 10px;
 }
+
 .service-title-input {
   flex-grow: 1;
 }
+
 .dialog-footer {
   justify-content: flex-end;
   gap: 10px;
 }
+
 .cancel-button {
   background-color: #f2f2f2;
   color: #606266;
   border-color: #dcdfe6;
 }
+
 .confirm-button {
   background-color: #409eff;
   color: white;
   border-color: #409eff;
 }
+
 .image-service {
   background: #409eff;
   display: flex;
 }
+
 .equal-height {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
 }
+
 .items {
   width: 15%;
   margin: 10px;
   padding: 20px;
   border-radius: 10px;
   text-align: center;
-  box-shadow: 0px 2px 5px rgba(192, 177, 252, 0.556);
+  box-shadow: 0 2px 5px rgba(192, 177, 252, 0.556);
 }
+
 .items img {
   width: 100%;
   height: 70%;
