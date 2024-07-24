@@ -1,3 +1,8 @@
+
+
+
+
+
 <script setup lang="ts">
 import WebLayout from '@/Components/Layouts/WebLayout.vue'
 import { ref } from 'vue'
@@ -30,11 +35,11 @@ feedbacks.value = 512
 <template>
   <WebLayout>
     <div class="first-landing d-flex justify-content-center mt-4 ml-20">
-      <div class="d-flex flex-column mt-10">
+      <div class="landing-title d-flex flex-column mt-10">
         <div class="w-50 px-4 d-flex flex-column justify-content-between gap-3">
-          <div class="mt-3">
-            <h3 style="font-size: 40px; font-weight: bold">Welcome to,</h3>
-            <h1 class="d-flex" style="font-size: 120px; font-weight: bold">
+          <div class="mt-3 tittle">
+            <h3 style="font-weight: bold">Welcome to,</h3>
+            <h1 class="d-flex" style="font-weight: bold">
               <span class="text-#32B4E3 font-bold">C</span>are
               <span class="text-#32B4E3 font-bold">F</span>inder!
             </h1>
@@ -96,322 +101,303 @@ feedbacks.value = 512
       </el-statistic>
     </el-col>
   </el-row>
-  <el-container class="d-flex flex-column align-items-center mt-lg-60 mt-40">
-    <el-row class="d-flex justify-content-center py-4">
+  <el-container class="container-team d-flex flex-column align-items-center mt-lg-60 mt-40">
+    <el-row class="container-team d-flex justify-content-center py-4">
       <h1 class="text-center font-bold">
         <span class="text-#32B4E3 font-bold">O</span>ur
         <span class="text-#32B4E3 font-bold">T</span>eam
-        <p>Ours team build the system Care Finder</p>
+        <p class="team-title">Ours team build the system Care Finder</p>
       </h1>
     </el-row>
-    <el-row class="d-flex justify-content-center mt-3 gap-5 m-10 members">
-      <el-col :span="5" class="mt-20">
-        <el-card
-          style="width: 300px"
-          shadow="hover"
-          class="d-flex flex-column align-items-center members-card"
+    <!-- ======================================================= -->
+    <!-- member-building -->
+    <!-- ======================================================= -->
+    <div class="members-building d-flex flex-wrap">
+      <el-container
+        class="container-fluid​ flex-wrap px-20 d-flex flex-column align-items-center mt-20"
+      >
+        <div
+          class="container inner d-flex flex-wrap justify-content-center align-items-start mt-10 gap-1"
         >
-          <div class="rounded-50% d-flex justify-content-center">
-            <img src="@/assets/members/Phal.jpg" alt="" class="img-fluid w-75 card-img" />
-          </div>
-          <el-row class="d-flex justify-content-center mt-4">
-            <span class="font-bold role-team">UX/UI MANAGER</span>
-          </el-row>
-          <el-row class="d-flex justify-content-center mt-2">
-            <h3 class="text-#32B4E3 text-center">Ms. Phal Him</h3>
-          </el-row>
-          <el-row class="d-flex justify-content-center mt-2">
-            <span>Responsible for design the system, website interface and easy to use.</span>
-          </el-row>
-          <el-row class="d-flex justify-content-center gap-3 mt-3">
-            <el-tooltip class="box-item" effect="dark" content="LinkedIn" placement="top-start">
-              <el-avatar
-                shape="circle"
-                :src="'https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png'"
-              ></el-avatar>
-            </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" content="Gmail" placement="top-start">
-              <el-avatar
-                shape="circle"
-                class="social-media-contact"
-                :src="'https://cdn-icons-png.freepik.com/512/6711/6711567.png'"
-              ></el-avatar>
-            </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" content="Instagram" placement="top-start">
-              <el-avatar
-                shape="circle"
-                :src="'https://banner2.cleanpng.com/20200525/hhx/transparent-instagram-logo-icon-5ecc25c4860dd5.0946990115904373165491.jpg'"
-              ></el-avatar>
-            </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" content="Github" placement="top-start">
-              <el-avatar
-                shape="circle"
-                :src="'https://static-00.iconduck.com/assets.00/github-icon-512x512-n39zyshv.png'"
-                class="bg-white"
-              ></el-avatar>
-            </el-tooltip>
-          </el-row>
-        </el-card>
-      </el-col>
-      <el-col :span="5" class="mt-20">
-        <el-card
-          style="width: 300px"
-          shadow="hover"
-          class="d-flex flex-column align-items-center members-card"
-        >
-          <div class="rounded-50% d-flex justify-content-center">
-            <img src="@/assets/members/Rath.jpg" alt="" class="img-fluid w-75 card-img" />
-          </div>
-          <el-row class="d-flex justify-content-center mt-4">
-            <span class="font-bold role-team">SRUM MASTER</span>
-          </el-row>
-          <el-row class="d-flex justify-content-center mt-2">
-            <h3 class="text-#32B4E3 text-center">Mr. Rath Samrath</h3>
-          </el-row>
-          <el-row class="d-flex justify-content-center mt-2">
-            <span>Responsible for lead the team, devide tasks to members, lead the project.</span>
-          </el-row>
-          <el-row class="d-flex justify-content-center gap-3 mt-3">
-            <el-tooltip class="box-item" effect="dark" content="LinkedIn" placement="top-start">
-              <el-avatar
-                shape="circle"
-                :src="'https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png'"
-              ></el-avatar>
-            </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" content="Gmail" placement="top-start">
-              <el-avatar
-                shape="circle"
-                class="social-media-contact"
-                :src="'https://cdn-icons-png.freepik.com/512/6711/6711567.png'"
-              ></el-avatar>
-            </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" content="Instagram" placement="top-start">
-              <el-avatar
-                shape="circle"
-                :src="'https://banner2.cleanpng.com/20200525/hhx/transparent-instagram-logo-icon-5ecc25c4860dd5.0946990115904373165491.jpg'"
-              ></el-avatar>
-            </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" content="Github" placement="top-start">
-              <el-avatar
-                shape="circle"
-                :src="'https://static-00.iconduck.com/assets.00/github-icon-512x512-n39zyshv.png'"
-                class="bg-white"
-              ></el-avatar>
-            </el-tooltip>
-          </el-row>
-        </el-card>
-      </el-col>
-      <el-col :span="5" class="mt-20">
-        <el-card
-          style="width: 300px"
-          shadow="hover"
-          class="d-flex flex-column align-items-center members-card"
-        >
-          <div class="rounded-50% d-flex justify-content-center">
-            <img src="@/assets/members/Radit.jpg" alt="" class="img-fluid w-75 card-img" />
-          </div>
-          <el-row class="d-flex justify-content-center mt-4">
-            <span class="font-bold role-team">DEVOPS MANAGER</span>
-          </el-row>
-          <el-row class="d-flex justify-content-center mt-2">
-            <h3 class="text-#32B4E3 text-center">Mr. Radit Thy</h3>
-          </el-row>
-          <el-row class="d-flex justify-content-center mt-2">
-            <span>Responsible for hosting the website, make website hosting security.</span>
-          </el-row>
-          <el-row class="d-flex justify-content-center gap-3 mt-3">
-            <el-tooltip class="box-item" effect="dark" content="LinkedIn" placement="top-start">
-              <el-avatar
-                shape="circle"
-                :src="'https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png'"
-              ></el-avatar>
-            </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" content="Gmail" placement="top-start">
-              <el-avatar
-                shape="circle"
-                class="social-media-contact"
-                :src="'https://cdn-icons-png.freepik.com/512/6711/6711567.png'"
-              ></el-avatar>
-            </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" content="Instagram" placement="top-start">
-              <el-avatar
-                shape="circle"
-                :src="'https://banner2.cleanpng.com/20200525/hhx/transparent-instagram-logo-icon-5ecc25c4860dd5.0946990115904373165491.jpg'"
-              ></el-avatar>
-            </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" content="Github" placement="top-start">
-              <el-avatar
-                shape="circle"
-                :src="'https://static-00.iconduck.com/assets.00/github-icon-512x512-n39zyshv.png'"
-                class="bg-white"
-              ></el-avatar>
-            </el-tooltip>
-          </el-row>
-        </el-card>
-      </el-col>
-      <el-col :span="5" class="mt-20">
-        <el-card
-          style="width: 300px"
-          shadow="hover"
-          class="d-flex flex-column align-items-center members-card"
-        >
-          <div class="rounded-50% d-flex justify-content-center">
-            <img src="@/assets/members/Sreynang.jpg" alt="" class="img-fluid w-75 card-img" />
-          </div>
-          <el-row class="d-flex justify-content-center mt-4">
-            <span class="font-bold role-team">DATABASES MANAGER</span>
-          </el-row>
-          <el-row class="d-flex justify-content-center mt-2">
-            <h3 class="text-#32B4E3 text-center">Ms. Sreynang Rith</h3>
-          </el-row>
-          <el-row class="d-flex justify-content-center mt-2">
-            <span
-              >Responsible for design the databases, relationship of data and preprere data.</span
-            >
-          </el-row>
-          <el-row class="d-flex justify-content-center gap-3 mt-3">
-            <el-tooltip class="box-item" effect="dark" content="LinkedIn" placement="top-start">
-              <el-avatar
-                shape="circle"
-                :src="'https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png'"
-              ></el-avatar>
-            </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" content="Gmail" placement="top-start">
-              <el-avatar
-                shape="circle"
-                class="social-media-contact"
-                :src="'https://cdn-icons-png.freepik.com/512/6711/6711567.png'"
-              ></el-avatar>
-            </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" content="Instagram" placement="top-start">
-              <el-avatar
-                shape="circle"
-                :src="'https://banner2.cleanpng.com/20200525/hhx/transparent-instagram-logo-icon-5ecc25c4860dd5.0946990115904373165491.jpg'"
-              ></el-avatar>
-            </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" content="Github" placement="top-start">
-              <el-avatar
-                shape="circle"
-                :src="'https://static-00.iconduck.com/assets.00/github-icon-512x512-n39zyshv.png'"
-                class="bg-white"
-              ></el-avatar>
-            </el-tooltip>
-          </el-row>
-        </el-card>
-      </el-col>
-      <el-col :span="5">
-        <el-card
-          style="width: 300px"
-          shadow="hover"
-          class="d-flex flex-column align-items-center members-card"
-        >
-          <div class="rounded-50% d-flex justify-content-center">
-            <img src="@/assets/members/Bour.jpg" alt="" class="img-fluid w-75 card-img" />
-          </div>
-          <el-row class="d-flex justify-content-center mt-4">
-            <span class="font-bold role-team">QA MANAGER</span>
-          </el-row>
-          <el-row class="d-flex justify-content-center mt-2">
-            <h3 class="text-#32B4E3 text-center">Mr. Bour Klan</h3>
-          </el-row>
-          <el-row class="d-flex justify-content-center mt-2">
-            <span>Responsible for testing the system make usre smoothly without bug.</span>
-          </el-row>
-          <el-row class="d-flex justify-content-center gap-3 mt-3">
-            <el-tooltip class="box-item" effect="dark" content="LinkedIn" placement="top-start">
-              <el-avatar
-                shape="circle"
-                :src="'https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png'"
-              ></el-avatar>
-            </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" content="Gmail" placement="top-start">
-              <el-avatar
-                shape="circle"
-                class="social-media-contact"
-                :src="'https://cdn-icons-png.freepik.com/512/6711/6711567.png'"
-              ></el-avatar>
-            </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" content="Instagram" placement="top-start">
-              <el-avatar
-                shape="circle"
-                :src="'https://banner2.cleanpng.com/20200525/hhx/transparent-instagram-logo-icon-5ecc25c4860dd5.0946990115904373165491.jpg'"
-              ></el-avatar>
-            </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" content="Github" placement="top-start">
-              <el-avatar
-                shape="circle"
-                :src="'https://static-00.iconduck.com/assets.00/github-icon-512x512-n39zyshv.png'"
-                class="bg-white"
-              ></el-avatar>
-            </el-tooltip>
-          </el-row>
-        </el-card>
-      </el-col>
-      <el-col :span="5">
-        <el-card
-          style="width: 300px"
-          shadow="hover"
-          class="d-flex flex-column align-items-center members-card"
-        >
-          <div class="rounded-50% d-flex justify-content-center">
-            <img src="@/assets/members/Leysreng.jpg" alt="" class="img-fluid w-75 card-img" />
-          </div>
-          <el-row class="d-flex justify-content-center mt-4">
-            <span class="font-bold role-team">CODE QUALITY MANAGER</span>
-          </el-row>
-          <el-row class="d-flex justify-content-center mt-2">
-            <h3 class="text-#32B4E3 text-center">Ms. Leysreng Ol</h3>
-          </el-row>
-          <el-row class="d-flex justify-content-center mt-2">
-            <span>Responsible for make clearn code, flow smoothly and faster.</span>
-          </el-row>
-          <el-row class="d-flex justify-content-center gap-3 mt-3">
-            <el-tooltip class="box-item" effect="dark" content="LinkedIn" placement="top-start">
-              <el-avatar
-                shape="circle"
-                :src="'https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png'"
-              ></el-avatar>
-            </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" content="Gmail" placement="top-start">
-              <el-avatar
-                shape="circle"
-                class="social-media-contact"
-                :src="'https://cdn-icons-png.freepik.com/512/6711/6711567.png'"
-              ></el-avatar>
-            </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" content="Instagram" placement="top-start">
-              <el-avatar
-                shape="circle"
-                :src="'https://banner2.cleanpng.com/20200525/hhx/transparent-instagram-logo-icon-5ecc25c4860dd5.0946990115904373165491.jpg'"
-              ></el-avatar>
-            </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" content="Github" placement="top-start">
-              <el-avatar
-                shape="circle"
-                :src="'https://static-00.iconduck.com/assets.00/github-icon-512x512-n39zyshv.png'"
-                class="bg-white"
-              ></el-avatar>
-            </el-tooltip>
-          </el-row>
-        </el-card>
-      </el-col>
-    </el-row>
+          <!-- member-1 -->
+          <el-card class="d-flex card-member flex-column align-items-center">
+            <div class="rounded-50% d-flex justify-content-center">
+              <img src="@/assets/members/Phal.jpg" alt="" class="img-fluid w-75 card-img" />
+            </div>
+            <el-row class="d-flex justify-content-center mt-4">
+              <span class="font-bold role-team">UX/UI MANAGER</span>
+            </el-row>
+            <el-row class="d-flex justify-content-center mt-2">
+              <h3 class="text-#32B4E3 text-center">Ms. Phal Him</h3>
+            </el-row>
+            <el-row class="d-flex justify-content-center mt-2">
+              <span>Responsible for design the system, website interface and easy to use.</span>
+            </el-row>
+            <el-row class="d-flex justify-content-center gap-3 mt-3">
+              <el-tooltip class="box-item" effect="dark" content="LinkedIn" placement="top-start">
+                <el-avatar
+                  shape="circle"
+                  :src="'https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png'"
+                ></el-avatar>
+              </el-tooltip>
+              <el-tooltip class="box-item" effect="dark" content="Gmail" placement="top-start">
+                <el-avatar
+                  shape="circle"
+                  class="social-media-contact"
+                  :src="'https://cdn-icons-png.freepik.com/512/6711/6711567.png'"
+                ></el-avatar>
+              </el-tooltip>
+              <el-tooltip class="box-item" effect="dark" content="Instagram" placement="top-start">
+                <el-avatar
+                  shape="circle"
+                  :src="'https://banner2.cleanpng.com/20200525/hhx/transparent-instagram-logo-icon-5ecc25c4860dd5.0946990115904373165491.jpg'"
+                ></el-avatar>
+              </el-tooltip>
+              <el-tooltip class="box-item" effect="dark" content="Github" placement="top-start">
+                <el-avatar
+                  shape="circle"
+                  :src="'https://static-00.iconduck.com/assets.00/github-icon-512x512-n39zyshv.png'"
+                  class="bg-white"
+                ></el-avatar>
+              </el-tooltip>
+            </el-row>
+          </el-card>
+          <!-- member-2 -->
+          <el-card class="d-flex card-member flex-column align-items-center">
+            <div class="rounded-50% d-flex justify-content-center">
+              <img src="@/assets/members/Rath.jpg" alt="" class="img-fluid w-75 card-img" />
+            </div>
+            <el-row class="d-flex justify-content-center mt-4">
+              <span class="font-bold role-team">SRUM MASTER</span>
+            </el-row>
+            <el-row class="d-flex justify-content-center mt-2">
+              <h3 class="text-#32B4E3 text-center">Mr. Rath Samrath</h3>
+            </el-row>
+            <el-row class="d-flex justify-content-center mt-2">
+              <span>Responsible for lead the team, devide tasks to members, lead the project.</span>
+            </el-row>
+            <el-row class="d-flex justify-content-center gap-3 mt-3">
+              <el-tooltip class="box-item" effect="dark" content="LinkedIn" placement="top-start">
+                <el-avatar
+                  shape="circle"
+                  :src="'https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png'"
+                ></el-avatar>
+              </el-tooltip>
+              <el-tooltip class="box-item" effect="dark" content="Gmail" placement="top-start">
+                <el-avatar
+                  shape="circle"
+                  class="social-media-contact"
+                  :src="'https://cdn-icons-png.freepik.com/512/6711/6711567.png'"
+                ></el-avatar>
+              </el-tooltip>
+              <el-tooltip class="box-item" effect="dark" content="Instagram" placement="top-start">
+                <el-avatar
+                  shape="circle"
+                  :src="'https://banner2.cleanpng.com/20200525/hhx/transparent-instagram-logo-icon-5ecc25c4860dd5.0946990115904373165491.jpg'"
+                ></el-avatar>
+              </el-tooltip>
+              <el-tooltip class="box-item" effect="dark" content="Github" placement="top-start">
+                <el-avatar
+                  shape="circle"
+                  :src="'https://static-00.iconduck.com/assets.00/github-icon-512x512-n39zyshv.png'"
+                  class="bg-white"
+                ></el-avatar>
+              </el-tooltip>
+            </el-row>
+          </el-card>
+          <!-- member-3 -->
+          <el-card class="d-flex card-member flex-column align-items-center">
+            <div class="rounded-50% d-flex justify-content-center">
+              <img src="@/assets/members/Radit.jpg" alt="" class="img-fluid w-75 card-img" />
+            </div>
+            <el-row class="d-flex justify-content-center mt-4">
+              <span class="font-bold role-team">DEVOPS MANAGER</span>
+            </el-row>
+            <el-row class="d-flex justify-content-center mt-2">
+              <h3 class="text-#32B4E3 text-center">Mr. Radit Thy</h3>
+            </el-row>
+            <el-row class="d-flex justify-content-center mt-2">
+              <span>Responsible for hosting the website, make website hosting security.</span>
+            </el-row>
+            <el-row class="d-flex justify-content-center gap-3 mt-3">
+              <el-tooltip class="box-item" effect="dark" content="LinkedIn" placement="top-start">
+                <el-avatar
+                  shape="circle"
+                  :src="'https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png'"
+                ></el-avatar>
+              </el-tooltip>
+              <el-tooltip class="box-item" effect="dark" content="Gmail" placement="top-start">
+                <el-avatar
+                  shape="circle"
+                  class="social-media-contact"
+                  :src="'https://cdn-icons-png.freepik.com/512/6711/6711567.png'"
+                ></el-avatar>
+              </el-tooltip>
+              <el-tooltip class="box-item" effect="dark" content="Instagram" placement="top-start">
+                <el-avatar
+                  shape="circle"
+                  :src="'https://banner2.cleanpng.com/20200525/hhx/transparent-instagram-logo-icon-5ecc25c4860dd5.0946990115904373165491.jpg'"
+                ></el-avatar>
+              </el-tooltip>
+              <el-tooltip class="box-item" effect="dark" content="Github" placement="top-start">
+                <el-avatar
+                  shape="circle"
+                  :src="'https://static-00.iconduck.com/assets.00/github-icon-512x512-n39zyshv.png'"
+                  class="bg-white"
+                ></el-avatar>
+              </el-tooltip>
+            </el-row>
+          </el-card>
+          <!-- member-4 -->
+          <el-card class="d-flex card-member flex-column align-items-center">
+            <div class="rounded-50% d-flex justify-content-center">
+              <img src="@/assets/members/Sreynang.jpg" alt="" class="img-fluid w-75 card-img" />
+            </div>
+            <el-row class="d-flex justify-content-center mt-4">
+              <span class="font-bold role-team">DATABASES MANAGER</span>
+            </el-row>
+            <el-row class="d-flex justify-content-center mt-2">
+              <h3 class="text-#32B4E3 text-center">Ms. Sreynang Rith</h3>
+            </el-row>
+            <el-row class="d-flex justify-content-center mt-2">
+              <span
+                >Responsible for design the databases, relationship of data and preprere data.</span
+              >
+            </el-row>
+            <el-row class="d-flex justify-content-center gap-3 mt-3">
+              <el-tooltip class="box-item" effect="dark" content="LinkedIn" placement="top-start">
+                <el-avatar
+                  shape="circle"
+                  :src="'https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png'"
+                ></el-avatar>
+              </el-tooltip>
+              <el-tooltip class="box-item" effect="dark" content="Gmail" placement="top-start">
+                <el-avatar
+                  shape="circle"
+                  class="social-media-contact"
+                  :src="'https://cdn-icons-png.freepik.com/512/6711/6711567.png'"
+                ></el-avatar>
+              </el-tooltip>
+              <el-tooltip class="box-item" effect="dark" content="Instagram" placement="top-start">
+                <el-avatar
+                  shape="circle"
+                  :src="'https://banner2.cleanpng.com/20200525/hhx/transparent-instagram-logo-icon-5ecc25c4860dd5.0946990115904373165491.jpg'"
+                ></el-avatar>
+              </el-tooltip>
+              <el-tooltip class="box-item" effect="dark" content="Github" placement="top-start">
+                <el-avatar
+                  shape="circle"
+                  :src="'https://static-00.iconduck.com/assets.00/github-icon-512x512-n39zyshv.png'"
+                  class="bg-white"
+                ></el-avatar>
+              </el-tooltip>
+            </el-row>
+          </el-card>
+          <!-- member-5 -->
+          <el-card class="d-flex card-member flex-column align-items-center">
+            <div class="rounded-50% d-flex justify-content-center">
+              <img src="@/assets/members/Bour.jpg" alt="" class="img-fluid w-75 card-img" />
+            </div>
+            <el-row class="d-flex justify-content-center mt-4">
+              <span class="font-bold role-team">QA MANAGER</span>
+            </el-row>
+            <el-row class="d-flex justify-content-center mt-2">
+              <h3 class="text-#32B4E3 text-center">Mr. Bour Klan</h3>
+            </el-row>
+            <el-row class="d-flex justify-content-center mt-2">
+              <span>Responsible for testing the system make usre smoothly without bug.</span>
+            </el-row>
+            <el-row class="d-flex justify-content-center gap-3 mt-3">
+              <el-tooltip class="box-item" effect="dark" content="LinkedIn" placement="top-start">
+                <el-avatar
+                  shape="circle"
+                  :src="'https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png'"
+                ></el-avatar>
+              </el-tooltip>
+              <el-tooltip class="box-item" effect="dark" content="Gmail" placement="top-start">
+                <el-avatar
+                  shape="circle"
+                  class="social-media-contact"
+                  :src="'https://cdn-icons-png.freepik.com/512/6711/6711567.png'"
+                ></el-avatar>
+              </el-tooltip>
+              <el-tooltip class="box-item" effect="dark" content="Instagram" placement="top-start">
+                <el-avatar
+                  shape="circle"
+                  :src="'https://banner2.cleanpng.com/20200525/hhx/transparent-instagram-logo-icon-5ecc25c4860dd5.0946990115904373165491.jpg'"
+                ></el-avatar>
+              </el-tooltip>
+              <el-tooltip class="box-item" effect="dark" content="Github" placement="top-start">
+                <el-avatar
+                  shape="circle"
+                  :src="'https://static-00.iconduck.com/assets.00/github-icon-512x512-n39zyshv.png'"
+                  class="bg-white"
+                ></el-avatar>
+              </el-tooltip>
+            </el-row>
+          </el-card>
+          <!-- member-6 -->
+          <el-card class="d-flex card-member flex-column align-items-center">
+            <div class="rounded-50% d-flex justify-content-center">
+              <img src="@/assets/members/Leysreng.jpg" alt="" class="img-fluid w-75 card-img" />
+            </div>
+            <el-row class="d-flex justify-content-center mt-4">
+              <span class="font-bold role-team">CODE QUALITY MANAGER</span>
+            </el-row>
+            <el-row class="d-flex justify-content-center mt-2">
+              <h3 class="text-#32B4E3 text-center">Ms. Leysreng Ol</h3>
+            </el-row>
+            <el-row class="d-flex justify-content-center mt-2">
+              <span>Responsible for make clearn code, flow smoothly and faster.</span>
+            </el-row>
+            <el-row class="d-flex justify-content-center gap-3 mt-3">
+              <el-tooltip class="box-item" effect="dark" content="LinkedIn" placement="top-start">
+                <el-avatar
+                  shape="circle"
+                  :src="'https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png'"
+                ></el-avatar>
+              </el-tooltip>
+              <el-tooltip class="box-item" effect="dark" content="Gmail" placement="top-start">
+                <el-avatar
+                  shape="circle"
+                  class="social-media-contact"
+                  :src="'https://cdn-icons-png.freepik.com/512/6711/6711567.png'"
+                ></el-avatar>
+              </el-tooltip>
+              <el-tooltip class="box-item" effect="dark" content="Instagram" placement="top-start">
+                <el-avatar
+                  shape="circle"
+                  :src="'https://banner2.cleanpng.com/20200525/hhx/transparent-instagram-logo-icon-5ecc25c4860dd5.0946990115904373165491.jpg'"
+                ></el-avatar>
+              </el-tooltip>
+              <el-tooltip class="box-item" effect="dark" content="Github" placement="top-start">
+                <el-avatar
+                  shape="circle"
+                  :src="'https://static-00.iconduck.com/assets.00/github-icon-512x512-n39zyshv.png'"
+                  class="bg-white"
+                ></el-avatar>
+              </el-tooltip>
+            </el-row>
+          </el-card>
+        </div>
+      </el-container>
+    </div>
   </el-container>
   <el-container class="px2 d-flex flex-column mt-10">
-    <el-row class="d-flex justify-content-around mt-3 gap-3 p-5">
+    <el-row class="d-flex justify-content-around mt-3 gap-3 p-5 hospital-cion-infor">
       <el-col :span="5" class="d-flex flex-column justify-content-between align-items-center mb-3">
-        <div class="text-center">
+        <div class="text-center hospital-image">
           <img class="w-150" src="@/assets/image/hospital-icon.png" alt="image" />
         </div>
       </el-col>
       <el-col :span="7" class="d-flex flex-column justify-start align-items-start mt-5">
-        <div>
-          <h1 class="text-center" style="font-size: 90px; font-weight: bold">
+        <div class="title-icon">
+          <h1 class="text-center" style="font-weight: bold">
             <span class="text-#32B4E3 font-bold">H</span>ospital
             <span class="text-#32B4E3 font-bold">S</span>upport
           </h1>
-          <el-timeline class="mt-4">
-            <el-timeline-item class="text-start" style="font-size: 18px; font-weight: bold"
+          <el-timeline class="mt-4 hospital-support-paragraph">
+            <el-timeline-item class="text-start paragraph" style="font-size: 18px; font-weight: bold"
               >Bring a good book. Have a book you've.
             </el-timeline-item>
             <el-timeline-item class="text-start" style="font-size: 18px; font-weight: bold"
@@ -434,18 +420,22 @@ feedbacks.value = 512
       </el-col>
     </el-row>
   </el-container>
-  <el-container class="container-fluid value px-20 d-flex flex-column align-items-center mt-20">
-    <div class="container inner d-flex justify-content-center gap-lg-5 align-items-start mt-135">
-      <el-card style="width: 230px" class="d-flex card-item flex-column align-items-center">
+  <el-container
+    class="container-value container-fluid value px-20 d-flex flex-column align-items-center mt-20"
+  >
+    <div
+      class="card-value container inner d-flex flex-wrap justify-content-center gap-lg-4 align-items-start mt-135"
+    >
+      <el-card style="width: 280px" class="d-flex card-item flex-column align-items-center">
         <div class="d-flex justify-content-center">
           <el-avatar class="bg-white" :size="80">
             <FirstAidKit style="color: #32b4e3; font-size: 10px" />
           </el-avatar>
         </div>
         <h3 class="mt-2">Mission</h3>
-        <p> To serve and enrich the quality of life of patients suffering</p>
+        <p>To serve and enrich the quality of life of patients suffering</p>
       </el-card>
-      <el-card style="width: 230px" class="d-flex card-item flex-column align-items-center">
+      <el-card style="width: 280px" class="d-flex card-item flex-column align-items-center">
         <div class="d-flex justify-content-center">
           <el-avatar class="bg-white" :size="80">
             <View style="color: #32b4e3; font-size: 10px" />
@@ -454,7 +444,7 @@ feedbacks.value = 512
         <h3>Vision</h3>
         <p>Our people strive to work wholeheartedly, think positively</p>
       </el-card>
-      <el-card style="width: 230px" class="d-flex card-item flex-column align-items-center">
+      <el-card style="width: 280px" class="d-flex card-item flex-column align-items-center">
         <div class="d-flex justify-content-center">
           <el-avatar class="bg-white" :size="80">
             <SuitcaseLine style="color: #32b4e3; font-size: 10px" />
@@ -463,7 +453,7 @@ feedbacks.value = 512
         <h3 class="mt-2">Value</h3>
         <p>Premier patient-centered tertiary healthcare institution in East</p>
       </el-card>
-      <el-card style="width: 230px" class="d-flex card-item flex-column align-items-center">
+      <el-card style="width: 280px" class="d-flex card-item flex-column align-items-center">
         <div class="d-flex justify-content-center">
           <el-avatar class="bg-white" :size="80">
             <Service style="color: #32b4e3; font-size: 10px" />
@@ -486,7 +476,6 @@ feedbacks.value = 512
 
 .card-item {
   text-align: center;
-  /* background-color: #fcb22d; */
   background-color: #ffffff;
   border: none;
   height: 35vh;
@@ -552,6 +541,11 @@ feedbacks.value = 512
   height: 65vh;
   border-radius: 0% 5% 5% 0%;
 }
+.members-card:hover {
+  transition: 0.3s;
+  background-color: #32b4e3;
+  color: white;
+}
 .role-team {
   color: gray;
 }
@@ -560,6 +554,32 @@ feedbacks.value = 512
   width: 100%;
   height: 170vh;
 }
+/* member-building */
+.members-building {
+  background-color: #f3f3f4;
+  width: 100%;
+  height: 170vh;
+}
+.card-member {
+  text-align: center;
+  background-color: #ffffff;
+  border: none;
+  height: 65vh;
+  border-radius: 5px;
+  width: 300px;
+
+}
+
+.card-member:hover {
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(167, 167, 167, 0.1), 0 2px 4px rgba(255, 255, 255, 0.06);
+  transition: box-shadow 0.3s ease-in-out;
+  transition: transform 0.9s ease-in-out;
+  transform: translateY(-5px);
+  transition: box-shadow 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
+}
+
 .el-card {
   margin: 4px;
 }
@@ -655,4 +675,147 @@ feedbacks.value = 512
   height: 220px;
   opacity: 1;
 }
+.title-icon h1 {
+  font-size: 90px;
+}
+.tittle h1 {
+  font-size: 120px;
+}
+.tittle h3 {
+  font-size: 40px;
+}
+
+/* ==================================================== */
+/* responsive */ /*tablet
+/* ==================================================== */
+
+@media screen and (max-width: 830px) {
+  .state {
+    width: 810px;
+    margin-top: 80px;
+  }
+  .el-statistic {
+    --el-statistic-content-font-size: 35px;
+    --el-statistic-title-font-size: 20px;
+  }
+  .members {
+    background: none;
+  }
+  .members-card {
+    height: 70vh;
+  }
+  .hospital-cion-infor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .container-value {
+    margin-top: -400px;
+    margin-bottom: 200px;
+  }
+  .value {
+    height: 150vh;
+    background-image: none;
+  }
+  .inner {
+    gap: 15px;
+  }
+  /* member-building */
+  .members-building {
+    background: none;
+    align-items: center;
+    width: 120%;
+    height: 250vh;
+    margin-top: -120px;
+  }
+  .card-member {
+    height: 70vh;
+  }
+  .hospital-support {
+    margin-left: -80px;
+  }
+  .container-team {
+    margin-top: 40px;
+  }
+  .title-icon {
+    margin-left: -120px;
+    width: 400px;
+
+  }
+  .title-icon h1 {
+    font-size: 80px;
+  }
+}
+
+/* ==================================================== */
+/* responsive */ /*mobile
+/* ==================================================== */
+@media screen and (max-width: 420px) {
+  .landing-title {
+    margin-left: 20px;
+  }
+  .carefinder {
+    font-size: 20px;
+    display: flex;
+  }
+  .tittle h1 {
+    font-size: 65px;
+  }
+  .tittle h3 {
+  font-size: 25px;
+}
+
+  .bg-card {
+    width: 72px;
+  }
+  .state {
+    width: 400px;
+    margin-top: 70px;
+  }
+  .el-statistic {
+    --el-statistic-content-font-size: 18px;
+    --el-statistic-title-font-size: 12px;
+  }
+  .team-title {
+    font-size: 18px;
+  }
+  /* member-building */
+  .members-building {
+    height: 430vh;
+    margin-top: -100px;
+    width: 470px;
+  }
+  .card-member {
+    height: 66vh;
+  }
+  .value {
+    height: 220vh;
+  }
+  .hospital-image img {
+    width: 390px;
+  }
+  .hospital-support {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: -135px;
+  }
+  .hospital-support-title span {
+    font-size: 80px;
+  }
+  .container-team {
+    margin-top: 40px;
+  }
+  .title-icon {
+    margin-left: -120px;
+    width: 300px;
+
+  }
+  .title-icon h1 {
+    font-size: 50px;
+  }
+
+}
+
 </style>

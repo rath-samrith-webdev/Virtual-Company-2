@@ -1,115 +1,228 @@
 <template>
   <div class="cardServes">
-    <h1>Best Services for You</h1>
-    <ol>
-      <li v-for="(service, index) in services" :key="index">
-        <div class="cards">
-          <div class="image"><img :src="service.img" alt="Service Image"></div>
-          <div class="description">{{ service.description }}</div>
+    <section class="we-offer-area text-center bg-gray">
+      <div class="container">
+        <div class="row our-offer-items less-carousel">
+          <div class="col-md-4 col-sm-6 equal-height">
+            <div class="item">
+              <i class="fas fa-pen-fancy"
+                ><img
+                  src="https://cdn-icons-png.freepik.com/512/8506/8506003.png"
+                  alt=""
+                  width="100px"
+              /></i>
+              <h4>General Check-up</h4>
+              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-6 equal-height">
+            <div class="item">
+              <i class="fas fa-dharmachakra">
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/8507/8507710.png"
+                  alt=""
+                  width="100px"
+              /></i>
+              <h4>Emergency & Trauma</h4>
+              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-6 equal-height">
+            <div class="item">
+              <i class="fas fa-tasks">
+                <img
+                  src="https://cdn-icons-png.freepik.com/512/10237/10237979.png"
+                  alt=""
+                  width="100px"
+              /></i>
+              <h4>Heart</h4>
+              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-6 equal-height">
+            <div class="item">
+              <i class="fas fa-tachometer-alt">
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/12106/12106213.png"
+                  alt=""
+                  width="100px"
+              /></i>
+              <h4>GI Center</h4>
+              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-6 equal-height">
+            <div class="item">
+              <i class="fas fa-recycle">
+                <img
+                  src="https://www.pikpng.com/pngl/b/563-5635508_hospital-clipart-emergency-room-urgent-care-icon-png.pnghttps://cdn-icons-png.flaticon.com/512/2764/2764533.png"
+                  alt=""
+                  width="100px"
+              /></i>
+              <h4>Ambulance</h4>
+              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-6 equal-height">
+            <div class="item">
+              <i class="fas fa-headset">
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8yeE7bX_hEkEXllka-Spgsbxpv4poh-VZeQ&s"
+                  alt=""
+                  width="100px"
+              /></i>
+              <h4>Children</h4>
+              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+            </div>
+          </div>
         </div>
-      </li>
-    </ol>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ServesCard',
-  data() {
-    return {
-      services: [
-        { icon: 'fa-solid fa-bicycle', img: 'https://cdn.pixabay.com/photo/2020/12/09/16/41/stethoscope-5817919_960_720.png', description: 'General Check-up' },
-        { icon: 'fa-solid fa-car', img: 'https://cdn.pixabay.com/photo/2021/08/30/07/52/bed-6585117_1280.png', description: 'Emergency & Trauma' },
-        { icon: 'fa-solid fa-helicopter', img: 'https://cdn.pixabay.com/photo/2017/01/31/23/23/heart-2028154_1280.png', description: 'Heart' },
-        { icon: 'fa-solid fa-plane', img: 'https://cdn.pixabay.com/photo/2014/04/03/10/31/stomach-310730_1280.png', description: 'GI Center' },
-        { icon: 'fa-solid fa-rocket', img: 'https://cdn.pixabay.com/photo/2021/05/12/17/23/the-ambulance-6248792_1280.png', description: 'Ambulance' },
-        { icon: 'fa-solid fa-bus', img: 'https://cdn.pixabay.com/photo/2024/04/02/14/27/ai-generated-8670974_1280.png', description: 'Children' }
-      ]
-    };
-  }
+  name: 'ServesCard'
 }
 </script>
 
 <style scoped>
-.cardServes {
-  padding:10%;
-  background-color: var(--bgColor);
-  color: var(--color);
+section {
+  padding: 60px 0;
+  min-height: 100vh;
 }
-
-h1 {
-  text-align: center;
-  margin-bottom: 2rem;
-  font-weight: bold;
-  color: var(--color);
-  color: rgb(0, 0, 0);
-}
-
-ol {
-  width: min(100rem, 90%);
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 2rem;
-  list-style: none;
+ul {
+  margin: 0;
   padding: 0;
+  list-style: none;
+}
+.bg-gray {
+  background-color: #f9f9f9;
 }
 
-li {
-  counter-increment: stepnr;
-  width: 18rem; 
-  aspect-ratio: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-  transition: transform 0.3s;
+.site-heading h2 {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-transform: uppercase;
 }
-.cards {
-  width: 100%;
-  margin-top: 5%;
+
+i img{
+  border-radius: 100px;
+  border: 1px solid  #a0a8ff;
+}
+.site-heading h4 {
+  display: inline-block;
+  padding-bottom: 20px;
+  position: relative;
+  text-transform: capitalize;
+  z-index: 1;
+}
+
+.site-heading {
+  margin-bottom: 60px;
+  overflow: hidden;
+  margin-top: -5px;
+}
+
+.carousel-shadow .owl-stage-outer {
+  margin: -15px -15px 0;
+  padding: 15px;
+}
+
+.we-offer-area .our-offer-carousel .owl-dots .owl-dot span {
+  background: #ffffff none repeat scroll 0 0;
+  border: 2px solid;
+  height: 15px;
+  margin: 0 5px;
+  width: 15px;
+}
+
+.we-offer-area.text-center .item {
+  background: #ffffff none repeat scroll 0 0;
+  border: medium none;
+  padding: 67px 40px 64px;
+}
+
+.we-offer-area.text-center .item i {
+  /* background: #a0a8ff none repeat scroll 0 0; */
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 40px;
+  height: 80px;
+  line-height: 80px;
+  position: relative;
   text-align: center;
-  background-color: white;
-  border-radius: 10px;
-  border: 4px solid orange;
-  padding: 1.5rem;
+  width: 80px;
+  z-index: 1;
+  transition: all 0.35s ease-in-out;
+  -webkit-transition: all 0.35s ease-in-out;
+  -moz-transition: all 0.35s ease-in-out;
+  -ms-transition: all 0.35s ease-in-out;
+  -o-transition: all 0.35s ease-in-out;
+  margin-bottom: 25px;
 }
 
-.icon {
-  font-size: 2rem;
-  color: var(--accent-color);
+.we-offer-area.item-border-less .item {
+  border: medium none;
 }
 
-.image {
-  width: 13rem; 
-  height: 10rem; 
-  margin-bottom: 1rem;
-  margin-top: -90px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.we-offer-area .our-offer-items.less-carousel .equal-height {
+  margin-bottom: 30px;
 }
 
-.image img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; 
-  /* background: white;/ */
-  /* border-radius: 50%; */
+.we-offer-area.item-border-less .item .number {
+  font-family: 'Poppins', sans-serif;
+  font-size: 50px;
+  font-weight: 900;
+  opacity: 0.1;
+  position: absolute;
+  right: 30px;
+  top: 30px;
 }
 
-.description {
-  font-size: 1rem;
-  font-weight: 300;
-  margin-top: 0.5rem;
-  color: var(--color);
+.our-offer-carousel.center-active .owl-item:nth-child(2n) .item i,
+.our-offer-carousel.center-active .owl-item:nth-child(2n) .item h4,
+.our-offer-carousel.center-active .owl-item:nth-child(2n) .item p,
+.we-offer-area.center-active .single-item:nth-child(2n) .item i,
+.we-offer-area.center-active .single-item:nth-child(2n) .item h4,
+.we-offer-area.center-active .single-item:nth-child(2n) .item p {
+  color: #ffffff;
 }
 
-li:nth-child(6n + 1) { --accent-color: #b8df4e; }
-li:nth-child(6n + 2) { --accent-color: #4cbccb; }
-li:nth-child(6n + 3) { --accent-color: #7197d3; }
-li:nth-child(6n + 4) { --accent-color: #ae78cb; }
-li:nth-child(6n + 5) { --accent-color: #7dc7a4; }
-li:nth-child(6n + 6) { --accent-color: #f078c2; }
+.we-offer-area .item i {
+  color: #00a01d;
+  display: inline-block;
+  font-size: 60px;
+  margin-bottom: 20px;
+}
+
+.we-offer-area .item h4 {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.we-offer-area .item p {
+  margin: 0;
+}
+
+.we-offer-area .item i,
+.we-offer-area .item h4,
+.we-offer-area .item p {
+  transition: all 0.35s ease-in-out;
+  -webkit-transition: all 0.35s ease-in-out;
+  -moz-transition: all 0.35s ease-in-out;
+  -ms-transition: all 0.35s ease-in-out;
+  -o-transition: all 0.35s ease-in-out;
+}
+
+.we-offer-area .item:hover::after {
+  left: 0;
+}
+.we-offer-area.text-center .item:hover i::after {
+  border-color: #ffffff !important;
+}
 </style>

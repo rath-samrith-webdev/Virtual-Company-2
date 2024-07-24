@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\V1\UserResource;
+use App\Mail\ResetPasswordMail;
+use App\Mail\TestMail;
+use App\Mail\WelcomeMail;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -10,6 +13,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -27,7 +31,6 @@ class AuthController extends Controller
         }
 
         $credentials = $request->only('email', 'password');
-
         if (!Auth::attempt($credentials)) {
             return response()->json([
                 'message' => 'User not found'
@@ -74,6 +77,7 @@ class AuthController extends Controller
                 $user=User::create($data);
                 $user->assignRole('user');
             }
+            Mail::to($data['email'])->send(new WelcomeMail($user));
             return response()->json(['success' => true,'message'=>'You have been registered'],201);
         }catch (\Exception $exception){
             return response()->json(['success' => false,'message'=>$exception->getMessage()],400);
@@ -112,7 +116,8 @@ class AuthController extends Controller
             'message' => 'Login success',
             'data' => $user,
             'permissions' => $permissions,
-            'roles' => $roles
+            'roles' => $roles,
+            'hospitals' => $user->hospital?$user->hospital:'No hospital',
         ]);
     }
     public function profile()
@@ -146,12 +151,13 @@ class AuthController extends Controller
         try {
             $user=User::where('email',$data['email'])->firstOrFail();
             if($user){
-                $remember_token = Str::random(60);
+                $remember_token = Str::random(25);
                 DB::table('password_resets')->insert([
                     'email' => $email,
                     'token' => $remember_token,
                     'created_at' => Carbon::now()
                 ]);
+                Mail::to($email)->send(new ResetPasswordMail($remember_token,$user));
                 return response()->json(['success' => true,'message'=>'We have e-mailed your password reset link','reset_token'=>$remember_token],201);
             }else{
                 return response()->json(['success' => false,'message'=>'We cannot find a user with that e-mail address']);
@@ -168,16 +174,16 @@ class AuthController extends Controller
         ]);
         $token = $reset_request['reset_token'];
         try {
-            $tokenData = DB::table('password_reset_tokens')->where('token', $token)->first();
+            $tokenData = DB::table('password_resets')->where('token', $token)->first();
             $user = User::where('email', $tokenData->email)->first();
             if (!$user) {
-                return response()->json(['success' => false, 'message' => 'Invalid token'], 404);
+                return response()->json(['success' => false, 'message' => 'Invalid token'], 200);
             }
             $user->update(['password' => bcrypt($reset_request['password'])]);
-            DB::table('password_reset_tokens')->where('token', $token)->delete();
-            return response()->json(['success' => true, 'new_password' => $request->password], 200);
+            DB::table('password_resets')->where('token', $token)->delete();
+            return response()->json(['success' => true,'message'=>'Your password has been reset', 'new_password' => $request->password], 200);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 404);
+            return response()->json(['success' => false,'message'=>'Error resetting your password!!' ,'error' => $e->getMessage()], 200);
         }
     }
 }

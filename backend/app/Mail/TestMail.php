@@ -9,14 +9,14 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class TestMail extends Mailable
+class TestMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(protected $token)
     {
         //
     }
@@ -37,7 +37,10 @@ class TestMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.test-mail',
+            view:'mail.test-mail',
+            with: [
+                'token'=>$this->token
+            ]
         );
     }
 

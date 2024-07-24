@@ -1,36 +1,87 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css" rel="stylesheet"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Password Reset</title>
+    <style>
+        /* Reset some default styles for better email compatibility */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Responsive styles */
+        @media only screen and (max-width: 600px) {
+            .container {
+                width: 100% !important;
+                padding: 0 10px;
+            }
+        }
+    </style>
 </head>
-<body>
-<div class="container flex justify-center align-center p-4" style="height: 100vh">
-    <div class="w-100 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-        <svg class="w-7 h-7 text-gray-500 dark:text-gray-400 mb-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-             fill="currentColor" viewBox="0 0 20 20">
-            <path
-                d="M18 5h-.7c.229-.467.349-.98.351-1.5a3.5 3.5 0 0 0-3.5-3.5c-1.717 0-3.215 1.2-4.331 2.481C8.4.842 6.949 0 5.5 0A3.5 3.5 0 0 0 2 3.5c.003.52.123 1.033.351 1.5H2a2 2 0 0 0-2 2v3a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V7a2 2 0 0 0-2-2ZM8.058 5H5.5a1.5 1.5 0 0 1 0-3c.9 0 2 .754 3.092 2.122-.219.337-.392.635-.534.878Zm6.1 0h-3.742c.933-1.368 2.371-3 3.739-3a1.5 1.5 0 0 1 0 3h.003ZM11 13H9v7h2v-7Zm-4 0H2v5a2 2 0 0 0 2 2h3v-7Zm6 0v7h3a2 2 0 0 0 2-2v-5h-5Z"/>
-        </svg>
-        <a href="#">
-            <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">Forget password?</h5>
-        </a>
-        <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Go to this step by step guideline process on how to
-            certify for your weekly benefits:</p>
-        <a href="#" class="inline-flex font-medium items-center text-blue-600 hover:underline">
-            See our guideline
-            <svg class="w-3 h-3 ms-2.5 rtl:rotate-[270deg]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                 fill="none" viewBox="0 0 18 18">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778"/>
-            </svg>
-        </a>
-    </div>
-</div>
-<script src="../path/to/flowbite/dist/flowbite.min.js"></script>
+<body style="background-color: #f4f4f4; padding: 20px">
+<table
+    class="container"
+    style="
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      "
+>
+    <tr>
+        <td style="text-align: center">
+            <img
+                src="https://example.com/logo.png"
+                alt="Logo"
+                style="max-width: 100%; height: auto"
+            />
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 20px 0">
+            <h1 style="font-size: 24px; color: #333">Password Reset</h1>
+            <p style="font-size: 16px; color: #666">Dear <b>{{$user->first_name}} {{$user->last_name}}</b>,</p>
+            <p style="font-size: 16px; color: #666">
+                You recently requested to reset your password for your account.
+                Please click the button below to reset it.
+            </p>
+            <table style="margin: 20px auto">
+                <tr>
+                    <td align="center" style="border-radius: 4px">
+                        <a
+                            href="http://localhost:5173/reset-password?t={{$token}}"
+                            target="_blank"
+                            style="
+                    display: inline-block;
+                    padding: 12px 24px;
+                    background-color: #007bff;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 16px;
+                    border-radius: 4px;
+                  "
+                        >Reset Password</a
+                        >
+                    </td>
+                </tr>
+            </table>
+            <p style="font-size: 16px; color: #666">
+                If you did not request a password reset, please ignore this email or
+                contact support if you have any questions.
+            </p>
+            <p style="font-size: 16px; color: #666">
+                Best regards,<br />
+                The Team
+            </p>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

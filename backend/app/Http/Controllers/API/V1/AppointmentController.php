@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Events\AppointmentNotifier;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\AppointmentCalendar;
 use App\Http\Resources\V1\AppointmentResource;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
@@ -16,20 +18,42 @@ class AppointmentController extends Controller
      */
     public function index()
     {
+        $now=Carbon::now()->year;
+        $user = Auth::user();
+        try {
+            if ($user->hasRole('admin')) {
+                $appointments = Appointment::all()->orderBy('id','DESC');
+                return response()->json(['success' => true, "data" => AppointmentResource::collection($appointments)], 200);
+            } elseif ($user->hasRole('hospital')) {
+                $appointments = $user->hospital->appointments()->orderBy('id','DESC')->get();
+                return response()->json(['success' => true, "data" => AppointmentResource::collection($appointments)], 200);
+            } elseif ($user->hasRole('doctor')) {
+                $appointments = $user->doctor->appointments()->orderBy('id','DESC')->get();
+                return response()->json(['success' => true, 'data' => AppointmentResource::collection($appointments)], 200);
+            } else {
+                $appointments = $user->appointments()->orderBy('id','DESC')->get();
+                return response()->json(['success' => true, 'data' => AppointmentResource::collection($appointments)], 200);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'error' => ['message' => $e->getMessage()]], 500);
+        }
+    }
+    public function calendar()
+    {
         $user = Auth::user();
         try {
             if ($user->hasRole('admin')) {
                 $appointments = Appointment::all();
-                return response()->json(['success' => true, "data" => AppointmentResource::collection($appointments)], 200);
+                return response()->json(['success' => true, "data" => AppointmentCalendar::collection($appointments)], 200);
             } elseif ($user->hasRole('hospital')) {
                 $appointments = $user->hospital->appointments()->get();
-                return response()->json(['success' => true, "data" => AppointmentResource::collection($appointments)], 200);
+                return response()->json(['success' => true, "data" => AppointmentCalendar::collection($appointments)], 200);
             } elseif ($user->hasRole('doctor')) {
                 $appointments = $user->doctor->appointments()->get();
-                return response()->json(['success' => true, 'data' => AppointmentResource::collection($appointments)], 200);
+                return response()->json(['success' => true, 'data' => AppointmentCalendar::collection($appointments)], 200);
             } else {
                 $appointments = $user->appointments()->get();
-                return response()->json(['success' => true, 'data' => AppointmentResource::collection($appointments)], 200);
+                return response()->json(['success' => true, 'data' => AppointmentCalendar::collection($appointments)], 200);
             }
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'error' => ['message' => $e->getMessage()]], 500);
@@ -118,24 +142,62 @@ class AppointmentController extends Controller
         }
     }
 
-    public function updateAppointments(Request $request, Appointment $appointment)
+    public function cancelAppointment(Request $request, Appointment $appointment)
     {
         $data = $request->validate([
             'status' => 'required|string',
         ]);
         $user = Auth::user();
         try {
-            if ($appointment->status !== 'Canceled' && $appointment->status !== 'Confirmed') {
-                if ($user->hasRole('admin')) {
-                    $appointment->update($data);
-                } elseif ($user->hasRole('hospital')) {
-                    $appointment->update($data);
-                } elseif ($user->id == $appointment->user_id) {
-                    $appointment->update($data);
+            if ($appointment->status !== 'Canceled') {
+                if (!$user->hasRole('admin')) {
+                    if ($user->hasRole('hospital')) {
+                        $appointment->update(['hospital_status' => $data['status']]);
+                    } elseif ($user->hasRole('doctor')) {
+                        $appointment->update(['doctor_status' => $data['status']]);
+                    } elseif ($user->id == $appointment->user_id) {
+                        $appointment->update(
+                            ['doctor_status' => $data['status'],'hospital_status' => $data['status']]);
+                    } else {
+                        return response()->json(['success' => false, 'message' => 'Unauthorized'], 500);
+                    }
                 } else {
-                    return response()->json(['success' => false, 'message' => 'Unauthorized'], 500);
+                    $appointment->update($data);
                 }
-                return response()->json(['success' => true, 'message' => 'Appointments has been Update successfully'], 200);
+                return response()->json(['success' => true, 'message' => 'Appointments has been Update successfully','data'=>$appointment], 200);
+            } else {
+                return response()->json(['success' => false, 'message' => 'This Appointment has already been canceled'], 200);
+            }
+        } catch (\Exception $exception) {
+            return response()->json(['success' => false, 'message' => $exception->getMessage()], 500);
+        }
+    }
+    public function updateAppointments(Request $request, Appointment $appointment)
+    {
+        $data = $request->validate([
+            'status' => 'required|string',
+            'appointment_end'=>'date',
+            'room_id'=>'integer'
+        ]);
+        $user = Auth::user();
+        try {
+            if ($appointment->status !== 'Canceled') {
+                if($appointment->status !== 'Confirmed'){
+                    if ($user->hasRole('admin')) {
+                        $appointment->update($data);
+                    } elseif ($user->hasRole('hospital')) {
+                        $appointment->update(['hospital_status'=>$data['status']]);
+                    } elseif ($user->hasRole('doctor')) {
+                        $appointment->update(['doctor_status'=>$data['status']]);
+                    }elseif ($user->id == $appointment->user_id) {
+                        $appointment->update($data);
+                    }else {
+                        return response()->json(['success' => false, 'message' => 'Unauthorized'], 500);
+                    }
+                    return response()->json(['success' => true, 'message' => 'Appointments has been Update successfully','data'=>$appointment], 200);
+                }else{
+                    return response()->json(['success' => false, 'message' => 'This Appointment has already been confirmed'], 200);
+                }
             } else {
                 return response()->json(['success' => false, 'message' => 'This Appointment has already been canceled'], 200);
             }
@@ -177,4 +239,54 @@ class AppointmentController extends Controller
             return response()->json(['success' => false, 'message' => $exception->getMessage()], 500);
         }
     }
+    public function appointmentSummary(){
+        $user = Auth::user();
+        try {
+            if ($user->hasRole('admin')) {
+                $today=Appointment::where('appointment_date',Carbon::now()->format('Y-m-d'))->count();
+                $confirmed=Appointment::where('status','Confirmed')->count();
+                $pending=Appointment::where('status','Pending')->count();
+                $missing=Appointment::where('status','Missing')->count();
+            }elseif ($user->hasRole('hospital')) {
+                $today=$user->hospital->appointments()->where('appointment_date',Carbon::now()->format('Y-m-d'))->count();
+                $confirmed=$user->hospital->appointments()->where('status','Confirmed')->count();
+                $pending=$user->hospital->appointments()->where('status','Pending')->count();
+                $missing=$user->hospital->appointments()->where('status','Missing')->count();
+            }elseif($user->hasRole('doctor')){
+                $today=$user->doctor->appointments()->where('appointment_date',Carbon::now()->format('Y-m-d'))->count();
+                $confirmed=$user->doctor->appointments()->where('status','Confirmed')->count();
+                $pending=$user->doctor->appointments()->where('status','Confirmed')->count();
+                $missing=$user->doctor->appointments()->where('status','Missing')->count();
+            }else{
+                return response()->json(['success' => false, 'message' => 'Unauthorized'], 500);
+            }
+            return response()->json(['success' => true, 'data' => [
+                'today' => $today,
+                'confirmed' => $confirmed,
+                'missing' => $missing,
+                'pending'=>$pending
+            ]],200);
+        }catch (\Exception $exception){
+            return response()->json(['success' => false, 'message' => $exception->getMessage()], 500);
+        }
+    }
+    public function appointmentToday() {
+        $user = Auth::user();
+        try {
+            if ($user->hasRole('admin')) {
+                $today = Appointment::where('appointment_date', Carbon::now()->format('Y-m-d'));
+            } elseif ($user->hasRole('hospital')) {
+                $today = $user->hospital->appointments()->where('appointment_date', Carbon::now()->format('Y-m-d'))->get();
+
+            } elseif ($user->hasRole('doctor')) {
+                $today = $user->doctor->appointments()->where('appointment_date', Carbon::now()->format('Y-m-d'))->get();
+            } else {
+                return response()->json(['success' => false, 'message' => 'Unauthorized'], 500);
+            }
+            return response()->json(['success' => true, 'data' =>AppointmentResource::collection($today)], 200);
+        } catch (\Exception $exception) {
+            return response()->json(['success' => false, 'message' => $exception->getMessage()], 500);
+        }
+    }
+
 }

@@ -35,11 +35,20 @@ class HospitalController extends Controller
             'province' => 'string',
             'latitude' => 'string',
             'longitude' => 'string',
+            'open_time' => 'date:format:H:i',
+            'close_time' => 'date:format:H:i',
+            'mission'=>'string',
+            'vision'=>'string'
         ]);
         $data['user_id'] = $uid;
+        $existHospital=Hospital::where('user_id',$uid)->first();
         try {
-            $hospital = Hospital::create($data);
-            return response()->json(['success' => true, 'data' => HospitalResource::make($hospital)], 201);
+            if(!$existHospital){
+                $hospital = Hospital::create($data);
+                return response()->json(['success' => true, 'data' => HospitalResource::make($hospital)], 201);
+            }else{
+                return response()->json(['success' => false, 'message' => 'Hospital already exist'], 201);
+            }
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
@@ -69,6 +78,8 @@ class HospitalController extends Controller
             'province' => 'string',
             'latitude' => 'string',
             'longitude' => 'string',
+            'open_time' => 'required|date_format:H:i',
+            'close_time' => 'required|date_format:H:i',
         ]);
         try {
             if ($hospital->user_id == $uid) {
@@ -107,22 +118,30 @@ class HospitalController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
         $image = $request->file('image');
-        $hospital = $user->hospital;
         $extension = $image->getClientOriginalExtension();
         $filename = time() . '.' . $extension;
-        if ($hospital) {
-            $image->move(public_path('/') . '/images/hospital/hospital-' . $hospital->id . '/', $filename);
-            PreviewImage::create([
-                'hospital_id' => $hospital->id,
-                'image_name' => $filename,
-            ]);
-            return response()->json(['success' => true, 'message' => 'Preview image has been created', 'data' => $hospital], 201);
-        } else {
-            return $filename;
+        try {
+            if (!$user->hasRole('admin')){
+                if(!$user->hasRole('hospital')){
+                    $hospital = $user->hospital;
+                    if ($hospital) {
+                        $image->move(public_path('/') . '/images/hospital/hospital-' . $hospital->id . '/', $filename);
+                        PreviewImage::create([
+                            'hospital_id' => $hospital->id,
+                            'image_name' => $filename,
+                        ]);
+                        return response()->json(['success' => true, 'message' => 'Preview image has been created', 'data' => $hospital], 201);
+                    } else {
+                        return $filename;
+                    }
+                }else{
+                    return response()->json(['success' => false, 'message' => 'You are not authorized to access this page.'], 401);
+                }
+            }
+        }catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
-
     }
-
     public function uploadCover(Request $request)
     {
         $user = Auth::user();
@@ -133,23 +152,26 @@ class HospitalController extends Controller
         $image = $request->file('image');
         $extension = $image->getClientOriginalExtension();
         try {
-            if ($user->hasRole('admin')) {
-                $hospital = Hospital::where('id', $request['hospital_id'])->first();
-            } elseif ($user->hasRole('hospital')) {
-                $hospital = $user->hospital;
-            } else {
-                return false;
+            if(!$user->hasRole('admin')){
+               if($user->hasRole('hospital')){
+                   $hospital = Hospital::where('id', $request['hospital_id'])->first();
+                   $filename = 'hospital-' . $hospital->id . '-' . time() . '.' . $extension;
+                   $path = public_path('/') . '/images/hospital'.$hospital->id.'/hospital-cover/hospital-' . $hospital->id . '/' . $hospital->cover_image;
+                   if (File::exists($path)) {
+                       File::delete($path);
+                   }
+                   $hospital->update(['cover_image' => $filename]);
+                   $image->move(public_path('/') . '/images/hospital'.$hospital->id .'/hospital-cover/hospital-' . $hospital->id . '/', $filename);
+                   return response()->json(['success' => true, 'message' => 'Cover image has been uploaded', 'data' => $hospital], 201);
+               }else{
+                   return response()->json(['success' => false, 'message' => 'You are not authorized to access this page.'], 401);
+               }
+            }else{
+                return response()->json(['success' => false, 'message' => 'You are not authorized to access this page.'], 401);
             }
-            $filename = 'hospital-' . $hospital->id . '-' . time() . '.' . $extension;
-            $path=public_path('/') . '/images/hospital/hospital-cover/hospital-' . $hospital->id . '/'.$hospital->cover_image;
-            if(File::exists($path)) {
-                File::delete($path);
-            }
-            $hospital->update(['cover_image' => $filename]);
-            $image->move(public_path('/') . '/images/hospital/hospital-cover/hospital-' . $hospital->id . '/', $filename);
-            return response()->json(['success' => true, 'message' => 'Cover image has been uploaded', 'data' => $hospital], 201);
+
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Upload Error','error'=>$e->getMessage()], 500);
+            return response()->json(['success' => false, 'message' => 'Upload Error', 'error' => $e->getMessage()], 500);
         }
 
     }

@@ -5,15 +5,46 @@ import { computed, h, onMounted, ref } from 'vue'
 import { Message, Plus, Warning } from '@element-plus/icons-vue/global'
 import { ElNotification } from 'element-plus'
 import { FeedbackList } from '@/stores/feedback-list'
-import { hopsitalAppointmentListStore } from '@/stores/hospital-appointment-list'
-const appointmentStore=hopsitalAppointmentListStore()
+import NoHospitalSet from '@/Components/Hospitals/NoHospitalSet.vue'
+import { hospitalAppointmentListStore } from '@/stores/hospital-appointment-list'
+import { useAuthStore } from '@/stores/auth-store'
+import axiosInstance from '@/plugins/axios'
+const appointmentStore=hospitalAppointmentListStore()
 const store=FeedbackList()
+const userStore=useAuthStore()
 let dialogOverflowVisible = ref(false)
+const data = {
+  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+  datasets: [{
+    label: 'Total Appointment',
+    data:appointmentStore.monthlyAppointment,
+    fill: true,
+    backgroundColor: [
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 159, 64, 0.2)',
+      'rgba(255, 205, 86, 0.2)',
+      'rgba(75, 192, 192, 0.2)',
+      'rgba(54, 162, 235, 0.2)',
+      'rgba(153, 102, 255, 0.2)',
+      'rgba(201, 203, 207, 0.2)'
+    ],
+    borderColor: [
+      'rgb(255, 99, 132)',
+      'rgb(255, 159, 64)',
+      'rgb(255, 205, 86)',
+      'rgb(75, 192, 192)',
+      'rgb(54, 162, 235)',
+      'rgb(153, 102, 255)',
+      'rgb(201, 203, 207)'
+    ],
+    borderWidth: 1
+  }]
+}
 const data2 = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
   datasets: [{
     label: 'Total Feedback',
-    data:[65, 59, 80, 81, 26, 55, 40, 81, 26, 55, 40, 50] ,
+    data:store.monthlyFeedbacks,
     fill: true,
     backgroundColor: [
       'rgba(255, 99, 132, 0.2)',
@@ -40,6 +71,32 @@ let delayed:boolean
 const config2 = {
   type: 'bar',
   data: data2,
+  options: {
+    animation: {
+      onComplete: () => {
+        delayed = true
+      },
+      delay: (context:any) => {
+        let delay = 0
+        if (context.type === 'data' && context.mode === 'default' && !delayed) {
+          delay = context.dataIndex * 300 + context.datasetIndex * 100
+        }
+        return delay
+      }
+    },
+    scales: {
+      x: {
+        stacked: true
+      },
+      y: {
+        stacked: true
+      }
+    }
+  }
+}
+const config = {
+  type: 'line',
+  data: data,
   options: {
     animation: {
       onComplete: () => {
@@ -93,14 +150,27 @@ const handleEdit = (index: number, row: User) => {
   dialogOverflowVisible.value = true
   replyFeedback.value.rate_id = row.id
 }
+const fetchAppointmentSummary = () => {
+  appointmentStore.fetchAppointmentSummary()
+}
 const replyFeedback = ref({
   rate_id: '',
   content: ''
 })
-const sentReply = () => {
+const sentReply = async () => {
   dialogOverflowVisible.value = false
-  if (replyFeedback.value.content === '') {
-    open()
+  const formData= new FormData()
+  formData.append('rate_id', replyFeedback.value.rate_id)
+  formData.append('content', replyFeedback.value.content)
+  try {
+    if (replyFeedback.value.content === '') {
+      open()
+    }else{
+      const {data}=await axiosInstance.post('/feedback-reply/create',formData)
+      console.log(data)
+    }
+  }catch (e){
+    console.log(e)
   }
 }
 function fetchRecent(){
@@ -108,23 +178,32 @@ function fetchRecent(){
 }
 function fetchFeedback(){
   store.fetchFeedback()
+  store.fetchMonthlyFeedbacks()
 }
 function fetchMonthlyAppointment(){
   appointmentStore.fetchMonthlyAppointment()
 }
+const dialog=ref(false)
+const setUp=()=>{
+  console.log('Hello')
+  dialog.value = true
+}
 onMounted(() => {
-  fetchRecent()
-  fetchFeedback()
-  fetchMonthlyAppointment()
-  const feedBack = document.getElementById('chartOne')
-  const appointments = document.getElementById('chartTwo')
-  new Chart(appointments, config2)
-  new Chart(feedBack, config2)
+  if(userStore.hospital!='No hospital'){
+    fetchAppointmentSummary()
+    fetchRecent()
+    fetchFeedback()
+    fetchMonthlyAppointment()
+    const feedBack = document.getElementById('chartOne')
+    const appointments = document.getElementById('chartTwo')
+    new Chart(appointments, config2)
+    new Chart(feedBack, config)
+  }
 })
 </script>
 
 <template>
-  <WebLayout>
+  <WebLayout v-if="userStore.hospital!='No hospital'">
     <div class="bg-warning py-2">
       <h1 class="text-center text-white">Dashboard</h1>
     </div>
@@ -151,7 +230,7 @@ onMounted(() => {
       </el-col>
       <el-col :span="8">
         <div class="statistic-card">
-          <el-statistic :value="693700">
+          <el-statistic :value="appointmentStore.appointmentSummary.pending">
             <template #title>
               <div style="display: inline-flex; font-size: 15px;align-items: center">
                 Pending Appointments
@@ -171,7 +250,7 @@ onMounted(() => {
       </el-col>
       <el-col :span="8">
         <div class="statistic-card">
-          <el-statistic :value="72000" title="New transactions today">
+          <el-statistic :value="appointmentStore.appointmentSummary.confirm" title="New transactions today">
             <template #title>
               <div style="display: inline-flex; font-size: 15px; align-items: center">
                 Confirmed Appointments
@@ -262,12 +341,14 @@ onMounted(() => {
       </template>
     </el-dialog>
   </WebLayout>
+  <WebLayout v-else>
+    <NoHospitalSet :dialog-visible="dialog" @show="setUp" @cancel="dialog=false"/>
+  </WebLayout>
 </template>
 <style scoped>
 :global(h2#card-usage ~ .example .example-showcase) {
   background-color: var(--el-fill-color) !important;
 }
-
 .el-statistic {
   --el-statistic-content-font-size: 28px;
 }

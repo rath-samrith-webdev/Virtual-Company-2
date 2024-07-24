@@ -2,8 +2,28 @@
     <div>
         <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
             @if(auth()->id()===1)
+                <div class="container flex gap-2 mx-auto  px-6 py-8">
+                    <div class="card bg-white p-2 item-between flex-1">
+                        <div class="card-title flex justify-center text-centers">
+                            <h4>This Year Revenue</h4>
+                        </div>
+                        <h4 class="text-center">{{$data['yearlyRevenue']}} $</h4>
+                    </div>
+                    <div class="card bg-white p-2 flex-1">
+                        <div class="card-title flex justify-center text-centers">
+                            <h4>New user</h4>
+                        </div>
+                        <h4 class="text-center">{{$data['newMonthly']}}</h4>
+                    </div>
+                    <div class="card bg-white p-2 flex-1">
+                        <div class="card-title flex justify-center text-centers">
+                            <h4>Total Hospitals</h4>
+                        </div>
+                        <h4 class="text-center">{{$data['totalHospital']}}</h4>
+                    </div>
+                </div>
                 <div class="container mx-auto  px-6 py-8">
-                    <div class="flex flex-wrap mt-6">
+                    <div class="flex justify-center flex-wrap mt-6">
                         <div class="w-full lg:w-1/2 pr-0 lg:pr-2">
                             <p class="text-xl pb-3 flex items-center">
                                 <i class="fas fa-plus mr-3"></i> Data Reports
@@ -14,7 +34,7 @@
                         </div>
                         <div class="w-full lg:w-1/2 pl-0 lg:pl-2 mt-12 lg:mt-0">
                             <p class="text-xl pb-3 flex items-center">
-                                <i class="fas fa-account mr-3"></i>New Users Chart
+                                <i class="fas fa-account mr-3"></i>Monthly User
                             </p>
                             <div class="p-6 rounded bg-white">
                                 <canvas id="chartTwo" width="400" height="200"></canvas>
@@ -86,15 +106,7 @@
                                             <svg class="w-2.5 h-2.5 mr-2" aria-hidden="true"
                                                  xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                                  viewBox="0 0 20 20"><path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z"/></svg>
-                                            @if(\Carbon\Carbon::now()->diffInMinutes($request->created_at) <60)
-                                                {{\Carbon\Carbon::now()->diffInMinutes($request->created_at) }} minutes ago
-                                            @elseif(\Carbon\Carbon::now()->diffInHours($request->created_at) >=1)
-                                                {{\Carbon\Carbon::now()->diffInHours($request->created_at) }} Hours ago
-                                            @elseif(\Carbon\Carbon::now()->diffInHours($request->created_at) ==24)
-                                                {{\Carbon\Carbon::now()->diffInDays($request->created_at) }} day ago
-                                            @else
-                                                {{\Carbon\Carbon::now()->diffInDays($request->created_at) }} days ago
-                                            @endif
+                                            {{\Carbon\Carbon::parse($request->created_at)->diffForHumans()}}
                                         </span>
                                     </td>
                                 </tr>

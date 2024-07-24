@@ -33,7 +33,10 @@ class HospitalResource extends JsonResource
             'lng'=>$this->longitude,
             'category'=>$this->category,
             'doctors'=>DoctorDetails::collection($this->doctors()->get()),
-            'favourite_by'=>$this->favourites()->get()->count()
+            'favourite_by'=>$this->favourites()->get()->count(),
+            'average_rating'=>round($this->rates()->sum('star')/$this->rates()->count()),
+            'rooms'=>$this->rooms()->get(),
+            'phone_number'=>$this->phone_number
         ];
     }
 }

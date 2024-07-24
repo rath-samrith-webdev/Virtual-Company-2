@@ -6,6 +6,7 @@ use App\Mail\TestMail;
 use App\Models\Appointment;
 use App\Models\Hospital;
 use App\Models\Rate;
+use App\Models\SubscribePayment;
 use App\Models\SystemRequest;
 use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;
@@ -38,14 +39,6 @@ Route::get('/mail', function () {
         dd($e);
     }
 });
-Route::get('/reset',function (){
-    try {
-        Mail::to('rothsamreth@gmail.com')->send(new ResetPasswordMail());
-        dd('send');
-    }catch (Exception $e){
-        dd($e);
-    }
-});
 // Admin routes
 Route::get('/admin/dashboard', function () {
     $hospitals = Hospital::all();
@@ -54,6 +47,7 @@ Route::get('/admin/dashboard', function () {
     $month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     $stars = [0, 1, 2, 3, 4, 5];
     $year = Carbon::now()->year;
+    $thisMonth=Carbon::now()->month;
     $new_orders_count = [];
     $new_feedback_count = [];
     $star_base_count = [];
@@ -67,13 +61,20 @@ Route::get('/admin/dashboard', function () {
         $star_base_count[] = Rate::where('star', $value)->count();
     }
     $request = SystemRequest::orderByDesc('id')->take(10)->get();
+    $newMonthly=User::whereYear('created_at', $year)
+        ->whereMonth('created_at', $thisMonth)->count();
+    $totalHospital=Hospital::all()->count();
+    $yearlyRevenue=SubscribePayment::whereYear('created_at', $year)->sum('amount');
     $data = [
         'label' => ['Hospital', 'User', 'Appointment'],
         'data' => [$hospitals->count(), $users->count(), $appointments->count()],
         'monthly_user' => $new_orders_count,
         'feedbacks' => $new_feedback_count,
         'star_base' => $star_base_count,
-        'system_requests' => $request
+        'system_requests' => $request,
+        'newMonthly' => $newMonthly,
+        'totalHospital' => $totalHospital,
+        'yearlyRevenue' => $yearlyRevenue,
     ];
     return view('dashboard', compact('data'));
 })->middleware(['auth'])->name('admin.dashboard');
@@ -92,6 +93,9 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         Route::resource('departments', 'DepartmentController');
         Route::resource('rates', 'RateController');
         Route::resource('system-requests', 'SystemRequestController');
+        Route::resource('rooms', 'RoomController');
+        Route::resource('subscribePlans', 'SubscribePlanController');
+        Route::resource('subscribePayments', 'SubscribePaymentController');
 
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
         Route::put('/profile-update', [ProfileController::class, 'update'])->name('profile.update');

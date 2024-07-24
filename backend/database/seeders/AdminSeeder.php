@@ -86,6 +86,13 @@ class AdminSeeder extends Seeder
         $permission = Permission::create(['name' => 'Role create' ,'front_name'=>'role_create']);
         $permission = Permission::create(['name' => 'Role delete','front_name'=>'role_delete']);
 
+        $permission = Permission::create(['name' => 'Room access' ,'front_name'=>'room_access']);
+        $permission = Permission::create(['name' => 'Room edit' ,'front_name'=>'room_edit']);
+        $permission = Permission::create(['name' => 'Room create' ,'front_name'=>'room_create']);
+        $permission = Permission::create(['name' => 'Room delete','front_name'=>'room_delete']);
+
+
+
         $permission = Permission::create(['name' => 'System-Request access' ,'front_name'=>'system_request_access']);
         $permission = Permission::create(['name' => 'System-Request edit' ,'front_name'=>'system_request_edit']);
         $permission = Permission::create(['name' => 'System-Request create' ,'front_name'=>'system_request_create']);
@@ -138,6 +145,11 @@ class AdminSeeder extends Seeder
         $permission = Permission::create(['name' => 'RateReply edit' ,'front_name'=>'rate_reply_edit']);
         $permission = Permission::create(['name' => 'RateReply create' ,'front_name'=>'rate_reply_create']);
         $permission = Permission::create(['name' => 'RateReply delete' ,'front_name'=>'rate_reply_delete']);
+
+        $permission = Permission::create(['name' => 'Subscribe-plan access','front_name'=>'subscribe-plan_access']);
+        $permission = Permission::create(['name' => 'Subscribe-plan edit' ,'front_name'=>'subscribe-plan_edit']);
+        $permission = Permission::create(['name' => 'Subscribe-plan create' ,'front_name'=>'subscribe-plan_create']);
+        $permission = Permission::create(['name' => 'Subscribe-plan delete' ,'front_name'=>'subscribe-plan_delete']);
 
         $admin->assignRole($admin_role);
         $user->assignRole($user_role);
