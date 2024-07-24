@@ -93,16 +93,15 @@ async function Register() {
           <h2 class="title">Sign in</h2>
           <div class="input-field">
             <input type="email" v-model="loginCredential.email" required/>
-            <label>
+            <label :style="loginCredential.email!==''?'display:none':'display:block'">
               <el-icon :size="15">
                 <UserFilled/>
               </el-icon>
-              Your Email</label
-            >
+              Your Email</label>
           </div>
           <div class="input-field">
             <input type="password" v-model="loginCredential.password" required/>
-            <label>
+            <label :style="loginCredential.password!==''?'display:none':'display:block'">
               <el-icon :size="15">
                 <Lock/>
               </el-icon>
@@ -139,7 +138,6 @@ async function Register() {
           <div class="main-btn">
             <button type="submit" class="btn">Log in</button>
           </div>
-
           <p class="account-text">
             Don't have an account? <a href="#" id="sign-up-btn2">Sign up</a>
           </p>
@@ -150,7 +148,7 @@ async function Register() {
           <div class="d-flex">
             <div class="input-field d-flex gap-1 align-items-center">
               <input type="text" v-model="registerCredential.first_name" required/>
-              <label>
+              <label :style="registerCredential.first_name!==''?'display:none':'display:block'">
                 <el-icon :size="15">
                   <UserFilled/>
                 </el-icon>
@@ -159,7 +157,7 @@ async function Register() {
             </div>
             <div class="input-field d-flex align-items-center">
               <input type="text" v-model="registerCredential.last_name" required/>
-              <label>
+              <label :style="registerCredential.last_name!==''?'display:none':'display:block'">
                 <el-icon :size="15">
                   <UserFilled/>
                 </el-icon>
@@ -168,7 +166,7 @@ async function Register() {
           </div>
           <div class="input-field">
             <input type="text" v-model="registerCredential.name" required/>
-            <label>
+            <label :style="registerCredential.name!==''?'display:none':'display:block'">
               <el-icon :size="15">
                 <UserFilled/>
               </el-icon>
@@ -176,7 +174,7 @@ async function Register() {
           </div>
           <div class="input-field">
             <input type="email" v-model="registerCredential.email" required/>
-            <label>
+            <label :style="registerCredential.email!==''?'display:none':'display:block'">
               <el-icon :size="15">
                 <Message/>
               </el-icon>
@@ -186,7 +184,7 @@ async function Register() {
           <div class="d-flex">
             <div class="input-field d-flex gap-1 align-items-center">
               <input type="password" v-model="registerCredential.password" required/>
-              <label>
+              <label :style="registerCredential.password!==''?'display:none':'display:block'">
                 <el-icon :size="15">
                   <Lock/>
                 </el-icon>
@@ -194,7 +192,7 @@ async function Register() {
             </div>
             <div class="input-field d-flex align-items-center">
               <input type="password" v-model="registerCredential.password_confirmation" required/>
-              <label>
+              <label :style="registerCredential.password_confirmation!==''?'display:none':'display:block'">
                 <el-icon :size="15">
                   <Lock/>
                 </el-icon>
