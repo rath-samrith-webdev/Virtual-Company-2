@@ -67,7 +67,6 @@ export const hospitalAppointmentListStore = defineStore('appointments', {
             try {
                 const {data} = await axiosInstance.get('/appointments/calendar')
                 this.calendars = data.data
-                sessionStorage.setItem('calendarData', JSON.stringify(data.data))
             } catch (error) {
                 console.log(error)
             }

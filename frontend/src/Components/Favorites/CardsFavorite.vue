@@ -5,16 +5,16 @@
         <div class="single-card card">
           <div class="img-area">
             <img
-              v-if="cardFavorite.hospital.cover_image !== 'No Cover'"
-              :src="cardFavorite.hospital.cover_image"
-              alt="Placeholder"
-              width="400px"
+                v-if="cardFavorite.hospital.cover_image !== 'No Cover'"
+                :src="cardFavorite.hospital.cover_image"
+                alt="Placeholder"
+                width="400px"
             />
             <img
-              v-if="cardFavorite.hospital.cover_image === 'No Cover'"
-              src="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1"
-              class="card-img-top"
-              alt="Hospital cover image"
+                v-if="cardFavorite.hospital.cover_image === 'No Cover'"
+                src="https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1"
+                class="card-img-top"
+                alt="Hospital cover image"
             />
           </div>
           <div class="info">
@@ -24,16 +24,16 @@
             <p>{{ cardFavorite.hospital.phone_number }}</p>
             <p>{{ cardFavorite.hospital.street_address }}</p>
             <el-rate
-              v-model="cardFavorite.hospital.average_rating"
-              disabled
-              show-score
-              text-color="#ff9900"
-              score-template="{value} points"
+                v-model="cardFavorite.hospital.average_rating"
+                disabled
+                show-score
+                text-color="#ff9900"
+                score-template="{value} points"
             />
           </div>
           <div class="card_button m-2 flex justify-between">
             <el-button @click="removeFavorites(cardFavorite.id)">Remove</el-button>
-            <el-button @click="seeDetails(cardFavorite.id)">See detail</el-button>
+            <el-button @click="seeDetails(cardFavorite.hospital.id)">See detail</el-button>
           </div>
         </div>
       </div>
@@ -43,7 +43,9 @@
 
 <script>
 import axiosInstance from '@/plugins/axios'
-import { hospitalDetailStore } from '@/stores/hospital-detail'
+import {hospitalDetailStore} from '@/stores/hospital-detail'
+import {ElNotification} from "element-plus";
+
 const details = hospitalDetailStore()
 export default {
   name: 'CardAddress',
@@ -59,7 +61,7 @@ export default {
       return this.cardFavorites.filter((card) => {
         const matchesTitle = card.name.toLowerCase().includes(this.searchQuery.toLowerCase())
         const matchesOptions =
-          this.selectedOptions.length === 0 || this.selectedOptions.includes(card.address)
+            this.selectedOptions.length === 0 || this.selectedOptions.includes(card.address)
         return matchesTitle && matchesOptions
       })
     }
@@ -67,12 +69,19 @@ export default {
   methods: {
     async userFavorite() {
       try {
-        const { data } = await axiosInstance.get('/favourites/list')
+        const {data} = await axiosInstance.get('/favourites/list')
         console.log(data)
         this.cardFavorites = data.data
       } catch (error) {
         console.log(error)
       }
+    },
+    open2(title, message, type) {
+      ElNotification({
+        title: title,
+        message: message,
+        type: type
+      })
     },
     seeDetails(id) {
       details.id = id
@@ -81,10 +90,15 @@ export default {
     },
     async removeFavorites(id) {
       try {
-        const { data } = await axiosInstance.delete(`/favourites/delete/${id}`)
-        console.log(data)
+        const {data} = await axiosInstance.delete(`/favourites/delete/${id}`)
+        if (data.success) {
+          this.open2('Favourite', 'A Favourite hospital removed successfully', 'success')
+        } else {
+          this.open2('Favourite', 'Something went wrong', 'warning')
+        }
         await this.userFavorite()
       } catch (error) {
+        this.open2('Favourite', 'There was a problem removing favourite', 'danger')
         console.log(error)
       }
     }

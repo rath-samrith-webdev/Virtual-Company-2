@@ -11,6 +11,7 @@ import {ElNotification} from "element-plus";
 import {useAuthStore} from "@/stores/auth-store";
 import axiosInstance from "@/plugins/axios";
 import {pusherConstance} from "@/pusher/pusher";
+
 const userStore = useAuthStore()
 const store = hospitalAppointmentListStore()
 const pusher = pusherConstance;
@@ -119,6 +120,7 @@ export default defineComponent({
         } else {
           open2('Appointment', data.message, 'warning')
         }
+        await store.fetchCalendarData()
       } catch (error) {
         console.log(error)
       }
@@ -138,11 +140,11 @@ export default defineComponent({
       this.formEdit.first_name = row.extendedProps.user.first_name
       this.formEdit.last_name = row.extendedProps.user.last_name
       this.formEdit.user_id = row.extendedProps.user.id
-      this.formEdit.title=row.title
-      this.formEdit.date1=row.startStr
-      this.formEdit.date2=row.extendedProps.appointment_time
+      this.formEdit.title = row.title
+      this.formEdit.date1 = row.startStr
+      this.formEdit.date2 = row.extendedProps.appointment_time
       this.formEdit.hospital_id = row.extendedProps.hospital.id
-      this.formEdit.doctor_id=row.extendedProps.doctor.id
+      this.formEdit.doctor_id = row.extendedProps.doctor.id
       this.getDoctors(row.extendedProps.hospital.id)
       this.outerVisible = false
       this.dialogEditVisible = true
@@ -161,6 +163,7 @@ export default defineComponent({
       try {
         const {data} = await axiosInstance.post('/appointments/create', formData)
         console.log(data.success)
+        await store.fetchCalendarData()
       } catch (error) {
         console.log(error)
       }
@@ -196,6 +199,7 @@ export default defineComponent({
     cancelAppointment(id) {
       this.outerVisible = false
       store.cancelAppointment(id)
+      open2('Appointment', store.message.message, 'success')
       store.fetchCalendarData()
     },
     removeAppointment(id) {
@@ -211,20 +215,20 @@ export default defineComponent({
     <FullCalendar :options="calendarOptions">
       <template v-slot:eventContent="arg">
         <div class="d-flex flex-column bg-danger-500">
-          <b>{{arg.event.start.toLocaleTimeString()}}</b>
-          <b>{{arg.event.title}}</b>
+          <b>{{ arg.event.start.toLocaleTimeString() }}</b>
+          <b>{{ arg.event.title }}</b>
         </div>
       </template>
     </FullCalendar>
     <!-- Update Appointment form   -->
     <el-dialog v-model="dialogEditVisible" title="Edit appointment" width="800">
       <el-form :model="formEdit" label-position="top" label-width="auto" style="max-width: 800px">
-        <el-input type="hidden" v-model="formEdit.user_id" />
-        <el-input type="hidden" v-model="formEdit.id" />
+        <el-input type="hidden" v-model="formEdit.user_id"/>
+        <el-input type="hidden" v-model="formEdit.id"/>
         <el-form-item>
           <el-col :span="11">
             <el-form-item label="First name">
-              <el-input v-model="formEdit.first_name" />
+              <el-input v-model="formEdit.first_name"/>
             </el-form-item>
           </el-col>
           <el-col :span="2" class="text-center">
@@ -232,12 +236,12 @@ export default defineComponent({
           </el-col>
           <el-col :span="11">
             <el-form-item label="Last name">
-              <el-input v-model="formEdit.last_name" />
+              <el-input v-model="formEdit.last_name"/>
             </el-form-item>
           </el-col>
         </el-form-item>
         <el-form-item label="Appointment Title">
-          <el-input v-model="formEdit.title" />
+          <el-input v-model="formEdit.title"/>
         </el-form-item>
         <el-form-item label="Select a hospital">
           <el-select v-model="formEdit.hospital_id" placeholder="Select Hospital">
