@@ -465,7 +465,7 @@ const open1 = (messages: string, type: string) => {
   })
 }
 const alertMessage = (message) => {
-  open1(`${message.title} | ${message.appointment_date}`, 'success')
+  open1(`Appointment | ${message.appointment_date}`, 'success')
 }
 const editRate = async () => {
   editActive.value = false
